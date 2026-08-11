@@ -6,22 +6,12 @@ type: home
 image: "/assets/uploads/2025/05/University-Logo.jpg"
 ---
 
-<section class="ajas-hero">
-<div class="hero-media"><span class="hero-layer hl1" style="background-image:url(/assets/uploads/2024/01/P1222323-building-2048x1154-1.webp)"></span><span class="hero-layer hl2" style="background-image:url(/assets/uploads/2025/03/WhatsApp-Image-2025-03-17-at-3.27.45-PM.jpeg)"></span><span class="hero-layer hl3" style="background-image:url(/assets/uploads/2025/03/WhatsApp-Image-2025-03-17-at-4.16.10-PM.jpeg)"></span><video class="hero-video" autoplay muted loop playsinline poster="/assets/uploads/2024/01/P1222323-building-2048x1154-1.webp"><source src="/assets/uploads/hero/campus-loop.mp4" type="video/mp4"></video><span class="hero-scrim"></span></div>
-<div class="container"><div class="hero-inner">
-<div class="hero-badges"><span class="hero-badge">16 Years of Excellence</span><span class="hero-badge">NAAC B++ Accredited</span></div>
-<h1 class="hero-title">Crafting Careers with Purpose and Responsibility</h1>
-<div class="hero-cta">
-<a href="/programmes/" class="hero-btn hero-btn-primary">Explore Programs</a>
-<a href="/admission/" class="hero-btn hero-btn-ghost">Apply Now</a>
+<section class="ajas-hero ajas-hero--video-only" aria-label="Campus video">
+<div class="hero-media">
+<video class="hero-video" autoplay muted loop playsinline preload="metadata">
+<source src="/assets/uploads/hero/rameemka.mp4" type="video/mp4">
+</video>
 </div>
-<ul class="hero-facts">
-<li><strong>4000+</strong><span>Students</span></li>
-<li><strong>11</strong><span>UG Programmes</span></li>
-<li><strong>3</strong><span>PG Programmes</span></li>
-<li><strong>14</strong><span>Total Programs</span></li>
-</ul>
-</div></div>
 </section><!-- hero --><section class="ajas-actions">
 <div class="container"><div class="row"><div class="col-lg-4 col-md-4 col-sm-12"><a class="action-tile tile-primary" href="/admission/">
 <span class="tile-ico"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>

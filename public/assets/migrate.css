@@ -562,72 +562,23 @@ body.hero-hold .header-sticky #main-nav>ul.menu>li>a{font-size:14px;}
 /* the admissions card overlaps the strip below the slider — keep it under the nav */
 .partner-clients .iconbox-style1{position:relative;z-index:5;}
 
-/* ---------- hero (static markup, CSS-only cross-fade) ---------- */
-/* min-height reserves space so LCP/text paint does not shift when bg images load */
+/* ---------- hero (video-only banner) ---------- */
 .ajas-hero{
-    position:relative;overflow:hidden;background:#0c1e34;padding:56px 0 64px;
-    min-height:min(52vh,460px);}
-.hero-media{position:absolute;left:0;top:0;right:0;bottom:0;z-index:0;}
-.hero-layer{
-    position:absolute;left:0;top:0;right:0;bottom:0;background-size:cover;background-position:center 42%;
-    opacity:0;animation:heroFade 21s infinite;
-    will-change:opacity;/* opacity-only animation → no CLS */}
-/* First frame visible immediately (no blank → flash CLS) */
-.hero-layer.hl1{opacity:1;animation-delay:0s;}
-.hero-layer.hl2{animation-delay:7s;}
-.hero-layer.hl3{animation-delay:14s;}
-@keyframes heroFade{
-    0%{opacity:0}   4%{opacity:1}   30%{opacity:1}   36%{opacity:0}   100%{opacity:0}
-}
-/* hl1 starts visible; animation still runs from delay 0 */
-.hero-layer.hl1{animation-name:heroFadeFirst;}
-@keyframes heroFadeFirst{
-    0%{opacity:1}   30%{opacity:1}   36%{opacity:0}   100%{opacity:0}
-}
-/* video sits above the crossfading image layers (DOM order) but the
-   <source> is optional — if it 404s the layers behind still show, so this
-   degrades gracefully with zero JS. */
+    position:relative;overflow:hidden;background:#0c1e34;padding:0;line-height:0;}
+.ajas-hero--video-only{
+    min-height:0;}
+.hero-media{position:relative;z-index:0;width:100%;}
 .hero-video{
-    position:absolute;left:0;top:0;right:0;bottom:0;width:100%;height:100%;
-    object-fit:cover;object-position:center 42%;}
-.hero-scrim{
-    position:absolute;left:0;top:0;right:0;bottom:0;
-    background:linear-gradient(100deg,rgba(9,24,42,.94) 0%,rgba(11,30,52,.86) 42%,rgba(11,30,52,.52) 100%);}
-.ajas-hero .container{position:relative;z-index:2;}
-.hero-inner{max-width:720px;}
-.hero-kicker{
-    font-size:13px;letter-spacing:3.2px;text-transform:uppercase;color:#ffbe34;font-weight:600;margin:0 0 20px;}
-.hero-badges{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 22px;}
-.hero-badge{
-    display:inline-block;padding:7px 16px;border-radius:20px;font-size:12px;font-weight:600;
-    letter-spacing:1.4px;text-transform:uppercase;color:#ffbe34;
-    background:rgba(255,190,52,.12);border:1px solid rgba(255,190,52,.35);}
-.hero-title{
-    font-size:56px;line-height:1.1;font-weight:600;color:#fff;margin:0 0 22px;letter-spacing:-1px;}
-.hero-text{font-size:17px;line-height:31px;color:rgba(255,255,255,.8);margin:0 0 34px;max-width:620px;}
-.hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:36px;}
-.hero-btn{
-    display:inline-block;padding:16px 36px;border-radius:30px;font-size:15px;font-weight:500;
-    border:2px solid transparent;transition:.28s cubic-bezier(.2,.7,.3,1);}
-.hero-btn-primary{
-    background:#ff5f60;border-color:#ff5f60;color:#fff;box-shadow:0 14px 34px rgba(255,95,96,.36);}
-.hero-btn-primary:hover{
-    background:#fff;border-color:#fff;color:#183251;transform:translateY(-3px);}
-.hero-btn-ghost{background:transparent;border-color:rgba(255,255,255,.55);color:#fff;}
-.hero-btn-ghost:hover{background:#fff;border-color:#fff;color:#183251;transform:translateY(-3px);}
-.hero-facts{
-    display:flex;flex-wrap:wrap;gap:14px 48px;margin:0;padding:18px 0 0;list-style:none;
-    border-top:1px solid rgba(255,255,255,.16);}
-.hero-facts li{list-style:none;margin:0;}
-.hero-facts strong{
-    display:block;font-size:30px;font-weight:600;color:#fff;line-height:1.1;letter-spacing:-.6px;}
-.hero-facts span{
-    display:block;font-size:12px;letter-spacing:1.6px;text-transform:uppercase;
-    color:rgba(255,255,255,.6);margin-top:6px;font-weight:500;}
-@media(prefers-reduced-motion:reduce){
-    .hero-layer{animation:none;}
-    .hero-layer.hl1{opacity:1;}
+    display:block;width:100%;height:auto;max-height:min(78vh,820px);
+    object-fit:cover;object-position:center center;background:#0c1e34;}
+/* keep legacy class hooks so reduced-motion script still finds the player */
+.hero-layer,.hero-scrim,.hero-inner,.hero-kicker,.hero-badges,.hero-badge,
+.hero-title,.hero-text,.hero-cta,.hero-btn,.hero-facts{display:none;}
+@media(max-width:767px){
+    .hero-video{max-height:min(56vh,420px);}
 }
+/* quick-action tiles no longer need a large negative overlap under text hero */
+.ajas-hero--video-only + .ajas-actions{margin-top:-48px;}
 /* Edukin's .btn-styl2 is a fixed-size round play button; ours is a text
    button, so every one of its circle dimensions has to be unset. */
 .ajas-slider .tp-caption .btn-styl1,.ajas-slider .tp-caption .ajas-btn-ghost{
