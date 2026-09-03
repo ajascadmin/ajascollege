@@ -2,7 +2,7 @@
 
 **Live:** https://ajascollege.pages.dev  
 **CMS:** https://ajascollege.pages.dev/admin/  
-**Repo:** https://github.com/aathif394/ajascollege  
+**Repo:** https://github.com/ajascadmin/ajascollege  
 
 Stack: **Astro** · **Sveltia CMS** · **Cloudflare Pages** · **Pagefind**
 
@@ -37,14 +37,14 @@ After publish, GitHub Action rebuilds and deploys to Cloudflare Pages automatica
 | Notices | https://ajascollege.pages.dev/notices/ |
 | Fees | https://ajascollege.pages.dev/fees/ |
 | Programmes | https://ajascollege.pages.dev/programmes/ |
-| Auth worker (optional OAuth proxy) | https://ajas-cms-auth.aathif394.workers.dev |
+| Auth worker (optional OAuth proxy) | https://ajas-cms-auth.ajascadmin.workers.dev |
 
 ---
 
 ## Local development
 
 ```bash
-git clone https://github.com/aathif394/ajascollege.git
+git clone https://github.com/ajascadmin/ajascollege.git
 cd ajascollege
 npm install
 npm run dev          # http://localhost:4321
@@ -76,7 +76,7 @@ Secrets (already set on the repo):
 
 Sveltia does **not** use Netlify. Sign-in goes through our Cloudflare Worker:
 
-**https://ajas-cms-auth.aathif394.workers.dev**
+**https://ajas-cms-auth.ajascadmin.workers.dev**
 
 1. Open https://ajascollege.pages.dev/admin/
 2. Click **Sign In with GitHub**

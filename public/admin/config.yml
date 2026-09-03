@@ -8,10 +8,10 @@ local_backend: true
 
 backend:
   name: github
-  repo: aathif394/ajascollege
+  repo: ajascadmin/ajascollege
   branch: main
   # Custom auth Worker — password form, then GitHub token (never api.netlify.com)
-  base_url: https://ajas-cms-auth.aathif394.workers.dev
+  base_url: https://ajas-cms-auth.ajascadmin.workers.dev
   auth_endpoint: auth
 
 # Images live under src/ so Astro can optimize (Sharp → webp/srcset) at build time.
