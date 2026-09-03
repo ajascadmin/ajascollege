@@ -92,156 +92,326 @@ image: "/assets/uploads/2025/05/University-Logo.jpg"
 <p class="sub-title lt-sp17">What you can study here</p>
 <h2 class="flat-title medium">Programmes offered</h2>
 </div>
-<p class="listing-intro">Our students are guaranteed an exceptional educational experience through a diverse range of regular degree and postgraduate courses.</p>
-<div class="row prog-columns">
-<div class="col-lg-6 col-md-6 col-sm-12">
-<div class="prog-col"><h3>UG (Honours) Programmes</h3><span class="prog-sub">11 four-year honours degrees</span><ul><li>B.Com</li><li>BBA</li><li>BCA</li><li>B.Sc. Microbiology</li><li>BA Islamic Studies</li><li>BA English</li><li>B.Sc. Geography</li><li>B.Sc. Psychology</li><li>B.Sc. Food Technology</li><li>B.Sc. Computer Science</li><li>B.Sc. Artificial Intelligence</li></ul></div>
+<p class="listing-intro">Empowering students through university-affiliated four-year honours degrees and postgraduate specialisations designed for career excellence and higher research.</p>
+
+<div class="row ajas-prog-grid">
+<!-- UG Card -->
+<div class="col-lg-6 col-md-12">
+<div class="ajas-prog-card ug-card">
+  <div class="prog-card-header">
+    <div class="prog-icon-badge"><i class="fa fa-graduation-cap" aria-hidden="true"></i></div>
+    <div class="prog-header-text">
+      <span class="prog-level-tag">Undergraduate</span>
+      <h3 class="prog-card-title">UG (Honours) Programmes</h3>
+      <span class="prog-meta">11 Four-Year Honours Degrees &middot; FYUGP</span>
+    </div>
+  </div>
+  <div class="prog-card-body">
+    <ul class="prog-chips-grid">
+      <li><a href="/programmes/b-com-honours/" class="prog-chip"><i class="fa fa-check-circle"></i> B.Com (Honours)</a></li>
+      <li><a href="/programmes/bba-honours/" class="prog-chip"><i class="fa fa-check-circle"></i> BBA (Honours)</a></li>
+      <li><a href="/programmes/bca-honours/" class="prog-chip"><i class="fa fa-check-circle"></i> BCA (Honours)</a></li>
+      <li><a href="/programmes/b-sc-artificial-intelligence-honours/" class="prog-chip"><i class="fa fa-check-circle"></i> B.Sc. Artificial Intelligence</a></li>
+      <li><a href="/programmes/b-sc-computer-science-honours/" class="prog-chip"><i class="fa fa-check-circle"></i> B.Sc. Computer Science</a></li>
+      <li><a href="/programmes/b-sc-food-technology-honours/" class="prog-chip"><i class="fa fa-check-circle"></i> B.Sc. Food Technology</a></li>
+      <li><a href="/programmes/b-sc-microbiology-honours/" class="prog-chip"><i class="fa fa-check-circle"></i> B.Sc. Microbiology</a></li>
+      <li><a href="/programmes/b-sc-psychology-honours/" class="prog-chip"><i class="fa fa-check-circle"></i> B.Sc. Psychology</a></li>
+      <li><a href="/programmes/b-sc-geography-honours/" class="prog-chip"><i class="fa fa-check-circle"></i> B.Sc. Geography</a></li>
+      <li><a href="/programmes/ba-islamic-studies-honours/" class="prog-chip"><i class="fa fa-check-circle"></i> BA Islamic Studies</a></li>
+      <li><a href="/programmes/ba-english-language-and-literature-honours/" class="prog-chip"><i class="fa fa-check-circle"></i> BA English Language</a></li>
+    </ul>
+  </div>
+  <div class="prog-card-footer">
+    <a href="/programmes/" class="btn-prog-cta">Explore All UG Degrees <i class="fa fa-arrow-right"></i></a>
+    <a href="/admission/" class="btn-prog-alt">Apply Online</a>
+  </div>
 </div>
-<div class="col-lg-6 col-md-6 col-sm-12">
-<div class="prog-col"><h3>PG Programmes</h3><span class="prog-sub">3 postgraduate degrees</span><ul><li>MA Islamic Finance</li><li>M.Sc. Psychology</li><li>MA Arabic</li></ul>
-<p class="prog-note">Postgraduate study at Al Jamia builds directly on the honours programmes, with
-research supervision and industry-linked coursework. Full eligibility criteria, intake and fee details
-are listed on the programmes page.</p>
+</div>
+
+<!-- PG Card -->
+<div class="col-lg-6 col-md-12">
+<div class="ajas-prog-card pg-card">
+  <div class="prog-card-header">
+    <div class="prog-icon-badge"><i class="fa fa-university" aria-hidden="true"></i></div>
+    <div class="prog-header-text">
+      <span class="prog-level-tag">Postgraduate</span>
+      <h3 class="prog-card-title">PG Programmes</h3>
+      <span class="prog-meta">3 Two-Year Master's Degrees</span>
+    </div>
+  </div>
+  <div class="prog-card-body">
+    <ul class="prog-chips-grid pg-chips">
+      <li><a href="/programmes/ma-islamic-finance/" class="prog-chip"><i class="fa fa-star"></i> MA Islamic Finance</a></li>
+      <li><a href="/programmes/m-sc-psychology/" class="prog-chip"><i class="fa fa-star"></i> M.Sc. Psychology</a></li>
+      <li><a href="/programmes/ma-arabic/" class="prog-chip"><i class="fa fa-star"></i> MA Arabic</a></li>
+    </ul>
+    <div class="pg-highlight-box">
+      <div class="pg-hl-icon"><i class="fa fa-lightbulb-o"></i></div>
+      <p>Advanced research supervision, high-impact clinical and industry internships, and specialist training aligned with Calicut University curriculum.</p>
+    </div>
+  </div>
+  <div class="prog-card-footer">
+    <a href="/programmes/" class="btn-prog-cta">View PG Details <i class="fa fa-arrow-right"></i></a>
+    <a href="/fees/" class="btn-prog-alt">Fees &amp; Prospectus</a>
+  </div>
 </div>
 </div>
 </div>
-<div class="text-center pd-top15"><a href="/programmes/" class="btn-box-shadow">All programmes &amp; eligibility</a></div>
+
 <div class="title-section text-center pd-top60">
-<p class="sub-title lt-sp17">Explore</p>
+<p class="sub-title lt-sp17">Academic Excellence</p>
 <h2 class="flat-title medium">Our departments</h2>
 </div>
-<div class="flat-courses clearfix"><div class="row"><div class="course clearfix col-lg-4 col-md-6 col-sm-12">
-<div class="flat-course">
-<div class="featured-post post-media"><div class="entry-image pic"><img src="/assets/uploads/2024/06/arabic-.jpg" alt="Department of Arabic">
-<div class="hover-effect"></div>
-<div class="links"><a href="/departments/arabic/" aria-label="View Department of Arabic">View Department of Arabic</a></div>
-</div></div>
-<div class="course-content clearfix"><div class="wrap-course-content">
-<h3 class="course-title"><a href="/departments/arabic/">Department of Arabic</a></h3>
-<p>Established in 2019, the Department of Arabic at Al Jamia Arts and Science College stands as a ideal of excellence in Arabic language a…</p>
-</div></div>
-</div></div><div class="course clearfix col-lg-4 col-md-6 col-sm-12">
-<div class="flat-course">
-<div class="featured-post post-media"><div class="entry-image pic"><img src="/assets/uploads/2024/05/Departmentofcommerce-scaled.jpg" alt="Department of Commerce &amp; Management Studies">
-<div class="hover-effect"></div>
-<div class="links"><a href="/departments/department-of-commerce/" aria-label="View Department of Commerce and Management Studies">View Department of Commerce and Management Studies</a></div>
-</div></div>
-<div class="course-content clearfix"><div class="wrap-course-content">
-<h3 class="course-title"><a href="/departments/department-of-commerce/">Department of Commerce &amp; Management Studies</a></h3>
-<p>The Department of Commerce and Management Studies at Al Jamia Arts and Science College, Perinthalmanna, is a vibrant centre of learning…</p>
-<p class="course-programs">B.Com Honors &middot; BBA Finance Honors</p>
-</div></div>
-</div></div><div class="course clearfix col-lg-4 col-md-6 col-sm-12">
-<div class="flat-course">
-<div class="featured-post post-media"><div class="entry-image pic"><img src="/assets/uploads/2024/06/12064780_4884421.jpg" alt="Department of Computer Application">
-<div class="hover-effect"></div>
-<div class="links"><a href="/departments/department-of-computer-application/" aria-label="View Department of Computer Application">View Department of Computer Application</a></div>
-</div></div>
-<div class="course-content clearfix"><div class="wrap-course-content">
-<h3 class="course-title"><a href="/departments/department-of-computer-application/">Department of Computer Application</a></h3>
-<p>Established in the year 2010, the Department of Computer Applications is committed to provide quality education to aspiring graduates. …</p>
-</div></div>
-</div></div><div class="course clearfix col-lg-4 col-md-6 col-sm-12">
-<div class="flat-course">
-<div class="featured-post post-media"><div class="entry-image pic"><img src="/assets/uploads/2024/05/innovative-futuristic-classroom-students-min-scaled.jpg" alt="Department of Computer Science and Artificial Intelligence">
-<div class="hover-effect"></div>
-<div class="links"><a href="/departments/department-of-computer-science/" aria-label="View Department of Computer Science and Artificial Intelligence">View Department of Computer Science and Artificial Intelligence</a></div>
-</div></div>
-<div class="course-content clearfix"><div class="wrap-course-content">
-<h3 class="course-title"><a href="/departments/department-of-computer-science/">Department of Computer Science and Artificial Intelligence</a></h3>
-<p>In 2015 BSc Computer Science Programme introduced by department. The Department of Computer Science is committed to provide quality edu…</p>
-<p class="course-programs">B.Sc. Artificial Intelligence Honors &middot; B.Sc. Computer Science Honors &middot; BCA Honors</p>
-</div></div>
-</div></div><div class="course clearfix col-lg-4 col-md-6 col-sm-12">
-<div class="flat-course">
-<div class="featured-post post-media"><div class="entry-image pic"><img src="/assets/uploads/2024/05/english-books-stacks-table-working-space-min-scaled.jpg" alt="Department of English">
-<div class="hover-effect"></div>
-<div class="links"><a href="/departments/department-of-english/" aria-label="View Department of English">View Department of English</a></div>
-</div></div>
-<div class="course-content clearfix"><div class="wrap-course-content">
-<h3 class="course-title"><a href="/departments/department-of-english/">Department of English</a></h3>
-<p>The Department Established in the Year 2010 along with the; inception of the college.B.A English Language and Literatue course was star…</p>
-<p class="course-programs">BA English Language and Literature</p>
-</div></div>
-</div></div><div class="course clearfix col-lg-4 col-md-6 col-sm-12">
-<div class="flat-course">
-<div class="featured-post post-media"><div class="entry-image pic"><img src="/assets/uploads/2024/05/empty-microbiology-laboratory-with-nobody-it-prepared-genetic-mutation-test-min-scaled.jpg" alt="Department of Food Technology">
-<div class="hover-effect"></div>
-<div class="links"><a href="/departments/department-of-food-technology/" aria-label="View Department of Food Technology">View Department of Food Technology</a></div>
-</div></div>
-<div class="course-content clearfix"><div class="wrap-course-content">
-<h3 class="course-title"><a href="/departments/department-of-food-technology/">Department of Food Technology</a></h3>
-<p>Established in the year 2018. The Department of Food Technology is committed to provide quality education to aspiring graduates. At pre…</p>
-<p class="course-programs">B.Sc. Food Technology</p>
-</div></div>
-</div></div><div class="course clearfix col-lg-4 col-md-6 col-sm-12">
-<div class="flat-course">
-<div class="featured-post post-media"><div class="entry-image pic"><img src="/assets/uploads/2024/05/IMG-20240430-WA0022-1-scaled.jpg" alt="Department of Geography">
-<div class="hover-effect"></div>
-<div class="links"><a href="/departments/department-of-geography/" aria-label="View Department of Geography">View Department of Geography</a></div>
-</div></div>
-<div class="course-content clearfix"><div class="wrap-course-content">
-<h3 class="course-title"><a href="/departments/department-of-geography/">Department of Geography</a></h3>
-<p>A modern geography programme combining fieldwork, GIS and remote sensing with classroom instruction.</p>
-<p class="course-programs">B.Sc. Geography</p>
-</div></div>
-</div></div><div class="course clearfix col-lg-4 col-md-6 col-sm-12">
-<div class="flat-course">
-<div class="featured-post post-media"><div class="entry-image pic"><img src="/assets/uploads/2024/05/IMG-20240430-WA0048-scaled.jpg" alt="Department of Microbiology">
-<div class="hover-effect"></div>
-<div class="links"><a href="/departments/department-of-micro-biology/" aria-label="View Department of Microbiology">View Department of Microbiology</a></div>
-</div></div>
-<div class="course-content clearfix"><div class="wrap-course-content">
-<h3 class="course-title"><a href="/departments/department-of-micro-biology/">Department of Microbiology</a></h3>
-<p>A well-equipped laboratory facility supporting hands-on training across instrumentation, sterilisation and analysis.</p>
-<p class="course-programs">B.Sc. Microbiology</p>
-</div></div>
-</div></div><div class="course clearfix col-lg-4 col-md-6 col-sm-12">
-<div class="flat-course">
-<div class="featured-post post-media"><div class="entry-image pic"><img src="/assets/uploads/2024/05/IMG-20240430-WA0014-scaled.jpg" alt="PG Department of Psychology">
-<div class="hover-effect"></div>
-<div class="links"><a href="/departments/department-of-psychology/" aria-label="View PG Department of Psychology">View PG Department of Psychology</a></div>
-</div></div>
-<div class="course-content clearfix"><div class="wrap-course-content">
-<h3 class="course-title"><a href="/departments/department-of-psychology/">PG Department of Psychology</a></h3>
-<p>UG and PG psychology, from foundational theory through to applied and clinical practice.</p>
-<p class="course-programs">B.Sc. Psychology &middot; M.Sc. Psychology</p>
-</div></div>
-</div></div><div class="course clearfix col-lg-4 col-md-6 col-sm-12">
-<div class="flat-course">
-<div class="featured-post post-media"><div class="entry-image pic"><img src="/assets/uploads/2024/01/P1222323-building-2048x1154-1.webp" alt="Department of Islamic Studies">
-<div class="hover-effect"></div>
-<div class="links"><a href="/departments/department-of-islamic-studies/" aria-label="View Department of Islamic Studies">View Department of Islamic Studies</a></div>
-</div></div>
-<div class="course-content clearfix"><div class="wrap-course-content">
-<h3 class="course-title"><a href="/departments/department-of-islamic-studies/">Department of Islamic Studies</a></h3>
-<p>One of the oldest departments at AJAS College, providing career-oriented education in Islamic history, theology, and contemporary studies.</p>
-<p class="course-programs">BA Islamic Studies Honors</p>
-</div></div>
-</div></div><div class="course clearfix col-lg-4 col-md-6 col-sm-12">
-<div class="flat-course">
-<div class="featured-post post-media"><div class="entry-image pic"><img src="/assets/uploads/2024/01/P1222323-building-2048x1154-1.webp" alt="Department of Islamic Finance">
-<div class="hover-effect"></div>
-<div class="links"><a href="/departments/department-of-islamic-finance/" aria-label="View Department of Islamic Finance">View Department of Islamic Finance</a></div>
-</div></div>
-<div class="course-content clearfix"><div class="wrap-course-content">
-<h3 class="course-title"><a href="/departments/department-of-islamic-finance/">Department of Islamic Finance</a></h3>
-<p>Developing ethical leaders and finance professionals who combine Islamic principles with modern financial expertise.</p>
-<p class="course-programs">MA Islamic Finance</p>
-</div></div>
-</div></div><div class="course clearfix col-lg-4 col-md-6 col-sm-12">
-<div class="flat-course">
-<div class="featured-post post-media"><div class="entry-image pic"><img src="/assets/uploads/2024/01/P1222323-building-2048x1154-1.webp" alt="Department of Languages">
-<div class="hover-effect"></div>
-<div class="links"><a href="/departments/department-of-languages/" aria-label="View Department of Languages">View Department of Languages</a></div>
-</div></div>
-<div class="course-content clearfix"><div class="wrap-course-content">
-<h3 class="course-title"><a href="/departments/department-of-languages/">Department of Languages</a></h3>
-<p>Language courses prescribed by the University of Calicut curriculum, alongside every UG programme.</p>
-<p class="course-programs">Language courses as prescribed by University curriculum</p>
-</div></div>
-</div></div></div></div>
-<div class="text-center pd-top15"><a href="/departments/" class="btn bg-clff5f60 ajas-apply-btn">View all departments</a></div>
+
+<div class="flat-courses clearfix">
+<div class="row">
+
+<!-- Department 1: Arabic -->
+<div class="col-lg-4 col-md-6 col-sm-12 course-col">
+  <div class="ajas-dept-card">
+    <div class="dept-card-media">
+      <img src="/assets/uploads/2024/06/arabic-.jpg" alt="Department of Arabic">
+      <span class="dept-card-badge"><i class="fa fa-language"></i> Arabic</span>
+    </div>
+    <div class="dept-card-content">
+      <h3 class="dept-card-heading"><a href="/departments/arabic/">Department of Arabic</a></h3>
+      <p class="dept-card-text">Excellence in Arabic linguistics, literature, translation, and cultural studies with dedicated research faculty.</p>
+      <div class="dept-card-pills">
+        <span class="dept-pill">MA Arabic</span>
+      </div>
+      <div class="dept-card-bottom">
+        <a href="/departments/arabic/" class="dept-link-btn">Explore Department <i class="fa fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Department 2: Commerce -->
+<div class="col-lg-4 col-md-6 col-sm-12 course-col">
+  <div class="ajas-dept-card">
+    <div class="dept-card-media">
+      <img src="/assets/uploads/2024/05/Departmentofcommerce-scaled.jpg" alt="Department of Commerce & Management Studies">
+      <span class="dept-card-badge"><i class="fa fa-briefcase"></i> Commerce</span>
+    </div>
+    <div class="dept-card-content">
+      <h3 class="dept-card-heading"><a href="/departments/department-of-commerce/">Department of Commerce &amp; Management Studies</a></h3>
+      <p class="dept-card-text">A vibrant centre of learning offering honours degrees in accounting, finance, taxation, and business management.</p>
+      <div class="dept-card-pills">
+        <span class="dept-pill">B.Com Honors</span>
+        <span class="dept-pill">BBA Honors</span>
+      </div>
+      <div class="dept-card-bottom">
+        <a href="/departments/department-of-commerce/" class="dept-link-btn">Explore Department <i class="fa fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Department 3: Computer Application -->
+<div class="col-lg-4 col-md-6 col-sm-12 course-col">
+  <div class="ajas-dept-card">
+    <div class="dept-card-media">
+      <img src="/assets/uploads/2024/06/12064780_4884421.jpg" alt="Department of Computer Application">
+      <span class="dept-card-badge"><i class="fa fa-laptop"></i> BCA</span>
+    </div>
+    <div class="dept-card-content">
+      <h3 class="dept-card-heading"><a href="/departments/department-of-computer-application/">Department of Computer Application</a></h3>
+      <p class="dept-card-text">Modern software development, web technologies, and systems administration with practical hands-on labs.</p>
+      <div class="dept-card-pills">
+        <span class="dept-pill">BCA Honors</span>
+      </div>
+      <div class="dept-card-bottom">
+        <a href="/departments/department-of-computer-application/" class="dept-link-btn">Explore Department <i class="fa fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Department 4: Computer Science & AI -->
+<div class="col-lg-4 col-md-6 col-sm-12 course-col">
+  <div class="ajas-dept-card">
+    <div class="dept-card-media">
+      <img src="/assets/uploads/2024/05/innovative-futuristic-classroom-students-min-scaled.jpg" alt="Department of Computer Science & Artificial Intelligence">
+      <span class="dept-card-badge"><i class="fa fa-desktop"></i> AI &amp; CS</span>
+    </div>
+    <div class="dept-card-content">
+      <h3 class="dept-card-heading"><a href="/departments/department-of-computer-science/">Department of Computer Science &amp; AI</a></h3>
+      <p class="dept-card-text">Specialised curriculum covering artificial intelligence, machine learning, data structures, and computing algorithms.</p>
+      <div class="dept-card-pills">
+        <span class="dept-pill">B.Sc. AI Honors</span>
+        <span class="dept-pill">B.Sc. CS Honors</span>
+      </div>
+      <div class="dept-card-bottom">
+        <a href="/departments/department-of-computer-science/" class="dept-link-btn">Explore Department <i class="fa fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Department 5: English -->
+<div class="col-lg-4 col-md-6 col-sm-12 course-col">
+  <div class="ajas-dept-card">
+    <div class="dept-card-media">
+      <img src="/assets/uploads/2024/05/english-books-stacks-table-working-space-min-scaled.jpg" alt="Department of English">
+      <span class="dept-card-badge"><i class="fa fa-book"></i> English</span>
+    </div>
+    <div class="dept-card-content">
+      <h3 class="dept-card-heading"><a href="/departments/department-of-english/">Department of English</a></h3>
+      <p class="dept-card-text">Critical literary analysis, communicative linguistics, creative writing, and media studies since 2010.</p>
+      <div class="dept-card-pills">
+        <span class="dept-pill">BA English Honors</span>
+      </div>
+      <div class="dept-card-bottom">
+        <a href="/departments/department-of-english/" class="dept-link-btn">Explore Department <i class="fa fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Department 6: Food Technology -->
+<div class="col-lg-4 col-md-6 col-sm-12 course-col">
+  <div class="ajas-dept-card">
+    <div class="dept-card-media">
+      <img src="/assets/uploads/2024/05/empty-microbiology-laboratory-with-nobody-it-prepared-genetic-mutation-test-min-scaled.jpg" alt="Department of Food Technology">
+      <span class="dept-card-badge"><i class="fa fa-cutlery"></i> Food Tech</span>
+    </div>
+    <div class="dept-card-content">
+      <h3 class="dept-card-heading"><a href="/departments/department-of-food-technology/">Department of Food Technology</a></h3>
+      <p class="dept-card-text">Food preservation, quality assurance, nutrition analysis, and product development in state-of-the-art labs.</p>
+      <div class="dept-card-pills">
+        <span class="dept-pill">B.Sc. Food Technology</span>
+      </div>
+      <div class="dept-card-bottom">
+        <a href="/departments/department-of-food-technology/" class="dept-link-btn">Explore Department <i class="fa fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Department 7: Geography -->
+<div class="col-lg-4 col-md-6 col-sm-12 course-col">
+  <div class="ajas-dept-card">
+    <div class="dept-card-media">
+      <img src="/assets/uploads/2024/05/IMG-20240430-WA0022-1-scaled.jpg" alt="Department of Geography">
+      <span class="dept-card-badge"><i class="fa fa-globe"></i> Geography</span>
+    </div>
+    <div class="dept-card-content">
+      <h3 class="dept-card-heading"><a href="/departments/department-of-geography/">Department of Geography</a></h3>
+      <p class="dept-card-text">Geospatial science, GIS mapping, remote sensing, and environmental studies backed by field research.</p>
+      <div class="dept-card-pills">
+        <span class="dept-pill">B.Sc. Geography</span>
+      </div>
+      <div class="dept-card-bottom">
+        <a href="/departments/department-of-geography/" class="dept-link-btn">Explore Department <i class="fa fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Department 8: Microbiology -->
+<div class="col-lg-4 col-md-6 col-sm-12 course-col">
+  <div class="ajas-dept-card">
+    <div class="dept-card-media">
+      <img src="/assets/uploads/2024/05/IMG-20240430-WA0048-scaled.jpg" alt="Department of Microbiology">
+      <span class="dept-card-badge"><i class="fa fa-flask"></i> Microbiology</span>
+    </div>
+    <div class="dept-card-content">
+      <h3 class="dept-card-heading"><a href="/departments/department-of-micro-biology/">Department of Microbiology</a></h3>
+      <p class="dept-card-text">Immunology, medical microbiology, virology, and biotechnology with active clinical lab coursework.</p>
+      <div class="dept-card-pills">
+        <span class="dept-pill">B.Sc. Microbiology</span>
+      </div>
+      <div class="dept-card-bottom">
+        <a href="/departments/department-of-micro-biology/" class="dept-link-btn">Explore Department <i class="fa fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Department 9: Psychology -->
+<div class="col-lg-4 col-md-6 col-sm-12 course-col">
+  <div class="ajas-dept-card">
+    <div class="dept-card-media">
+      <img src="/assets/uploads/2024/05/IMG-20240430-WA0014-scaled.jpg" alt="PG Department of Psychology">
+      <span class="dept-card-badge"><i class="fa fa-lightbulb-o"></i> UG &amp; PG</span>
+    </div>
+    <div class="dept-card-content">
+      <h3 class="dept-card-heading"><a href="/departments/department-of-psychology/">PG Department of Psychology</a></h3>
+      <p class="dept-card-text">Comprehensive mental health, clinical psychology, counselling and experimental psychology programmes.</p>
+      <div class="dept-card-pills">
+        <span class="dept-pill">B.Sc. Psychology</span>
+        <span class="dept-pill">M.Sc. Psychology</span>
+      </div>
+      <div class="dept-card-bottom">
+        <a href="/departments/department-of-psychology/" class="dept-link-btn">Explore Department <i class="fa fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Department 10: Islamic Studies -->
+<div class="col-lg-4 col-md-6 col-sm-12 course-col">
+  <div class="ajas-dept-card">
+    <div class="dept-card-media">
+      <img src="/assets/uploads/2024/01/P1222323-building-2048x1154-1.webp" alt="Department of Islamic Studies">
+      <span class="dept-card-badge"><i class="fa fa-moon-o"></i> Islamic Studies</span>
+    </div>
+    <div class="dept-card-content">
+      <h3 class="dept-card-heading"><a href="/departments/department-of-islamic-studies/">Department of Islamic Studies</a></h3>
+      <p class="dept-card-text">Rigorous academic study of Islamic history, civilization, philosophy, ethics, and contemporary thought.</p>
+      <div class="dept-card-pills">
+        <span class="dept-pill">BA Islamic Studies Honors</span>
+      </div>
+      <div class="dept-card-bottom">
+        <a href="/departments/department-of-islamic-studies/" class="dept-link-btn">Explore Department <i class="fa fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Department 11: Islamic Finance -->
+<div class="col-lg-4 col-md-6 col-sm-12 course-col">
+  <div class="ajas-dept-card">
+    <div class="dept-card-media">
+      <img src="/assets/uploads/2024/01/P1222323-building-2048x1154-1.webp" alt="Department of Islamic Finance">
+      <span class="dept-card-badge"><i class="fa fa-university"></i> Finance</span>
+    </div>
+    <div class="dept-card-content">
+      <h3 class="dept-card-heading"><a href="/departments/department-of-islamic-finance/">Department of Islamic Finance</a></h3>
+      <p class="dept-card-text">Specialised postgraduate degree combining ethical Islamic finance principles with modern banking systems.</p>
+      <div class="dept-card-pills">
+        <span class="dept-pill">MA Islamic Finance</span>
+      </div>
+      <div class="dept-card-bottom">
+        <a href="/departments/department-of-islamic-finance/" class="dept-link-btn">Explore Department <i class="fa fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Department 12: Languages -->
+<div class="col-lg-4 col-md-6 col-sm-12 course-col">
+  <div class="ajas-dept-card">
+    <div class="dept-card-media">
+      <img src="/assets/uploads/2024/01/P1222323-building-2048x1154-1.webp" alt="Department of Languages">
+      <span class="dept-card-badge"><i class="fa fa-comments"></i> Languages</span>
+    </div>
+    <div class="dept-card-content">
+      <h3 class="dept-card-heading"><a href="/departments/department-of-languages/">Department of Languages</a></h3>
+      <p class="dept-card-text">Prescribed common and second language courses including Malayalam, Hindi, Arabic, and English.</p>
+      <div class="dept-card-pills">
+        <span class="dept-pill">Common Courses</span>
+      </div>
+      <div class="dept-card-bottom">
+        <a href="/departments/department-of-languages/" class="dept-link-btn">Explore Department <i class="fa fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+<div class="text-center pd-top30"><a href="/departments/" class="btn bg-clff5f60 ajas-apply-btn">View all departments</a></div>
 </div>
 </section><!-- online-courses --><section class="ajas-media">
 <div class="container">

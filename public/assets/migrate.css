@@ -324,22 +324,146 @@ h1,h2,h3,
 .flat-team .row{display:flex;flex-wrap:wrap;}
 .listing-intro{max-width:760px;margin:0 auto 52px;text-align:center;color:#8a8a8a;font-size:16px;line-height:29px;}
 
-/* ---------- home: bits Edukin has no component for ---------- */
-.prog-columns .prog-col{
-    background:#fff;border:1px solid #eef1f5;border-radius:6px;padding:34px 32px;height:100%;
-    box-shadow:0 6px 30px rgba(24,50,81,.07);}
-.prog-columns .prog-col h3{
-    font-size:20px;font-weight:600;color:#183251;margin:0 0 6px;}
-.prog-columns .prog-col .prog-sub{font-size:14px;color:#ff5f60;font-weight:500;margin-bottom:20px;display:block;}
-.prog-columns .prog-col ul{margin:0;padding:0;list-style:none;}
-.prog-columns .prog-col ul li{position:relative;padding:9px 0 9px 30px;border-bottom:1px solid #f3f5f8;font-size:15px;color:#5c6b7f;}
-.prog-columns .prog-col ul li:last-child{border-bottom:0;}
-.prog-columns .prog-col ul li:before{
-    content:"\f19d";font-family:FontAwesome;position:absolute;left:0;top:10px;color:#ff5f60;font-size:14px;}
-.prog-columns{display:flex;flex-wrap:wrap;}
-.prog-columns .prog-col{transition:transform .3s cubic-bezier(.2,.7,.3,1),box-shadow .3s;}
-.prog-columns .prog-col:hover{transform:translateY(-4px);box-shadow:0 18px 44px rgba(24,50,81,.12);}
-.prog-note{font-size:14.5px;line-height:26px;color:#8a8a8a;margin:22px 0 0;}
+/* ==========================================================================
+   Programmes Offered & Department Cards Redesign
+   ========================================================================== */
+
+/* ---------- Programmes Grid & Cards ---------- */
+.ajas-programmes{padding:64px 0 72px;background:#f8fafc;}
+.ajas-prog-grid{display:flex;flex-wrap:wrap;margin-bottom:10px;}
+.ajas-prog-card{
+    background:#ffffff;border-radius:20px;
+    border:1px solid #e2e8f0;box-shadow:0 14px 40px rgba(24,50,81,.07);
+    overflow:hidden;display:flex;flex-direction:column;height:100%;
+    transition:all .3s cubic-bezier(.2,.7,.3,1);margin-bottom:30px;}
+.ajas-prog-card:hover{
+    transform:translateY(-6px);box-shadow:0 22px 50px rgba(24,50,81,.14);border-color:#cbd5e1;}
+
+.prog-card-header{
+    padding:28px 30px 22px;display:flex;align-items:center;gap:18px;
+    border-bottom:1px solid #f1f5f9;}
+.ug-card .prog-card-header{background:linear-gradient(135deg,#183251,#24436c);}
+.pg-card .prog-card-header{background:linear-gradient(135deg,#801b2a,#ab283b);}
+
+.prog-icon-badge{
+    width:56px;height:56px;border-radius:14px;background:rgba(255,255,255,.16);
+    color:#ffffff;display:flex;align-items:center;justify-content:center;
+    font-size:24px;flex-shrink:0;box-shadow:0 4px 14px rgba(0,0,0,.15);}
+.prog-header-text{color:#ffffff;}
+.prog-level-tag{
+    font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;
+    color:#ffd0d1;display:block;margin-bottom:2px;}
+.ug-card .prog-level-tag{color:#93c5fd;}
+.prog-card-title{
+    font-size:21px;font-weight:700;color:#ffffff !important;margin:0 0 2px;line-height:1.25;}
+.prog-meta{
+    font-size:13px;color:rgba(255,255,255,.82);font-weight:400;display:block;}
+
+.prog-card-body{
+    padding:26px 30px;flex:1;display:flex;flex-direction:column;}
+.prog-chips-grid{
+    display:grid;grid-template-columns:repeat(2,1fr);gap:10px;
+    margin:0;padding:0;list-style:none;}
+.prog-chip{
+    display:flex;align-items:center;gap:8px;
+    background:#f1f5f9;color:#1e293b;padding:10px 14px;border-radius:10px;
+    font-size:13.5px;font-weight:600;border:1px solid #e2e8f0;
+    transition:all .2s ease;text-decoration:none !important;}
+.prog-chip i{color:#ff5f60;font-size:13px;flex-shrink:0;}
+.ug-card .prog-chip:hover{
+    background:#183251;color:#ffffff;border-color:#183251;transform:translateX(3px);}
+.ug-card .prog-chip:hover i{color:#93c5fd;}
+.pg-card .prog-chip:hover{
+    background:#801b2a;color:#ffffff;border-color:#801b2a;transform:translateX(3px);}
+.pg-card .prog-chip:hover i{color:#ffd0d1;}
+
+.pg-chips{grid-template-columns:1fr;gap:12px;margin-bottom:18px;}
+.pg-chips .prog-chip{padding:12px 16px;font-size:15px;}
+.pg-highlight-box{
+    margin-top:auto;background:#fff5f5;border-radius:12px;padding:16px 18px;
+    border:1px solid #fed7d7;display:flex;gap:14px;align-items:flex-start;}
+.pg-hl-icon{
+    font-size:20px;color:#e84545;margin-top:2px;}
+.pg-highlight-box p{
+    margin:0;font-size:13px;line-height:1.6;color:#64748b;}
+
+.prog-card-footer{
+    padding:18px 30px 24px;border-top:1px solid #f1f5f9;
+    display:flex;align-items:center;justify-content:space-between;gap:14px;
+    background:#fafcff;}
+.btn-prog-cta{
+    display:inline-flex;align-items:center;gap:8px;
+    color:#183251;font-weight:700;font-size:14px;text-decoration:none !important;
+    transition:all .2s ease;}
+.btn-prog-cta i{color:#ff5f60;transition:transform .2s ease;}
+.btn-prog-cta:hover{color:#ff5f60;}
+.btn-prog-cta:hover i{transform:translateX(4px);}
+.btn-prog-alt{
+    display:inline-block;padding:7px 18px;border-radius:20px;
+    background:#fff;border:1.5px solid #183251;color:#183251;
+    font-size:13px;font-weight:600;transition:all .25s ease;text-decoration:none !important;}
+.btn-prog-alt:hover{
+    background:#183251;color:#fff;}
+
+@media(max-width:640px){
+    .prog-chips-grid{grid-template-columns:1fr;}
+    .prog-card-header{padding:22px 20px;}
+    .prog-card-body{padding:20px 20px;}
+    .prog-card-footer{padding:16px 20px;flex-direction:column;align-items:stretch;gap:10px;text-align:center;}
+}
+
+/* ---------- Department Cards Redesign ---------- */
+.course-col{margin-bottom:30px;display:flex;}
+.ajas-dept-card{
+    background:#ffffff;border-radius:16px;overflow:hidden;
+    border:1px solid #e2e8f0;box-shadow:0 8px 26px rgba(24,50,81,.06);
+    display:flex;flex-direction:column;width:100%;
+    transition:all .35s cubic-bezier(.2,.7,.3,1);}
+.ajas-dept-card:hover{
+    transform:translateY(-8px);box-shadow:0 22px 50px rgba(24,50,81,.14);
+    border-color:#cbd5e1;}
+
+.dept-card-media{
+    position:relative;height:200px;overflow:hidden;background:#0c1e34;}
+.dept-card-media img{
+    width:100%;height:100%;object-fit:cover;display:block;
+    transition:transform .5s ease;}
+.ajas-dept-card:hover .dept-card-media img{
+    transform:scale(1.07);}
+.dept-card-badge{
+    position:absolute;top:14px;right:14px;z-index:2;
+    background:rgba(24,50,81,.88);backdrop-filter:blur(6px);
+    color:#ffffff;font-size:12px;font-weight:600;padding:5px 12px;border-radius:20px;
+    display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(255,255,255,.2);}
+.dept-card-badge i{color:#ff5f60;}
+
+.dept-card-content{
+    padding:24px 24px 20px;flex:1;display:flex;flex-direction:column;}
+.dept-card-heading{
+    font-size:18.5px;font-weight:700;line-height:1.35;margin:0 0 10px;}
+.dept-card-heading a{
+    color:#183251;transition:color .2s ease;text-decoration:none !important;}
+.dept-card-heading a:hover,
+.ajas-dept-card:hover .dept-card-heading a{
+    color:#ff5f60;}
+.dept-card-text{
+    font-size:14px;line-height:1.65;color:#64748b;margin:0 0 16px;flex:1;}
+
+.dept-card-pills{
+    display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px;}
+.dept-pill{
+    background:#eff6ff;color:#1e40af;font-size:12px;font-weight:600;
+    padding:3px 10px;border-radius:6px;border:1px solid #dbeafe;}
+
+.dept-card-bottom{
+    padding-top:14px;border-top:1px solid #f1f5f9;margin-top:auto;}
+.dept-link-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:13.5px;font-weight:700;color:#ff5f60;text-decoration:none !important;
+    transition:all .2s ease;}
+.dept-link-btn i{transition:transform .2s ease;}
+.dept-link-btn:hover{color:#183251;}
+.dept-link-btn:hover i{transform:translateX(5px);}
 .ajas-programmes .pd-top60{padding-top:74px;}
 .ajas-programmes .flat-courses{margin-top:6px;}
 .mig-quicklinks{margin:0;padding:0;list-style:none;}

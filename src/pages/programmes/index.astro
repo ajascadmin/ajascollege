@@ -8,6 +8,24 @@ const programmes = (await getCollection("programmes", ({ data }) => !data.draft)
 const ug = programmes.filter((p) => p.data.level === "ug");
 const pg = programmes.filter((p) => p.data.level === "pg");
 const other = programmes.filter((p) => !["ug", "pg"].includes(p.data.level));
+
+const iconFor = (title: string) => {
+  const t = title.toLowerCase();
+  if (t.includes("commerce") || t.includes("b.com")) return "fa-briefcase";
+  if (t.includes("bba")) return "fa-line-chart";
+  if (t.includes("bca") || t.includes("computer application")) return "fa-laptop";
+  if (t.includes("artificial intelligence") || t.includes("ai")) return "fa-microchip";
+  if (t.includes("computer science")) return "fa-desktop";
+  if (t.includes("food technology")) return "fa-cutlery";
+  if (t.includes("microbiology")) return "fa-flask";
+  if (t.includes("psychology")) return "fa-lightbulb-o";
+  if (t.includes("geography")) return "fa-globe";
+  if (t.includes("islamic studies")) return "fa-moon-o";
+  if (t.includes("english")) return "fa-book";
+  if (t.includes("islamic finance")) return "fa-university";
+  if (t.includes("arabic")) return "fa-language";
+  return "fa-graduation-cap";
+};
 ---
 
 <BaseLayout
@@ -15,85 +33,291 @@ const other = programmes.filter((p) => !["ug", "pg"].includes(p.data.level));
   description="UG (Honours) and PG programmes at Al Jamia Arts & Science College."
   pageTitle="Programmes Offered"
 >
-  <div class="blog-single content-blog narrow-page">
+  <div class="ajas-prog-listing-page" data-pagefind-body>
     <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-9">
-          <div class="site-content clearfix">
-            <article class="post post-blog-single">
-              <div class="content-blog-single-wrap migrate-content" data-pagefind-body>
-                <p class="listing-intro">
-                  Undergraduate (Honours) and postgraduate programmes affiliated to the University of
-                  Calicut.
-                </p>
-
-                <h2>UG (Honours) Programmes</h2>
-                <ul class="ajas-cms-list">
-                  {
-                    ug.map((p) => (
-                      <li>
-                        <a href={p.data.permalink}>{p.data.title}</a>
-                        {p.data.duration && <span class="prog-duration">{p.data.duration}</span>}
-                      </li>
-                    ))
-                  }
-                </ul>
-
-                <h2>PG Programmes</h2>
-                <ul class="ajas-cms-list">
-                  {
-                    pg.map((p) => (
-                      <li>
-                        <a href={p.data.permalink}>{p.data.title}</a>
-                        {p.data.duration && <span class="prog-duration">{p.data.duration}</span>}
-                      </li>
-                    ))
-                  }
-                </ul>
-
-                {
-                  other.length > 0 && (
-                    <>
-                      <h2>Other</h2>
-                      <ul class="ajas-cms-list">
-                        {other.map((p) => (
-                          <li>
-                            <a href={p.data.permalink}>{p.data.title}</a>
-                          </li>
-                        ))}
-                      </ul>
-                    </>
-                  )
-                }
-
-                <p>
-                  <a class="flat-button" href="/admission/">Admissions</a>
-                  {" · "}
-                  <a class="flat-button" href="/fees/">Fees &amp; prospectus</a>
-                </p>
-              </div>
-            </article>
-          </div>
+      <div class="prog-page-intro">
+        <p class="listing-intro">
+          Al Jamia Arts and Science College offers university-affiliated Four-Year Undergraduate (Honours) programmes under FYUGP and specialised Postgraduate degrees with dedicated faculty and state-of-the-art labs.
+        </p>
+        <div class="prog-quick-ctas">
+          <a class="prog-btn-primary" href="/admission/">Apply for Admission <i class="fa fa-arrow-right"></i></a>
+          <a class="prog-btn-secondary" href="/fees/">Fees &amp; Prospectus</a>
         </div>
       </div>
+
+      <div class="prog-section-block">
+        <div class="prog-section-header">
+          <div class="prog-section-badge ug-badge">Undergraduate</div>
+          <h2 class="prog-section-title">UG (Honours) Programmes</h2>
+          <span class="prog-section-subtitle">4-Year Honours Degree Programmes under FYUGP &middot; University of Calicut</span>
+        </div>
+        <div class="prog-cards-grid">
+          {
+            ug.map((p) => (
+              <a href={p.data.permalink} class="prog-grid-card">
+                <div class="prog-card-top">
+                  <div class="prog-card-ico"><i class={`fa ${iconFor(p.data.title)}`}></i></div>
+                  <span class="prog-badge-tag">UG Honours</span>
+                </div>
+                <h3 class="prog-title-text">{p.data.title}</h3>
+                {p.data.duration && <span class="prog-card-duration"><i class="fa fa-clock-o"></i> {p.data.duration}</span>}
+                <div class="prog-card-link">
+                  <span>View Details</span> <i class="fa fa-long-arrow-right"></i>
+                </div>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="prog-section-block">
+        <div class="prog-section-header">
+          <div class="prog-section-badge pg-badge">Postgraduate</div>
+          <h2 class="prog-section-title">PG Programmes</h2>
+          <span class="prog-section-subtitle">2-Year Master's Degrees with Advanced Research Supervision</span>
+        </div>
+        <div class="prog-cards-grid">
+          {
+            pg.map((p) => (
+              <a href={p.data.permalink} class="prog-grid-card pg-style">
+                <div class="prog-card-top">
+                  <div class="prog-card-ico pg-ico"><i class={`fa ${iconFor(p.data.title)}`}></i></div>
+                  <span class="prog-badge-tag pg-tag">Postgraduate</span>
+                </div>
+                <h3 class="prog-title-text">{p.data.title}</h3>
+                {p.data.duration && <span class="prog-card-duration"><i class="fa fa-clock-o"></i> {p.data.duration}</span>}
+                <div class="prog-card-link">
+                  <span>View Details</span> <i class="fa fa-long-arrow-right"></i>
+                </div>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+
+      {
+        other.length > 0 && (
+          <div class="prog-section-block">
+            <div class="prog-section-header">
+              <h2 class="prog-section-title">Other Programmes</h2>
+            </div>
+            <div class="prog-cards-grid">
+              {other.map((p) => (
+                <a href={p.data.permalink} class="prog-grid-card">
+                  <div class="prog-card-top">
+                    <div class="prog-card-ico"><i class="fa fa-graduation-cap"></i></div>
+                  </div>
+                  <h3 class="prog-title-text">{p.data.title}</h3>
+                  <div class="prog-card-link">
+                    <span>View Details</span> <i class="fa fa-long-arrow-right"></i>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        )
+      }
     </div>
   </div>
 </BaseLayout>
 
 <style>
-  .ajas-cms-list {
-    margin: 0 0 1.5rem;
-    padding-left: 1.25rem;
+  .ajas-prog-listing-page {
+    padding: 48px 0 72px;
+    background: #f8fafc;
+    min-height: 50vh;
   }
-  .ajas-cms-list li {
-    margin: 0.35rem 0;
+  .prog-page-intro {
+    max-width: 800px;
+    margin: 0 auto 48px;
+    text-align: center;
   }
-  .prog-duration {
-    margin-left: 0.5rem;
-    font-size: 0.82rem;
-    color: #8b96a8;
+  .prog-page-intro .listing-intro {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #475569;
+    margin-bottom: 24px;
   }
-  .prog-duration::before {
-    content: "· ";
+  .prog-quick-ctas {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .prog-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #ff5f60;
+    color: #fff !important;
+    font-weight: 600;
+    padding: 10px 24px;
+    border-radius: 24px;
+    text-decoration: none !important;
+    box-shadow: 0 4px 14px rgba(255, 95, 96, 0.3);
+    transition: all 0.25s ease;
+  }
+  .prog-btn-primary:hover {
+    background: #e04a4b;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 95, 96, 0.4);
+  }
+  .prog-btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    background: #fff;
+    color: #183251 !important;
+    font-weight: 600;
+    padding: 10px 22px;
+    border-radius: 24px;
+    border: 1.5px solid #183251;
+    text-decoration: none !important;
+    transition: all 0.25s ease;
+  }
+  .prog-btn-secondary:hover {
+    background: #183251;
+    color: #fff !important;
+  }
+
+  .prog-section-block {
+    margin-bottom: 56px;
+  }
+  .prog-section-header {
+    margin-bottom: 24px;
+  }
+  .prog-section-badge {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 4px 12px;
+    border-radius: 14px;
+    margin-bottom: 8px;
+  }
+  .ug-badge {
+    background: #eff6ff;
+    color: #1d4ed8;
+    border: 1px solid #bfdbfe;
+  }
+  .pg-badge {
+    background: #fff1f2;
+    color: #be123c;
+    border: 1px solid #fecdd3;
+  }
+  .prog-section-title {
+    font-size: 1.65rem;
+    font-weight: 700;
+    color: #183251;
+    margin: 0 0 6px;
+  }
+  .prog-section-subtitle {
+    font-size: 0.95rem;
+    color: #64748b;
+    display: block;
+  }
+
+  .prog-cards-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  @media (min-width: 640px) {
+    .prog-cards-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 1000px) {
+    .prog-cards-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .prog-grid-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 24px 22px 20px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 8px 24px rgba(24, 50, 81, 0.05);
+    text-decoration: none !important;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s cubic-bezier(0.2, 0.7, 0.3, 1);
+  }
+  .prog-grid-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 18px 40px rgba(24, 50, 81, 0.12);
+    border-color: #cbd5e1;
+  }
+
+  .prog-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .prog-card-ico {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #183251, #24436c);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 19px;
+  }
+  .prog-card-ico.pg-ico {
+    background: linear-gradient(135deg, #801b2a, #ab283b);
+  }
+  .prog-badge-tag {
+    font-size: 12px;
+    font-weight: 600;
+    background: #f1f5f9;
+    color: #475569;
+    padding: 3px 10px;
+    border-radius: 12px;
+  }
+  .prog-badge-tag.pg-tag {
+    background: #fff1f2;
+    color: #be123c;
+  }
+
+  .prog-title-text {
+    font-size: 1.12rem;
+    font-weight: 700;
+    color: #183251;
+    margin: 0 0 10px;
+    line-height: 1.35;
+    flex: 1;
+  }
+  .prog-grid-card:hover .prog-title-text {
+    color: #ff5f60;
+  }
+
+  .prog-card-duration {
+    font-size: 0.85rem;
+    color: #64748b;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .prog-card-link {
+    padding-top: 12px;
+    border-top: 1px solid #f1f5f9;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #ff5f60;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .prog-card-link i {
+    transition: transform 0.2s ease;
+  }
+  .prog-grid-card:hover .prog-card-link i {
+    transform: translateX(4px);
   }
 </style>
