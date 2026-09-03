@@ -248,12 +248,13 @@
     var testimonialSlider2 = function() {
         if ($('#slider-testimonial').length) {
             $('#slider-testimonial').flexslider({
-                animation: "slide",
+                animation: "fade",
                 controlNav: true,
                 directionNav: false,
                 animationLoop: true,
                 slideshow: true,
-                slideshowSpeed: 6000
+                slideshowSpeed: 6000,
+                smoothHeight: true
             });
         }
     }; 

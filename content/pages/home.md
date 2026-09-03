@@ -373,89 +373,119 @@ are listed on the programmes page.</p>
 </div>
 </div></div>
 </div>
-</section><!-- flat-event --><section class="slider testimonial-flexslider testimonial-style1 clearfix ajas-testimonials">
-<div class="container-fluid p-0">
-<div id="slider-testimonial" class="flexslider">
+</section><!-- flat-event --><section class="ajas-testimonials-section">
+<div class="container">
+<div class="title-section text-center">
+<p class="sub-title lt-sp17">Voices of Al Jamia</p>
+<h2 class="flat-title medium">What our students say</h2>
+</div>
+<div class="ajas-testi-wrapper">
+<div id="slider-testimonial" class="flexslider ajas-testi-slider">
 <ul class="slides">
 <li>
-  <div class="ajas-testi-slide-wrap">
-    <div class="wrap-info">
-      <div class="avatar"><img src="/assets/uploads/2024/05/Mohammed-Azeer.jpeg" alt="Mohammed Azeer"></div>
+  <div class="ajas-testi-card">
+    <div class="testi-photo-col">
+      <div class="testi-avatar-frame">
+        <img src="/assets/uploads/2024/05/Mohammed-Azeer.jpeg" alt="Mohammed Azeer">
+      </div>
     </div>
-    <div class="wrap-quote">
-      <span class="icon-quote icon-icons8-get-quote-filled-100"></span>
-      <p class="speech">&ldquo; I am glad I chose Al Jamia Arts and Science College, which has guided me towards my goals and supported me in every way. Everyone here is an expert in their field, making it an excellent platform for students aiming for higher studies. &rdquo;</p>
-      <div class="name">Mohammed Azeer</div>
-      <div class="ajas-testi-role">MA Islamic Finance, 2016–2018</div>
-    </div>
-  </div>
-</li>
-<li>
-  <div class="ajas-testi-slide-wrap">
-    <div class="wrap-info">
-      <div class="avatar"><img src="/assets/uploads/2024/05/Mohammed-sabeel.jpeg" alt="Mohammed Shabeel K."></div>
-    </div>
-    <div class="wrap-quote">
-      <span class="icon-quote icon-icons8-get-quote-filled-100"></span>
-      <p class="speech">&ldquo; I have loved my three years studying BBA at Al Jamia. The college sharpened my analytical, management and problem-solving skills, preparing me to be a creative and influential leader who will make a difference. &rdquo;</p>
-      <div class="name">Mohammed Shabeel K.</div>
-      <div class="ajas-testi-role">BBA Finance, 2016–2019</div>
+    <div class="testi-content-col">
+      <div class="testi-quote-mark"><i class="fa fa-quote-left" aria-hidden="true"></i></div>
+      <p class="testi-speech">&ldquo; I am glad I chose Al Jamia Arts and Science College, which has guided me towards my goals and supported me in every way. Everyone here is an expert in their field, making it an excellent platform for students aiming for higher studies. &rdquo;</p>
+      <div class="testi-author-info">
+        <h4 class="testi-name">Mohammed Azeer</h4>
+        <span class="testi-role-badge">MA Islamic Finance &middot; 2016–2018</span>
+      </div>
     </div>
   </div>
 </li>
 <li>
-  <div class="ajas-testi-slide-wrap">
-    <div class="wrap-info">
-      <div class="avatar"><img src="/assets/uploads/2024/05/559.jpg" alt="Mufeeda Sulfath A. P"></div>
+  <div class="ajas-testi-card">
+    <div class="testi-photo-col">
+      <div class="testi-avatar-frame">
+        <img src="/assets/uploads/2024/05/Mohammed-sabeel.jpeg" alt="Mohammed Shabeel K.">
+      </div>
     </div>
-    <div class="wrap-quote">
-      <span class="icon-quote icon-icons8-get-quote-filled-100"></span>
-      <p class="speech">&ldquo; From 2015 to 2018 I attended Al Jamia Arts and Science College, where I made lasting connections and felt at home. The support and knowledge I gained there have left a lasting impact on me. &rdquo;</p>
-      <div class="name">Mufeeda Sulfath A. P</div>
-      <div class="ajas-testi-role">BBA, 2015–2018</div>
-    </div>
-  </div>
-</li>
-<li>
-  <div class="ajas-testi-slide-wrap">
-    <div class="wrap-info">
-      <div class="avatar"><img src="/assets/uploads/2024/05/Shadiya.jpeg" alt="Sadiya"></div>
-    </div>
-    <div class="wrap-quote">
-      <span class="icon-quote icon-icons8-get-quote-filled-100"></span>
-      <p class="speech">&ldquo; The years I spent here shaped both my academic direction and my confidence. I cherish this institution and am excited about the future it has prepared me for. &rdquo;</p>
-      <div class="name">Sadiya</div>
-      <div class="ajas-testi-role">B.Sc. Psychology, 2016–2019</div>
+    <div class="testi-content-col">
+      <div class="testi-quote-mark"><i class="fa fa-quote-left" aria-hidden="true"></i></div>
+      <p class="testi-speech">&ldquo; I have loved my three years studying BBA at Al Jamia. The college sharpened my analytical, management and problem-solving skills, preparing me to be a creative and influential leader who will make a difference. &rdquo;</p>
+      <div class="testi-author-info">
+        <h4 class="testi-name">Mohammed Shabeel K.</h4>
+        <span class="testi-role-badge">BBA Finance &middot; 2016–2019</span>
+      </div>
     </div>
   </div>
 </li>
 <li>
-  <div class="ajas-testi-slide-wrap">
-    <div class="wrap-info">
-      <div class="avatar"><img src="/assets/uploads/2024/05/Safwa.jpeg" alt="Safwa K"></div>
+  <div class="ajas-testi-card">
+    <div class="testi-photo-col">
+      <div class="testi-avatar-frame">
+        <img src="/assets/uploads/2024/05/559.jpg" alt="Mufeeda Sulfath A. P">
+      </div>
     </div>
-    <div class="wrap-quote">
-      <span class="icon-quote icon-icons8-get-quote-filled-100"></span>
-      <p class="speech">&ldquo; The faculty made room for every question and pushed me further than I thought I could go. Graduating as first rank holder is something I owe to the mentoring I received here. &rdquo;</p>
-      <div class="name">Safwa K</div>
-      <div class="ajas-testi-role">B.Sc. Psychology, 2016–2019 · 1st Rank Holder</div>
+    <div class="testi-content-col">
+      <div class="testi-quote-mark"><i class="fa fa-quote-left" aria-hidden="true"></i></div>
+      <p class="testi-speech">&ldquo; From 2015 to 2018 I attended Al Jamia Arts and Science College, where I made lasting connections and felt at home. The support and knowledge I gained there have left a lasting impact on me. &rdquo;</p>
+      <div class="testi-author-info">
+        <h4 class="testi-name">Mufeeda Sulfath A. P</h4>
+        <span class="testi-role-badge">BBA &middot; 2015–2018</span>
+      </div>
     </div>
   </div>
 </li>
 <li>
-  <div class="ajas-testi-slide-wrap">
-    <div class="wrap-info">
-      <div class="avatar"><img src="/assets/uploads/2024/05/Mohammed-sibin.jpeg" alt="Mohammed Shibin Faris"></div>
+  <div class="ajas-testi-card">
+    <div class="testi-photo-col">
+      <div class="testi-avatar-frame">
+        <img src="/assets/uploads/2024/05/Shadiya.jpeg" alt="Sadiya">
+      </div>
     </div>
-    <div class="wrap-quote">
-      <span class="icon-quote icon-icons8-get-quote-filled-100"></span>
-      <p class="speech">&ldquo; During my three years at Al Jamia I had incredible experiences. Coaches and teachers alike made learning and athletics rewarding. The community encouraged me to explore my interests and guided my academic choices. &rdquo;</p>
-      <div class="name">Mohammed Shibin Faris</div>
-      <div class="ajas-testi-role">B.Com CA, 2016–2019</div>
+    <div class="testi-content-col">
+      <div class="testi-quote-mark"><i class="fa fa-quote-left" aria-hidden="true"></i></div>
+      <p class="testi-speech">&ldquo; The years I spent here shaped both my academic direction and my confidence. I cherish this institution and am excited about the future it has prepared me for. &rdquo;</p>
+      <div class="testi-author-info">
+        <h4 class="testi-name">Sadiya</h4>
+        <span class="testi-role-badge">B.Sc. Psychology &middot; 2016–2019</span>
+      </div>
+    </div>
+  </div>
+</li>
+<li>
+  <div class="ajas-testi-card">
+    <div class="testi-photo-col">
+      <div class="testi-avatar-frame">
+        <img src="/assets/uploads/2024/05/Safwa.jpeg" alt="Safwa K">
+      </div>
+    </div>
+    <div class="testi-content-col">
+      <div class="testi-quote-mark"><i class="fa fa-quote-left" aria-hidden="true"></i></div>
+      <p class="testi-speech">&ldquo; The faculty made room for every question and pushed me further than I thought I could go. Graduating as first rank holder is something I owe to the mentoring I received here. &rdquo;</p>
+      <div class="testi-author-info">
+        <h4 class="testi-name">Safwa K</h4>
+        <span class="testi-role-badge">B.Sc. Psychology &middot; 1st Rank Holder</span>
+      </div>
+    </div>
+  </div>
+</li>
+<li>
+  <div class="ajas-testi-card">
+    <div class="testi-photo-col">
+      <div class="testi-avatar-frame">
+        <img src="/assets/uploads/2024/05/Mohammed-sibin.jpeg" alt="Mohammed Shibin Faris">
+      </div>
+    </div>
+    <div class="testi-content-col">
+      <div class="testi-quote-mark"><i class="fa fa-quote-left" aria-hidden="true"></i></div>
+      <p class="testi-speech">&ldquo; During my three years at Al Jamia I had incredible experiences. Coaches and teachers alike made learning and athletics rewarding. The community encouraged me to explore my interests and guided my academic choices. &rdquo;</p>
+      <div class="testi-author-info">
+        <h4 class="testi-name">Mohammed Shibin Faris</h4>
+        <span class="testi-role-badge">B.Com CA &middot; 2016–2019</span>
+      </div>
     </div>
   </div>
 </li>
 </ul>
+</div>
 </div>
 </div>
 </section><!-- testimonial --><section class="quick-link quick-link-style1 parallax parallax2 ajas-quicklink">
