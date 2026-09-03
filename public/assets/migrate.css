@@ -1238,19 +1238,62 @@ html.is-loaded #loading-overlay{
 /* ---------- What makes us different: media footages (single image carousel) ---------- */
 .ajas-media{padding:56px 0 64px;background:#f7f9fc;}
 .ajas-media .title-section{margin-bottom:16px;}
-.footages-carousel{max-width:960px;margin:24px auto 0;}
-.footages-carousel .gal-slide{display:block;padding:6px;}
+.footages-carousel{
+    position:relative;max-width:980px;margin:24px auto 0;border-radius:14px;}
+.footages-carousel .gal-slide{display:block;padding:4px;}
 .footages-carousel .gal-item{
-    display:block;border-radius:12px;overflow:hidden;box-shadow:0 14px 40px rgba(24,50,81,.16);
-    aspect-ratio:16/9;cursor:zoom-in;margin:0;background:#0c1e34;}
+    position:relative;display:block;border-radius:14px;overflow:hidden;
+    box-shadow:0 18px 48px rgba(24,50,81,.16);aspect-ratio:16/9;cursor:zoom-in;margin:0;background:#0c1e34;}
 .footages-carousel .gal-item img{
-    width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease;}
-.footages-carousel .gal-item:hover img{transform:scale(1.03);}
-.footages-carousel .owl-dots{text-align:center;margin-top:20px;}
-.footages-carousel .owl-dots .owl-dot{display:inline-block;margin:0 4px;}
+    width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease;}
+.footages-carousel .gal-item:hover img{transform:scale(1.025);}
+.footages-carousel .gal-caption{
+    position:absolute;left:0;right:0;bottom:0;
+    background:linear-gradient(to top,rgba(12,30,52,.92) 0%,rgba(12,30,52,.58) 65%,transparent 100%);
+    padding:44px 34px 26px;color:#fff;text-align:left;z-index:2;}
+.footages-carousel .gal-title{
+    font-size:22px;font-weight:600;color:#fff !important;margin:0 0 4px;line-height:1.25;}
+.footages-carousel .gal-sub{
+    font-size:14px;color:rgba(255,255,255,.88);display:block;font-weight:400;}
+
+/* Floating Arrow Controls */
+.footages-carousel .owl-nav{
+    position:absolute;top:50%;left:0;right:0;transform:translateY(-50%);
+    display:flex;justify-content:space-between;padding:0 16px;
+    pointer-events:none;z-index:10;margin:0;}
+.footages-carousel .owl-nav button.owl-prev,
+.footages-carousel .owl-nav button.owl-next{
+    pointer-events:auto;width:48px;height:48px;line-height:48px;border-radius:50%;
+    background:#ffffff !important;color:#183251 !important;box-shadow:0 8px 24px rgba(0,0,0,.26);
+    display:flex !important;align-items:center;justify-content:center;
+    font-size:22px !important;border:0 !important;outline:none !important;
+    transition:all .25s cubic-bezier(.2,.7,.3,1);cursor:pointer;opacity:.95;}
+.footages-carousel .owl-nav button.owl-prev:hover,
+.footages-carousel .owl-nav button.owl-next:hover{
+    background:#ff5f60 !important;color:#ffffff !important;transform:scale(1.12);
+    box-shadow:0 12px 30px rgba(255,95,96,.42);opacity:1;}
+.footages-carousel .owl-nav button.owl-prev i,
+.footages-carousel .owl-nav button.owl-next i{line-height:1;}
+
+/* Dots Pagination */
+.footages-carousel .owl-dots{
+    text-align:center;margin-top:22px;display:flex;align-items:center;justify-content:center;gap:7px;}
+.footages-carousel .owl-dots .owl-dot{
+    display:inline-block;padding:0 !important;background:none !important;border:0 !important;outline:none !important;}
 .footages-carousel .owl-dots .owl-dot span{
-    width:10px;height:10px;background:#cbd5e1;border-radius:50%;display:inline-block;}
-.footages-carousel .owl-dots .owl-dot.active span{background:#ff5f60;}
+    width:10px;height:10px;background:#cbd5e1 !important;border-radius:50% !important;
+    display:block;transition:all .3s cubic-bezier(.2,.7,.3,1);margin:0 !important;
+    font-size:0 !important;line-height:0 !important;color:transparent !important;}
+.footages-carousel .owl-dots .owl-dot.active span{
+    background:#ff5f60 !important;width:28px;border-radius:10px !important;}
+
+@media(max-width:767px){
+    .footages-carousel .gal-caption{padding:30px 20px 18px;}
+    .footages-carousel .gal-title{font-size:17px;}
+    .footages-carousel .gal-sub{font-size:12.5px;}
+    .footages-carousel .owl-nav button.owl-prev,
+    .footages-carousel .owl-nav button.owl-next{width:38px;height:38px;font-size:17px;}
+}
 
 /* Footer Google Map */
 .footer-map{padding:0 0 40px;background:#183251;}

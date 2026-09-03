@@ -251,14 +251,14 @@ are listed on the programmes page.</p>
 </div>
 <div class="flat-carousel-box data-effect clearfix" data-gap="0" data-column="1" data-column2="1" data-column3="1" data-column4="1" data-dots="true" data-auto="true" data-nav="true" data-loop="true">
 <div class="owl-carousel footages-carousel">
-<div class="gal-slide"><a class="gal-item" href="/assets/uploads/2024/01/P1222323-building-2048x1154-1.webp" rel="ajas-home-media" title="AJAS campus"><img src="/assets/uploads/2024/01/P1222323-building-2048x1154-1.webp" alt="AJAS campus"></a></div>
-<div class="gal-slide"><a class="gal-item" href="/assets/uploads/2025/03/WhatsApp-Image-2025-03-17-at-3.27.45-PM.jpeg" rel="ajas-home-media" title="Campus life"><img src="/assets/uploads/2025/03/WhatsApp-Image-2025-03-17-at-3.27.45-PM.jpeg" alt="Campus life"></a></div>
-<div class="gal-slide"><a class="gal-item" href="/assets/uploads/2025/03/WhatsApp-Image-2025-03-17-at-4.16.10-PM.jpeg" rel="ajas-home-media" title="Library"><img src="/assets/uploads/2025/03/WhatsApp-Image-2025-03-17-at-4.16.10-PM.jpeg" alt="Library"></a></div>
-<div class="gal-slide"><a class="gal-item" href="/assets/uploads/2024/05/IMG-20240430-WA0040-scaled.jpg" rel="ajas-home-media" title="Computer lab"><img src="/assets/uploads/2024/05/IMG-20240430-WA0040-scaled.jpg" alt="Computer lab"></a></div>
-<div class="gal-slide"><a class="gal-item" href="/assets/uploads/2026/05/WhatsApp-Image-2026-05-04-at-10.36.26-AM.jpeg" rel="ajas-home-media" title="Convocation 2026"><img src="/assets/uploads/2026/05/WhatsApp-Image-2026-05-04-at-10.36.26-AM.jpeg" alt="Convocation 2026"></a></div>
-<div class="gal-slide"><a class="gal-item" href="/assets/uploads/2026/06/WhatsApp-Image-2026-06-09-at-1.48.11-PM.jpeg" rel="ajas-home-media" title="Food Guard event"><img src="/assets/uploads/2026/06/WhatsApp-Image-2026-06-09-at-1.48.11-PM.jpeg" alt="Food Guard event"></a></div>
-<div class="gal-slide"><a class="gal-item" href="/assets/uploads/2026/04/WhatsApp-Image-2026-04-08-at-11.07.24-AM.jpeg" rel="ajas-home-media" title="Graduation ceremony 2026"><img src="/assets/uploads/2026/04/WhatsApp-Image-2026-04-08-at-11.07.24-AM.jpeg" alt="Graduation ceremony 2026"></a></div>
-<div class="gal-slide"><a class="gal-item" href="/assets/uploads/2026/02/WhatsApp-Image-2025-11-19-at-11.53.04-AM-2.jpeg" rel="ajas-home-media" title="BIOCODEZ"><img src="/assets/uploads/2026/02/WhatsApp-Image-2025-11-19-at-11.53.04-AM-2.jpeg" alt="BIOCODEZ"></a></div>
+<div class="gal-slide"><a class="gal-item" href="/assets/uploads/2024/01/P1222323-building-2048x1154-1.webp" rel="ajas-home-media" title="AJAS Main Campus"><img src="/assets/uploads/2024/01/P1222323-building-2048x1154-1.webp" alt="AJAS Main Campus"><div class="gal-caption"><h3 class="gal-title">AJAS Main Campus</h3><span class="gal-sub">Poopalam, Perinthalmanna</span></div></a></div>
+<div class="gal-slide"><a class="gal-item" href="/assets/uploads/2025/03/WhatsApp-Image-2025-03-17-at-3.27.45-PM.jpeg" rel="ajas-home-media" title="Vibrant Campus Life"><img src="/assets/uploads/2025/03/WhatsApp-Image-2025-03-17-at-3.27.45-PM.jpeg" alt="Vibrant Campus Life"><div class="gal-caption"><h3 class="gal-title">Vibrant Campus Life</h3><span class="gal-sub">Student community &amp; campus activities</span></div></a></div>
+<div class="gal-slide"><a class="gal-item" href="/assets/uploads/2025/03/WhatsApp-Image-2025-03-17-at-4.16.10-PM.jpeg" rel="ajas-home-media" title="Central Library &amp; Resource Centre"><img src="/assets/uploads/2025/03/WhatsApp-Image-2025-03-17-at-4.16.10-PM.jpeg" alt="Central Library &amp; Resource Centre"><div class="gal-caption"><h3 class="gal-title">Central Library &amp; Resource Centre</h3><span class="gal-sub">Extensive reference collections &amp; digital access</span></div></a></div>
+<div class="gal-slide"><a class="gal-item" href="/assets/uploads/2024/05/IMG-20240430-WA0040-scaled.jpg" rel="ajas-home-media" title="Advanced Computer Laboratory"><img src="/assets/uploads/2024/05/IMG-20240430-WA0040-scaled.jpg" alt="Advanced Computer Laboratory"><div class="gal-caption"><h3 class="gal-title">Advanced Computer Laboratory</h3><span class="gal-sub">High-performance computing &amp; software labs</span></div></a></div>
+<div class="gal-slide"><a class="gal-item" href="/assets/uploads/2026/05/WhatsApp-Image-2026-05-04-at-10.36.26-AM.jpeg" rel="ajas-home-media" title="Convocation Ceremony"><img src="/assets/uploads/2026/05/WhatsApp-Image-2026-05-04-at-10.36.26-AM.jpeg" alt="Convocation Ceremony"><div class="gal-caption"><h3 class="gal-title">Convocation Ceremony</h3><span class="gal-sub">Celebrating student achievements and milestones</span></div></a></div>
+<div class="gal-slide"><a class="gal-item" href="/assets/uploads/2026/06/WhatsApp-Image-2026-06-09-at-1.48.11-PM.jpeg" rel="ajas-home-media" title="Food Guard Awareness Campaign"><img src="/assets/uploads/2026/06/WhatsApp-Image-2026-06-09-at-1.48.11-PM.jpeg" alt="Food Guard Awareness Campaign"><div class="gal-caption"><h3 class="gal-title">Food Guard Awareness Campaign</h3><span class="gal-sub">Department of Food Technology initiative</span></div></a></div>
+<div class="gal-slide"><a class="gal-item" href="/assets/uploads/2026/04/WhatsApp-Image-2026-04-08-at-11.07.24-AM.jpeg" rel="ajas-home-media" title="Graduation Day 2023–26"><img src="/assets/uploads/2026/04/WhatsApp-Image-2026-04-08-at-11.07.24-AM.jpeg" alt="Graduation Day 2023–26"><div class="gal-caption"><h3 class="gal-title">Graduation Day 2023–26</h3><span class="gal-sub">Honouring our graduating batches</span></div></a></div>
+<div class="gal-slide"><a class="gal-item" href="/assets/uploads/2026/02/WhatsApp-Image-2025-11-19-at-11.53.04-AM-2.jpeg" rel="ajas-home-media" title="BIOCODEZ National Seminar"><img src="/assets/uploads/2026/02/WhatsApp-Image-2025-11-19-at-11.53.04-AM-2.jpeg" alt="BIOCODEZ National Seminar"><div class="gal-caption"><h3 class="gal-title">BIOCODEZ National Seminar</h3><span class="gal-sub">Department of Microbiology seminar &amp; workshop</span></div></a></div>
 </div>
 </div>
 <div class="text-center pd-top30"><a href="/college-news/" class="btn bg-clff5f60 ajas-apply-btn">More campus news &amp; events</a></div>
@@ -458,65 +458,7 @@ are listed on the programmes page.</p>
 </ul>
 </div>
 </div>
-</section><!-- testimonial --><section class="latest-blog cl-dots1 latest-blog-type1 latest-blog-style1 ajas-news">
-<div class="container">
-<div class="title-section"><div class="flat-title small heading-type4">Campus news</div></div>
-<div class="flat-carousel-box data-effect clearfix" data-gap="30" data-column="2" data-column2="2" data-column3="1" data-column4="1" data-dots="true" data-auto="false" data-nav="false">
-<div class="owl-carousel"><article class="post post-style1 post-bg">
-<div class="bg clearfix">
-<div class="position cl-fe5e5f lt-sp4">NEWS</div>
-<div class="featured-post"><img src="/assets/uploads/2026/02/WhatsApp-Image-2025-11-19-at-11.53.04-AM-2.jpeg" alt="BIOCODEZ"></div>
-</div>
-<div class="post-content clearfix">
-<div class="entry-info cleafix"><div class="post-title"><h5><a href="/college-news/biocodez/" class="lt-sp04">BIOCODEZ</a></h5></div></div>
-<div class="ajas-post-date">February 3, 2026</div>
-<div class="post-link"><a href="/college-news/biocodez/">Read Now</a></div>
-</div>
-</article><article class="post post-style1 post-bg">
-<div class="bg clearfix">
-<div class="position cl-fe5e5f lt-sp4">NEWS</div>
-<div class="featured-post"><img src="/assets/uploads/2026/04/WhatsApp-Image-2026-04-08-at-11.07.24-AM.jpeg" alt="GRADUATION CEREMONY 2026"></div>
-</div>
-<div class="post-content clearfix">
-<div class="entry-info cleafix"><div class="post-title"><h5><a href="/college-news/graduation-ceremony-2026/" class="lt-sp04">GRADUATION CEREMONY 2026</a></h5></div></div>
-<div class="ajas-post-date">April 8, 2026</div>
-<div class="post-link"><a href="/college-news/graduation-ceremony-2026/">Read Now</a></div>
-</div>
-</article><article class="post post-style1 post-bg">
-<div class="bg clearfix">
-<div class="position cl-fe5e5f lt-sp4">NEWS</div>
-<div class="featured-post"><img src="/assets/uploads/2026/02/WhatsApp-Image-2026-01-23-at-6.02.43-PM.jpeg" alt="GUSTOZA FOOD FEST"></div>
-</div>
-<div class="post-content clearfix">
-<div class="entry-info cleafix"><div class="post-title"><h5><a href="/college-news/gustoza-food-fest/" class="lt-sp04">GUSTOZA FOOD FEST</a></h5></div></div>
-<div class="ajas-post-date">February 3, 2026</div>
-<div class="post-link"><a href="/college-news/gustoza-food-fest/">Read Now</a></div>
-</div>
-</article><article class="post post-style1 post-bg">
-<div class="bg clearfix">
-<div class="position cl-fe5e5f lt-sp4">NEWS</div>
-<div class="featured-post"><img src="/assets/uploads/2026/04/WhatsApp-Image-2026-03-12-at-10.29.02-AM.jpeg" alt="LAUREATUS 2026 Honouring Achievers"></div>
-</div>
-<div class="post-content clearfix">
-<div class="entry-info cleafix"><div class="post-title"><h5><a href="/college-news/laureatus-2026-honouring-achievers/" class="lt-sp04">LAUREATUS 2026 Honouring Achievers</a></h5></div></div>
-<div class="ajas-post-date">April 6, 2026</div>
-<div class="post-link"><a href="/college-news/laureatus-2026-honouring-achievers/">Read Now</a></div>
-</div>
-</article><article class="post post-style1 post-bg">
-<div class="bg clearfix">
-<div class="position cl-fe5e5f lt-sp4">NEWS</div>
-<div class="featured-post"><img src="/assets/uploads/2026/04/WhatsApp-Image-2026-04-21-at-9.30.24-PM.jpeg" alt="WORLD EARTH DAY"></div>
-</div>
-<div class="post-content clearfix">
-<div class="entry-info cleafix"><div class="post-title"><h5><a href="/college-news/world-earth-day/" class="lt-sp04">WORLD EARTH DAY</a></h5></div></div>
-<div class="ajas-post-date">April 22, 2026</div>
-<div class="post-link"><a href="/college-news/world-earth-day/">Read Now</a></div>
-</div>
-</article></div>
-</div>
-<div class="text-center pd-top30"><a href="/college-news/" class="btn bg-clff5f60 ajas-apply-btn">More news</a></div>
-</div>
-</section><!-- latest-blog --><section class="quick-link quick-link-style1 parallax parallax2 ajas-quicklink">
+</section><!-- testimonial --><section class="quick-link quick-link-style1 parallax parallax2 ajas-quicklink">
 <div class="section-overlay"></div>
 <div class="container"><div class="row">
 <div class="col-lg-7">

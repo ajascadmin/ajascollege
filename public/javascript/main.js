@@ -33,42 +33,34 @@
                     item3 = $this.data("column3"),
                     item4 = $this.data("column4"),
                     loops = $this.data("loop"),
-                    
                     gap = Number($this.data("gap")),
-                   
                     dots = $this.data("dots"),
                     nav = $this.data("nav");
 
                     $this.find('.owl-carousel').owlCarousel({
                         margin: gap,
-                        loop:loops,
-                        dots:dots,
-                        nav: nav,
-                        navigation : true,
-                        pagination: true,
-                        autoplay: auto,
+                        loop: loops !== undefined ? loops : true,
+                        dots: dots !== undefined ? dots : true,
+                        nav: nav !== undefined ? nav : true,
+                        navText: ['<i class="fa fa-angle-left" aria-hidden="true"></i>', '<i class="fa fa-angle-right" aria-hidden="true"></i>'],
+                        autoplay: auto !== undefined ? auto : true,
                         autoplayTimeout: 5000,
+                        autoplayHoverPause: true,
+                        smartSpeed: 600,
                         responsive: {
                             0:{
-                                items:item4
+                                items: item4 || 1
                             },
                             600:{
-                                items:item3
+                                items: item3 || 1
                             },
                             768:{
-                                items:item2
+                                items: item2 || 1
                             },
                             1000:{
-                                items:item
+                                items: item || 1
                             }
                         }
-                    });
-                    $('.owl-dot').each(function(){
-
-                        $(this).children('span').html($(this).index()+1);
-
-                        $(this).children('span').addClass(" btn-dots btn-defect");
-
                     });
                 });
             }
