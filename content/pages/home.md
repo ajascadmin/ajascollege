@@ -249,15 +249,17 @@ are listed on the programmes page.</p>
 <p class="sub-title lt-sp17">What makes us different</p>
 <h2 class="flat-title medium">Campus &amp; event footages</h2>
 </div>
-<div class="gallery-grid">
-<a class="gal-item" href="/assets/uploads/2024/01/P1222323-building-2048x1154-1.webp" rel="ajas-home-media" title="AJAS campus"><img src="/assets/uploads/2024/01/P1222323-building-2048x1154-1.webp" alt="AJAS campus"></a>
-<a class="gal-item" href="/assets/uploads/2025/03/WhatsApp-Image-2025-03-17-at-3.27.45-PM.jpeg" rel="ajas-home-media" title="Campus life"><img src="/assets/uploads/2025/03/WhatsApp-Image-2025-03-17-at-3.27.45-PM.jpeg" alt="Campus life"></a>
-<a class="gal-item" href="/assets/uploads/2025/03/WhatsApp-Image-2025-03-17-at-4.16.10-PM.jpeg" rel="ajas-home-media" title="Campus life"><img src="/assets/uploads/2025/03/WhatsApp-Image-2025-03-17-at-4.16.10-PM.jpeg" alt="Campus life"></a>
-<a class="gal-item" href="/assets/uploads/2024/05/IMG-20240430-WA0040-scaled.jpg" rel="ajas-home-media" title="Computer lab"><img src="/assets/uploads/2024/05/IMG-20240430-WA0040-scaled.jpg" alt="Computer lab"></a>
-<a class="gal-item" href="/assets/uploads/2026/05/WhatsApp-Image-2026-05-04-at-10.36.26-AM.jpeg" rel="ajas-home-media" title="Convocation 2026"><img src="/assets/uploads/2026/05/WhatsApp-Image-2026-05-04-at-10.36.26-AM.jpeg" alt="Convocation 2026"></a>
-<a class="gal-item" href="/assets/uploads/2026/06/WhatsApp-Image-2026-06-09-at-1.48.11-PM.jpeg" rel="ajas-home-media" title="Food Guard event"><img src="/assets/uploads/2026/06/WhatsApp-Image-2026-06-09-at-1.48.11-PM.jpeg" alt="Food Guard event"></a>
-<a class="gal-item" href="/assets/uploads/2026/04/WhatsApp-Image-2026-04-08-at-11.07.24-AM.jpeg" rel="ajas-home-media" title="Graduation ceremony 2026"><img src="/assets/uploads/2026/04/WhatsApp-Image-2026-04-08-at-11.07.24-AM.jpeg" alt="Graduation ceremony 2026"></a>
-<a class="gal-item" href="/assets/uploads/2026/02/WhatsApp-Image-2025-11-19-at-11.53.04-AM-2.jpeg" rel="ajas-home-media" title="BIOCODEZ"><img src="/assets/uploads/2026/02/WhatsApp-Image-2025-11-19-at-11.53.04-AM-2.jpeg" alt="BIOCODEZ"></a>
+<div class="flat-carousel-box data-effect clearfix" data-gap="0" data-column="1" data-column2="1" data-column3="1" data-column4="1" data-dots="true" data-auto="true" data-nav="true" data-loop="true">
+<div class="owl-carousel footages-carousel">
+<div class="gal-slide"><a class="gal-item" href="/assets/uploads/2024/01/P1222323-building-2048x1154-1.webp" rel="ajas-home-media" title="AJAS campus"><img src="/assets/uploads/2024/01/P1222323-building-2048x1154-1.webp" alt="AJAS campus"></a></div>
+<div class="gal-slide"><a class="gal-item" href="/assets/uploads/2025/03/WhatsApp-Image-2025-03-17-at-3.27.45-PM.jpeg" rel="ajas-home-media" title="Campus life"><img src="/assets/uploads/2025/03/WhatsApp-Image-2025-03-17-at-3.27.45-PM.jpeg" alt="Campus life"></a></div>
+<div class="gal-slide"><a class="gal-item" href="/assets/uploads/2025/03/WhatsApp-Image-2025-03-17-at-4.16.10-PM.jpeg" rel="ajas-home-media" title="Library"><img src="/assets/uploads/2025/03/WhatsApp-Image-2025-03-17-at-4.16.10-PM.jpeg" alt="Library"></a></div>
+<div class="gal-slide"><a class="gal-item" href="/assets/uploads/2024/05/IMG-20240430-WA0040-scaled.jpg" rel="ajas-home-media" title="Computer lab"><img src="/assets/uploads/2024/05/IMG-20240430-WA0040-scaled.jpg" alt="Computer lab"></a></div>
+<div class="gal-slide"><a class="gal-item" href="/assets/uploads/2026/05/WhatsApp-Image-2026-05-04-at-10.36.26-AM.jpeg" rel="ajas-home-media" title="Convocation 2026"><img src="/assets/uploads/2026/05/WhatsApp-Image-2026-05-04-at-10.36.26-AM.jpeg" alt="Convocation 2026"></a></div>
+<div class="gal-slide"><a class="gal-item" href="/assets/uploads/2026/06/WhatsApp-Image-2026-06-09-at-1.48.11-PM.jpeg" rel="ajas-home-media" title="Food Guard event"><img src="/assets/uploads/2026/06/WhatsApp-Image-2026-06-09-at-1.48.11-PM.jpeg" alt="Food Guard event"></a></div>
+<div class="gal-slide"><a class="gal-item" href="/assets/uploads/2026/04/WhatsApp-Image-2026-04-08-at-11.07.24-AM.jpeg" rel="ajas-home-media" title="Graduation ceremony 2026"><img src="/assets/uploads/2026/04/WhatsApp-Image-2026-04-08-at-11.07.24-AM.jpeg" alt="Graduation ceremony 2026"></a></div>
+<div class="gal-slide"><a class="gal-item" href="/assets/uploads/2026/02/WhatsApp-Image-2025-11-19-at-11.53.04-AM-2.jpeg" rel="ajas-home-media" title="BIOCODEZ"><img src="/assets/uploads/2026/02/WhatsApp-Image-2025-11-19-at-11.53.04-AM-2.jpeg" alt="BIOCODEZ"></a></div>
+</div>
 </div>
 <div class="text-center pd-top30"><a href="/college-news/" class="btn bg-clff5f60 ajas-apply-btn">More campus news &amp; events</a></div>
 </div>
@@ -371,42 +373,90 @@ are listed on the programmes page.</p>
 </div>
 </div></div>
 </div>
-</section><!-- flat-event --><section class="slider testimonial-flexslider testimonial-style1 equalize sm-equalize-auto clearfix ajas-testimonials">
-<div class="wrap-info themesflat-content-box" data-padding="0% 0% 0% 10%" data-mobipadding="0% 0% 0% 0%" data-smobipadding="0% 0% 0% 0%">
-<div id="carousel-testimonial" class="flexslider"><ul class="slides"><li class="avatar"><img src="/assets/uploads/2024/05/Mohammed-Azeer.jpeg" alt="Mohammed Azeer"></li><li class="avatar"><img src="/assets/uploads/2024/05/Mohammed-sabeel.jpeg" alt="Mohammed Shabeel K."></li><li class="avatar"><img src="/assets/uploads/2024/05/559.jpg" alt="Mufeeda Sulfath A. P"></li><li class="avatar"><img src="/assets/uploads/2024/05/Shadiya.jpeg" alt="Sadiya"></li><li class="avatar"><img src="/assets/uploads/2024/05/Safwa.jpeg" alt="Safwa K"></li><li class="avatar"><img src="/assets/uploads/2024/05/Mohammed-sibin.jpeg" alt="Mohammed Shibin Faris"></li></ul></div>
+</section><!-- flat-event --><section class="slider testimonial-flexslider testimonial-style1 clearfix ajas-testimonials">
+<div class="container-fluid p-0">
+<div id="slider-testimonial" class="flexslider">
+<ul class="slides">
+<li>
+  <div class="ajas-testi-slide-wrap">
+    <div class="wrap-info">
+      <div class="avatar"><img src="/assets/uploads/2024/05/Mohammed-Azeer.jpeg" alt="Mohammed Azeer"></div>
+    </div>
+    <div class="wrap-quote">
+      <span class="icon-quote icon-icons8-get-quote-filled-100"></span>
+      <p class="speech">&ldquo; I am glad I chose Al Jamia Arts and Science College, which has guided me towards my goals and supported me in every way. Everyone here is an expert in their field, making it an excellent platform for students aiming for higher studies. &rdquo;</p>
+      <div class="name">Mohammed Azeer</div>
+      <div class="ajas-testi-role">MA Islamic Finance, 2016–2018</div>
+    </div>
+  </div>
+</li>
+<li>
+  <div class="ajas-testi-slide-wrap">
+    <div class="wrap-info">
+      <div class="avatar"><img src="/assets/uploads/2024/05/Mohammed-sabeel.jpeg" alt="Mohammed Shabeel K."></div>
+    </div>
+    <div class="wrap-quote">
+      <span class="icon-quote icon-icons8-get-quote-filled-100"></span>
+      <p class="speech">&ldquo; I have loved my three years studying BBA at Al Jamia. The college sharpened my analytical, management and problem-solving skills, preparing me to be a creative and influential leader who will make a difference. &rdquo;</p>
+      <div class="name">Mohammed Shabeel K.</div>
+      <div class="ajas-testi-role">BBA Finance, 2016–2019</div>
+    </div>
+  </div>
+</li>
+<li>
+  <div class="ajas-testi-slide-wrap">
+    <div class="wrap-info">
+      <div class="avatar"><img src="/assets/uploads/2024/05/559.jpg" alt="Mufeeda Sulfath A. P"></div>
+    </div>
+    <div class="wrap-quote">
+      <span class="icon-quote icon-icons8-get-quote-filled-100"></span>
+      <p class="speech">&ldquo; From 2015 to 2018 I attended Al Jamia Arts and Science College, where I made lasting connections and felt at home. The support and knowledge I gained there have left a lasting impact on me. &rdquo;</p>
+      <div class="name">Mufeeda Sulfath A. P</div>
+      <div class="ajas-testi-role">BBA, 2015–2018</div>
+    </div>
+  </div>
+</li>
+<li>
+  <div class="ajas-testi-slide-wrap">
+    <div class="wrap-info">
+      <div class="avatar"><img src="/assets/uploads/2024/05/Shadiya.jpeg" alt="Sadiya"></div>
+    </div>
+    <div class="wrap-quote">
+      <span class="icon-quote icon-icons8-get-quote-filled-100"></span>
+      <p class="speech">&ldquo; The years I spent here shaped both my academic direction and my confidence. I cherish this institution and am excited about the future it has prepared me for. &rdquo;</p>
+      <div class="name">Sadiya</div>
+      <div class="ajas-testi-role">B.Sc. Psychology, 2016–2019</div>
+    </div>
+  </div>
+</li>
+<li>
+  <div class="ajas-testi-slide-wrap">
+    <div class="wrap-info">
+      <div class="avatar"><img src="/assets/uploads/2024/05/Safwa.jpeg" alt="Safwa K"></div>
+    </div>
+    <div class="wrap-quote">
+      <span class="icon-quote icon-icons8-get-quote-filled-100"></span>
+      <p class="speech">&ldquo; The faculty made room for every question and pushed me further than I thought I could go. Graduating as first rank holder is something I owe to the mentoring I received here. &rdquo;</p>
+      <div class="name">Safwa K</div>
+      <div class="ajas-testi-role">B.Sc. Psychology, 2016–2019 · 1st Rank Holder</div>
+    </div>
+  </div>
+</li>
+<li>
+  <div class="ajas-testi-slide-wrap">
+    <div class="wrap-info">
+      <div class="avatar"><img src="/assets/uploads/2024/05/Mohammed-sibin.jpeg" alt="Mohammed Shibin Faris"></div>
+    </div>
+    <div class="wrap-quote">
+      <span class="icon-quote icon-icons8-get-quote-filled-100"></span>
+      <p class="speech">&ldquo; During my three years at Al Jamia I had incredible experiences. Coaches and teachers alike made learning and athletics rewarding. The community encouraged me to explore my interests and guided my academic choices. &rdquo;</p>
+      <div class="name">Mohammed Shibin Faris</div>
+      <div class="ajas-testi-role">B.Com CA, 2016–2019</div>
+    </div>
+  </div>
+</li>
+</ul>
 </div>
-<div class="wrap-quote themesflat-content-box" data-padding="10.47% 14.1% 0% 0%" data-mobipadding="90px 15px 80px 15px" data-smobipadding="90px 15px 80px 15px">
-<div id="slider-testimonial" class="flexslider"><ul class="slides client-info"><li>
-<span class="icon-quote icon-icons8-get-quote-filled-100"></span>
-<p class="speech">&ldquo; I am glad I chose Al Jamia Arts and Science College, which has guided me towards my goals and supported me in every way. Everyone here is an expert in their field, making it an excellent platform for students aiming for higher studies.</p>
-<div class="name">Mohammed Azeer</div>
-<div class="ajas-testi-role">MA Islamic Finance, 2016–2018</div>
-</li><li>
-<span class="icon-quote icon-icons8-get-quote-filled-100"></span>
-<p class="speech">&ldquo; I have loved my three years studying BBA at Al Jamia. The college sharpened my analytical, management and problem-solving skills, preparing me to be a creative and influential leader who will make a difference.</p>
-<div class="name">Mohammed Shabeel K.</div>
-<div class="ajas-testi-role">BBA Finance, 2016–2019</div>
-</li><li>
-<span class="icon-quote icon-icons8-get-quote-filled-100"></span>
-<p class="speech">&ldquo; From 2015 to 2018 I attended Al Jamia Arts and Science College, where I made lasting connections and felt at home. The support and knowledge I gained there have left a lasting impact on me.</p>
-<div class="name">Mufeeda Sulfath A. P</div>
-<div class="ajas-testi-role">BBA, 2015–2018</div>
-</li><li>
-<span class="icon-quote icon-icons8-get-quote-filled-100"></span>
-<p class="speech">&ldquo; The years I spent here shaped both my academic direction and my confidence. I cherish this institution and am excited about the future it has prepared me for.</p>
-<div class="name">Sadiya</div>
-<div class="ajas-testi-role">B.Sc. Psychology, 2016–2019</div>
-</li><li>
-<span class="icon-quote icon-icons8-get-quote-filled-100"></span>
-<p class="speech">&ldquo; The faculty made room for every question and pushed me further than I thought I could go. Graduating as first rank holder is something I owe to the mentoring I received here.</p>
-<div class="name">Safwa K</div>
-<div class="ajas-testi-role">B.Sc. Psychology, 2016–2019 · 1st Rank Holder</div>
-</li><li>
-<span class="icon-quote icon-icons8-get-quote-filled-100"></span>
-<p class="speech">&ldquo; During my three years at Al Jamia I had incredible experiences. Coaches and teachers alike made learning and athletics rewarding. The community encouraged me to explore my interests and guided my academic choices.</p>
-<div class="name">Mohammed Shibin Faris</div>
-<div class="ajas-testi-role">B.Com CA, 2016–2019</div>
-</li></ul></div>
 </div>
 </section><!-- testimonial --><section class="latest-blog cl-dots1 latest-blog-type1 latest-blog-style1 ajas-news">
 <div class="container">
@@ -421,16 +471,6 @@ are listed on the programmes page.</p>
 <div class="entry-info cleafix"><div class="post-title"><h5><a href="/college-news/biocodez/" class="lt-sp04">BIOCODEZ</a></h5></div></div>
 <div class="ajas-post-date">February 3, 2026</div>
 <div class="post-link"><a href="/college-news/biocodez/">Read Now</a></div>
-</div>
-</article><article class="post post-style1 post-bg">
-<div class="bg clearfix">
-<div class="position cl-fe5e5f lt-sp4">NEWS</div>
-<div class="featured-post"><img src="/assets/uploads/2026/04/WhatsApp-Image-2026-04-06-at-1.56.06-PM.jpeg" alt="Congratulations"></div>
-</div>
-<div class="post-content clearfix">
-<div class="entry-info cleafix"><div class="post-title"><h5><a href="/college-news/congratulations/" class="lt-sp04">Congratulations</a></h5></div></div>
-<div class="ajas-post-date">April 6, 2026</div>
-<div class="post-link"><a href="/college-news/congratulations/">Read Now</a></div>
 </div>
 </article><article class="post post-style1 post-bg">
 <div class="bg clearfix">

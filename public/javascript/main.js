@@ -254,22 +254,14 @@
     }; 
 
     var testimonialSlider2 = function() {
-        if ($('#carousel-testimonial').length && $('#slider-testimonial').length) {
-            $('#carousel-testimonial').flexslider({
-                animation: "slide",
-                controlNav: false,
-                directionNav: false,
-                animationLoop: false,
-                slideshow: false
-            });
-
+        if ($('#slider-testimonial').length) {
             $('#slider-testimonial').flexslider({
                 animation: "slide",
                 controlNav: true,
                 directionNav: false,
-                animationLoop: false,
-                slideshow: false,
-                sync: "#carousel-testimonial"
+                animationLoop: true,
+                slideshow: true,
+                slideshowSpeed: 6000
             });
         }
     }; 

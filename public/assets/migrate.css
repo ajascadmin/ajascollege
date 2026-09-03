@@ -704,38 +704,43 @@ body.hero-hold .header-sticky #main-nav>ul.menu>li>a{font-size:14px;}
 .ajas-news .post-content .post-link a{color:#ff5f60;font-size:15px;}
 .ajas-news .owl-dots{margin-top:34px;}
 
-/* Testimonials — single photo per testimonial slide */
+/* Testimonials — single photo per slide next to matching testimonial */
+.ajas-testimonials{background:#f7f9fc;position:relative;overflow:hidden;}
+.ajas-testimonials .flexslider{background:none;border:0;margin:0;box-shadow:none;border-radius:0;}
+.ajas-testimonials .flex-viewport{overflow:hidden;}
+.ajas-testimonials .slides{margin:0;padding:0;list-style:none;}
+.ajas-testimonials .slides > li{margin:0;padding:0;list-style:none;}
+.ajas-testi-slide-wrap{display:flex;flex-wrap:wrap;min-height:480px;}
 .ajas-testimonials .wrap-info{
-    background-image:linear-gradient(135deg,rgba(24,50,81,.90),rgba(63,76,153,.86)),
+    width:42%;background-image:linear-gradient(135deg,rgba(24,50,81,.92),rgba(63,76,153,.88)),
         url('uploads/2025/03/WhatsApp-Image-2025-03-17-at-4.20.43-PM.jpeg') !important;
     background-size:cover !important;background-position:center !important;
-    display:flex;align-items:center;justify-content:center;padding:70px 40px !important;}
-.ajas-testimonials .wrap-info .flexslider{width:100%;max-width:260px;background:none;border:0;margin:0 auto;text-align:center;}
-.ajas-testimonials .wrap-info .flex-viewport{overflow:hidden !important;width:100% !important;height:auto !important;}
-.ajas-testimonials .wrap-info ul.slides{
-    display:block !important;width:100% !important;height:auto !important;
-    margin:0 !important;padding:0 !important;list-style:none;}
-.ajas-testimonials .wrap-info ul li.avatar{
-    position:relative !important;top:auto !important;left:auto !important;bottom:auto !important;
-    width:100% !important;float:left !important;display:block !important;list-style:none;text-align:center;padding:10px 0;}
-.ajas-testimonials .wrap-info ul li.avatar img{
-    width:160px;height:160px;border-radius:50%;object-fit:cover;object-position:center top;margin:0 auto;
-    border:5px solid rgba(255,255,255,.35);box-shadow:0 14px 34px rgba(0,0,0,.35);display:block;}
+    display:flex;align-items:center;justify-content:center;padding:60px 40px;}
+.ajas-testimonials .wrap-info .avatar{text-align:center;width:100%;}
+.ajas-testimonials .wrap-info .avatar img{
+    width:180px;height:180px;border-radius:50%;object-fit:cover;object-position:center top;
+    border:6px solid rgba(255,255,255,.35);box-shadow:0 18px 44px rgba(0,0,0,.35);display:block;margin:0 auto;}
 .ajas-testimonials .wrap-quote{
-    background-image:none !important;background:#f7f9fc;
-    padding:80px 70px !important;display:flex;align-items:center;min-height:100%;}
-.ajas-testimonials{display:flex;flex-wrap:wrap;}
-.ajas-testimonials .wrap-info,.ajas-testimonials .wrap-quote{width:50%;float:none;}
-@media(max-width:991px){.ajas-testimonials .wrap-info,.ajas-testimonials .wrap-quote{width:100%;}}
-.ajas-testimonials .wrap-quote .flexslider{width:100%;background:none;border:0;}
-.ajas-testimonials .wrap-quote .client-info li .speech{
-    font-size:17px;line-height:31px;color:#5c6b7f;margin:26px 0 20px;}
-.ajas-testimonials .wrap-quote .client-info li .name{color:#183251;font-size:17px;}
-.ajas-testimonials .wrap-quote .flex-control-nav{
-    writing-mode:horizontal-tb;text-orientation:mixed;position:static;margin-top:26px;text-align:center;}
-.ajas-testimonials .wrap-quote .flex-control-nav li{display:inline-block;margin:0 5px;}
-.ajas-testimonials .wrap-quote .flex-control-paging li a{background:#d5dde7;width:10px;height:10px;}
-.ajas-testimonials .wrap-quote .flex-control-paging li a.flex-active{background:#ff5f60;}
+    width:58%;background:#f7f9fc;padding:80px 80px 60px 70px;display:flex;flex-direction:column;justify-content:center;}
+.ajas-testimonials .wrap-quote .icon-quote{font-size:36px;color:#ff5f60;margin-bottom:12px;}
+.ajas-testimonials .wrap-quote .speech{font-size:18px;line-height:32px;color:#475569;margin:0 0 24px;}
+.ajas-testimonials .wrap-quote .name{color:#183251;font-size:19px;font-weight:600;}
+.ajas-testimonials .wrap-quote .ajas-testi-role{font-size:13.5px;color:#8a99ad;margin-top:6px;letter-spacing:.3px;font-weight:500;}
+.ajas-testimonials .flex-control-nav{
+    position:absolute;bottom:26px;right:0;width:58%;text-align:left;padding-left:70px;z-index:10;
+    writing-mode:horizontal-tb;text-orientation:mixed;}
+.ajas-testimonials .flex-control-paging li{display:inline-block;margin:0 5px;}
+.ajas-testimonials .flex-control-paging li a{
+    background:#cbd5e1;width:11px;height:11px;border-radius:50%;display:inline-block;cursor:pointer;}
+.ajas-testimonials .flex-control-paging li a.flex-active{background:#ff5f60;transform:scale(1.2);}
+
+@media(max-width:991px){
+    .ajas-testimonials .wrap-info{width:100%;padding:44px 20px;}
+    .ajas-testimonials .wrap-quote{width:100%;padding:40px 24px 60px;}
+    .ajas-testimonials .wrap-info .avatar img{width:130px;height:130px;}
+    .ajas-testimonials .flex-control-nav{width:100%;text-align:center;padding-left:0;bottom:18px;}
+    .ajas-testi-slide-wrap{min-height:0;}
+}
 .ajas-events .img-event img{width:100%;height:100%;object-fit:cover;}
 
 /* blog listing cards */
@@ -1230,14 +1235,29 @@ html.is-loaded #loading-overlay{
     position:relative;z-index:1;margin:0;color:#fff;font-size:19px;line-height:1.6;
     font-family:'Source Serif 4',Georgia,serif;font-style:italic;text-align:center;}
 
-/* ---------- What makes us different: media footages ---------- */
+/* ---------- What makes us different: media footages (single image carousel) ---------- */
 .ajas-media{padding:56px 0 64px;background:#f7f9fc;}
-.ajas-media .title-section{margin-bottom:8px;}
-.gallery-grid{
-    display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:28px;}
-.gal-item{display:block;border-radius:8px;overflow:hidden;box-shadow:0 6px 22px rgba(24,50,81,.1);
-    aspect-ratio:4/3;cursor:zoom-in;margin:0;}
-.gal-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease;}
-.gal-item:hover img{transform:scale(1.06);}
-@media(min-width:640px){.gallery-grid{grid-template-columns:repeat(3,1fr);}}
-@media(min-width:900px){.gallery-grid{grid-template-columns:repeat(4,1fr);}}
+.ajas-media .title-section{margin-bottom:16px;}
+.footages-carousel{max-width:960px;margin:24px auto 0;}
+.footages-carousel .gal-slide{display:block;padding:6px;}
+.footages-carousel .gal-item{
+    display:block;border-radius:12px;overflow:hidden;box-shadow:0 14px 40px rgba(24,50,81,.16);
+    aspect-ratio:16/9;cursor:zoom-in;margin:0;background:#0c1e34;}
+.footages-carousel .gal-item img{
+    width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease;}
+.footages-carousel .gal-item:hover img{transform:scale(1.03);}
+.footages-carousel .owl-dots{text-align:center;margin-top:20px;}
+.footages-carousel .owl-dots .owl-dot{display:inline-block;margin:0 4px;}
+.footages-carousel .owl-dots .owl-dot span{
+    width:10px;height:10px;background:#cbd5e1;border-radius:50%;display:inline-block;}
+.footages-carousel .owl-dots .owl-dot.active span{background:#ff5f60;}
+
+/* Footer Google Map */
+.footer-map{padding:0 0 40px;background:#183251;}
+.footer-map-inner{
+    border-radius:10px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,.28);
+    border:1px solid rgba(255,255,255,.12);}
+.footer-map iframe{width:100%;height:250px;border:0;display:block;}
+@media(max-width:767px){
+    .footer-map iframe{height:200px;}
+}
