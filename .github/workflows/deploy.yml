@@ -76,8 +76,18 @@ jobs:
           cat /tmp/cf-pages.json || true
           echo ""
 
-          if [ "$code2" != "200" ]; then
-            echo "::error::Token is valid but cannot access Pages project 'ajascollege' on account ${ACCOUNT:0:6}… (HTTP $code2). Token needs Account → Cloudflare Pages → Edit, and Account Resources must include this account. Also confirm CLOUDFLARE_ACCOUNT_ID is 885696ed5faef85a5de48ee3fda26f4f"
+          if [ "$code2" = "404" ]; then
+            echo "Pages project 'ajascollege' does not exist yet on this account. Creating it automatically..."
+            create_code=$(curl -sS -o /tmp/cf-create.json -w "%{http_code}" -X POST \
+              -H "Authorization: Bearer ${TOKEN}" \
+              -H "Content-Type: application/json" \
+              -d '{"name":"ajascollege","production_branch":"main"}' \
+              "https://api.cloudflare.com/client/v4/accounts/${ACCOUNT}/pages/projects" || echo "000")
+            echo "pages create → HTTP $create_code"
+            cat /tmp/cf-create.json || true
+            echo ""
+          elif [ "$code2" != "200" ]; then
+            echo "::error::Token is valid but cannot access Pages project on account ${ACCOUNT:0:6}… (HTTP $code2). Ensure token has Account → Cloudflare Pages → Edit permission."
             exit 1
           fi
 
