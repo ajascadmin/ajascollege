@@ -569,16 +569,16 @@ body.hero-hold .header-sticky #main-nav>ul.menu>li>a{font-size:14px;}
     min-height:0;}
 .hero-media{position:relative;z-index:0;width:100%;}
 .hero-video{
-    display:block;width:100%;height:auto;max-height:min(78vh,820px);
-    object-fit:cover;object-position:center center;background:#0c1e34;}
+    display:block;width:100%;height:auto;aspect-ratio:16/9;
+    object-fit:contain;background:#0c1e34;}
 /* keep legacy class hooks so reduced-motion script still finds the player */
 .hero-layer,.hero-scrim,.hero-inner,.hero-kicker,.hero-badges,.hero-badge,
 .hero-title,.hero-text,.hero-cta,.hero-btn,.hero-facts{display:none;}
 @media(max-width:767px){
-    .hero-video{max-height:min(56vh,420px);}
+    .hero-video{height:auto;}
 }
-/* quick-action tiles no longer need a large negative overlap under text hero */
-.ajas-hero--video-only + .ajas-actions{margin-top:-48px;}
+/* quick-action tiles placed cleanly below video without covering video text */
+.ajas-hero--video-only + .ajas-actions{margin-top:0;padding-top:24px;}
 /* Edukin's .btn-styl2 is a fixed-size round play button; ours is a text
    button, so every one of its circle dimensions has to be unset. */
 .ajas-slider .tp-caption .btn-styl1,.ajas-slider .tp-caption .ajas-btn-ghost{
@@ -630,6 +630,7 @@ body.hero-hold .header-sticky #main-nav>ul.menu>li>a{font-size:14px;}
 .tile-light .tile-title{color:#183251;}
 @media(max-width:991px){
     .ajas-actions{margin-top:-34px;}
+    .ajas-hero--video-only + .ajas-actions{margin-top:0;padding-top:20px;}
     .action-tile{margin-bottom:22px;min-height:0;}
 }
 
@@ -643,10 +644,10 @@ body.hero-hold .header-sticky #main-nav>ul.menu>li>a{font-size:14px;}
 .accred-row li{list-style:none;text-align:center;}
 .accred-row img{
     height:78px;width:auto;display:block;margin:0 auto 12px;
-    filter:grayscale(100%);opacity:.58;transition:filter .3s ease,opacity .3s ease,transform .3s ease;}
+    filter:none;opacity:1;transition:transform .3s ease;}
 .accred-row li:hover img{filter:none;opacity:1;transform:translateY(-4px);}
 .accred-row span{
-    display:block;font-size:11.5px;letter-spacing:1.2px;text-transform:uppercase;color:#b3bdc9;font-weight:600;}
+    display:block;font-size:11.5px;letter-spacing:1.2px;text-transform:uppercase;color:#475569;font-weight:600;}
 .accred-row li:hover span{color:#183251;}
 .ajas-apply-btn{
     display:inline-block;background:#ff5f60;color:#fff !important;padding:13px 34px;border-radius:26px;
@@ -703,24 +704,23 @@ body.hero-hold .header-sticky #main-nav>ul.menu>li>a{font-size:14px;}
 .ajas-news .post-content .post-link a{color:#ff5f60;font-size:15px;}
 .ajas-news .owl-dots{margin-top:34px;}
 
-/* Testimonials — Edukin scatters avatars over an illustration that ships
-   blank; use a campus photo and cluster the avatars instead. */
+/* Testimonials — single photo per testimonial slide */
 .ajas-testimonials .wrap-info{
     background-image:linear-gradient(135deg,rgba(24,50,81,.90),rgba(63,76,153,.86)),
         url('uploads/2025/03/WhatsApp-Image-2025-03-17-at-4.20.43-PM.jpeg') !important;
     background-size:cover !important;background-position:center !important;
     display:flex;align-items:center;justify-content:center;padding:70px 40px !important;}
-.ajas-testimonials .wrap-info .flexslider{width:100%;background:none;border:0;margin:0;}
-.ajas-testimonials .wrap-info .flex-viewport{overflow:visible !important;height:auto !important;}
+.ajas-testimonials .wrap-info .flexslider{width:100%;max-width:260px;background:none;border:0;margin:0 auto;text-align:center;}
+.ajas-testimonials .wrap-info .flex-viewport{overflow:hidden !important;width:100% !important;height:auto !important;}
 .ajas-testimonials .wrap-info ul.slides{
-    display:flex !important;flex-wrap:wrap;justify-content:center;align-items:center;gap:18px;
-    transform:none !important;width:auto !important;margin:0;padding:0;}
+    display:block !important;width:100% !important;height:auto !important;
+    margin:0 !important;padding:0 !important;list-style:none;}
 .ajas-testimonials .wrap-info ul li.avatar{
-    position:static !important;top:auto !important;left:auto !important;bottom:auto !important;
-    width:auto !important;float:none !important;display:block !important;opacity:1 !important;}
+    position:relative !important;top:auto !important;left:auto !important;bottom:auto !important;
+    width:100% !important;float:left !important;display:block !important;list-style:none;text-align:center;padding:10px 0;}
 .ajas-testimonials .wrap-info ul li.avatar img{
-    width:88px;height:88px;border-radius:50%;object-fit:cover;object-position:center top;
-    border:4px solid rgba(255,255,255,.28);box-shadow:0 10px 26px rgba(0,0,0,.24);}
+    width:160px;height:160px;border-radius:50%;object-fit:cover;object-position:center top;margin:0 auto;
+    border:5px solid rgba(255,255,255,.35);box-shadow:0 14px 34px rgba(0,0,0,.35);display:block;}
 .ajas-testimonials .wrap-quote{
     background-image:none !important;background:#f7f9fc;
     padding:80px 70px !important;display:flex;align-items:center;min-height:100%;}
@@ -1001,7 +1001,7 @@ html{scroll-behavior:smooth;}
     .container-fluid,.container{padding-left:15px;padding-right:15px;}
     .ajas-testimonials .wrap-quote{padding:52px 26px !important;}
     .ajas-testimonials .wrap-info{padding:44px 20px !important;}
-    .ajas-testimonials .wrap-info ul li.avatar img{width:64px;height:64px;}
+    .ajas-testimonials .wrap-info ul li.avatar img{width:130px;height:130px;}
     .team-box-layout-h1 .item-img img{height:230px;}
     #bottom ul.bottom-nav{float:none;margin-top:14px;}
     #bottom ul.bottom-nav>li{margin:0 16px 0 0;}
@@ -1019,7 +1019,6 @@ html{scroll-behavior:smooth;}
     .accred-row{gap:34px 30px;}
     .accred-row img{height:62px;}
     .flat-title.medium,.flat-title.larger,.flat-title.small{font-size:27px !important;}
-    .ajas-testimonials .wrap-info ul.slides{gap:12px;}
 }
 /* Phone overrides live last on purpose: the 991px tablet block above also
    matches phone widths, so anything set there has to be re-stated here. */

@@ -50,9 +50,8 @@ image: "/assets/uploads/2025/05/University-Logo.jpg"
 </div>
 </section><!-- metrics --><section class="flat-introduce flat-introduce-style1 clearfix">
 <div class="container">
-<div class="col-left"><div class="ajas-quote-panel">
-<span class="quote-mark" aria-hidden="true">&ldquo;</span>
-<blockquote>Education is not merely a path to acquiring degrees; it is a transformative journey that shapes human character, sharpens intellect, and inspires service to humanity.</blockquote>
+<div class="col-left"><div class="videobox">
+<a href="/chairman-message/"><img src="/assets/uploads/2026/09/dr-abdussalam-ahmed.jpg" alt="Dr. Abdussalam Ahmed, Chairman, Al Jamia Arts &amp; Science College"></a>
 </div></div>
 <div class="col-right"><div class="content-introduce content-introduce-style1">
 <div class="title-section">
@@ -210,25 +209,25 @@ are listed on the programmes page.</p>
 </div></div>
 </div></div><div class="course clearfix col-lg-4 col-md-6 col-sm-12">
 <div class="flat-course">
-<div class="featured-post post-media"><div class="entry-image pic"><img src="/assets/uploads/2024/01/P1222323-building-2048x1154-1.webp" alt="PG Department of Islamic Studies">
+<div class="featured-post post-media"><div class="entry-image pic"><img src="/assets/uploads/2024/01/P1222323-building-2048x1154-1.webp" alt="Department of Islamic Studies">
 <div class="hover-effect"></div>
-<div class="links"><a href="/departments/department-of-islamic-studies/" aria-label="View PG Department of Islamic Studies">View PG Department of Islamic Studies</a></div>
+<div class="links"><a href="/departments/department-of-islamic-studies/" aria-label="View Department of Islamic Studies">View Department of Islamic Studies</a></div>
 </div></div>
 <div class="course-content clearfix"><div class="wrap-course-content">
-<h3 class="course-title"><a href="/departments/department-of-islamic-studies/">PG Department of Islamic Studies</a></h3>
-<p>Islamic Studies Honours and MA Islamic Finance, blending classical scholarship with contemporary application.</p>
-<p class="course-programs">BA Islamic Studies Honors &middot; MA Islamic Finance</p>
+<h3 class="course-title"><a href="/departments/department-of-islamic-studies/">Department of Islamic Studies</a></h3>
+<p>One of the oldest departments at AJAS College, providing career-oriented education in Islamic history, theology, and contemporary studies.</p>
+<p class="course-programs">BA Islamic Studies Honors</p>
 </div></div>
 </div></div><div class="course clearfix col-lg-4 col-md-6 col-sm-12">
 <div class="flat-course">
-<div class="featured-post post-media"><div class="entry-image pic"><img src="/assets/uploads/2024/01/P1222323-building-2048x1154-1.webp" alt="PG Department of Arabic">
+<div class="featured-post post-media"><div class="entry-image pic"><img src="/assets/uploads/2024/01/P1222323-building-2048x1154-1.webp" alt="Department of Islamic Finance">
 <div class="hover-effect"></div>
-<div class="links"><a href="/departments/arabic/" aria-label="View PG Department of Arabic">View PG Department of Arabic</a></div>
+<div class="links"><a href="/departments/department-of-islamic-finance/" aria-label="View Department of Islamic Finance">View Department of Islamic Finance</a></div>
 </div></div>
 <div class="course-content clearfix"><div class="wrap-course-content">
-<h3 class="course-title"><a href="/departments/arabic/">PG Department of Arabic</a></h3>
-<p>MA Arabic builds on the honours programme with advanced language, literature and research training.</p>
-<p class="course-programs">MA Arabic</p>
+<h3 class="course-title"><a href="/departments/department-of-islamic-finance/">Department of Islamic Finance</a></h3>
+<p>Developing ethical leaders and finance professionals who combine Islamic principles with modern financial expertise.</p>
+<p class="course-programs">MA Islamic Finance</p>
 </div></div>
 </div></div><div class="course clearfix col-lg-4 col-md-6 col-sm-12">
 <div class="flat-course">
@@ -372,39 +371,9 @@ are listed on the programmes page.</p>
 </div>
 </div></div>
 </div>
-</section><!-- flat-event --><div class="flat-about pd-about clearfix ajas-success"><div class="container"><div class="row">
-<div class="col-lg-6">
-<div class="textbox-about"><div class="title-section">
-<div class="flat-title medium heading-type18">Our success</div>
-</div>
-<div class="textbox-content"><div class="about-introduce">
-<p>More than twelve thousand students have studied at Al Jamia over the years &mdash; among them prominent Islamic scholars, writers, academicians and media professionals rendering commendable service across India and abroad.</p>
-<p>Established in 2010, the college was founded to uplift educationally developing communities and mould graduates who are professionally competent, socially responsible and morally sound.</p>
-<div class="btn-about"><a href="/overview/" class="btn-box-shadow">About the college</a></div>
-</div></div>
-</div>
-</div>
-<div class="col-lg-6"><div class="iconbox-about"><div class="iconbox-about-wrap clearfix">
-<div class="list-1">
-<div class="iconbox iconbox-students"><div class="counter"><div class="content-counter">
-<div class="numb-count bg-cl25cf71" data-from="0" data-to="4000" data-speed="2000" data-inviewport="yes">4000</div>
-<div class="name-count">Students</div></div></div></div>
-<div class="iconbox iconbox-teacher"><div class="counter"><div class="content-counter">
-<div class="numb-count bg-clffbe34" data-from="0" data-to="30" data-speed="2000" data-inviewport="yes">30</div>
-<div class="name-count">Faculty members</div></div></div></div>
-</div>
-<div class="list-2">
-<div class="iconbox iconbox-courses"><div class="counter"><div class="content-counter">
-<div class="numb-count bg-cla476b4" data-from="0" data-to="14" data-speed="2000" data-inviewport="yes">14</div>
-<div class="name-count">Programmes</div></div></div></div>
-<div class="iconbox iconbox-award"><div class="counter"><div class="content-counter">
-<div class="numb-count bg-clfb6d6d" data-from="0" data-to="12" data-speed="2000" data-inviewport="yes">12</div>
-<div class="name-count">Alumni (thousands)</div></div></div></div>
-</div>
-</div></div></div>
-</div></div></div><!-- flat-about --><section class="slider testimonial-flexslider testimonial-style1 equalize sm-equalize-auto clearfix ajas-testimonials">
+</section><!-- flat-event --><section class="slider testimonial-flexslider testimonial-style1 equalize sm-equalize-auto clearfix ajas-testimonials">
 <div class="wrap-info themesflat-content-box" data-padding="0% 0% 0% 10%" data-mobipadding="0% 0% 0% 0%" data-smobipadding="0% 0% 0% 0%">
-<div id="carousel-testimonial" class="flexslider"><ul class="slides translate-none"><li class="avatar"><img src="/assets/uploads/2024/05/Mohammed-Azeer.jpeg" alt="Mohammed Azeer"></li><li class="avatar"><img src="/assets/uploads/2024/05/Mohammed-sabeel.jpeg" alt="Mohammed Shabeel K."></li><li class="avatar"><img src="/assets/uploads/2024/05/559.jpg" alt="Mufeeda Sulfath A. P"></li><li class="avatar"><img src="/assets/uploads/2024/05/Shadiya.jpeg" alt="Sadiya"></li><li class="avatar"><img src="/assets/uploads/2024/05/Safwa.jpeg" alt="Safwa K"></li><li class="avatar"><img src="/assets/uploads/2024/05/Mohammed-sibin.jpeg" alt="Mohammed Shibin Faris"></li></ul></div>
+<div id="carousel-testimonial" class="flexslider"><ul class="slides"><li class="avatar"><img src="/assets/uploads/2024/05/Mohammed-Azeer.jpeg" alt="Mohammed Azeer"></li><li class="avatar"><img src="/assets/uploads/2024/05/Mohammed-sabeel.jpeg" alt="Mohammed Shabeel K."></li><li class="avatar"><img src="/assets/uploads/2024/05/559.jpg" alt="Mufeeda Sulfath A. P"></li><li class="avatar"><img src="/assets/uploads/2024/05/Shadiya.jpeg" alt="Sadiya"></li><li class="avatar"><img src="/assets/uploads/2024/05/Safwa.jpeg" alt="Safwa K"></li><li class="avatar"><img src="/assets/uploads/2024/05/Mohammed-sibin.jpeg" alt="Mohammed Shibin Faris"></li></ul></div>
 </div>
 <div class="wrap-quote themesflat-content-box" data-padding="10.47% 14.1% 0% 0%" data-mobipadding="90px 15px 80px 15px" data-smobipadding="90px 15px 80px 15px">
 <div id="slider-testimonial" class="flexslider"><ul class="slides client-info"><li>

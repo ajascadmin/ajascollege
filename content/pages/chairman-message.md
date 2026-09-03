@@ -5,6 +5,7 @@ permalink: /chairman-message/
 type: profile
 name: Dr. Abdussalam Ahmed
 role: Chairman
+image: "/assets/uploads/2026/09/dr-abdussalam-ahmed.jpg"
 ---
 
 "Building Knowledge, Character, and Purpose for a Better Tomorrow"

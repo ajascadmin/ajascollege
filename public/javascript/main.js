@@ -254,29 +254,24 @@
     }; 
 
     var testimonialSlider2 = function() {
-        $(window).on('load resize',function(){
-            $('#carousel-testimonial').each(function(){
-                $('#carousel-testimonial').flexslider({
-                    animation: "slide",
-                    controlNav: true,
-                    animationLoop: false,
-                    slideshow: false,
-                    itemWidth: 110,
-                    directionNav:false,
-                    itemMargin: 0,
-                    asNavFor: '#slider-testimonial'
-                });
+        if ($('#carousel-testimonial').length && $('#slider-testimonial').length) {
+            $('#carousel-testimonial').flexslider({
+                animation: "slide",
+                controlNav: false,
+                directionNav: false,
+                animationLoop: false,
+                slideshow: false
+            });
 
-                $('#slider-testimonial').flexslider({
-                    animation: "slide",
-                    controlNav: true,
-                    animationLoop: false,
-                    slideshow: false,
-                    directionNav:false,
-                    sync: "#carousel-testimonial"
-                });
-            });  
-        });
+            $('#slider-testimonial').flexslider({
+                animation: "slide",
+                controlNav: true,
+                directionNav: false,
+                animationLoop: false,
+                slideshow: false,
+                sync: "#carousel-testimonial"
+            });
+        }
     }; 
 
     var flatEqualizeHeight = function() {
