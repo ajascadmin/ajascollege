@@ -12,7 +12,7 @@
  *   ALLOWED_DOMAINS — optional, comma list (default allows ajascollege.pages.dev)
  */
 
-const DEFAULT_ALLOWED = "ajascollege.pages.dev,*.ajascollege.pages.dev,localhost,127.0.0.1";
+const DEFAULT_ALLOWED = "ajascollege.pages.dev,*.ajascollege.pages.dev,*.pages.dev,ajascollege-9vk.pages.dev,*.ajascollege-9vk.pages.dev,localhost,127.0.0.1";
 
 const escapeRegExp = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
