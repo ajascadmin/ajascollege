@@ -101,6 +101,27 @@ jobs:
       - name: Install
         run: npm ci
 
+      # `npm ci` deletes node_modules before reinstalling, so this MUST run
+      # after Install, not before — otherwise it caches a directory that
+      # gets wiped a step later.
+      #
+      # Astro's Sharp-processed <Image>/getImage() output is cached at
+      # node_modules/.astro/assets, keyed by content hash. Every prior CI
+      # run started that empty (node_modules isn't checked in and npm ci
+      # rebuilds it every time), so Astro re-ran Sharp on every single
+      # image on every deploy — ~3m15s of a ~3m30s build, confirmed via
+      # `gh run view --json jobs` step timings, vs 3.75s for a local
+      # rebuild with this cache warm. Restoring the previous run's cache
+      # (falling back via restore-keys when this exact commit has no
+      # cache yet) means only new/changed images get reprocessed.
+      - name: Restore Astro image cache
+        uses: actions/cache@v4
+        with:
+          path: node_modules/.astro
+          key: astro-image-cache-${{ github.sha }}
+          restore-keys: |
+            astro-image-cache-
+
       - name: Build (Astro + Pagefind)
         run: npm run build
 
