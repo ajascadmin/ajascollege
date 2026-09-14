@@ -526,6 +526,16 @@
     }
 
     // WYSIWYG homepage preview — see renderHomePreview() above.
+    //
+    // DIAGNOSTIC BANNER: every render is prefixed with a green
+    // "AJAS custom preview active" strip. That's deliberate and temporary —
+    // it tells us, from a screenshot alone, whether this registered at all:
+    //   - Banner + real homepage layout below it → working, remove the banner.
+    //   - Banner + red error text → registration worked, rendering threw
+    //     (check the error text, or open devtools console for the stack).
+    //   - No banner, still the plain field list → registration itself isn't
+    //     taking effect (wrong collection/file key, or createClass/h aren't
+    //     what we think) — needs a different approach, not a render fix.
     try {
       if (typeof window.createClass === "function" && window.h) {
         var HomePreview = window.createClass({
@@ -538,17 +548,28 @@
             } catch (e) {
               console.error("[AJAS CMS] could not read homepage entry data", e);
             }
+            var banner =
+              '<div style="background:#059669;color:#fff;padding:8px 16px;font:600 13px/1.4 sans-serif">✓ AJAS custom preview active (v2)</div>';
             var html = "";
             try {
               html = renderHomePreview(data, getAsset);
             } catch (e) {
               console.error("[AJAS CMS] home preview render failed", e);
-              html = "<p style='padding:20px;color:#b91c1c'>Preview failed to render — see browser console. The Save button still works normally.</p>";
+              html =
+                "<pre style='padding:20px;color:#b91c1c;white-space:pre-wrap'>Preview failed to render:\n" +
+                esc(e && e.stack ? e.stack : String(e)) +
+                "</pre>";
             }
-            return window.h("div", { dangerouslySetInnerHTML: { __html: html } });
+            return window.h("div", { dangerouslySetInnerHTML: { __html: banner + html } });
           },
         });
+        // Registration key for a `files:`-based collection is ambiguous in
+        // Sveltia's own docs ("the collection or collection file" — doesn't
+        // say which string). Register under both the collection name
+        // ("home") and the file name ("homepage") so whichever one Sveltia
+        // actually checks is covered.
         CMS.registerPreviewTemplate("home", HomePreview);
+        CMS.registerPreviewTemplate("homepage", HomePreview);
       } else {
         console.warn("[AJAS CMS] window.createClass/h not available — homepage preview not registered");
       }
