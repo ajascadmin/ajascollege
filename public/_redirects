@@ -6,3 +6,34 @@
 # Retired duplicate — real data lives under /programmes/
 /programe-offered /programmes/ 301
 /programe-offered/ /programmes/ 301
+
+# Legacy WordPress pages consolidated under clearer collection routes
+/career-and-placements /placement-cell/ 301
+/career-and-placements/ /placement-cell/ 301
+/graduation-ceremony-2026 /college-news/graduation-ceremony-2026/ 301
+/graduation-ceremony-2026/ /college-news/graduation-ceremony-2026/ 301
+/state-off-the-art-facilities /state-of-the-art-facilities/ 301
+/state-off-the-art-facilities/ /state-of-the-art-facilities/ 301
+/faculties/x /faculties/ 301
+/faculties/x/ /faculties/ 301
+
+# WordPress archive/feed endpoints have no static-page equivalent
+/feed/ / 301
+/comments/feed/ / 301
+/author/83521ddbee85cb1a/ / 301
+/author/83521ddbee85cb1a/feed/ / 301
+/admission-open/feed/ /admission-open/ 301
+/career/feed/ /career/ 301
+/college-news/feed/ /college-news/ 301
+/counselling-desk-reviews/feed/ /counselling-desk-reviews/ 301
+/departments/feed/ /departments/ 301
+/event/feed/ /event/ 301
+/faculties/feed/ /faculties/ 301
+/graduation-ceremony-2026/feed/ /college-news/graduation-ceremony-2026/ 301
+
+# WordPress date archives resolve to the corresponding listing pages
+/2024/01/18/ /event/ 301
+/2024/05/22/ /college-news/ 301
+/2024/06/01/ /college-news/ 301
+/2026/04/08/ /college-news/graduation-ceremony-2026/ 301
+/2026/06/15/ /notices/ 301

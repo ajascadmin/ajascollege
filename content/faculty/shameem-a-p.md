@@ -9,3 +9,4 @@ credentials: MA Malayalam , NET
 role: Assistant Professor
 ---
 
+[View curriculum vitae](/assets/uploads/2025/05/cv-SHAMEEM-NEW.pdf)

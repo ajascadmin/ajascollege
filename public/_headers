@@ -14,7 +14,7 @@
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
 
-/* Astro Image / Sharp output (hashed webp etc.) */
+# Astro Image / Sharp output (hashed webp etc.)
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable
 

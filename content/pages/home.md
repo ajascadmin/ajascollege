@@ -108,17 +108,17 @@ image: "/assets/uploads/2025/05/University-Logo.jpg"
   </div>
   <div class="prog-card-body">
     <ul class="prog-chips-grid">
-      <li><a href="/programmes/b-com-honours/" class="prog-chip"><i class="fa fa-check-circle"></i> B.Com (Honours)</a></li>
-      <li><a href="/programmes/bba-honours/" class="prog-chip"><i class="fa fa-check-circle"></i> BBA (Honours)</a></li>
-      <li><a href="/programmes/bca-honours/" class="prog-chip"><i class="fa fa-check-circle"></i> BCA (Honours)</a></li>
-      <li><a href="/programmes/b-sc-artificial-intelligence-honours/" class="prog-chip"><i class="fa fa-check-circle"></i> B.Sc. Artificial Intelligence</a></li>
-      <li><a href="/programmes/b-sc-computer-science-honours/" class="prog-chip"><i class="fa fa-check-circle"></i> B.Sc. Computer Science</a></li>
-      <li><a href="/programmes/b-sc-food-technology-honours/" class="prog-chip"><i class="fa fa-check-circle"></i> B.Sc. Food Technology</a></li>
-      <li><a href="/programmes/b-sc-microbiology-honours/" class="prog-chip"><i class="fa fa-check-circle"></i> B.Sc. Microbiology</a></li>
-      <li><a href="/programmes/b-sc-psychology-honours/" class="prog-chip"><i class="fa fa-check-circle"></i> B.Sc. Psychology</a></li>
-      <li><a href="/programmes/b-sc-geography-honours/" class="prog-chip"><i class="fa fa-check-circle"></i> B.Sc. Geography</a></li>
-      <li><a href="/programmes/ba-islamic-studies-honours/" class="prog-chip"><i class="fa fa-check-circle"></i> BA Islamic Studies</a></li>
-      <li><a href="/programmes/ba-english-language-and-literature-honours/" class="prog-chip"><i class="fa fa-check-circle"></i> BA English Language</a></li>
+      <li><a href="/programmes/b-com/" class="prog-chip"><i class="fa fa-check-circle"></i> B.Com (Honours)</a></li>
+      <li><a href="/programmes/bba/" class="prog-chip"><i class="fa fa-check-circle"></i> BBA (Honours)</a></li>
+      <li><a href="/programmes/bca/" class="prog-chip"><i class="fa fa-check-circle"></i> BCA (Honours)</a></li>
+      <li><a href="/programmes/bsc-artificial-intelligence/" class="prog-chip"><i class="fa fa-check-circle"></i> B.Sc. Artificial Intelligence</a></li>
+      <li><a href="/programmes/bsc-computer-science/" class="prog-chip"><i class="fa fa-check-circle"></i> B.Sc. Computer Science</a></li>
+      <li><a href="/programmes/bsc-food-technology/" class="prog-chip"><i class="fa fa-check-circle"></i> B.Sc. Food Technology</a></li>
+      <li><a href="/programmes/bsc-microbiology/" class="prog-chip"><i class="fa fa-check-circle"></i> B.Sc. Microbiology</a></li>
+      <li><a href="/programmes/bsc-psychology/" class="prog-chip"><i class="fa fa-check-circle"></i> B.Sc. Psychology</a></li>
+      <li><a href="/programmes/bsc-geography/" class="prog-chip"><i class="fa fa-check-circle"></i> B.Sc. Geography</a></li>
+      <li><a href="/programmes/ba-islamic-studies/" class="prog-chip"><i class="fa fa-check-circle"></i> BA Islamic Studies</a></li>
+      <li><a href="/programmes/ba-english/" class="prog-chip"><i class="fa fa-check-circle"></i> BA English Language</a></li>
     </ul>
   </div>
   <div class="prog-card-footer">
@@ -142,7 +142,7 @@ image: "/assets/uploads/2025/05/University-Logo.jpg"
   <div class="prog-card-body">
     <ul class="prog-chips-grid pg-chips">
       <li><a href="/programmes/ma-islamic-finance/" class="prog-chip"><i class="fa fa-star"></i> MA Islamic Finance</a></li>
-      <li><a href="/programmes/m-sc-psychology/" class="prog-chip"><i class="fa fa-star"></i> M.Sc. Psychology</a></li>
+      <li><a href="/programmes/msc-psychology/" class="prog-chip"><i class="fa fa-star"></i> M.Sc. Psychology</a></li>
       <li><a href="/programmes/ma-arabic/" class="prog-chip"><i class="fa fa-star"></i> MA Arabic</a></li>
     </ul>
     <div class="pg-highlight-box">

@@ -276,7 +276,7 @@ export function parseProgrammes(body: string): {
 
 export function looksLikeAdmission(body: string, permalink: string): boolean {
   return (
-    permalink.includes("admission") ||
+    normalizeForVisionCheck(permalink) === "/admission/" ||
     (/### /.test(body) && /Fee|Intake|Duration/i.test(body))
   );
 }

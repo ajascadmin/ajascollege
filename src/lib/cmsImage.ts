@@ -182,7 +182,8 @@ export async function optimizeHtmlImages(
   if (!html) return html;
   const hasImg = /<img\b/i.test(html);
   const hasBg = /background-image\s*:\s*url\(/i.test(html);
-  if (!hasImg && !hasBg) return html;
+  const hasLinkedCmsImage = /href\s*=\s*["']\/assets\/uploads\/[^"']+\.(?:jpe?g|png|gif|webp|avif)["']/i.test(html);
+  if (!hasImg && !hasBg && !hasLinkedCmsImage) return html;
 
   let out = html;
   const srcMap = new Map<string, Awaited<ReturnType<typeof optimizeCmsImage>>>();
@@ -193,6 +194,14 @@ export async function optimizeHtmlImages(
       srcMap.set(rawSrc, await optimizeCmsImage(rawSrc, preset));
     }
     return srcMap.get(rawSrc) ?? null;
+  }
+
+  // Gallery/lightbox anchors can survive after the markdown image itself has
+  // been pulled into a structured gallery by splitSections(). Resolve those
+  // links independently so they never point at unpublished src/ originals.
+  if (hasLinkedCmsImage) {
+    const hrefRe = /\bhref\s*=\s*["']([^"']+\.(?:jpe?g|png|gif|webp|avif))["']/gi;
+    for (const m of html.matchAll(hrefRe)) await ensure(m[1]);
   }
 
   // ——— <img> tags ———
@@ -242,9 +251,12 @@ export async function optimizeHtmlImages(
       out = out.replace(full, `<img${next}>`);
     }
 
-    // Lightbox/gallery anchors commonly point at the same CMS image as the
-    // nested <img>. Point them at the generated asset too, otherwise the
-    // thumbnail works but opening it requests a non-public /assets/uploads URL.
+  }
+
+  // Point every resolvable linked CMS image at its generated asset. This is
+  // intentionally outside the <img> branch because structured page parsing
+  // may remove the nested image while retaining its lightbox anchor.
+  if (hasLinkedCmsImage || hasImg) {
     out = out.replace(/\bhref\s*=\s*(["'])([^"']+)\1/gi, (full, _q, href: string) => {
       const opt = srcMap.get(href);
       return opt?.optimized ? `href="${opt.src}"` : full;

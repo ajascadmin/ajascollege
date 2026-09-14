@@ -21,11 +21,22 @@ The Academic Council of the Institute has the following responsibilities :
 - Appoint various committees for the smooth functioning of the institution.
 - Consider the recommendations of the committees and to take necessary action.
 
-|  |  |
-| --- | --- |
-| Academic Council Members | Chairperson |
-| Dr.(Lt.Cdr.Rtd.) C.K.Abdul Rabbi Nistar | (Principal) |
-| Convenor | Azharudheen KS |
-| (Academic Coordinator) | Members |
+## Academic Council Members
 
-Mubarak N (Vice Principal) Dr. Thahiya Naushad (IQAC Coordinator) Aiswarya KR (IQAC Joint Coordinator ) Abhin Nath I (IQAC Joint Coordinator) Muhammed Shahal CT (IQAC Member) Mohammed Abdul Ganiyy (Staff Secretary & HoD of Department of Geography) Jasira MK (HoD of Department of Computer Science) Athira Sreekumar (HoD of Department of Psychology) Dr. Farisa Abdul Azees (HoD of Department of Commerce and Management Studies) Sameeha Shirin KV (HoD of Department of Food Technology) Dr. Thanveer (HoD of Department of Islamic Studies) Thufail PK (HoD of Department of Islamic Finance ) Muhammed Shanif KT (Examination Incharge)
+| Role | Member | Position |
+| --- | --- | --- |
+| Chairperson | Dr. (Lt. Cdr. Rtd.) C. K. Abdul Rabbi Nistar | Principal |
+| Convenor | Azharudheen K. S. | Academic Coordinator |
+| Member | Mubarak N. | Vice Principal |
+| Member | Dr. Thahiya Naushad | IQAC Coordinator |
+| Member | Aiswarya K. R. | IQAC Joint Coordinator |
+| Member | Abhin Nath I. | IQAC Joint Coordinator |
+| Member | Muhammed Shahal C. T. | IQAC Member |
+| Member | Mohammed Abdul Ganiyy | Staff Secretary and HoD, Department of Geography |
+| Member | Jasira M. K. | HoD, Department of Computer Science |
+| Member | Athira Sreekumar | HoD, Department of Psychology |
+| Member | Dr. Farisa Abdul Azees | HoD, Department of Commerce and Management Studies |
+| Member | Sameeha Shirin K. V. | HoD, Department of Food Technology |
+| Member | Dr. Thanveer | HoD, Department of Islamic Studies |
+| Member | Thufail P. K. | HoD, Department of Islamic Finance |
+| Member | Muhammed Shanif K. T. | Examination In-charge |
