@@ -225,7 +225,7 @@ collections:
   - name: home
     label: "6 · Homepage"
     icon: home
-    description: "Every section of the homepage — hero video, quick-action tiles, accreditation logos, chairman/principal messages, programme & department cards, campus gallery, services, benefits, upcoming events, testimonials and the closing call-to-action. Click a section below to open it; nothing on the homepage lives outside this editor."
+    description: "Every section of the homepage — hero, cards, gallery, testimonials, CTA."
     files:
       - name: homepage
         label: Homepage

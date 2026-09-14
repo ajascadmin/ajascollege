@@ -1,84 +1,49 @@
 /**
  * Al Jamia Arts & Science College — Sveltia CMS branding
  * Palette: maroon + blue (college request)
+ *
+ * Sveltia CMS ("Sveltia UI") is a Svelte app with component-scoped,
+ * content-hashed class names (e.g. "svelte-1bq1or9") — there is no
+ * `.collection-list`/`.sidebar-item`-style semantic class to target, and
+ * those hashes change between releases. `[class*="…"]` guessing against
+ * them is unreliable at best. What IS stable is:
+ *   1. Its ~370 `--sui-*` design tokens (its real, documented theming
+ *      surface — see https://sveltiacms.app), which this file uses below.
+ *   2. Semantic HTML tags (<header>, <button>, <a>, <input>) and real
+ *      DOM attributes we control ourselves, like our own <img src>.
+ * Everything here is one of those two things — nothing here is a guessed
+ * class name.
  */
+/* @import must be the very first rule in the file (CSS spec) or the
+   browser silently drops it — keep nothing above this line. */
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap");
+
 :root {
   /* Core brand */
   --ajas-maroon: #7a1f2b;
   --ajas-maroon-dark: #5c1620;
-  --ajas-maroon-soft: #f7eef0;
   --ajas-blue: #1e3a6e;
-  --ajas-blue-mid: #2c4f94;
-  --ajas-blue-soft: #e8eef8;
-  --ajas-gold: #c4a35a;
-  --ajas-ink: #1a1f2e;
-  --ajas-muted: #5c6578;
 
-  /* Common Sveltia / app CSS variables (override when present) */
-  --sui-primary: var(--ajas-maroon);
-  --sui-primary-hover: var(--ajas-maroon-dark);
-  --sui-focus-ring: color-mix(in srgb, var(--ajas-blue) 45%, transparent);
-  --sui-accent: var(--ajas-blue);
-  --color-primary: var(--ajas-maroon);
-  --color-primary-dark: var(--ajas-maroon-dark);
-  --color-secondary: var(--ajas-blue);
+  /* The whole Sveltia UI palette (backgrounds, borders, the primary accent
+     used for active/selected/focus/publish states) derives from this one
+     hue — see e.g. `--sui-primary-accent-color: hsl(var(--sui-base-hue) 80%
+     40%)` in the shipped bundle. Setting it recolors the entire app
+     consistently, using Sveltia's own tested contrast pairings, instead of
+     us re-deriving every state color by hand. 352° = our maroon's hue.
+     !important: Sveltia sets its own `--sui-base-hue: 210` in a <style>
+     injected at runtime, after this stylesheet loads. */
+  --sui-base-hue: 352 !important;
+
+  /* Match the public site's typeface. Loaded via Google Fonts below. */
+  --sui-font-family-default: "Rubik", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
 }
 
-/* Login / empty state branding strip */
-body {
-  --brand-bar: linear-gradient(90deg, var(--ajas-maroon) 0%, var(--ajas-blue) 100%);
-}
-
-/* Primary buttons & active nav */
-button[class*="primary"],
-.primary,
-[data-variant="primary"],
-a.button-primary {
-  background-color: var(--ajas-maroon) !important;
-  border-color: var(--ajas-maroon) !important;
-}
-
-button[class*="primary"]:hover,
-.primary:hover {
-  background-color: var(--ajas-maroon-dark) !important;
-  border-color: var(--ajas-maroon-dark) !important;
-}
-
-/* Links */
-a {
-  color: var(--ajas-blue-mid);
-}
-
-/* Sidebar / collection active state — best-effort selectors */
-aside a[aria-current="page"],
-nav a[aria-current="page"],
-[class*="sidebar"] [class*="active"],
-[class*="collection"][class*="selected"] {
-  color: var(--ajas-maroon) !important;
-  border-color: var(--ajas-maroon) !important;
-}
-
-/* Focus rings */
-:focus-visible {
-  outline-color: var(--ajas-blue) !important;
-}
-
-/* Top bar accent under logo area */
-header,
-[class*="app-header"],
-[class*="AppHeader"] {
-  border-bottom: 3px solid transparent;
-  border-image: linear-gradient(90deg, var(--ajas-maroon), var(--ajas-blue)) 1;
-}
-
-/* Official AJAS heading SVG — only the app chrome logo, not entry thumbs */
-header > a img,
-header [class*="brand"] img,
-[class*="AppHeader"] img[src*="logo" i],
-[class*="app-header"] img[src*="logo" i],
-img[src*="AJAS-Website-Heading" i] {
-  max-height: 44px !important;
-  max-width: 260px !important;
+/* Official AJAS heading SVG in the sidebar header. It's a wide wordmark
+   (431×38) dropped into a compact square-icon-shaped slot, which clips it
+   — cap it small enough to fit that slot without cropping. */
+header img[src*="AJAS-Website-Heading" i] {
+  max-height: 26px !important;
+  max-width: 150px !important;
   width: auto !important;
   height: auto !important;
   object-fit: contain !important;
@@ -139,69 +104,12 @@ article[class*="card"] img,
   min-height: 140px;
 }
 
-/* Publish / save emphasis */
-button[class*="publish"],
-button[class*="save"] {
-  background: var(--ajas-maroon) !important;
-  border-color: var(--ajas-maroon) !important;
-  color: #fff !important;
-}
+/* Publish/Save and every other "primary" button already recolors
+   automatically: `--sui-button-primary-background-color` falls back to
+   `var(--sui-primary-accent-color)` in the shipped bundle, which itself
+   derives from --sui-base-hue above. No separate rule needed. */
 
-/* ——— General legibility & spacing polish ——————————————————————— */
-/* Sveltia is a third-party app we don't control the markup of, so these
-   stay broad/defensive ([class*=]) like the rules above rather than
-   guessing exact component class names. */
-
-html,
-body {
-  font-family: "Rubik", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
-}
-
-/* Collapsed object/list section headers — the numbered "1 · Hero video"
-   style groups added to the homepage editor — should read as clear,
-   tappable rows, not cramped text. */
-[class*="object-field"] > [class*="header"],
-[class*="list"][class*="widget"] [class*="summary"],
-details > summary {
-  padding-block: 4px !important;
-}
-
-/* Field labels: consistent weight/spacing so a long form (e.g. the
-   homepage editor) scans as a list of clear questions, not a wall. */
-label[class*="label"],
-[class*="field"] > label {
-  font-weight: 600 !important;
-  color: var(--ajas-ink) !important;
-  margin-bottom: 4px !important;
-}
-
-/* Field hints — de-emphasize so they read as help text, not more content */
-[class*="hint"] {
-  color: var(--ajas-muted) !important;
-  font-size: 0.85em !important;
-}
-
-/* Rounded, lightly-shadowed panels/cards throughout the editor */
-[class*="panel"],
-[class*="Panel"],
-[class*="object-field"],
-[class*="pane"] {
-  border-radius: 8px !important;
-}
-
-/* Sidebar collection list — clearer active/hover state beyond color */
-[class*="sidebar"] a,
-nav[class*="collection"] a {
-  border-radius: 6px !important;
-}
-[class*="sidebar"] a[aria-current="page"],
-nav[class*="collection"] a[aria-current="page"] {
-  background: var(--ajas-maroon-soft) !important;
-  font-weight: 600 !important;
-}
-
-/* Boolean toggles use the brand blue, not a default green/gray */
-input[type="checkbox"][class*="switch"],
-[class*="toggle"][class*="checked"] {
-  accent-color: var(--ajas-blue) !important;
+/* Focus rings — real pseudo-class, not a guessed one */
+:focus-visible {
+  outline-color: var(--ajas-blue) !important;
 }
