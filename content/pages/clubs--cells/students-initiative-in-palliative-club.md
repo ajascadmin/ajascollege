@@ -3,6 +3,11 @@ title: Students Initiative in Palliative Club
 description: "Al Jamia Arts & Science College, Perinthalmanna — affiliated to the University of Calicut."
 permalink: /clubs--cells/students-initiative-in-palliative-club/
 type: page
+gallery:
+  - /assets/uploads/2025/10/WhatsApp-Image-2025-10-28-at-11.11.40-AM.jpeg
+  - /assets/uploads/2025/10/WhatsApp-Image-2025-10-28-at-11.11.39-AM-1.jpeg
+  - /assets/uploads/2025/10/WhatsApp-Image-2025-10-28-at-11.11.39-AM.jpeg
+  - /assets/uploads/2025/10/WhatsApp-Image-2025-10-28-at-11.10.35-AM.jpeg
 ---
 
 ## About
@@ -39,11 +44,3 @@ SHAHMA NAZRINE E P
 ## Established Year :
 
 2025
-
-## Gallery
-
-
-![WhatsApp Image 2025 10 28 at 11.11.40 AM](/assets/uploads/2025/10/WhatsApp-Image-2025-10-28-at-11.11.40-AM.jpeg)
-![WhatsApp Image 2025 10 28 at 11.11.39 AM 1](/assets/uploads/2025/10/WhatsApp-Image-2025-10-28-at-11.11.39-AM-1.jpeg)
-![WhatsApp Image 2025 10 28 at 11.11.39 AM](/assets/uploads/2025/10/WhatsApp-Image-2025-10-28-at-11.11.39-AM.jpeg)
-![WhatsApp Image 2025 10 28 at 11.10.35 AM](/assets/uploads/2025/10/WhatsApp-Image-2025-10-28-at-11.10.35-AM.jpeg)

@@ -3,6 +3,10 @@ title: Coding Club
 description: "Al Jamia Arts & Science College, Perinthalmanna — affiliated to the University of Calicut."
 permalink: /clubs--cells/coding-club/
 type: page
+gallery:
+  - /assets/uploads/2025/02/333.jpg
+  - /assets/uploads/2025/02/22.jpg
+  - /assets/uploads/2025/02/111.jpg
 ---
 
 ## About
@@ -43,10 +47,3 @@ Asna UP , Veena Vijayan
 ## Established Year :
 
 2021
-
-## Gallery
-
-
-![333](/assets/uploads/2025/02/333.jpg)
-![22](/assets/uploads/2025/02/22.jpg)
-![111](/assets/uploads/2025/02/111.jpg)

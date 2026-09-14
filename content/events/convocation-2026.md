@@ -4,6 +4,17 @@ description: "Al Jamia Arts & Science College, Perinthalmanna — affiliated to 
 permalink: /event/convocation-2026/
 type: article
 image: "/assets/uploads/2026/05/WhatsApp-Image-2026-05-04-at-10.36.26-AM.jpeg"
+gallery:
+  - /assets/uploads/2026/05/WhatsApp-Image-2026-05-04-at-10.36.34-AM.jpeg
+  - /assets/uploads/2026/05/WhatsApp-Image-2026-05-04-at-10.36.28-AM-1.jpeg
+  - /assets/uploads/2026/05/WhatsApp-Image-2026-05-04-at-10.36.25-AM-1.jpeg
+  - /assets/uploads/2026/05/WhatsApp-Image-2026-05-04-at-10.36.25-AM.jpeg
+  - /assets/uploads/2026/05/WhatsApp-Image-2026-05-04-at-10.36.23-AM.jpeg
+  - /assets/uploads/2026/05/WhatsApp-Image-2026-05-04-at-10.36.22-AM-1.jpeg
+  - /assets/uploads/2026/05/WhatsApp-Image-2026-05-04-at-10.36.22-AM.jpeg
+  - /assets/uploads/2026/05/WhatsApp-Image-2026-05-04-at-10.36.21-AM-1.jpeg
+  - /assets/uploads/2026/05/WhatsApp-Image-2026-05-04-at-10.36.21-AM.jpeg
+  - /assets/uploads/2026/05/WhatsApp-Image-2026-05-04-at-10.36.20-AM.jpeg
 ---
 
 ![](/assets/uploads/2026/05/WhatsApp-Image-2026-05-04-at-10.36.26-AM.jpeg)
@@ -22,16 +33,3 @@ The ceremony was graced by Chief Guest Dr. C. D. Sebastian, Director of the Dire
 
 The event’s flawless execution was spearheaded by the general coordinators alongside specialized staff and student committees. Key operational responsibilities were successfully managed by dedicated teams handling Registration, Seating, Attire & Certificate Distribution, Stage Management, and Finance.
 This year’s graduation marks a unique milestone, coinciding with a tightening academic landscape in the state.
-
-## Gallery
-
-![WhatsApp Image 2026 05 04 at 10.36.34 AM](/assets/uploads/2026/05/WhatsApp-Image-2026-05-04-at-10.36.34-AM.jpeg)
-![WhatsApp Image 2026 05 04 at 10.36.28 AM 1](/assets/uploads/2026/05/WhatsApp-Image-2026-05-04-at-10.36.28-AM-1.jpeg)
-![WhatsApp Image 2026 05 04 at 10.36.25 AM 1](/assets/uploads/2026/05/WhatsApp-Image-2026-05-04-at-10.36.25-AM-1.jpeg)
-![WhatsApp Image 2026 05 04 at 10.36.25 AM](/assets/uploads/2026/05/WhatsApp-Image-2026-05-04-at-10.36.25-AM.jpeg)
-![WhatsApp Image 2026 05 04 at 10.36.23 AM](/assets/uploads/2026/05/WhatsApp-Image-2026-05-04-at-10.36.23-AM.jpeg)
-![WhatsApp Image 2026 05 04 at 10.36.22 AM 1](/assets/uploads/2026/05/WhatsApp-Image-2026-05-04-at-10.36.22-AM-1.jpeg)
-![WhatsApp Image 2026 05 04 at 10.36.22 AM](/assets/uploads/2026/05/WhatsApp-Image-2026-05-04-at-10.36.22-AM.jpeg)
-![WhatsApp Image 2026 05 04 at 10.36.21 AM 1](/assets/uploads/2026/05/WhatsApp-Image-2026-05-04-at-10.36.21-AM-1.jpeg)
-![WhatsApp Image 2026 05 04 at 10.36.21 AM](/assets/uploads/2026/05/WhatsApp-Image-2026-05-04-at-10.36.21-AM.jpeg)
-![WhatsApp Image 2026 05 04 at 10.36.20 AM](/assets/uploads/2026/05/WhatsApp-Image-2026-05-04-at-10.36.20-AM.jpeg)

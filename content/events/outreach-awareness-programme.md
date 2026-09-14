@@ -4,6 +4,9 @@ description: "Al Jamia Arts & Science College, Perinthalmanna — affiliated to 
 permalink: /event/outreach-awareness-programme/
 type: article
 image: "/assets/uploads/2026/06/WhatsApp-Image-2026-06-16-at-2.35.53-PM.jpeg"
+gallery:
+  - /assets/uploads/2026/06/WhatsApp-Image-2026-06-16-at-2.35.53-PM-1.jpeg
+  - /assets/uploads/2026/06/WhatsApp-Image-2026-06-16-at-2.35.52-PM.jpeg
 ---
 
 # Outreach Awareness Programme by Department of Microbiology
@@ -19,8 +22,3 @@ In view of the recent Shigellosis cases reported in Kerala, the Department of Mi
 The programme aimed to educate school students about Shigellosis, its transmission, symptoms, and preventive measures, with special emphasis on proper hand hygiene, safe drinking water, food safety, and sanitation. An interactive awareness session was conducted, followed by a hygiene pledge, where students pledged to practice and promote healthy habits in their daily lives.
 
 The programme successfully enhanced health awareness among students and encouraged them to become ambassadors of hygiene and disease prevention within their families and communities.
-
-## Gallery
-
-![WhatsApp Image 2026 06 16 at 2.35.53 PM 1](/assets/uploads/2026/06/WhatsApp-Image-2026-06-16-at-2.35.53-PM-1.jpeg)
-![WhatsApp Image 2026 06 16 at 2.35.52 PM](/assets/uploads/2026/06/WhatsApp-Image-2026-06-16-at-2.35.52-PM.jpeg)

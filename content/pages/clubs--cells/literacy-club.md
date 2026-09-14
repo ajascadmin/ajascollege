@@ -3,6 +3,19 @@ title: Literary Club
 description: "Al Jamia Arts & Science College, Perinthalmanna — affiliated to the University of Calicut."
 permalink: /clubs--cells/literacy-club/
 type: page
+gallery:
+  - /assets/uploads/2024/05/literacy1.jpeg.jpg
+  - /assets/uploads/2024/05/literacy2.jpeg.jpg
+  - /assets/uploads/2024/05/literacy3.jpeg.jpg
+  - /assets/uploads/2024/05/literacy5.jpeg.jpg
+  - /assets/uploads/2024/05/literacy4.jpeg.jpg
+  - /assets/uploads/2024/05/literacy8.jpeg.jpg
+  - /assets/uploads/2024/05/literacy7.jpeg.jpg
+  - /assets/uploads/2024/05/literacy10.jpeg-scaled.jpg
+  - /assets/uploads/2024/05/literacy9.jpeg-scaled.jpg
+  - /assets/uploads/2024/05/literacy6-scaled.jpg
+  - /assets/uploads/2024/05/literacy12.jpeg.jpg
+  - /assets/uploads/2024/05/literacy11.jpeg.jpg
 ---
 
 ## About
@@ -34,19 +47,3 @@ Through our diverse activities, we strive to nurture a generation of readers, th
 – Literary Competitions
 
 – Book Reviews & Magazine Contributions
-
-## Gallery
-
-
-![literacy1.jpeg](/assets/uploads/2024/05/literacy1.jpeg.jpg)
-![literacy2.jpeg](/assets/uploads/2024/05/literacy2.jpeg.jpg)
-![literacy3.jpeg](/assets/uploads/2024/05/literacy3.jpeg.jpg)
-![literacy5.jpeg](/assets/uploads/2024/05/literacy5.jpeg.jpg)
-![literacy4.jpeg](/assets/uploads/2024/05/literacy4.jpeg.jpg)
-![literacy8.jpeg](/assets/uploads/2024/05/literacy8.jpeg.jpg)
-![literacy7.jpeg](/assets/uploads/2024/05/literacy7.jpeg.jpg)
-![literacy10.jpeg scaled](/assets/uploads/2024/05/literacy10.jpeg-scaled.jpg)
-![literacy9.jpeg scaled](/assets/uploads/2024/05/literacy9.jpeg-scaled.jpg)
-![literacy6 scaled](/assets/uploads/2024/05/literacy6-scaled.jpg)
-![literacy12.jpeg](/assets/uploads/2024/05/literacy12.jpeg.jpg)
-![literacy11.jpeg](/assets/uploads/2024/05/literacy11.jpeg.jpg)

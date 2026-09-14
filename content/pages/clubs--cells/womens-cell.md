@@ -3,6 +3,22 @@ title: "Women's Cell"
 description: "Al Jamia Arts & Science College, Perinthalmanna — affiliated to the University of Calicut."
 permalink: /clubs--cells/womens-cell/
 type: page
+gallery:
+  - /assets/uploads/2024/05/women5.jpeg.jpg
+  - /assets/uploads/2024/05/women3.jpeg.jpg
+  - /assets/uploads/2024/05/women8.jpeg.jpg
+  - /assets/uploads/2024/05/women7.jpeg.jpg
+  - /assets/uploads/2024/05/women6.jpeg.jpg
+  - /assets/uploads/2024/05/women4.jpeg.jpg
+  - /assets/uploads/2024/05/women2.jpeg.jpg
+  - /assets/uploads/2024/06/w7.jpg
+  - /assets/uploads/2024/06/w6.jpg
+  - /assets/uploads/2024/06/w5.jpg
+  - /assets/uploads/2024/06/w3.jpg
+  - /assets/uploads/2024/06/w1.jpg
+  - /assets/uploads/2024/06/1123.jpg
+  - /assets/uploads/2024/06/11.jpg
+  - /assets/uploads/2024/06/w2.jpg
 ---
 
 # Women’s Cell
@@ -58,22 +74,3 @@ To conduct cultural programmes like theme dance competition, street play, flash 
 
 Farisa Abdul Azees
 – Department of Commerce & Management Studies
-
-## Gallery
-
-
-![women5.jpeg](/assets/uploads/2024/05/women5.jpeg.jpg)
-![women3.jpeg](/assets/uploads/2024/05/women3.jpeg.jpg)
-![women8.jpeg](/assets/uploads/2024/05/women8.jpeg.jpg)
-![women7.jpeg](/assets/uploads/2024/05/women7.jpeg.jpg)
-![women6.jpeg](/assets/uploads/2024/05/women6.jpeg.jpg)
-![women4.jpeg](/assets/uploads/2024/05/women4.jpeg.jpg)
-![women2.jpeg](/assets/uploads/2024/05/women2.jpeg.jpg)
-![w7](/assets/uploads/2024/06/w7.jpg)
-![w6](/assets/uploads/2024/06/w6.jpg)
-![w5](/assets/uploads/2024/06/w5.jpg)
-![w3](/assets/uploads/2024/06/w3.jpg)
-![w1](/assets/uploads/2024/06/w1.jpg)
-![1123](/assets/uploads/2024/06/1123.jpg)
-![11](/assets/uploads/2024/06/11.jpg)
-![w2](/assets/uploads/2024/06/w2.jpg)

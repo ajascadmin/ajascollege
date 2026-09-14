@@ -3,6 +3,14 @@ title: MALAYALAM VEDHI
 description: "Al Jamia Arts & Science College, Perinthalmanna — affiliated to the University of Calicut."
 permalink: /clubs--cells/malayalam-vedhi/
 type: page
+gallery:
+  - /assets/uploads/2025/10/WhatsApp-Image-2025-10-28-at-11.29.38-PM.jpeg
+  - /assets/uploads/2025/10/WhatsApp-Image-2025-10-28-at-11.26.48-PM.jpeg
+  - /assets/uploads/2025/10/WhatsApp-Image-2025-10-28-at-11.26.57-PM.jpeg
+  - /assets/uploads/2025/10/WhatsApp-Image-2025-10-28-at-11.33.40-PM.jpeg
+  - /assets/uploads/2025/10/WhatsApp-Image-2025-10-28-at-11.33.39-PM.jpeg
+  - /assets/uploads/2025/10/WhatsApp-Image-2025-10-28-at-11.33.35-PM.jpeg
+  - /assets/uploads/2025/10/WhatsApp-Image-2025-10-28-at-11.33.29-PM.jpeg
 ---
 
 ## About
@@ -37,14 +45,3 @@ Abhin Nath I
 ## Established Year :
 
 2025
-
-## Gallery
-
-
-![WhatsApp Image 2025 10 28 at 11.29.38 PM](/assets/uploads/2025/10/WhatsApp-Image-2025-10-28-at-11.29.38-PM.jpeg)
-![WhatsApp Image 2025 10 28 at 11.26.48 PM](/assets/uploads/2025/10/WhatsApp-Image-2025-10-28-at-11.26.48-PM.jpeg)
-![WhatsApp Image 2025 10 28 at 11.26.57 PM](/assets/uploads/2025/10/WhatsApp-Image-2025-10-28-at-11.26.57-PM.jpeg)
-![WhatsApp Image 2025 10 28 at 11.33.40 PM](/assets/uploads/2025/10/WhatsApp-Image-2025-10-28-at-11.33.40-PM.jpeg)
-![WhatsApp Image 2025 10 28 at 11.33.39 PM](/assets/uploads/2025/10/WhatsApp-Image-2025-10-28-at-11.33.39-PM.jpeg)
-![WhatsApp Image 2025 10 28 at 11.33.35 PM](/assets/uploads/2025/10/WhatsApp-Image-2025-10-28-at-11.33.35-PM.jpeg)
-![WhatsApp Image 2025 10 28 at 11.33.29 PM](/assets/uploads/2025/10/WhatsApp-Image-2025-10-28-at-11.33.29-PM.jpeg)

@@ -3,6 +3,8 @@ title: Anti-Sexual Harassment Cell
 description: "Al Jamia Arts & Science College, Perinthalmanna — affiliated to the University of Calicut."
 permalink: /clubs--cells/anti-sexual-harassment-cell/
 type: page
+gallery:
+  - /assets/uploads/2024/07/FATHIMATHU-FAYIZA-CT-ASHC-COORDINATOR.jpg
 ---
 
 ## About
@@ -55,7 +57,3 @@ Permanent Cell to Combat Sexual Harassment at AJAS College is an institutionally
 ## Coordinator of Anti-Sexual Harassment Cell
 
 ## Assistant professor and HoD, Department of microbiology
-
-## Gallery
-
-![FATHIMATHU FAYIZA CT ASHC COORDINATOR](/assets/uploads/2024/07/FATHIMATHU-FAYIZA-CT-ASHC-COORDINATOR.jpg)

@@ -18,6 +18,9 @@ gallery:
   - /assets/uploads/2025/10/WhatsApp-Image-2025-10-29-at-9.32.32-PM-700x700.jpeg
   - /assets/uploads/2025/10/WhatsApp-Image-2025-10-29-at-9.32.29-PM-1-700x700.jpeg
   - /assets/uploads/2025/10/WhatsApp-Image-2025-10-29-at-9.32.29-PM-700x700.jpeg
+  - /assets/uploads/2024/05/placement1.jpeg-scaled.jpg
+  - /assets/uploads/2024/05/placement2.jpeg-scaled.jpg
+  - /assets/uploads/2024/05/placement4.jpeg-scaled.jpg
 ---
 
 ## About Placement Cell
@@ -50,9 +53,3 @@ To equip students with professional competencies, communication skills, and indu
 | Shaniba K | Coordinator, Assistant Professor, Department of Food Technology |
 | Ayana K P | Member, Assistant Professor, Department of Computer Application |
 | Jithin V | Member, Assistant Professor, Department of Microbiology |
-
-## Gallery
-
-![placement1.jpeg scaled](/assets/uploads/2024/05/placement1.jpeg-scaled.jpg)
-![placement2.jpeg scaled](/assets/uploads/2024/05/placement2.jpeg-scaled.jpg)
-![placement4.jpeg scaled](/assets/uploads/2024/05/placement4.jpeg-scaled.jpg)

@@ -3,6 +3,26 @@ title: Best Practice 2 - STORY SEEDS
 description: "Al Jamia Arts & Science College, Perinthalmanna — affiliated to the University of Calicut."
 permalink: /best-practice-2-story-seeds/
 type: page
+gallery:
+  - /assets/uploads/2024/05/pexels-george-pak-7972735-1.jpg
+  - /assets/uploads/2024/09/sjdjfkf.jpeg
+  - /assets/uploads/2024/09/seeedsdd.jpeg
+  - /assets/uploads/2024/09/seeed.jpeg
+  - /assets/uploads/2024/09/seeddafsd.jpeg
+  - /assets/uploads/2024/09/seed.jpeg
+  - /assets/uploads/2024/09/sajshf.jpeg
+  - /assets/uploads/2024/09/ajsccs.jpeg
+  - /assets/uploads/2024/09/ajsscc.jpg
+  - /assets/uploads/2024/09/ajssccdd.jpeg
+  - /assets/uploads/2024/09/asdfjslk.jpeg
+  - /assets/uploads/2024/09/asdjadjseeed.jpeg
+  - /assets/uploads/2024/09/sajnajds.jpeg
+  - /assets/uploads/2024/09/ajscc.jpeg
+  - /assets/uploads/2024/09/ajsc-picmm.jpg
+  - /assets/uploads/2024/09/ajsc-picc.jpg
+  - /assets/uploads/2024/09/ajsc-pic.jpg
+  - /assets/uploads/2024/09/ajascvv.jpg
+  - /assets/uploads/2025/03/WhatsApp-Image-2025-03-20-at-11.52.36-AM.jpeg
 ---
 
 # Best Practices - 2 STORY SEEDS
@@ -58,25 +78,3 @@ The storybook distribution program successfully promoted reading habits, improve
 4. Monitor Progress: Track program impact and make data-driven improvements.
 
 By building on this initiative, Al Jamia Arts and Science College can further contribute to the educational journey and personal growth of school students in the locality.
-
-## Gallery
-
-![pexels george pak 7972735 1](/assets/uploads/2024/05/pexels-george-pak-7972735-1.jpg)
-![sjdjfkf](/assets/uploads/2024/09/sjdjfkf.jpeg)
-![seeedsdd](/assets/uploads/2024/09/seeedsdd.jpeg)
-![seeed](/assets/uploads/2024/09/seeed.jpeg)
-![seeddafsd](/assets/uploads/2024/09/seeddafsd.jpeg)
-![seed](/assets/uploads/2024/09/seed.jpeg)
-![sajshf](/assets/uploads/2024/09/sajshf.jpeg)
-![ajsccs](/assets/uploads/2024/09/ajsccs.jpeg)
-![ajsscc](/assets/uploads/2024/09/ajsscc.jpg)
-![ajssccdd](/assets/uploads/2024/09/ajssccdd.jpeg)
-![asdfjslk](/assets/uploads/2024/09/asdfjslk.jpeg)
-![asdjadjseeed](/assets/uploads/2024/09/asdjadjseeed.jpeg)
-![sajnajds](/assets/uploads/2024/09/sajnajds.jpeg)
-![ajscc](/assets/uploads/2024/09/ajscc.jpeg)
-![ajsc picmm](/assets/uploads/2024/09/ajsc-picmm.jpg)
-![ajsc picc](/assets/uploads/2024/09/ajsc-picc.jpg)
-![ajsc pic](/assets/uploads/2024/09/ajsc-pic.jpg)
-![ajascvv](/assets/uploads/2024/09/ajascvv.jpg)
-![WhatsApp Image 2025 03 20 at 11.52.36 AM](/assets/uploads/2025/03/WhatsApp-Image-2025-03-20-at-11.52.36-AM.jpeg)

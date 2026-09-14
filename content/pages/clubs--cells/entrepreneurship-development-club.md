@@ -3,6 +3,30 @@ title: Entrepreneurship Development Club
 description: "Al Jamia Arts & Science College, Perinthalmanna — affiliated to the University of Calicut."
 permalink: /clubs--cells/entrepreneurship-development-club/
 type: page
+gallery:
+  - /assets/uploads/2024/04/edclub1.jpeg-scaled.jpg
+  - /assets/uploads/2024/04/edclub2-scaled.jpg
+  - /assets/uploads/2024/04/edclub4.jpeg.jpg
+  - /assets/uploads/2024/04/edclub3-scaled.jpg
+  - /assets/uploads/2024/04/edclub5.jpeg.jpg
+  - /assets/uploads/2024/06/WhatsApp-Image-2025-02-03-at-4.51.20-PM.jpeg
+  - /assets/uploads/2025/02/WhatsApp-Image-2025-02-16-at-3.36.45-PM.jpeg
+  - /assets/uploads/2025/02/WhatsApp-Image-2025-02-16-at-3.40.36-PM.jpeg
+  - /assets/uploads/2025/02/WhatsApp-Image-2025-02-16-at-8.29.23-PM.jpeg
+  - /assets/uploads/2025/02/WhatsApp-Image-2025-02-16-at-8.29.24-PM.jpeg
+  - /assets/uploads/2025/02/WhatsApp-Image-2025-02-16-at-8.29.23-PM-1.jpeg
+  - /assets/uploads/2025/02/WhatsApp-Image-2025-02-16-at-8.31.10-PM.jpeg
+  - /assets/uploads/2025/02/WhatsApp-Image-2025-02-16-at-8.31.12-PM.jpeg
+  - /assets/uploads/2025/02/WhatsApp-Image-2025-02-16-at-8.32.49-PM.jpeg
+  - /assets/uploads/2025/02/WhatsApp-Image-2025-02-16-at-8.32.25-PM.jpeg
+  - /assets/uploads/2025/02/WhatsApp-Image-2025-02-16-at-8.33.44-PM.jpeg
+  - /assets/uploads/2025/02/WhatsApp-Image-2025-02-16-at-8.34.24-PM.jpeg
+  - /assets/uploads/2025/02/WhatsApp-Image-2025-02-16-at-8.34.27-PM.jpeg
+  - /assets/uploads/2025/02/WhatsApp-Image-2025-02-16-at-8.34.27-PM-1.jpeg
+  - /assets/uploads/2025/02/WhatsApp-Image-2025-10-23-at-10.05.59-PM.jpeg
+  - /assets/uploads/2025/02/WhatsApp-Image-2025-10-23-at-10.06.01-PM.jpeg
+  - /assets/uploads/2025/02/WhatsApp-Image-2025-10-23-at-10.05.57-PM.jpeg
+  - /assets/uploads/2025/02/WhatsApp-Image-2025-10-23-at-10.05.56-PM.jpeg
 ---
 
 ## About
@@ -39,30 +63,3 @@ Aiswarya K R
 ## Established Year :
 
 2023
-
-## Gallery
-
-
-![edclub1.jpeg scaled](/assets/uploads/2024/04/edclub1.jpeg-scaled.jpg)
-![edclub2 scaled](/assets/uploads/2024/04/edclub2-scaled.jpg)
-![edclub4.jpeg](/assets/uploads/2024/04/edclub4.jpeg.jpg)
-![edclub3 scaled](/assets/uploads/2024/04/edclub3-scaled.jpg)
-![edclub5.jpeg](/assets/uploads/2024/04/edclub5.jpeg.jpg)
-![WhatsApp Image 2025 02 03 at 4.51.20 PM](/assets/uploads/2024/06/WhatsApp-Image-2025-02-03-at-4.51.20-PM.jpeg)
-![WhatsApp Image 2025 02 16 at 3.36.45 PM](/assets/uploads/2025/02/WhatsApp-Image-2025-02-16-at-3.36.45-PM.jpeg)
-![WhatsApp Image 2025 02 16 at 3.40.36 PM](/assets/uploads/2025/02/WhatsApp-Image-2025-02-16-at-3.40.36-PM.jpeg)
-![WhatsApp Image 2025 02 16 at 8.29.23 PM](/assets/uploads/2025/02/WhatsApp-Image-2025-02-16-at-8.29.23-PM.jpeg)
-![WhatsApp Image 2025 02 16 at 8.29.24 PM](/assets/uploads/2025/02/WhatsApp-Image-2025-02-16-at-8.29.24-PM.jpeg)
-![WhatsApp Image 2025 02 16 at 8.29.23 PM 1](/assets/uploads/2025/02/WhatsApp-Image-2025-02-16-at-8.29.23-PM-1.jpeg)
-![WhatsApp Image 2025 02 16 at 8.31.10 PM](/assets/uploads/2025/02/WhatsApp-Image-2025-02-16-at-8.31.10-PM.jpeg)
-![WhatsApp Image 2025 02 16 at 8.31.12 PM](/assets/uploads/2025/02/WhatsApp-Image-2025-02-16-at-8.31.12-PM.jpeg)
-![WhatsApp Image 2025 02 16 at 8.32.49 PM](/assets/uploads/2025/02/WhatsApp-Image-2025-02-16-at-8.32.49-PM.jpeg)
-![WhatsApp Image 2025 02 16 at 8.32.25 PM](/assets/uploads/2025/02/WhatsApp-Image-2025-02-16-at-8.32.25-PM.jpeg)
-![WhatsApp Image 2025 02 16 at 8.33.44 PM](/assets/uploads/2025/02/WhatsApp-Image-2025-02-16-at-8.33.44-PM.jpeg)
-![WhatsApp Image 2025 02 16 at 8.34.24 PM](/assets/uploads/2025/02/WhatsApp-Image-2025-02-16-at-8.34.24-PM.jpeg)
-![WhatsApp Image 2025 02 16 at 8.34.27 PM](/assets/uploads/2025/02/WhatsApp-Image-2025-02-16-at-8.34.27-PM.jpeg)
-![WhatsApp Image 2025 02 16 at 8.34.27 PM 1](/assets/uploads/2025/02/WhatsApp-Image-2025-02-16-at-8.34.27-PM-1.jpeg)
-![WhatsApp Image 2025 10 23 at 10.05.59 PM](/assets/uploads/2025/02/WhatsApp-Image-2025-10-23-at-10.05.59-PM.jpeg)
-![WhatsApp Image 2025 10 23 at 10.06.01 PM](/assets/uploads/2025/02/WhatsApp-Image-2025-10-23-at-10.06.01-PM.jpeg)
-![WhatsApp Image 2025 10 23 at 10.05.57 PM](/assets/uploads/2025/02/WhatsApp-Image-2025-10-23-at-10.05.57-PM.jpeg)
-![WhatsApp Image 2025 10 23 at 10.05.56 PM](/assets/uploads/2025/02/WhatsApp-Image-2025-10-23-at-10.05.56-PM.jpeg)

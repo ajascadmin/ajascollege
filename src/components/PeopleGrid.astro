@@ -11,6 +11,7 @@ interface Person {
   name: string;
   role?: string;
   phone?: string;
+  link?: string;
 }
 
 interface Props {
@@ -31,8 +32,10 @@ const { people, title } = Astro.props;
         </div>
       )}
       <div class="people-grid">
-        {people.map((p) => (
-          <article class="people-card">
+        {people.map((p) => {
+          const Tag = p.link ? "a" : "article";
+          return (
+          <Tag class="people-card" {...(p.link ? { href: p.link } : {})}>
             {p.photo ? (
               <div class="people-card-photo">
                 <CmsImage src={p.photo} alt={p.name} preset="avatar" fit="cover" />
@@ -49,14 +52,15 @@ const { people, title } = Astro.props;
             <div class="people-card-body">
               <h3>{p.name}</h3>
               {p.role && <p class="people-card-role">{p.role}</p>}
-              {p.phone && (
+              {p.phone && !p.link && (
                 <a class="people-card-phone" href={`tel:${p.phone.replace(/\s+/g, "")}`}>
                   {p.phone}
                 </a>
               )}
             </div>
-          </article>
-        ))}
+          </Tag>
+          );
+        })}
       </div>
     </section>
   )
@@ -99,6 +103,13 @@ const { people, title } = Astro.props;
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  a.people-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(24, 50, 81, 0.14);
   }
   .people-card-photo {
     width: 92px;

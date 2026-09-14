@@ -3,6 +3,70 @@ title: PG Department of Psychology
 description: "Al Jamia Arts & Science College, Perinthalmanna — affiliated to the University of Calicut."
 permalink: /departments/department-of-psychology/
 type: page
+gallery:
+  - /assets/uploads/2024/05/DepartmentPsychology-scaled.jpg
+  - /assets/uploads/2026/03/WhatsApp-Image-2026-03-19-at-11.52.28-AM.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.35.23-PM.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.36.36-PM.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.37.23-PM.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.37.51-PM.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.38.29-PM.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-2.06.35-PM.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-2.05.39-PM-1.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-2.05.39-PM.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.41.02-PM.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.41.43-PM.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-2.02.33-PM.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-2.02.32-PM.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-2.02.33-PM-1.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-2.02.34-PM.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-2.02.31-PM.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-2.02.33-PM-2.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-2.00.45-PM.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-2.00.46-PM.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.43.14-PM.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.42.22-PM.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.43.36-PM.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.44.51-PM-1.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.44.51-PM.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.44.51-PM-2.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.44.52-PM-1.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.44.52-PM.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.44.53-PM.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.44.02-PM.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.44.53-PM-1.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.44.53-PM-2.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.46.05-PM.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.46.05-PM-1.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.46.06-PM.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.46.06-PM-1.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.46.07-PM.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.46.06-PM-2.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.46.07-PM-1.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.46.08-PM.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.46.08-PM-1.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.52.42-PM.jpeg
+  - /assets/uploads/2025/01/WhatsApp-Image-2025-01-13-at-4.00.30-PM.jpeg
+  - /assets/uploads/2025/01/WhatsApp-Image-2025-01-02-at-7.29.47-PM-1.jpeg
+  - /assets/uploads/2025/01/WhatsApp-Image-2025-01-13-at-3.58.47-PM.jpeg
+  - /assets/uploads/2025/01/CAMPAIGN-POSTER.jpeg
+  - /assets/uploads/2025/01/WhatsApp-Image-2025-01-02-at-7.02.49-PM.jpeg
+  - /assets/uploads/2025/01/POSTER.jpeg
+  - /assets/uploads/2025/01/WhatsApp-Image-2025-01-02-at-7.29.47-PM.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-02-at-7.02.50-PM-1.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2023-09-15-at-6.38.06-PM-1.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2023-09-15-at-6.38.06-PM.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-02-at-7.02.50-PM.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2023-09-15-at-6.38.02-PM.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2023-09-15-at-6.34.31-PM-1.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2023-09-15-at-6.34.00-PM.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2023-09-15-at-6.34.17-PM-1.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2023-12-27-at-1.08.47-PM-1.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2023-12-27-at-1.36.03-PM.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2023-12-27-at-1.36.04-PM-1.jpeg
+  - /assets/uploads/2025/01/WhatsApp-Image-2024-03-25-at-10.15.23-AM-1.jpeg
+  - /assets/uploads/2025/01/WhatsApp-Image-2024-03-25-at-10.15.24-AM-1.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2024-03-25-at-10.15.22-AM-1-1.jpeg
 ---
 
 ## About
@@ -27,69 +91,3 @@ Head of Department
 |  |  |
 | --- | --- |
 | Faculty | Bisni Lidiya N A |
-
-## Gallery
-
-![DepartmentPsychology scaled](/assets/uploads/2024/05/DepartmentPsychology-scaled.jpg)
-![WhatsApp Image 2026 03 19 at 11.52.28 AM](/assets/uploads/2026/03/WhatsApp-Image-2026-03-19-at-11.52.28-AM.jpeg)
-![WhatsApp Image 2025 01 16 at 1.35.23 PM](/assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.35.23-PM.jpeg)
-![WhatsApp Image 2025 01 16 at 1.36.36 PM](/assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.36.36-PM.jpeg)
-![WhatsApp Image 2025 01 16 at 1.37.23 PM](/assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.37.23-PM.jpeg)
-![WhatsApp Image 2025 01 16 at 1.37.51 PM](/assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.37.51-PM.jpeg)
-![WhatsApp Image 2025 01 16 at 1.38.29 PM](/assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.38.29-PM.jpeg)
-![WhatsApp Image 2025 01 16 at 2.06.35 PM](/assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-2.06.35-PM.jpeg)
-![WhatsApp Image 2025 01 16 at 2.05.39 PM 1](/assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-2.05.39-PM-1.jpeg)
-![WhatsApp Image 2025 01 16 at 2.05.39 PM](/assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-2.05.39-PM.jpeg)
-![WhatsApp Image 2025 01 16 at 1.41.02 PM](/assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.41.02-PM.jpeg)
-![WhatsApp Image 2025 01 16 at 1.41.43 PM](/assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.41.43-PM.jpeg)
-![WhatsApp Image 2025 01 16 at 2.02.33 PM](/assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-2.02.33-PM.jpeg)
-![WhatsApp Image 2025 01 16 at 2.02.32 PM](/assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-2.02.32-PM.jpeg)
-![WhatsApp Image 2025 01 16 at 2.02.33 PM 1](/assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-2.02.33-PM-1.jpeg)
-![WhatsApp Image 2025 01 16 at 2.02.34 PM](/assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-2.02.34-PM.jpeg)
-![WhatsApp Image 2025 01 16 at 2.02.31 PM](/assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-2.02.31-PM.jpeg)
-![WhatsApp Image 2025 01 16 at 2.02.33 PM 2](/assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-2.02.33-PM-2.jpeg)
-![WhatsApp Image 2025 01 16 at 2.00.45 PM](/assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-2.00.45-PM.jpeg)
-![WhatsApp Image 2025 01 16 at 2.00.46 PM](/assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-2.00.46-PM.jpeg)
-![WhatsApp Image 2025 01 16 at 1.43.14 PM](/assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.43.14-PM.jpeg)
-![WhatsApp Image 2025 01 16 at 1.42.22 PM](/assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.42.22-PM.jpeg)
-![WhatsApp Image 2025 01 16 at 1.43.36 PM](/assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.43.36-PM.jpeg)
-![WhatsApp Image 2025 01 16 at 1.44.51 PM 1](/assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.44.51-PM-1.jpeg)
-![WhatsApp Image 2025 01 16 at 1.44.51 PM](/assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.44.51-PM.jpeg)
-![WhatsApp Image 2025 01 16 at 1.44.51 PM 2](/assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.44.51-PM-2.jpeg)
-![WhatsApp Image 2025 01 16 at 1.44.52 PM 1](/assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.44.52-PM-1.jpeg)
-![WhatsApp Image 2025 01 16 at 1.44.52 PM](/assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.44.52-PM.jpeg)
-![WhatsApp Image 2025 01 16 at 1.44.53 PM](/assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.44.53-PM.jpeg)
-![WhatsApp Image 2025 01 16 at 1.44.02 PM](/assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.44.02-PM.jpeg)
-![WhatsApp Image 2025 01 16 at 1.44.53 PM 1](/assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.44.53-PM-1.jpeg)
-![WhatsApp Image 2025 01 16 at 1.44.53 PM 2](/assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.44.53-PM-2.jpeg)
-![WhatsApp Image 2025 01 16 at 1.46.05 PM](/assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.46.05-PM.jpeg)
-![WhatsApp Image 2025 01 16 at 1.46.05 PM 1](/assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.46.05-PM-1.jpeg)
-![WhatsApp Image 2025 01 16 at 1.46.06 PM](/assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.46.06-PM.jpeg)
-![WhatsApp Image 2025 01 16 at 1.46.06 PM 1](/assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.46.06-PM-1.jpeg)
-![WhatsApp Image 2025 01 16 at 1.46.07 PM](/assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.46.07-PM.jpeg)
-![WhatsApp Image 2025 01 16 at 1.46.06 PM 2](/assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.46.06-PM-2.jpeg)
-![WhatsApp Image 2025 01 16 at 1.46.07 PM 1](/assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.46.07-PM-1.jpeg)
-![WhatsApp Image 2025 01 16 at 1.46.08 PM](/assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.46.08-PM.jpeg)
-![WhatsApp Image 2025 01 16 at 1.46.08 PM 1](/assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.46.08-PM-1.jpeg)
-![WhatsApp Image 2025 01 16 at 1.52.42 PM](/assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.52.42-PM.jpeg)
-![WhatsApp Image 2025 01 13 at 4.00.30 PM](/assets/uploads/2025/01/WhatsApp-Image-2025-01-13-at-4.00.30-PM.jpeg)
-![WhatsApp Image 2025 01 02 at 7.29.47 PM 1](/assets/uploads/2025/01/WhatsApp-Image-2025-01-02-at-7.29.47-PM-1.jpeg)
-![WhatsApp Image 2025 01 13 at 3.58.47 PM](/assets/uploads/2025/01/WhatsApp-Image-2025-01-13-at-3.58.47-PM.jpeg)
-![CAMPAIGN POSTER](/assets/uploads/2025/01/CAMPAIGN-POSTER.jpeg)
-![WhatsApp Image 2025 01 02 at 7.02.49 PM](/assets/uploads/2025/01/WhatsApp-Image-2025-01-02-at-7.02.49-PM.jpeg)
-![POSTER](/assets/uploads/2025/01/POSTER.jpeg)
-![WhatsApp Image 2025 01 02 at 7.29.47 PM](/assets/uploads/2025/01/WhatsApp-Image-2025-01-02-at-7.29.47-PM.jpeg)
-![WhatsApp Image 2025 01 02 at 7.02.50 PM 1](/assets/uploads/2024/05/WhatsApp-Image-2025-01-02-at-7.02.50-PM-1.jpeg)
-![WhatsApp Image 2023 09 15 at 6.38.06 PM 1](/assets/uploads/2024/05/WhatsApp-Image-2023-09-15-at-6.38.06-PM-1.jpeg)
-![WhatsApp Image 2023 09 15 at 6.38.06 PM](/assets/uploads/2024/05/WhatsApp-Image-2023-09-15-at-6.38.06-PM.jpeg)
-![WhatsApp Image 2025 01 02 at 7.02.50 PM](/assets/uploads/2024/05/WhatsApp-Image-2025-01-02-at-7.02.50-PM.jpeg)
-![WhatsApp Image 2023 09 15 at 6.38.02 PM](/assets/uploads/2024/05/WhatsApp-Image-2023-09-15-at-6.38.02-PM.jpeg)
-![WhatsApp Image 2023 09 15 at 6.34.31 PM 1](/assets/uploads/2024/05/WhatsApp-Image-2023-09-15-at-6.34.31-PM-1.jpeg)
-![WhatsApp Image 2023 09 15 at 6.34.00 PM](/assets/uploads/2024/05/WhatsApp-Image-2023-09-15-at-6.34.00-PM.jpeg)
-![WhatsApp Image 2023 09 15 at 6.34.17 PM 1](/assets/uploads/2024/05/WhatsApp-Image-2023-09-15-at-6.34.17-PM-1.jpeg)
-![WhatsApp Image 2023 12 27 at 1.08.47 PM 1](/assets/uploads/2024/05/WhatsApp-Image-2023-12-27-at-1.08.47-PM-1.jpeg)
-![WhatsApp Image 2023 12 27 at 1.36.03 PM](/assets/uploads/2024/05/WhatsApp-Image-2023-12-27-at-1.36.03-PM.jpeg)
-![WhatsApp Image 2023 12 27 at 1.36.04 PM 1](/assets/uploads/2024/05/WhatsApp-Image-2023-12-27-at-1.36.04-PM-1.jpeg)
-![WhatsApp Image 2024 03 25 at 10.15.23 AM 1](/assets/uploads/2025/01/WhatsApp-Image-2024-03-25-at-10.15.23-AM-1.jpeg)
-![WhatsApp Image 2024 03 25 at 10.15.24 AM 1](/assets/uploads/2025/01/WhatsApp-Image-2024-03-25-at-10.15.24-AM-1.jpeg)
-![WhatsApp Image 2024 03 25 at 10.15.22 AM 1 1](/assets/uploads/2024/05/WhatsApp-Image-2024-03-25-at-10.15.22-AM-1-1.jpeg)

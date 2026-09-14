@@ -4,6 +4,14 @@ description: "Al Jamia Arts & Science College, Perinthalmanna — affiliated to 
 permalink: /nss/
 type: page
 image: "/assets/uploads/2024/06/nss1.png"
+gallery:
+  - /assets/uploads/2024/05/pexels-george-pak-7972735-1.jpg
+  - /assets/uploads/2024/06/Report.png
+  - /assets/uploads/2025/03/WhatsApp-Image-2025-03-20-at-7.05.49-AM-8.jpeg
+  - /assets/uploads/2025/06/WhatsApp-Image-2025-06-12-at-12.57.44-PM.jpeg
+  - /assets/uploads/2025/06/WhatsApp-Image-2025-06-12-at-12.57.46-PM.jpeg
+  - /assets/uploads/2025/06/WhatsApp-Image-2025-06-12-at-12.57.46-PM-1.jpeg
+  - /assets/uploads/2025/06/WhatsApp-Image-2025-06-12-at-12.57.43-PM-2.jpeg
 ---
 
 ## About NSS
@@ -55,13 +63,3 @@ National Service Scheme popularly known as NSS, the scheme was launched in Gandh
 | 2021-2022 | [Download](/assets/downloads/1f142fe82844ab09d2b18b70737469b2ce8fed60.pdf) |
 | 2020-2021 | [Download](/assets/downloads/5d15e5ce335fcbeed2422a8d6f96e3f264d13023.pdf) |
 | 2019-2020 | [Download](/assets/downloads/1d5d2ca2fd42b3fb542e32f0638c22b8ac9ecc4d.pdf) |
-
-## Gallery
-
-![pexels george pak 7972735 1](/assets/uploads/2024/05/pexels-george-pak-7972735-1.jpg)
-![Report](/assets/uploads/2024/06/Report.png)
-![WhatsApp Image 2025 03 20 at 7.05.49 AM 8](/assets/uploads/2025/03/WhatsApp-Image-2025-03-20-at-7.05.49-AM-8.jpeg)
-![WhatsApp Image 2025 06 12 at 12.57.44 PM](/assets/uploads/2025/06/WhatsApp-Image-2025-06-12-at-12.57.44-PM.jpeg)
-![WhatsApp Image 2025 06 12 at 12.57.46 PM](/assets/uploads/2025/06/WhatsApp-Image-2025-06-12-at-12.57.46-PM.jpeg)
-![WhatsApp Image 2025 06 12 at 12.57.46 PM 1](/assets/uploads/2025/06/WhatsApp-Image-2025-06-12-at-12.57.46-PM-1.jpeg)
-![WhatsApp Image 2025 06 12 at 12.57.43 PM 2](/assets/uploads/2025/06/WhatsApp-Image-2025-06-12-at-12.57.43-PM-2.jpeg)

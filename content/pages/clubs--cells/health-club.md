@@ -3,6 +3,15 @@ title: Health Club
 description: "Al Jamia Arts & Science College, Perinthalmanna — affiliated to the University of Calicut."
 permalink: /clubs--cells/health-club/
 type: page
+gallery:
+  - /assets/uploads/2024/04/healthclub1.jpg
+  - /assets/uploads/2024/04/healthclub2.jpg
+  - /assets/uploads/2024/04/healthclub3.jpg
+  - /assets/uploads/2024/04/heathclub4.jpeg.jpg
+  - /assets/uploads/2024/06/4.jpg
+  - /assets/uploads/2025/10/3.jpg
+  - /assets/uploads/2024/06/2.jpg
+  - /assets/uploads/2025/10/1.jpg
 ---
 
 ## About
@@ -39,15 +48,3 @@ Adhisree P
 ## Established Year :
 
 2022
-
-## Gallery
-
-
-![healthclub1](/assets/uploads/2024/04/healthclub1.jpg)
-![healthclub2](/assets/uploads/2024/04/healthclub2.jpg)
-![healthclub3](/assets/uploads/2024/04/healthclub3.jpg)
-![heathclub4.jpeg](/assets/uploads/2024/04/heathclub4.jpeg.jpg)
-![4](/assets/uploads/2024/06/4.jpg)
-![3](/assets/uploads/2025/10/3.jpg)
-![2](/assets/uploads/2024/06/2.jpg)
-![1](/assets/uploads/2025/10/1.jpg)

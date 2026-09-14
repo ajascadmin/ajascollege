@@ -3,6 +3,12 @@ title: Nature Club
 description: "Al Jamia Arts & Science College, Perinthalmanna — affiliated to the University of Calicut."
 permalink: /clubs--cells/nature-club/
 type: page
+gallery:
+  - /assets/uploads/2024/04/natureclub3.jpg
+  - /assets/uploads/2024/04/natureclub2.jpg
+  - /assets/uploads/2024/04/natureclub1-scaled.jpg
+  - /assets/uploads/2024/06/WhatsApp-Image-2025-10-31-at-1.16.06-PM.jpeg
+  - /assets/uploads/2024/06/WhatsApp-Image-2025-10-31-at-1.16.05-PM.jpeg
 ---
 
 ## About
@@ -33,12 +39,3 @@ Shiji mol N
 ## Established Year :
 
 2022
-
-## Gallery
-
-
-![natureclub3](/assets/uploads/2024/04/natureclub3.jpg)
-![natureclub2](/assets/uploads/2024/04/natureclub2.jpg)
-![natureclub1 scaled](/assets/uploads/2024/04/natureclub1-scaled.jpg)
-![WhatsApp Image 2025 10 31 at 1.16.06 PM](/assets/uploads/2024/06/WhatsApp-Image-2025-10-31-at-1.16.06-PM.jpeg)
-![WhatsApp Image 2025 10 31 at 1.16.05 PM](/assets/uploads/2024/06/WhatsApp-Image-2025-10-31-at-1.16.05-PM.jpeg)

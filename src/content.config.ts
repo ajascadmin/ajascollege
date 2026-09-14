@@ -25,6 +25,7 @@ const entrySchema = z.object({
         name: z.string(),
         role: z.string().optional(),
         phone: z.string().optional(),
+        link: z.string().optional(),
       }),
     )
     .optional(),

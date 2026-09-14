@@ -4,6 +4,23 @@ description: "Al Jamia Arts & Science College, Perinthalmanna — affiliated to 
 permalink: /library/
 type: page
 image: "/assets/uploads/2024/06/WhatsApp-Image-2024-06-27-at-1.52.57-PM.jpeg"
+gallery:
+  - /assets/uploads/2024/05/Library2-scaled.jpeg
+  - /assets/uploads/2024/06/WhatsApp-Image-2024-06-27-at-1.52.19-PM.jpeg
+  - /assets/uploads/2024/06/WhatsApp-Image-2024-06-27-at-1.52.59-PM.jpeg
+  - /assets/uploads/2024/06/WhatsApp-Image-2024-06-27-at-1.52.16-PM.jpeg
+  - /assets/uploads/2024/06/WhatsApp-Image-2024-06-27-at-1.52.14-PM.jpeg
+  - /assets/uploads/2024/06/WhatsApp-Image-2024-06-28-at-4.07.09-PM.jpeg
+  - /assets/uploads/2024/06/WhatsApp-Image-2024-06-28-at-4.06.21-PM.jpeg
+  - /assets/uploads/2024/06/WhatsApp-Image-2024-06-27-at-2.17.53-PM.jpeg
+  - /assets/uploads/2024/04/WhatsApp-Image-2024-04-04-at-6.22.48-PM.jpeg-1-scaled.jpg
+  - /assets/uploads/2024/05/library3.jpg
+  - /assets/uploads/2024/04/WhatsApp-Image-2024-04-14-at-14.20.26_39b06c2b.jpg
+  - /assets/uploads/2025/01/WhatsApp-Image-2025-01-24-at-11.57.39-AM.jpeg
+  - /assets/uploads/2024/08/opac.png
+  - /assets/uploads/2024/08/login-icon.gif
+  - /assets/uploads/2024/08/librivox.jpg
+  - /assets/uploads/2024/08/logo.jpg
 ---
 
 ## About Library
@@ -54,22 +71,3 @@ Membership of the Library is open to all staff and students of Al Jamia College.
 | LibriVox | [Visit](https://librivox.org/) |
 | DELNET | [Visit](http://delnet.in/) |
 | Suggest a book | [Submit a request](/library-book-suggession/) |
-
-## Gallery
-
-![Library2 scaled](/assets/uploads/2024/05/Library2-scaled.jpeg)
-![WhatsApp Image 2024 06 27 at 1.52.19 PM](/assets/uploads/2024/06/WhatsApp-Image-2024-06-27-at-1.52.19-PM.jpeg)
-![WhatsApp Image 2024 06 27 at 1.52.59 PM](/assets/uploads/2024/06/WhatsApp-Image-2024-06-27-at-1.52.59-PM.jpeg)
-![WhatsApp Image 2024 06 27 at 1.52.16 PM](/assets/uploads/2024/06/WhatsApp-Image-2024-06-27-at-1.52.16-PM.jpeg)
-![WhatsApp Image 2024 06 27 at 1.52.14 PM](/assets/uploads/2024/06/WhatsApp-Image-2024-06-27-at-1.52.14-PM.jpeg)
-![WhatsApp Image 2024 06 28 at 4.07.09 PM](/assets/uploads/2024/06/WhatsApp-Image-2024-06-28-at-4.07.09-PM.jpeg)
-![WhatsApp Image 2024 06 28 at 4.06.21 PM](/assets/uploads/2024/06/WhatsApp-Image-2024-06-28-at-4.06.21-PM.jpeg)
-![WhatsApp Image 2024 06 27 at 2.17.53 PM](/assets/uploads/2024/06/WhatsApp-Image-2024-06-27-at-2.17.53-PM.jpeg)
-![WhatsApp Image 2024 04 04 at 6.22.48 PM.jpeg 1 scaled](/assets/uploads/2024/04/WhatsApp-Image-2024-04-04-at-6.22.48-PM.jpeg-1-scaled.jpg)
-![library3](/assets/uploads/2024/05/library3.jpg)
-![WhatsApp Image 2024 04 14 at 14.20.26 39b06c2b](/assets/uploads/2024/04/WhatsApp-Image-2024-04-14-at-14.20.26_39b06c2b.jpg)
-![WhatsApp Image 2025 01 24 at 11.57.39 AM](/assets/uploads/2025/01/WhatsApp-Image-2025-01-24-at-11.57.39-AM.jpeg)
-![opac](/assets/uploads/2024/08/opac.png)
-![login icon](/assets/uploads/2024/08/login-icon.gif)
-![librivox](/assets/uploads/2024/08/librivox.jpg)
-![logo](/assets/uploads/2024/08/logo.jpg)

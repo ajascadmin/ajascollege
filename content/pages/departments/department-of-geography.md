@@ -3,6 +3,40 @@ title: Department of Geography
 description: "Al Jamia Arts & Science College, Perinthalmanna — affiliated to the University of Calicut."
 permalink: /departments/department-of-geography/
 type: page
+gallery:
+  - /assets/uploads/2024/05/retro-tourist-supplies-notebook-1-min-scaled.jpg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.35.41-AM.jpeg
+  - /assets/uploads/2025/07/9295.jpg
+  - /assets/uploads/2024/03/2-1536x1152-1.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.11-AM-1.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.11-AM.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.10-AM-2.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.10-AM-1.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.10-AM-3.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.09-AM-1.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.09-AM.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.08-AM-2.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.08-AM-1.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.08-AM.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.07-AM.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.20-AM.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.19-AM-1.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.19-AM.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.18-AM-3.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.18-AM-2.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.18-AM-1.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.18-AM.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.17-AM-1.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.17-AM.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.16-AM-1.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.16-AM.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.15-AM-1.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.15-AM.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.14-AM-1.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.13-AM-1-1.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.13-AM.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.12-AM-1.jpeg
+  - /assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.12-AM.jpeg
 ---
 
 ## About
@@ -44,39 +78,3 @@ Head of Department
 | --- | --- |
 | Faculty | Yazeena Pharveen M |
 | MSc Geography | Mohammed Abdul Ganiyy A P |
-
-## Gallery
-
-![retro tourist supplies notebook 1 min scaled](/assets/uploads/2024/05/retro-tourist-supplies-notebook-1-min-scaled.jpg)
-![WhatsApp Image 2025 01 22 at 10.35.41 AM](/assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.35.41-AM.jpeg)
-![9295](/assets/uploads/2025/07/9295.jpg)
-![2 1536x1152 1](/assets/uploads/2024/03/2-1536x1152-1.jpeg)
-![WhatsApp Image 2025 01 22 at 10.39.11 AM 1](/assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.11-AM-1.jpeg)
-![WhatsApp Image 2025 01 22 at 10.39.11 AM](/assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.11-AM.jpeg)
-![WhatsApp Image 2025 01 22 at 10.39.10 AM 2](/assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.10-AM-2.jpeg)
-![WhatsApp Image 2025 01 22 at 10.39.10 AM 1](/assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.10-AM-1.jpeg)
-![WhatsApp Image 2025 01 22 at 10.39.10 AM 3](/assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.10-AM-3.jpeg)
-![WhatsApp Image 2025 01 22 at 10.39.09 AM 1](/assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.09-AM-1.jpeg)
-![WhatsApp Image 2025 01 22 at 10.39.09 AM](/assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.09-AM.jpeg)
-![WhatsApp Image 2025 01 22 at 10.39.08 AM 2](/assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.08-AM-2.jpeg)
-![WhatsApp Image 2025 01 22 at 10.39.08 AM 1](/assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.08-AM-1.jpeg)
-![WhatsApp Image 2025 01 22 at 10.39.08 AM](/assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.08-AM.jpeg)
-![WhatsApp Image 2025 01 22 at 10.39.07 AM](/assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.07-AM.jpeg)
-![WhatsApp Image 2025 01 22 at 10.39.20 AM](/assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.20-AM.jpeg)
-![WhatsApp Image 2025 01 22 at 10.39.19 AM 1](/assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.19-AM-1.jpeg)
-![WhatsApp Image 2025 01 22 at 10.39.19 AM](/assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.19-AM.jpeg)
-![WhatsApp Image 2025 01 22 at 10.39.18 AM 3](/assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.18-AM-3.jpeg)
-![WhatsApp Image 2025 01 22 at 10.39.18 AM 2](/assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.18-AM-2.jpeg)
-![WhatsApp Image 2025 01 22 at 10.39.18 AM 1](/assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.18-AM-1.jpeg)
-![WhatsApp Image 2025 01 22 at 10.39.18 AM](/assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.18-AM.jpeg)
-![WhatsApp Image 2025 01 22 at 10.39.17 AM 1](/assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.17-AM-1.jpeg)
-![WhatsApp Image 2025 01 22 at 10.39.17 AM](/assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.17-AM.jpeg)
-![WhatsApp Image 2025 01 22 at 10.39.16 AM 1](/assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.16-AM-1.jpeg)
-![WhatsApp Image 2025 01 22 at 10.39.16 AM](/assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.16-AM.jpeg)
-![WhatsApp Image 2025 01 22 at 10.39.15 AM 1](/assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.15-AM-1.jpeg)
-![WhatsApp Image 2025 01 22 at 10.39.15 AM](/assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.15-AM.jpeg)
-![WhatsApp Image 2025 01 22 at 10.39.14 AM 1](/assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.14-AM-1.jpeg)
-![WhatsApp Image 2025 01 22 at 10.39.13 AM 1 1](/assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.13-AM-1-1.jpeg)
-![WhatsApp Image 2025 01 22 at 10.39.13 AM](/assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.13-AM.jpeg)
-![WhatsApp Image 2025 01 22 at 10.39.12 AM 1](/assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.12-AM-1.jpeg)
-![WhatsApp Image 2025 01 22 at 10.39.12 AM](/assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.39.12-AM.jpeg)

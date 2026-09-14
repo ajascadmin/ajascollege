@@ -4,6 +4,8 @@ description: "Al Jamia Arts & Science College, Perinthalmanna — affiliated to 
 permalink: /seminar-hall/
 type: page
 image: "/assets/uploads/2024/05/Seminar-Hall.jpg"
+gallery:
+  - /assets/uploads/2024/04/edclub4.jpeg.jpg
 ---
 
 # Seminar Halls​
@@ -27,7 +29,3 @@ Set in an abundance of 7000 sq. ft. with 500 nos seating capacity, the seminar h
 [![](/assets/uploads/2024/05/WhatsApp-Image-2023-10-16-at-3.05.39-PM.jpeg)](/assets/uploads/2024/05/WhatsApp-Image-2023-10-16-at-3.05.39-PM.jpeg)
 
 [![](/assets/uploads/2024/05/WhatsApp-Image-2024-03-26-at-11.24.26-AM-1.jpeg)](/assets/uploads/2024/05/WhatsApp-Image-2024-03-26-at-11.24.26-AM-1.jpeg)
-
-## Gallery
-
-![edclub4.jpeg](/assets/uploads/2024/04/edclub4.jpeg.jpg)

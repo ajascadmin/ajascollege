@@ -3,6 +3,17 @@ title: Arts Club
 description: "Al Jamia Arts & Science College, Perinthalmanna — affiliated to the University of Calicut."
 permalink: /clubs--cells/arts-club/
 type: page
+gallery:
+  - /assets/uploads/2024/06/artclub.jpg
+  - /assets/uploads/2024/05/arts7.jpeg.jpg
+  - /assets/uploads/2024/05/arts8.jpeg.jpg
+  - /assets/uploads/2024/05/arts9.jpeg.jpg
+  - /assets/uploads/2024/05/arts1.jpeg.jpg
+  - /assets/uploads/2024/05/arts2.jpeg.jpg
+  - /assets/uploads/2024/05/arts3.jpeg.jpg
+  - /assets/uploads/2024/05/arts4.jpeg.jpg
+  - /assets/uploads/2024/05/arts5.jpeg.jpg
+  - /assets/uploads/2024/05/arts6.jpeg.jpg
 ---
 
 ## About
@@ -37,17 +48,3 @@ Through continuous artistic engagement, the Arts Club promotes collaboration, in
 
 Anfa Shareef
 – Department of Computer Applications
-
-## Gallery
-
-
-![artclub](/assets/uploads/2024/06/artclub.jpg)
-![arts7.jpeg](/assets/uploads/2024/05/arts7.jpeg.jpg)
-![arts8.jpeg](/assets/uploads/2024/05/arts8.jpeg.jpg)
-![arts9.jpeg](/assets/uploads/2024/05/arts9.jpeg.jpg)
-![arts1.jpeg](/assets/uploads/2024/05/arts1.jpeg.jpg)
-![arts2.jpeg](/assets/uploads/2024/05/arts2.jpeg.jpg)
-![arts3.jpeg](/assets/uploads/2024/05/arts3.jpeg.jpg)
-![arts4.jpeg](/assets/uploads/2024/05/arts4.jpeg.jpg)
-![arts5.jpeg](/assets/uploads/2024/05/arts5.jpeg.jpg)
-![arts6.jpeg](/assets/uploads/2024/05/arts6.jpeg.jpg)

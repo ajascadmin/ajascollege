@@ -3,6 +3,10 @@ title: Policy Documents
 description: "Al Jamia Arts & Science College, Perinthalmanna — affiliated to the University of Calicut."
 permalink: /policy-documents/
 type: page
+gallery:
+  - /assets/uploads/2024/06/AJAS-COLLAGE.jpg
+  - /assets/uploads/2024/01/P1222323-building-2048x1154-1.webp
+  - /assets/uploads/2024/01/building-admin-P1222310-1024x577-copy-1.png
 ---
 
 ## Policies
@@ -38,9 +42,3 @@ type: page
 - [FREESHIP POLICY](/assets/uploads/2024/07/FREESHIP_POLICY.pdf)
 - [PRAGATHI SCHOLARSHIP POLICY](/assets/uploads/2024/07/PRAGATHI_SCHOLARSHIP_POLICY.pdf)
 - [ALUMNI SCHOLARSHIP POLICY](/assets/uploads/2024/07/ALUMNI_SCHOLARSHIP_POLICY.pdf)
-
-## Gallery
-
-![AJAS COLLAGE](/assets/uploads/2024/06/AJAS-COLLAGE.jpg)
-![P1222323 building 2048x1154 1](/assets/uploads/2024/01/P1222323-building-2048x1154-1.webp)
-![building admin P1222310 1024x577 copy 1](/assets/uploads/2024/01/building-admin-P1222310-1024x577-copy-1.png)

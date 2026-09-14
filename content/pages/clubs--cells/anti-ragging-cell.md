@@ -3,6 +3,18 @@ title: Anti-Ragging Cell
 description: "Al Jamia Arts & Science College, Perinthalmanna — affiliated to the University of Calicut."
 permalink: /clubs--cells/anti-ragging-cell/
 type: page
+gallery:
+  - /assets/uploads/2024/07/WhatsApp-Image-2024-08-27-at-12.19.43-PM.jpeg
+  - /assets/uploads/2024/07/WhatsApp-Image-2024-08-27-at-12.19.43-PM-1.jpeg
+  - /assets/uploads/2024/07/WhatsApp-Image-2024-08-27-at-12.19.44-PM.jpeg
+  - /assets/uploads/2024/07/WhatsApp-Image-2024-08-27-at-12.19.44-PM-1.jpeg
+  - /assets/uploads/2024/07/WhatsApp-Image-2024-08-27-at-12.57.35-PM.jpeg
+  - /assets/uploads/2024/07/WhatsApp-Image-2024-08-27-at-12.58.49-PM.jpeg
+  - /assets/uploads/2024/07/WhatsApp-Image-2024-08-27-at-12.58.50-PM.jpeg
+  - /assets/uploads/2024/07/WhatsApp-Image-2024-08-27-at-12.58.50-PM-1.jpeg
+  - /assets/uploads/2024/07/WhatsApp-Image-2024-08-27-at-12.58.51-PM.jpeg
+  - /assets/uploads/2024/07/WhatsApp-Image-2024-08-27-at-12.58.51-PM-1.jpeg
+  - /assets/uploads/2024/07/WhatsApp-Image-2024-08-27-at-12.58.52-PM.jpeg
 ---
 
 ## About
@@ -37,18 +49,3 @@ To ensure a campus free from ragging and harassment, fostering an environment of
 
 Rahees C
 – Department of Commerce & Management Studies
-
-## Gallery
-
-
-![WhatsApp Image 2024 08 27 at 12.19.43 PM](/assets/uploads/2024/07/WhatsApp-Image-2024-08-27-at-12.19.43-PM.jpeg)
-![WhatsApp Image 2024 08 27 at 12.19.43 PM 1](/assets/uploads/2024/07/WhatsApp-Image-2024-08-27-at-12.19.43-PM-1.jpeg)
-![WhatsApp Image 2024 08 27 at 12.19.44 PM](/assets/uploads/2024/07/WhatsApp-Image-2024-08-27-at-12.19.44-PM.jpeg)
-![WhatsApp Image 2024 08 27 at 12.19.44 PM 1](/assets/uploads/2024/07/WhatsApp-Image-2024-08-27-at-12.19.44-PM-1.jpeg)
-![WhatsApp Image 2024 08 27 at 12.57.35 PM](/assets/uploads/2024/07/WhatsApp-Image-2024-08-27-at-12.57.35-PM.jpeg)
-![WhatsApp Image 2024 08 27 at 12.58.49 PM](/assets/uploads/2024/07/WhatsApp-Image-2024-08-27-at-12.58.49-PM.jpeg)
-![WhatsApp Image 2024 08 27 at 12.58.50 PM](/assets/uploads/2024/07/WhatsApp-Image-2024-08-27-at-12.58.50-PM.jpeg)
-![WhatsApp Image 2024 08 27 at 12.58.50 PM 1](/assets/uploads/2024/07/WhatsApp-Image-2024-08-27-at-12.58.50-PM-1.jpeg)
-![WhatsApp Image 2024 08 27 at 12.58.51 PM](/assets/uploads/2024/07/WhatsApp-Image-2024-08-27-at-12.58.51-PM.jpeg)
-![WhatsApp Image 2024 08 27 at 12.58.51 PM 1](/assets/uploads/2024/07/WhatsApp-Image-2024-08-27-at-12.58.51-PM-1.jpeg)
-![WhatsApp Image 2024 08 27 at 12.58.52 PM](/assets/uploads/2024/07/WhatsApp-Image-2024-08-27-at-12.58.52-PM.jpeg)

@@ -3,6 +3,21 @@ title: "Leader's Academy"
 description: "Al Jamia Arts & Science College, Perinthalmanna — affiliated to the University of Calicut."
 permalink: /clubs--cells/leaders-academy/
 type: page
+gallery:
+  - /assets/uploads/2024/04/leader1.jpeg.jpg
+  - /assets/uploads/2024/04/leader2-scaled.jpg
+  - /assets/uploads/2024/04/leader3-scaled.jpg
+  - /assets/uploads/2024/06/WhatsApp-Image-2023-02-09-at-8.40.02-PM.jpeg
+  - /assets/uploads/2024/06/Screenshot_2024-06-27-16-18-48-584_com.instagram.android-edit.jpg
+  - /assets/uploads/2024/06/WhatsApp-Image-2024-06-27-at-4.16.06-PM.jpeg
+  - /assets/uploads/2024/06/Picture04.jpg
+  - /assets/uploads/2024/06/Picture03.jpg
+  - /assets/uploads/2024/06/Picture02.jpg
+  - /assets/uploads/2024/06/Picture01.jpg
+  - /assets/uploads/2024/06/WhatsApp-Image-2025-01-20-at-10.02.12-PM.jpeg
+  - /assets/uploads/2024/06/WhatsApp-Image-2025-01-20-at-10.01.01-PM.jpeg
+  - /assets/uploads/2024/06/WhatsApp-Image-2025-01-20-at-10.00.43-PM.jpeg
+  - /assets/uploads/2024/06/WhatsApp-Image-2025-10-27-at-11.07.13-PM.jpeg
 ---
 
 # Leader’s Academy
@@ -45,21 +60,3 @@ Dr. Thahiya Naushad
 ## Established Year :
 
 2022
-
-## Gallery
-
-
-![leader1.jpeg](/assets/uploads/2024/04/leader1.jpeg.jpg)
-![leader2 scaled](/assets/uploads/2024/04/leader2-scaled.jpg)
-![leader3 scaled](/assets/uploads/2024/04/leader3-scaled.jpg)
-![WhatsApp Image 2023 02 09 at 8.40.02 PM](/assets/uploads/2024/06/WhatsApp-Image-2023-02-09-at-8.40.02-PM.jpeg)
-![Screenshot 2024 06 27 16 18 48 584 com.instagram.android edit](/assets/uploads/2024/06/Screenshot_2024-06-27-16-18-48-584_com.instagram.android-edit.jpg)
-![WhatsApp Image 2024 06 27 at 4.16.06 PM](/assets/uploads/2024/06/WhatsApp-Image-2024-06-27-at-4.16.06-PM.jpeg)
-![Picture04](/assets/uploads/2024/06/Picture04.jpg)
-![Picture03](/assets/uploads/2024/06/Picture03.jpg)
-![Picture02](/assets/uploads/2024/06/Picture02.jpg)
-![Picture01](/assets/uploads/2024/06/Picture01.jpg)
-![WhatsApp Image 2025 01 20 at 10.02.12 PM](/assets/uploads/2024/06/WhatsApp-Image-2025-01-20-at-10.02.12-PM.jpeg)
-![WhatsApp Image 2025 01 20 at 10.01.01 PM](/assets/uploads/2024/06/WhatsApp-Image-2025-01-20-at-10.01.01-PM.jpeg)
-![WhatsApp Image 2025 01 20 at 10.00.43 PM](/assets/uploads/2024/06/WhatsApp-Image-2025-01-20-at-10.00.43-PM.jpeg)
-![WhatsApp Image 2025 10 27 at 11.07.13 PM](/assets/uploads/2024/06/WhatsApp-Image-2025-10-27-at-11.07.13-PM.jpeg)
