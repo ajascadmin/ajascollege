@@ -146,3 +146,62 @@ button[class*="save"] {
   border-color: var(--ajas-maroon) !important;
   color: #fff !important;
 }
+
+/* ——— General legibility & spacing polish ——————————————————————— */
+/* Sveltia is a third-party app we don't control the markup of, so these
+   stay broad/defensive ([class*=]) like the rules above rather than
+   guessing exact component class names. */
+
+html,
+body {
+  font-family: "Rubik", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+}
+
+/* Collapsed object/list section headers — the numbered "1 · Hero video"
+   style groups added to the homepage editor — should read as clear,
+   tappable rows, not cramped text. */
+[class*="object-field"] > [class*="header"],
+[class*="list"][class*="widget"] [class*="summary"],
+details > summary {
+  padding-block: 4px !important;
+}
+
+/* Field labels: consistent weight/spacing so a long form (e.g. the
+   homepage editor) scans as a list of clear questions, not a wall. */
+label[class*="label"],
+[class*="field"] > label {
+  font-weight: 600 !important;
+  color: var(--ajas-ink) !important;
+  margin-bottom: 4px !important;
+}
+
+/* Field hints — de-emphasize so they read as help text, not more content */
+[class*="hint"] {
+  color: var(--ajas-muted) !important;
+  font-size: 0.85em !important;
+}
+
+/* Rounded, lightly-shadowed panels/cards throughout the editor */
+[class*="panel"],
+[class*="Panel"],
+[class*="object-field"],
+[class*="pane"] {
+  border-radius: 8px !important;
+}
+
+/* Sidebar collection list — clearer active/hover state beyond color */
+[class*="sidebar"] a,
+nav[class*="collection"] a {
+  border-radius: 6px !important;
+}
+[class*="sidebar"] a[aria-current="page"],
+nav[class*="collection"] a[aria-current="page"] {
+  background: var(--ajas-maroon-soft) !important;
+  font-weight: 600 !important;
+}
+
+/* Boolean toggles use the brand blue, not a default green/gray */
+input[type="checkbox"][class*="switch"],
+[class*="toggle"][class*="checked"] {
+  accent-color: var(--ajas-blue) !important;
+}

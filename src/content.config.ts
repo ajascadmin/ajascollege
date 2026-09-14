@@ -125,25 +125,174 @@ const settings = defineCollection({
   }),
 });
 
-/** Homepage hero + principal blurb (structured, WordPress-like) */
+/**
+ * Homepage — every section is structured data so each component, card,
+ * button and image on `/` is editable from the CMS (not baked into a
+ * markdown/HTML blob). src/pages/index.astro renders one component per key.
+ */
 const home = defineCollection({
   loader: glob({ pattern: "**/*.{json,yml,yaml}", base: "./content/home" }),
   schema: z.object({
-    hero_kicker: z.string(),
-    hero_title: z.string(),
-    hero_text: z.string(),
-    hero_cta_primary_label: z.string(),
-    hero_cta_primary_url: z.string(),
-    hero_cta_secondary_label: z.string(),
-    hero_cta_secondary_url: z.string(),
-    hero_images: z.array(z.string()).default([]),
-    stat_departments: z.string().optional(),
-    stat_ug: z.string().optional(),
-    stat_pg: z.string().optional(),
-    stat_established: z.string().optional(),
-    principal_name: z.string().optional(),
-    principal_photo: z.string().optional(),
-    principal_excerpt: z.string().optional(),
+    title: z.string().default("Home"),
+    description: z.string(),
+    hero: z.object({
+      video: z.string(),
+    }),
+    quick_actions: z.array(
+      z.object({
+        icon: z.string(),
+        title: z.string(),
+        subtitle: z.string(),
+        cta_label: z.string(),
+        url: z.string(),
+        style: z.enum(["primary", "navy", "light"]).default("primary"),
+      }),
+    ),
+    accreditation: z.object({
+      label: z.string(),
+      items: z.array(z.object({ image: z.string(), name: z.string() })),
+    }),
+    about: z.object({
+      heading: z.string(),
+      paragraphs: z.array(z.string()),
+      cta_label: z.string(),
+      cta_url: z.string(),
+    }),
+    metrics: z.array(z.object({ value: z.string(), label: z.string() })),
+    chairman_message: z.object({
+      kicker: z.string(),
+      heading: z.string(),
+      photo: z.string(),
+      photo_url: z.string(),
+      paragraphs: z.array(z.string()),
+      cta_label: z.string(),
+      cta_url: z.string(),
+    }),
+    principal_message: z.object({
+      kicker: z.string(),
+      heading: z.string(),
+      photo: z.string(),
+      photo_url: z.string(),
+      quote: z.string(),
+      bullet_points: z.array(z.string()),
+      cta_label: z.string(),
+      cta_url: z.string(),
+    }),
+    programmes: z.object({
+      kicker: z.string(),
+      heading: z.string(),
+      intro: z.string(),
+      ug: z.object({
+        icon: z.string(),
+        level_tag: z.string(),
+        title: z.string(),
+        meta: z.string(),
+        items: z.array(z.object({ icon: z.string().optional(), label: z.string(), url: z.string() })),
+        cta_primary_label: z.string(),
+        cta_primary_url: z.string(),
+        cta_secondary_label: z.string(),
+        cta_secondary_url: z.string(),
+      }),
+      pg: z.object({
+        icon: z.string(),
+        level_tag: z.string(),
+        title: z.string(),
+        meta: z.string(),
+        items: z.array(z.object({ icon: z.string().optional(), label: z.string(), url: z.string() })),
+        highlight_icon: z.string().optional(),
+        highlight_text: z.string(),
+        cta_primary_label: z.string(),
+        cta_primary_url: z.string(),
+        cta_secondary_label: z.string(),
+        cta_secondary_url: z.string(),
+      }),
+      departments_kicker: z.string(),
+      departments_heading: z.string(),
+      departments: z.array(
+        z.object({
+          icon: z.string(),
+          badge_label: z.string(),
+          image: z.string(),
+          title: z.string(),
+          url: z.string(),
+          description: z.string(),
+          pills: z.array(z.string()).default([]),
+        }),
+      ),
+      view_all_label: z.string(),
+      view_all_url: z.string(),
+    }),
+    gallery: z.object({
+      kicker: z.string(),
+      heading: z.string(),
+      slides: z.array(
+        z.object({ image: z.string(), title: z.string(), caption: z.string() }),
+      ),
+      cta_label: z.string(),
+      cta_url: z.string(),
+    }),
+    services: z.object({
+      items: z.array(
+        z.object({
+          icon: z.string(),
+          title: z.string(),
+          text: z.string(),
+          cta_label: z.string(),
+          cta_url: z.string(),
+        }),
+      ),
+    }),
+    benefits: z.object({
+      heading: z.string(),
+      items: z.array(
+        z.object({ icon: z.string(), title: z.string(), text: z.string(), url: z.string() }),
+      ),
+      cta_heading: z.string(),
+      cta_text: z.string(),
+      cta_primary_label: z.string(),
+      cta_primary_url: z.string(),
+      cta_secondary_label: z.string(),
+      cta_secondary_url: z.string(),
+    }),
+    events: z.object({
+      heading: z.string(),
+      items: z.array(
+        z.object({
+          title: z.string(),
+          url: z.string(),
+          date: z.string(),
+          location: z.string(),
+          image: z.string().optional(),
+        }),
+      ),
+      cta_label: z.string(),
+      cta_url: z.string(),
+    }),
+    testimonials: z.object({
+      kicker: z.string(),
+      heading: z.string(),
+      items: z.array(
+        z.object({
+          photo: z.string(),
+          quote: z.string(),
+          name: z.string(),
+          role: z.string(),
+        }),
+      ),
+    }),
+    quick_link_cta: z.object({
+      kicker: z.string(),
+      heading: z.string(),
+      text: z.string(),
+      primary_label: z.string(),
+      primary_url: z.string(),
+      secondary_label: z.string(),
+      secondary_url: z.string(),
+      quicklinks_heading: z.string(),
+      quicklinks: z.array(
+        z.object({ icon: z.string(), label: z.string(), url: z.string(), external: z.boolean().default(false) }),
+      ),
+    }),
   }),
 });
 

@@ -1,26 +1,14 @@
 ---
-import { getCollection } from "astro:content";
-import { marked } from "marked";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { optimizeHtmlImages } from "../lib/cmsImage";
+import HomeSections from "../components/home/HomeSections.astro";
+import { getHomepage } from "../lib/site";
 
-const pages = await getCollection("pages", ({ data }) => data.permalink === "/");
-const home = pages[0];
+const home = await getHomepage();
 if (!home) {
-  throw new Error("Missing content/pages/home.md with permalink: /");
+  throw new Error("Missing content/home/homepage.json");
 }
-
-const raw = ((home as { body?: string }).body || "").trim();
-// Home is mostly HTML; marked still normalizes markdown fragments safely.
-const parsed = raw ? ((await marked.parse(raw, { async: false })) as string) : "";
-// Card preset suits department/news/event thumbs on the homepage
-const html = parsed ? await optimizeHtmlImages(parsed, "card") : "";
 ---
 
-<BaseLayout
-  title={home.data.title}
-  description={home.data.description}
-  variant="home"
->
-  <Fragment set:html={html} />
+<BaseLayout title={home.title} description={home.description} variant="home">
+  <HomeSections data={home} />
 </BaseLayout>

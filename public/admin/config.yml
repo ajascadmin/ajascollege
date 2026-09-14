@@ -33,6 +33,7 @@ slug:
 collections:
   - name: news
     label: "1 · News"
+    icon: campaign
     label_singular: News item
     description: Campus news posts (homepage + /college-news/).
     folder: content/news
@@ -57,6 +58,7 @@ collections:
 
   - name: events
     label: "2 · Events"
+    icon: event
     label_singular: Event
     description: Upcoming and past events (/event/).
     folder: content/events
@@ -81,6 +83,7 @@ collections:
 
   - name: notices
     label: "3 · Notices & downloads"
+    icon: description
     label_singular: Notice
     description: Circulars, NIRF, AISHE, RTI, IQAC PDFs — day-to-day uploads.
     folder: content/notices
@@ -120,6 +123,7 @@ collections:
 
   - name: fees
     label: "4 · Fees & prospectus"
+    icon: payments
     label_singular: Fee document
     description: Fee structure and prospectus PDFs (replace each year).
     folder: content/fees
@@ -144,6 +148,7 @@ collections:
 
   - name: settings
     label: "5 · Site settings"
+    icon: settings
     description: Phone, email, admission open flag, default fee PDF.
     files:
       - name: site
@@ -178,6 +183,7 @@ collections:
 
   - name: navigation
     label: "5b · Main menu"
+    icon: menu
     description: "Edit menu labels and links (pages or PDFs). Remove a link by deleting the item. Nested children = dropdown."
     files:
       - name: main_menu
@@ -217,34 +223,331 @@ collections:
                           - { label: Link, name: href, widget: string, required: false }
 
   - name: home
-    label: "6 · Homepage hero"
-    description: Hero text, CTAs, stats, principal blurb.
+    label: "6 · Homepage"
+    icon: home
+    description: "Every section of the homepage — hero video, quick-action tiles, accreditation logos, chairman/principal messages, programme & department cards, campus gallery, services, benefits, upcoming events, testimonials and the closing call-to-action. Click a section below to open it; nothing on the homepage lives outside this editor."
     files:
       - name: homepage
         label: Homepage
         file: content/home/homepage.json
         fields:
-          - { label: Hero kicker, name: hero_kicker, widget: string }
-          - { label: Hero title, name: hero_title, widget: text }
-          - { label: Hero text, name: hero_text, widget: text }
-          - { label: Primary button label, name: hero_cta_primary_label, widget: string }
-          - { label: Primary button URL, name: hero_cta_primary_url, widget: string }
-          - { label: Secondary button label, name: hero_cta_secondary_label, widget: string }
-          - { label: Secondary button URL, name: hero_cta_secondary_url, widget: string }
-          - label: Hero images
-            name: hero_images
+          - { label: "Browser tab title", name: title, widget: string, hint: "Shown as \"<this> | Al Jamia Arts & Science College\" in the browser tab and search results." }
+          - { label: "Search-engine description", name: description, widget: text }
+
+          - label: "1 · Hero video"
+            name: hero
+            widget: object
+            collapsed: true
+            summary: "Full-bleed video at the very top of the page"
+            fields:
+              - label: Background video
+                name: video
+                widget: file
+                media_folder: src/assets/uploads
+                public_folder: /assets/uploads
+                hint: "MP4, muted & looping. Keep it well under 15MB — it autoplays for every visitor."
+
+          - label: "2 · Quick-action tiles"
+            name: quick_actions
             widget: list
-            field: { label: Image, name: image, widget: image }
-          - { label: "Stat — students", name: stat_students, widget: string, required: false }
-          - { label: "Stat — UG programmes", name: stat_ug, widget: string, required: false }
-          - { label: "Stat — PG programmes", name: stat_pg, widget: string, required: false }
-          - { label: "Stat — total programs", name: stat_total_programs, widget: string, required: false }
-          - { label: Principal name, name: principal_name, widget: string, required: false }
-          - { label: Principal photo, name: principal_photo, widget: image, required: false, choose_url: true }
-          - { label: Principal excerpt, name: principal_excerpt, widget: text, required: false }
+            collapsed: true
+            summary: "{{fields.title}}"
+            hint: "The 3 tiles directly under the hero video (Admissions / Programmes / Prospectus by default)."
+            fields:
+              - { label: "Icon (Font Awesome name, no \"fa-\" prefix)", name: icon, widget: string, hint: "e.g. pencil-square-o — browse names at fontawesome.com/v4/icons" }
+              - { label: Title, name: title, widget: string }
+              - { label: Subtitle, name: subtitle, widget: string }
+              - { label: Button text, name: cta_label, widget: string }
+              - { label: Link, name: url, widget: string }
+              - label: Colour style
+                name: style
+                widget: select
+                options: [primary, navy, light]
+                default: primary
+
+          - label: "3 · Accreditation strip"
+            name: accreditation
+            widget: object
+            collapsed: true
+            summary: "\"Affiliated, recognised & accredited by...\" logo row"
+            fields:
+              - { label: Label text, name: label, widget: string }
+              - label: Logos
+                name: items
+                widget: list
+                collapsed: true
+                summary: "{{fields.name}}"
+                fields:
+                  - { label: Logo image, name: image, widget: image }
+                  - { label: Name, name: name, widget: string }
+
+          - label: "4 · About blurb"
+            name: about
+            widget: object
+            collapsed: true
+            summary: "Short \"Al Jamia Arts and Science College (AJASC)\" intro paragraph"
+            fields:
+              - { label: Heading, name: heading, widget: string }
+              - label: Paragraphs
+                name: paragraphs
+                widget: list
+                field: { label: Paragraph, name: value, widget: text }
+              - { label: Button text, name: cta_label, widget: string }
+              - { label: Button link, name: cta_url, widget: string }
+
+          - label: "5 · Stats banner"
+            name: metrics
+            widget: list
+            collapsed: true
+            summary: "{{fields.value}} — {{fields.label}}"
+            hint: "The 4000+ Students / 11 UG / 3 PG / 14 Total row."
+            fields:
+              - { label: Number, name: value, widget: string }
+              - { label: Label, name: label, widget: string }
+
+          - label: "6 · Chairman's message"
+            name: chairman_message
+            widget: object
+            collapsed: true
+            fields:
+              - { label: "Name (shown above the heading)", name: kicker, widget: string }
+              - { label: Heading, name: heading, widget: string }
+              - { label: Photo, name: photo, widget: image }
+              - { label: "Photo links to", name: photo_url, widget: string }
+              - label: Paragraphs
+                name: paragraphs
+                widget: list
+                field: { label: Paragraph, name: value, widget: text }
+              - { label: Button text, name: cta_label, widget: string }
+              - { label: Button link, name: cta_url, widget: string }
+
+          - label: "7 · Principal's message"
+            name: principal_message
+            widget: object
+            collapsed: true
+            fields:
+              - { label: "Name (shown above the heading)", name: kicker, widget: string }
+              - { label: Heading, name: heading, widget: string }
+              - { label: Photo, name: photo, widget: image }
+              - { label: "Photo links to", name: photo_url, widget: string }
+              - { label: Pull-quote, name: quote, widget: text }
+              - label: Bullet points
+                name: bullet_points
+                widget: list
+                field: { label: Point, name: value, widget: string }
+              - { label: Button text, name: cta_label, widget: string }
+              - { label: Button link, name: cta_url, widget: string }
+
+          - label: "8 · Programmes & departments"
+            name: programmes
+            widget: object
+            collapsed: true
+            summary: "UG/PG programme cards + the 11 department cards"
+            fields:
+              - { label: "Section eyebrow", name: kicker, widget: string }
+              - { label: "Section heading", name: heading, widget: string }
+              - { label: "Section intro sentence", name: intro, widget: text }
+              - label: "UG (Honours) card"
+                name: ug
+                widget: object
+                collapsed: true
+                fields:
+                  - { label: "Icon (Font Awesome name)", name: icon, widget: string }
+                  - { label: "Level tag", name: level_tag, widget: string }
+                  - { label: Card title, name: title, widget: string }
+                  - { label: "Meta line", name: meta, widget: string }
+                  - label: Programme chips
+                    name: items
+                    widget: list
+                    collapsed: true
+                    summary: "{{fields.label}}"
+                    hint: "Keep in sync with the Programmes collection below — this list is just the homepage chips, editing here does not create/remove a programme page."
+                    fields:
+                      - { label: "Icon (Font Awesome name)", name: icon, widget: string, required: false, default: check-circle }
+                      - { label: Label, name: label, widget: string }
+                      - { label: Link, name: url, widget: string }
+                  - { label: "Primary button text", name: cta_primary_label, widget: string }
+                  - { label: "Primary button link", name: cta_primary_url, widget: string }
+                  - { label: "Secondary button text", name: cta_secondary_label, widget: string }
+                  - { label: "Secondary button link", name: cta_secondary_url, widget: string }
+              - label: "PG card"
+                name: pg
+                widget: object
+                collapsed: true
+                fields:
+                  - { label: "Icon (Font Awesome name)", name: icon, widget: string }
+                  - { label: "Level tag", name: level_tag, widget: string }
+                  - { label: Card title, name: title, widget: string }
+                  - { label: "Meta line", name: meta, widget: string }
+                  - label: Programme chips
+                    name: items
+                    widget: list
+                    collapsed: true
+                    summary: "{{fields.label}}"
+                    fields:
+                      - { label: "Icon (Font Awesome name)", name: icon, widget: string, required: false, default: star }
+                      - { label: Label, name: label, widget: string }
+                      - { label: Link, name: url, widget: string }
+                  - { label: "Highlight icon (Font Awesome name)", name: highlight_icon, widget: string, required: false }
+                  - { label: "Highlight box text", name: highlight_text, widget: text }
+                  - { label: "Primary button text", name: cta_primary_label, widget: string }
+                  - { label: "Primary button link", name: cta_primary_url, widget: string }
+                  - { label: "Secondary button text", name: cta_secondary_label, widget: string }
+                  - { label: "Secondary button link", name: cta_secondary_url, widget: string }
+              - { label: "Departments eyebrow", name: departments_kicker, widget: string }
+              - { label: "Departments heading", name: departments_heading, widget: string }
+              - label: "Department cards"
+                name: departments
+                widget: list
+                collapsed: true
+                summary: "{{fields.title}}"
+                hint: "One card per department shown on the homepage grid. Add/remove/reorder freely."
+                fields:
+                  - { label: "Badge icon (Font Awesome name)", name: icon, widget: string }
+                  - { label: "Badge text", name: badge_label, widget: string }
+                  - { label: Photo, name: image, widget: image }
+                  - { label: Title, name: title, widget: string }
+                  - { label: "Links to", name: url, widget: string }
+                  - { label: Description, name: description, widget: text }
+                  - label: Pills
+                    name: pills
+                    widget: list
+                    required: false
+                    field: { label: Pill, name: value, widget: string }
+              - { label: "\"View all\" button text", name: view_all_label, widget: string }
+              - { label: "\"View all\" button link", name: view_all_url, widget: string }
+
+          - label: "9 · Campus gallery carousel"
+            name: gallery
+            widget: object
+            collapsed: true
+            summary: "\"Campus & event footages\" carousel"
+            fields:
+              - { label: "Section eyebrow", name: kicker, widget: string }
+              - { label: "Section heading", name: heading, widget: string }
+              - label: Slides
+                name: slides
+                widget: list
+                collapsed: true
+                summary: "{{fields.title}}"
+                fields:
+                  - { label: Photo, name: image, widget: image }
+                  - { label: Title, name: title, widget: string }
+                  - { label: Caption, name: caption, widget: string }
+              - { label: Button text, name: cta_label, widget: string }
+              - { label: Button link, name: cta_url, widget: string }
+
+          - label: "10 · Services band"
+            name: services
+            widget: object
+            collapsed: true
+            summary: "Library / Laboratories / Seminar Hall band"
+            fields:
+              - label: Items
+                name: items
+                widget: list
+                collapsed: true
+                summary: "{{fields.title}}"
+                hint: "Usually exactly 3 items — the layout is a 3-column band."
+                fields:
+                  - { label: "Icon (Font Awesome name)", name: icon, widget: string }
+                  - { label: Title, name: title, widget: string }
+                  - { label: Text, name: text, widget: text }
+                  - { label: Button text, name: cta_label, widget: string }
+                  - { label: Button link, name: cta_url, widget: string }
+
+          - label: "11 · Why choose AJAS + apply CTA"
+            name: benefits
+            widget: object
+            collapsed: true
+            fields:
+              - { label: Heading, name: heading, widget: string }
+              - label: Reasons
+                name: items
+                widget: list
+                collapsed: true
+                summary: "{{fields.title}}"
+                hint: "Usually exactly 4 items — the layout is a 2×2 grid."
+                fields:
+                  - { label: "Icon (Font Awesome name)", name: icon, widget: string }
+                  - { label: Title, name: title, widget: string }
+                  - { label: Text, name: text, widget: text }
+                  - { label: "Links to", name: url, widget: string }
+              - { label: "\"Apply for admission\" heading", name: cta_heading, widget: string }
+              - { label: "\"Apply for admission\" text", name: cta_text, widget: text }
+              - { label: "Primary button text", name: cta_primary_label, widget: string }
+              - { label: "Primary button link", name: cta_primary_url, widget: string }
+              - { label: "Secondary button text", name: cta_secondary_label, widget: string }
+              - { label: "Secondary button link", name: cta_secondary_url, widget: string }
+
+          - label: "12 · Upcoming events"
+            name: events
+            widget: object
+            collapsed: true
+            hint: "A hand-picked homepage preview — this does not read from the Events collection automatically, so update both when an event changes."
+            fields:
+              - { label: Heading, name: heading, widget: string }
+              - label: Events
+                name: items
+                widget: list
+                collapsed: true
+                summary: "{{fields.title}}"
+                hint: "Up to 3 — the layout is numbered 1/2/3 with 2 photos on the right."
+                fields:
+                  - { label: Title, name: title, widget: string }
+                  - { label: "Links to", name: url, widget: string }
+                  - { label: "Date (as displayed)", name: date, widget: string }
+                  - { label: Location, name: location, widget: string }
+                  - { label: Photo, name: image, widget: image, required: false }
+              - { label: "\"All events\" button text", name: cta_label, widget: string }
+              - { label: "\"All events\" button link", name: cta_url, widget: string }
+
+          - label: "13 · Student testimonials"
+            name: testimonials
+            widget: object
+            collapsed: true
+            fields:
+              - { label: "Section eyebrow", name: kicker, widget: string }
+              - { label: "Section heading", name: heading, widget: string }
+              - label: Testimonials
+                name: items
+                widget: list
+                collapsed: true
+                summary: "{{fields.name}}"
+                fields:
+                  - { label: Photo, name: photo, widget: image }
+                  - { label: Quote, name: quote, widget: text }
+                  - { label: Name, name: name, widget: string }
+                  - { label: "Role / batch", name: role, widget: string }
+
+          - label: "14 · Closing call-to-action"
+            name: quick_link_cta
+            widget: object
+            collapsed: true
+            summary: "\"Ready to get started?\" band + Quick Link list"
+            fields:
+              - { label: "Small caption above the heading", name: kicker, widget: string }
+              - { label: Heading, name: heading, widget: string }
+              - { label: Body text, name: text, widget: text }
+              - { label: "Primary button text", name: primary_label, widget: string }
+              - { label: "Primary button link", name: primary_url, widget: string }
+              - { label: "Secondary button text", name: secondary_label, widget: string }
+              - { label: "Secondary button link", name: secondary_url, widget: string }
+              - { label: "\"Quick Link\" box heading", name: quicklinks_heading, widget: string }
+              - label: Quick links
+                name: quicklinks
+                widget: list
+                collapsed: true
+                summary: "{{fields.label}}"
+                fields:
+                  - { label: "Icon (Font Awesome name)", name: icon, widget: string }
+                  - { label: Label, name: label, widget: string }
+                  - { label: Link (page path, or a PDF), name: url, widget: string }
+                  - { label: "Open in a new tab? (use for PDFs)", name: external, widget: boolean, default: false }
 
   - name: programmes
     label: "7 · Programmes"
+    icon: school
     label_singular: Programme
     description: UG/PG courses listed on /programmes/.
     folder: content/programmes
@@ -279,6 +582,7 @@ collections:
 
   - name: faculty
     label: "8 · Faculty"
+    icon: badge
     label_singular: Faculty member
     description: Faculty profiles (/faculties/…).
     folder: content/faculty
@@ -302,6 +606,7 @@ collections:
 
   - name: pages
     label: "9 · Other pages"
+    icon: article
     label_singular: Page
     description: About, IQAC, labs, clubs, static info pages.
     folder: content/pages

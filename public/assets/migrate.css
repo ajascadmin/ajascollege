@@ -699,7 +699,16 @@ body.hero-hold .header-sticky #main-nav>ul.menu>li>a{font-size:14px;}
 .hero-layer,.hero-scrim,.hero-inner,.hero-kicker,.hero-badges,.hero-badge,
 .hero-title,.hero-text,.hero-cta,.hero-btn,.hero-facts{display:none;}
 @media(max-width:767px){
-    .hero-video{height:auto;}
+    /* Full-bleed video hero read as a token strip at 16:9 on phones (≈210px
+       tall on a 390px-wide screen). Go taller + cover so it reads as a real
+       hero instead of a banner; svh floor keeps it generous on short/wide
+       phones too, capped so it never eats the whole first screen. */
+    .hero-video{
+        height:auto;aspect-ratio:3/4;object-fit:cover;
+        min-height:60svh;max-height:78svh;}
+}
+@media(max-width:480px){
+    .hero-video{aspect-ratio:4/5;}
 }
 /* quick-action tiles placed cleanly below video without covering video text */
 .ajas-hero--video-only + .ajas-actions{margin-top:0;padding-top:24px;}
@@ -1738,3 +1747,63 @@ body .smart-page .sp-vision,
     #footer #footer-widget .col-course,
     #footer #footer-widget .col-media{flex-basis:100%;max-width:100%;}
 }
+
+/* ===================================================================
+   Typography unification (2026-09)
+   One authoritative type scale for every heading/title class this
+   legacy WP theme scattered across style.css / shortcodes.css /
+   responsive.css / migrate.css with conflicting px values (e.g.
+   .flat-title.medium was 36px in shortcodes.css, 40px in an earlier
+   migrate.css rule, and .flat-title.larger + .flat-title.small had
+   been collapsed to an identical 27px by a later !important — killing
+   the point of having size modifiers at all). This block wins the
+   cascade (loaded last) and is the single source of truth going
+   forward: don't add new font-size rules for these classes elsewhere.
+
+   Scale (Rubik for UI/body, Source Serif 4 stays scoped to its existing
+   quote/message-block accents — no third font introduced):
+     Display   (flat-title.larger, heading-type3)              28–44px fluid
+     Section   (flat-title.medium, heading-type1/2, h2)        24–36px fluid
+     Subsection(flat-title.small, h3, prog-card-title)         18.5–24px fluid
+     Component (dept-card-heading, testi-name, gal-title,
+                text-one/two/three, h4)                        18.4px fixed
+     Eyebrow   (sub-title, accred-label)                       13px, uppercase
+     Body                                                       16px (unchanged)
+   =================================================================== */
+.flat-title,
+.heading-type1,.heading-type2,.heading-type3{
+    font-family:'Rubik',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif !important;
+    font-weight:600;line-height:1.2;letter-spacing:-.01em;}
+
+.flat-title.larger,.heading-type3{
+    font-size:clamp(1.75rem,1.3rem + 2vw,2.75rem) !important;line-height:1.15;}
+.flat-title.medium,.heading-type1,.heading-type2{
+    font-size:clamp(1.5rem,1.2rem + 1.4vw,2.25rem) !important;line-height:1.2;}
+.flat-title.small{
+    font-size:clamp(1.15rem,1rem + .6vw,1.5rem) !important;line-height:1.25;}
+
+/* Prose/article headings (page bodies rendered from markdown) */
+.ajas-prose h1,.migrate-content h1{font-size:clamp(1.75rem,1.3rem + 2vw,2.75rem) !important;line-height:1.15;}
+.ajas-prose h2,.migrate-content h2{font-size:clamp(1.5rem,1.2rem + 1.4vw,2.25rem) !important;line-height:1.2;}
+.ajas-prose h3,.migrate-content h3{font-size:clamp(1.15rem,1rem + .6vw,1.5rem) !important;line-height:1.25;}
+.ajas-prose h4,.migrate-content h4,
+.ajas-prose h5,.migrate-content h5,.migrate-content h6{
+    font-size:1.15rem !important;line-height:1.3;font-weight:600;}
+
+/* Component/card titles — one consistent size+weight across every card
+   family instead of each card type inventing its own (21px / 18.5px / 20px / 22px …) */
+.prog-card-title,.dept-card-heading,.testi-name,.gal-title,
+.text-one,.text-two,.text-three,
+.ajas-card-body h2,.dept-card h2,.prog-title-text{
+    font-size:1.15rem !important;line-height:1.3;font-weight:600;
+    font-family:'Rubik',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif !important;}
+
+/* Eyebrow / kicker labels — one voice for every "small caps" label */
+.sub-title,.accred-label{
+    font-size:.8125rem !important;font-weight:600;letter-spacing:.14em;
+    text-transform:uppercase;}
+
+/* strong/b render at an unloaded 900 weight (Rubik only ships 400–700),
+   forcing a synthetic/faux-bold that looks off next to the rest of the
+   system — pin every bold run to the loaded 700. */
+b,strong{font-weight:700 !important;}

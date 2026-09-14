@@ -1,21 +1,405 @@
 {
-  "hero_kicker": "16 Years of Excellence · NAAC B++ Accredited",
-  "hero_title": "Crafting Careers with Purpose and Responsibility",
-  "hero_text": "",
-  "hero_cta_primary_label": "Explore Programs",
-  "hero_cta_primary_url": "/programmes/",
-  "hero_cta_secondary_label": "Apply Now",
-  "hero_cta_secondary_url": "/admission/",
-  "hero_images": [
-    "/assets/uploads/2024/01/P1222323-building-2048x1154-1.webp",
-    "/assets/uploads/2025/03/WhatsApp-Image-2025-03-17-at-3.27.45-PM.jpeg",
-    "/assets/uploads/2025/03/WhatsApp-Image-2025-03-17-at-4.16.10-PM.jpeg"
+  "title": "Home",
+  "description": "Al Jamia Arts and Science College, Perinthalmanna — established 2010, affiliated to the University of Calicut. UG (Honours) and PG programmes in Arts, Science, Commerce and Computing.",
+  "hero": {
+    "video": "/assets/uploads/hero/rameemka.mp4"
+  },
+  "quick_actions": [
+    {
+      "icon": "pencil-square-o",
+      "title": "Admissions 2026 – 27",
+      "subtitle": "FYUGP & PG programmes are open",
+      "cta_label": "Apply now",
+      "url": "/admission/",
+      "style": "primary"
+    },
+    {
+      "icon": "graduation-cap",
+      "title": "Programmes",
+      "subtitle": "11 UG Honours & 3 PG degrees",
+      "cta_label": "Explore",
+      "url": "/programmes/",
+      "style": "navy"
+    },
+    {
+      "icon": "file-text-o",
+      "title": "Prospectus & fees",
+      "subtitle": "Programmes, fees & admission info",
+      "cta_label": "View prospectus",
+      "url": "/prospectus-2026-27/",
+      "style": "light"
+    }
   ],
-  "stat_students": "4000+",
-  "stat_ug": "11",
-  "stat_pg": "3",
-  "stat_total_programs": "14",
-  "principal_name": "Dr. (Lt. Cdr. Rtd.) C. K. Abdul Rabbi Nistar",
-  "principal_photo": "/assets/uploads/2025/06/WhatsApp-Image-2025-06-12-at-9.46.05-AM.jpeg",
-  "principal_excerpt": "It gives me immense pleasure to lead an institution that stands at the confluence of tradition and modernity. At AJASC we firmly believe that education is not merely about academic achievement but about building character, inspiring purpose and transforming lives."
+  "accreditation": {
+    "label": "Affiliated, recognised & accredited by",
+    "items": [
+      { "image": "/assets/uploads/2025/05/University-Logo.jpg", "name": "University of Calicut" },
+      { "image": "/assets/uploads/2024/01/UGC-Logo-e1748242432780.jpg", "name": "UGC" },
+      { "image": "/assets/uploads/2024/01/AICTE-Logo-e1748242290739.jpg", "name": "AICTE" },
+      { "image": "/assets/uploads/2025/10/Naac-Symbol.jpg", "name": "NAAC" },
+      { "image": "/assets/uploads/2024/01/ISO-Logo-e1748242407313.jpg", "name": "ISO certified" }
+    ]
+  },
+  "about": {
+    "heading": "Al Jamia Arts and Science College (AJASC)",
+    "paragraphs": [
+      "At AJASC, education goes beyond textbooks and degree certificates. We focus on holistic student development.",
+      "AJASC was founded with a clear, noble purpose: to uplift educationally developing communities by delivering accessible, value-based, and world-class education."
+    ],
+    "cta_label": "Read More",
+    "cta_url": "/overview/"
+  },
+  "metrics": [
+    { "value": "4000+", "label": "Students" },
+    { "value": "11", "label": "UG Programmes" },
+    { "value": "3", "label": "PG Programmes" },
+    { "value": "14", "label": "Total Programs" }
+  ],
+  "chairman_message": {
+    "kicker": "Dr. Abdussalam Ahmed",
+    "heading": "Chairman’s message",
+    "photo": "/assets/uploads/2026/09/dr-abdussalam-ahmed.jpg",
+    "photo_url": "/chairman-message/",
+    "paragraphs": [
+      "Welcome to Al Jamia Arts & Science College (AJAS). Our goal is not only to produce professionally competent graduates who succeed in global careers, but also to mould compassionate, conscious citizens who contribute meaningfully to their communities and the nation.",
+      "As you step into the vibrant academic community at AJAS, I invite you to embrace every opportunity to learn, innovate and grow. Together, let us strive for excellence and build a future rooted in knowledge, integrity and service."
+    ],
+    "cta_label": "Read full message",
+    "cta_url": "/chairman-message/"
+  },
+  "principal_message": {
+    "kicker": "Dr. (Lt. Cdr. Rtd.) C. K. Abdul Rabbi Nistar",
+    "heading": "Principal’s message",
+    "photo": "/assets/uploads/2025/06/WhatsApp-Image-2025-06-12-at-9.46.05-AM.jpeg",
+    "photo_url": "/principal/",
+    "quote": "“Education is not merely about academic achievement; it is about building character, inspiring purpose, and transforming lives. At AJAS, we aim to instill in our students the clarity, competence, and values necessary to excel in an ever-evolving world.”",
+    "bullet_points": [
+      "Established in 2010, affiliated to the University of Calicut.",
+      "Minority status, recognised by the Government of Kerala.",
+      "A curriculum, campus and faculty tailored to modern arts and science education."
+    ],
+    "cta_label": "Read full message",
+    "cta_url": "/principal/"
+  },
+  "programmes": {
+    "kicker": "What you can study here",
+    "heading": "Programmes offered",
+    "intro": "Empowering students through university-affiliated four-year honours degrees and postgraduate specialisations designed for career excellence and higher research.",
+    "ug": {
+      "icon": "graduation-cap",
+      "level_tag": "Undergraduate",
+      "title": "UG (Honours) Programmes",
+      "meta": "11 Four-Year Honours Degrees · FYUGP",
+      "items": [
+        { "icon": "check-circle", "label": "B.Com (Honours)", "url": "/programmes/b-com/" },
+        { "icon": "check-circle", "label": "BBA (Honours)", "url": "/programmes/bba/" },
+        { "icon": "check-circle", "label": "BCA (Honours)", "url": "/programmes/bca/" },
+        { "icon": "check-circle", "label": "B.Sc. Artificial Intelligence", "url": "/programmes/bsc-artificial-intelligence/" },
+        { "icon": "check-circle", "label": "B.Sc. Computer Science", "url": "/programmes/bsc-computer-science/" },
+        { "icon": "check-circle", "label": "B.Sc. Food Technology", "url": "/programmes/bsc-food-technology/" },
+        { "icon": "check-circle", "label": "B.Sc. Microbiology", "url": "/programmes/bsc-microbiology/" },
+        { "icon": "check-circle", "label": "B.Sc. Psychology", "url": "/programmes/bsc-psychology/" },
+        { "icon": "check-circle", "label": "B.Sc. Geography", "url": "/programmes/bsc-geography/" },
+        { "icon": "check-circle", "label": "BA Islamic Studies", "url": "/programmes/ba-islamic-studies/" },
+        { "icon": "check-circle", "label": "BA English Language", "url": "/programmes/ba-english/" }
+      ],
+      "cta_primary_label": "Explore All UG Degrees",
+      "cta_primary_url": "/programmes/",
+      "cta_secondary_label": "Apply Online",
+      "cta_secondary_url": "/admission/"
+    },
+    "pg": {
+      "icon": "university",
+      "level_tag": "Postgraduate",
+      "title": "PG Programmes",
+      "meta": "3 Two-Year Master's Degrees",
+      "items": [
+        { "icon": "star", "label": "MA Islamic Finance", "url": "/programmes/ma-islamic-finance/" },
+        { "icon": "star", "label": "M.Sc. Psychology", "url": "/programmes/msc-psychology/" },
+        { "icon": "star", "label": "MA Arabic", "url": "/programmes/ma-arabic/" }
+      ],
+      "highlight_icon": "lightbulb-o",
+      "highlight_text": "Advanced research supervision, high-impact clinical and industry internships, and specialist training aligned with Calicut University curriculum.",
+      "cta_primary_label": "View PG Details",
+      "cta_primary_url": "/programmes/",
+      "cta_secondary_label": "Fees & Prospectus",
+      "cta_secondary_url": "/fees/"
+    },
+    "departments_kicker": "Academic Excellence",
+    "departments_heading": "Our departments",
+    "departments": [
+      {
+        "icon": "language",
+        "badge_label": "Arabic",
+        "image": "/assets/uploads/2024/06/arabic-.jpg",
+        "title": "Department of Arabic",
+        "url": "/departments/arabic/",
+        "description": "Excellence in Arabic linguistics, literature, translation, and cultural studies with dedicated research faculty.",
+        "pills": ["MA Arabic"]
+      },
+      {
+        "icon": "briefcase",
+        "badge_label": "Commerce",
+        "image": "/assets/uploads/2024/05/Departmentofcommerce-scaled.jpg",
+        "title": "Department of Commerce & Management Studies",
+        "url": "/departments/department-of-commerce/",
+        "description": "A vibrant centre of learning offering honours degrees in accounting, finance, taxation, and business management.",
+        "pills": ["B.Com Honors", "BBA Honors"]
+      },
+      {
+        "icon": "laptop",
+        "badge_label": "BCA",
+        "image": "/assets/uploads/2024/06/12064780_4884421.jpg",
+        "title": "Department of Computer Application",
+        "url": "/departments/department-of-computer-application/",
+        "description": "Modern software development, web technologies, and systems administration with practical hands-on labs.",
+        "pills": ["BCA Honors"]
+      },
+      {
+        "icon": "desktop",
+        "badge_label": "AI & CS",
+        "image": "/assets/uploads/2024/05/innovative-futuristic-classroom-students-min-scaled.jpg",
+        "title": "Department of Computer Science & AI",
+        "url": "/departments/department-of-computer-science/",
+        "description": "Specialised curriculum covering artificial intelligence, machine learning, data structures, and computing algorithms.",
+        "pills": ["B.Sc. AI Honors", "B.Sc. CS Honors"]
+      },
+      {
+        "icon": "book",
+        "badge_label": "English",
+        "image": "/assets/uploads/2024/05/english-books-stacks-table-working-space-min-scaled.jpg",
+        "title": "Department of English",
+        "url": "/departments/department-of-english/",
+        "description": "Critical literary analysis, communicative linguistics, creative writing, and media studies since 2010.",
+        "pills": ["BA English Honors"]
+      },
+      {
+        "icon": "cutlery",
+        "badge_label": "Food Tech",
+        "image": "/assets/uploads/2024/05/empty-microbiology-laboratory-with-nobody-it-prepared-genetic-mutation-test-min-scaled.jpg",
+        "title": "Department of Food Technology",
+        "url": "/departments/department-of-food-technology/",
+        "description": "Food preservation, quality assurance, nutrition analysis, and product development in state-of-the-art labs.",
+        "pills": ["B.Sc. Food Technology"]
+      },
+      {
+        "icon": "globe",
+        "badge_label": "Geography",
+        "image": "/assets/uploads/2024/05/IMG-20240430-WA0022-1-scaled.jpg",
+        "title": "Department of Geography",
+        "url": "/departments/department-of-geography/",
+        "description": "Geospatial science, GIS mapping, remote sensing, and environmental studies backed by field research.",
+        "pills": ["B.Sc. Geography"]
+      },
+      {
+        "icon": "flask",
+        "badge_label": "Microbiology",
+        "image": "/assets/uploads/2024/05/IMG-20240430-WA0048-scaled.jpg",
+        "title": "Department of Microbiology",
+        "url": "/departments/department-of-micro-biology/",
+        "description": "Immunology, medical microbiology, virology, and biotechnology with active clinical lab coursework.",
+        "pills": ["B.Sc. Microbiology"]
+      },
+      {
+        "icon": "lightbulb-o",
+        "badge_label": "UG & PG",
+        "image": "/assets/uploads/2024/05/IMG-20240430-WA0014-scaled.jpg",
+        "title": "PG Department of Psychology",
+        "url": "/departments/department-of-psychology/",
+        "description": "Comprehensive mental health, clinical psychology, counselling and experimental psychology programmes.",
+        "pills": ["B.Sc. Psychology", "M.Sc. Psychology"]
+      },
+      {
+        "icon": "moon-o",
+        "badge_label": "Islamic Studies",
+        "image": "/assets/uploads/2024/01/P1222323-building-2048x1154-1.webp",
+        "title": "Department of Islamic Studies",
+        "url": "/departments/department-of-islamic-studies/",
+        "description": "Rigorous academic study of Islamic history, civilization, philosophy, ethics, and contemporary thought.",
+        "pills": ["BA Islamic Studies Honors"]
+      },
+      {
+        "icon": "university",
+        "badge_label": "Finance",
+        "image": "/assets/uploads/2024/01/P1222323-building-2048x1154-1.webp",
+        "title": "Department of Islamic Finance",
+        "url": "/departments/department-of-islamic-finance/",
+        "description": "Specialised postgraduate degree combining ethical Islamic finance principles with modern banking systems.",
+        "pills": ["MA Islamic Finance"]
+      },
+      {
+        "icon": "comments",
+        "badge_label": "Languages",
+        "image": "/assets/uploads/2024/01/P1222323-building-2048x1154-1.webp",
+        "title": "Department of Languages",
+        "url": "/departments/department-of-languages/",
+        "description": "Prescribed common and second language courses including Malayalam, Hindi, Arabic, and English.",
+        "pills": ["Common Courses"]
+      }
+    ],
+    "view_all_label": "View all departments",
+    "view_all_url": "/departments/"
+  },
+  "gallery": {
+    "kicker": "What makes us different",
+    "heading": "Campus & event footages",
+    "slides": [
+      { "image": "/assets/uploads/2024/01/P1222323-building-2048x1154-1.webp", "title": "AJAS Main Campus", "caption": "Poopalam, Perinthalmanna" },
+      { "image": "/assets/uploads/2025/03/WhatsApp-Image-2025-03-17-at-3.27.45-PM.jpeg", "title": "Vibrant Campus Life", "caption": "Student community & campus activities" },
+      { "image": "/assets/uploads/2025/03/WhatsApp-Image-2025-03-17-at-4.16.10-PM.jpeg", "title": "Central Library & Resource Centre", "caption": "Extensive reference collections & digital access" },
+      { "image": "/assets/uploads/2024/05/IMG-20240430-WA0040-scaled.jpg", "title": "Advanced Computer Laboratory", "caption": "High-performance computing & software labs" },
+      { "image": "/assets/uploads/2026/05/WhatsApp-Image-2026-05-04-at-10.36.26-AM.jpeg", "title": "Convocation Ceremony", "caption": "Celebrating student achievements and milestones" },
+      { "image": "/assets/uploads/2026/06/WhatsApp-Image-2026-06-09-at-1.48.11-PM.jpeg", "title": "Food Guard Awareness Campaign", "caption": "Department of Food Technology initiative" },
+      { "image": "/assets/uploads/2026/04/WhatsApp-Image-2026-04-08-at-11.07.24-AM.jpeg", "title": "Graduation Day 2023–26", "caption": "Honouring our graduating batches" },
+      { "image": "/assets/uploads/2026/02/WhatsApp-Image-2025-11-19-at-11.53.04-AM-2.jpeg", "title": "BIOCODEZ National Seminar", "caption": "Department of Microbiology seminar & workshop" }
+    ],
+    "cta_label": "More campus news & events",
+    "cta_url": "/college-news/"
+  },
+  "services": {
+    "items": [
+      {
+        "icon": "book",
+        "title": "Library",
+        "text": "A reference and lending library with OPAC access, journals, e-resources and dedicated reading space for every department.",
+        "cta_label": "Read More",
+        "cta_url": "/library/"
+      },
+      {
+        "icon": "flask",
+        "title": "Laboratories",
+        "text": "Computer, Artificial Intelligence, Psychology, Geography, Microbiology, Physics and Food Technology labs, equipped for hands-on coursework.",
+        "cta_label": "Read More",
+        "cta_url": "/labs/computer-lab/"
+      },
+      {
+        "icon": "microphone",
+        "title": "Seminar Hall",
+        "text": "An air-conditioned seminar hall used for conferences, guest lectures, workshops and departmental programmes throughout the year.",
+        "cta_label": "Read More",
+        "cta_url": "/seminar-hall/"
+      }
+    ]
+  },
+  "benefits": {
+    "heading": "Why choose AJAS?",
+    "items": [
+      {
+        "icon": "lightbulb-o",
+        "title": "Value-based education",
+        "text": "A curriculum built to enrich, enlighten and empower — shaping character alongside academic achievement.",
+        "url": "/vision-mission/"
+      },
+      {
+        "icon": "certificate",
+        "title": "Recognised & accredited",
+        "text": "Minority status, affiliation to the University of Calicut, Government of Kerala recognition and ISO certification.",
+        "url": "/recognitions/"
+      },
+      {
+        "icon": "briefcase",
+        "title": "Skills & placement",
+        "text": "Add-on certificate courses, ASAP, Keltron, G-Tec and NPTEL/SWAYAM pathways, backed by an active placement cell.",
+        "url": "/placement-cell/"
+      },
+      {
+        "icon": "flask",
+        "title": "Research & innovation",
+        "text": "Faculty publications, patents and an Innovation & Entrepreneurship Development Centre driving student projects.",
+        "url": "/research-and-publications/"
+      }
+    ],
+    "cta_heading": "Apply for admission",
+    "cta_text": "Merit and management seats are open for 2026–27 across every UG Honours and PG programme.",
+    "cta_primary_label": "Start your application",
+    "cta_primary_url": "/admission/",
+    "cta_secondary_label": "View programmes & fees",
+    "cta_secondary_url": "/prospectus-2026-27/"
+  },
+  "events": {
+    "heading": "Upcoming events",
+    "items": [
+      {
+        "title": "CONVOCATION 2026",
+        "url": "/event/convocation-2026/",
+        "date": "May 4, 2026",
+        "location": "AJAS Campus, Perinthalmanna",
+        "image": "/assets/uploads/2026/05/WhatsApp-Image-2026-05-04-at-10.36.26-AM.jpeg"
+      },
+      {
+        "title": "FinNav - Financial Literacy Program",
+        "url": "/event/finnav-financial-literacy-program/",
+        "date": "June 17, 2026",
+        "location": "AJAS Campus, Perinthalmanna",
+        "image": "/assets/uploads/2026/06/WhatsApp-Image-2026-06-17-at-3.09.59-PM.jpeg"
+      },
+      {
+        "title": "Food Guard",
+        "url": "/event/food-guard/",
+        "date": "June 10, 2026",
+        "location": "AJAS Campus, Perinthalmanna",
+        "image": "/assets/uploads/2026/06/WhatsApp-Image-2026-06-09-at-1.48.11-PM.jpeg"
+      }
+    ],
+    "cta_label": "All events",
+    "cta_url": "/event/"
+  },
+  "testimonials": {
+    "kicker": "Voices of Al Jamia",
+    "heading": "What our students say",
+    "items": [
+      {
+        "photo": "/assets/uploads/2024/05/Mohammed-Azeer.jpeg",
+        "quote": "I am glad I chose Al Jamia Arts and Science College, which has guided me towards my goals and supported me in every way. Everyone here is an expert in their field, making it an excellent platform for students aiming for higher studies.",
+        "name": "Mohammed Azeer",
+        "role": "MA Islamic Finance · 2016–2018"
+      },
+      {
+        "photo": "/assets/uploads/2024/05/Mohammed-sabeel.jpeg",
+        "quote": "I have loved my three years studying BBA at Al Jamia. The college sharpened my analytical, management and problem-solving skills, preparing me to be a creative and influential leader who will make a difference.",
+        "name": "Mohammed Shabeel K.",
+        "role": "BBA Finance · 2016–2019"
+      },
+      {
+        "photo": "/assets/uploads/2024/05/559.jpg",
+        "quote": "From 2015 to 2018 I attended Al Jamia Arts and Science College, where I made lasting connections and felt at home. The support and knowledge I gained there have left a lasting impact on me.",
+        "name": "Mufeeda Sulfath A. P",
+        "role": "BBA · 2015–2018"
+      },
+      {
+        "photo": "/assets/uploads/2024/05/Shadiya.jpeg",
+        "quote": "The years I spent here shaped both my academic direction and my confidence. I cherish this institution and am excited about the future it has prepared me for.",
+        "name": "Sadiya",
+        "role": "B.Sc. Psychology · 2016–2019"
+      },
+      {
+        "photo": "/assets/uploads/2024/05/Safwa.jpeg",
+        "quote": "The faculty made room for every question and pushed me further than I thought I could go. Graduating as first rank holder is something I owe to the mentoring I received here.",
+        "name": "Safwa K",
+        "role": "B.Sc. Psychology · 1st Rank Holder"
+      },
+      {
+        "photo": "/assets/uploads/2024/05/Mohammed-sibin.jpeg",
+        "quote": "During my three years at Al Jamia I had incredible experiences. Coaches and teachers alike made learning and athletics rewarding. The community encouraged me to explore my interests and guided my academic choices.",
+        "name": "Mohammed Shibin Faris",
+        "role": "B.Com CA · 2016–2019"
+      }
+    ]
+  },
+  "quick_link_cta": {
+    "kicker": "Admissions 2026 – 27 are open",
+    "heading": "Ready to get started?",
+    "text": "Al Jamia Arts and Science College is a resourceful destination for higher studies in the region — affiliated to the University of Calicut, recognised by the Government of Kerala and holding minority status. Apply online or visit the campus at Poopalam, Perinthalmanna.",
+    "primary_label": "Apply now",
+    "primary_url": "/admission/",
+    "secondary_label": "Contact us",
+    "secondary_url": "/contact/",
+    "quicklinks_heading": "Quick Link",
+    "quicklinks": [
+      { "icon": "inr", "label": "Fee details", "url": "/assets/uploads/2025/02/SF-FEE-Addndm.pdf", "external": true },
+      { "icon": "building-o", "label": "State-of-the-art facilities", "url": "/state-of-the-art-facilities/", "external": false },
+      { "icon": "graduation-cap", "label": "Scholarships", "url": "/scholorship/", "external": false },
+      { "icon": "comments-o", "label": "Register a complaint", "url": "/register-a-complaint/", "external": false }
+    ]
+  }
 }
