@@ -15,3 +15,7 @@ gallery:
 ## About Lab
 
 Students from the psychology department use the facilities for their practical and project work
+
+## Gallery
+
+![DepartmentPsychology scaled](/assets/uploads/2024/05/DepartmentPsychology-scaled.jpg)

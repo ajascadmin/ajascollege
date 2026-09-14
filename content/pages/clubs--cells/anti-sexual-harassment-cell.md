@@ -55,3 +55,7 @@ Permanent Cell to Combat Sexual Harassment at AJAS College is an institutionally
 ## Coordinator of Anti-Sexual Harassment Cell
 
 ## Assistant professor and HoD, Department of microbiology
+
+## Gallery
+
+![FATHIMATHU FAYIZA CT ASHC COORDINATOR](/assets/uploads/2024/07/FATHIMATHU-FAYIZA-CT-ASHC-COORDINATOR.jpg)

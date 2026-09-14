@@ -38,3 +38,34 @@ To establish ourselves as an internationally recognised institution for Modern A
 - **State-of-the-Art Infrastructure** — Modern AI labs, science laboratories, comprehensive library resources and dedicated residential facilities designed to nurture curiosity and practical learning.
 - **Empowering Community & Clubs** — Active student forums, from the Innovation and Entrepreneurship Development Centre (IEDC) and Coding Club to NSS and Nature Clubs, where students build real-world leadership and life skills.
 - **A Legacy of Success** — A strong network of thousands of successful alumni across academia, media, business and public service worldwide.
+
+## Gallery
+
+![P1222323 building 2048x1154 1](/assets/uploads/2024/01/P1222323-building-2048x1154-1.webp)
+![About.policy scaled](/assets/uploads/2024/05/About.policy-scaled.jpg)
+![g1](/assets/uploads/2024/01/g1.png)
+![g10](/assets/uploads/2024/01/g10.png)
+![g11](/assets/uploads/2024/01/g11.png)
+![g12](/assets/uploads/2024/01/g12.png)
+![g13](/assets/uploads/2024/01/g13.png)
+![g14](/assets/uploads/2024/01/g14.png)
+![g2](/assets/uploads/2024/01/g2.png)
+![g3](/assets/uploads/2024/01/g3.png)
+![g4](/assets/uploads/2024/01/g4.png)
+![g5](/assets/uploads/2024/01/g5.png)
+![g6](/assets/uploads/2024/01/g6.png)
+![g7](/assets/uploads/2024/01/g7.png)
+![g8](/assets/uploads/2024/01/g8.png)
+![g9](/assets/uploads/2024/01/g9.png)
+![IMG 4157](/assets/uploads/2025/02/IMG_4157.jpg)
+![IMG 4159](/assets/uploads/2025/02/IMG_4159.jpg)
+![IMG 4163](/assets/uploads/2025/02/IMG_4163.jpg)
+![IMG 4168](/assets/uploads/2025/02/IMG_4168.jpg)
+![IMG 4176](/assets/uploads/2025/02/IMG_4176.jpg)
+![IMG 4173](/assets/uploads/2025/02/IMG_4173.jpg)
+![IMG 4192](/assets/uploads/2025/02/IMG_4192.jpg)
+![IMG 4179](/assets/uploads/2025/02/IMG_4179.jpg)
+![IMG 4180](/assets/uploads/2025/02/IMG_4180.jpg)
+![IMG 4165](/assets/uploads/2025/02/IMG_4165.jpg)
+![IMG 4177](/assets/uploads/2025/02/IMG_4177.jpg)
+![IMG 4187](/assets/uploads/2025/02/IMG_4187.jpg)

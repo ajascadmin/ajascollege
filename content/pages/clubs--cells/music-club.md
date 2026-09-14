@@ -29,3 +29,8 @@ Athira Sreekumar
 – Department of Psychology
 
 ## Gallery
+
+
+![music2.jpeg](/assets/uploads/2024/05/music2.jpeg.jpg)
+![music1.jpeg](/assets/uploads/2024/05/music1.jpeg.jpg)
+![music3 scaled](/assets/uploads/2024/05/music3-scaled.jpg)

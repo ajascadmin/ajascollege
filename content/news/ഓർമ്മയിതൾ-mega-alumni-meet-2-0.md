@@ -9,3 +9,9 @@ image: "/assets/uploads/2026/02/WhatsApp-Image-2026-02-01-at-3.56.58-PM.jpeg"
 ![](/assets/uploads/2026/02/WhatsApp-Image-2026-02-01-at-3.56.58-PM.jpeg)
 
 # ഓർമ്മയിതൾ MEGA ALUMNI MEET 2.0
+
+## Gallery
+
+![WhatsApp Image 2026 02 01 at 3.57.13 PM](/assets/uploads/2026/02/WhatsApp-Image-2026-02-01-at-3.57.13-PM.jpeg)
+![WhatsApp Image 2026 02 01 at 3.57.15 PM](/assets/uploads/2026/02/WhatsApp-Image-2026-02-01-at-3.57.15-PM.jpeg)
+![WhatsApp Image 2026 02 01 at 3.57.14 PM](/assets/uploads/2026/02/WhatsApp-Image-2026-02-01-at-3.57.14-PM.jpeg)

@@ -30,3 +30,20 @@ With thriving international chapters across the UAE, Saudi Arabia, Kuwait, Qatar
 <li><a href="/contact/" class="btn btn-apply bg-clff5f60">Register as an Alumnus</a></li>
 <li><a href="/contact/" class="btn btn-request lt-sp06">Join Your Local Chapter</a></li>
 </ul></div>
+
+## Gallery
+
+![alumni](/assets/uploads/2024/01/alumni.webp)
+![WhatsApp Image 2025 02 07 at 8.06.28 PM 1](/assets/uploads/2025/02/WhatsApp-Image-2025-02-07-at-8.06.28-PM-1.jpeg)
+![WhatsApp Image 2025 02 07 at 8.06.28 PM](/assets/uploads/2025/02/WhatsApp-Image-2025-02-07-at-8.06.28-PM.jpeg)
+![WhatsApp Image 2025 02 07 at 8.00.05 PM](/assets/uploads/2025/02/WhatsApp-Image-2025-02-07-at-8.00.05-PM.jpeg)
+![WhatsApp Image 2025 02 07 at 8.00.04 PM 2](/assets/uploads/2025/02/WhatsApp-Image-2025-02-07-at-8.00.04-PM-2.jpeg)
+![WhatsApp Image 2025 02 07 at 8.00.04 PM 1](/assets/uploads/2025/02/WhatsApp-Image-2025-02-07-at-8.00.04-PM-1.jpeg)
+![WhatsApp Image 2025 02 07 at 8.00.04 PM](/assets/uploads/2025/02/WhatsApp-Image-2025-02-07-at-8.00.04-PM.jpeg)
+![WhatsApp Image 2025 02 07 at 8.00.03 PM 2](/assets/uploads/2025/02/WhatsApp-Image-2025-02-07-at-8.00.03-PM-2.jpeg)
+![WhatsApp Image 2025 02 07 at 8.00.03 PM 1](/assets/uploads/2025/02/WhatsApp-Image-2025-02-07-at-8.00.03-PM-1.jpeg)
+![WhatsApp Image 2025 02 07 at 8.00.03 PM](/assets/uploads/2025/02/WhatsApp-Image-2025-02-07-at-8.00.03-PM.jpeg)
+![WhatsApp Image 2025 02 07 at 8.00.02 PM 2](/assets/uploads/2025/02/WhatsApp-Image-2025-02-07-at-8.00.02-PM-2.jpeg)
+![WhatsApp Image 2025 02 07 at 8.00.02 PM 1](/assets/uploads/2025/02/WhatsApp-Image-2025-02-07-at-8.00.02-PM-1.jpeg)
+![WhatsApp Image 2025 02 07 at 8.00.02 PM](/assets/uploads/2025/02/WhatsApp-Image-2025-02-07-at-8.00.02-PM.jpeg)
+![Iftar status 2025](/assets/uploads/2025/03/Iftar-status-2025.jpg)

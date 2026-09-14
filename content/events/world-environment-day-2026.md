@@ -17,3 +17,10 @@ The Department of Microbiology organized BioBloom, a planting ceremony, on 5 Jun
 During the programme, the students of the Department of Microbiology handed over medicinal plant saplings to Mr. Safarudheen, Vice Principal and IQAC Coordinator, and Dr. Thahiya Naushad, Head of the Department of Microbiology. The saplings were then planted in the Oushadhi Herbal Garden of the college.
 
 The programme aimed to promote environmental awareness and encourage the conservation of medicinal plants among students and staff. The event was successfully conducted with the active participation of students and faculty members.
+
+## Gallery
+
+![WhatsApp Image 2026 06 05 at 10.54.55 AM](/assets/uploads/2026/06/WhatsApp-Image-2026-06-05-at-10.54.55-AM.jpeg)
+![WhatsApp Image 2026 06 05 at 10.54.54 AM 2](/assets/uploads/2026/06/WhatsApp-Image-2026-06-05-at-10.54.54-AM-2.jpeg)
+![WhatsApp Image 2026 06 05 at 10.54.54 AM 1](/assets/uploads/2026/06/WhatsApp-Image-2026-06-05-at-10.54.54-AM-1.jpeg)
+![WhatsApp Image 2026 06 05 at 10.54.54 AM](/assets/uploads/2026/06/WhatsApp-Image-2026-06-05-at-10.54.54-AM.jpeg)

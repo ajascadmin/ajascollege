@@ -50,3 +50,9 @@ To equip students with professional competencies, communication skills, and indu
 | Shaniba K | Coordinator, Assistant Professor, Department of Food Technology |
 | Ayana K P | Member, Assistant Professor, Department of Computer Application |
 | Jithin V | Member, Assistant Professor, Department of Microbiology |
+
+## Gallery
+
+![placement1.jpeg scaled](/assets/uploads/2024/05/placement1.jpeg-scaled.jpg)
+![placement2.jpeg scaled](/assets/uploads/2024/05/placement2.jpeg-scaled.jpg)
+![placement4.jpeg scaled](/assets/uploads/2024/05/placement4.jpeg-scaled.jpg)

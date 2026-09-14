@@ -28,5 +28,3 @@ No data was found
 ## Faculty
 
 No data was found
-
-## Gallery

@@ -26,3 +26,9 @@ Head of Department
 | --- | --- |
 | Faculty | Muhammed Shahal C T |
 | MA Economics, NET | Shijimol N |
+
+## Gallery
+
+![1590263578337](/assets/uploads/2026/04/1590263578337.jpg)
+![WhatsApp Image 2025 10 17 at 3.52.50 PM](/assets/uploads/2025/10/WhatsApp-Image-2025-10-17-at-3.52.50-PM.jpeg)
+![WhatsApp Image 2025 01 20 at 9.58.09 AM](/assets/uploads/2024/05/WhatsApp-Image-2025-01-20-at-9.58.09-AM.jpeg)

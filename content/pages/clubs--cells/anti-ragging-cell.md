@@ -39,3 +39,16 @@ Rahees C
 – Department of Commerce & Management Studies
 
 ## Gallery
+
+
+![WhatsApp Image 2024 08 27 at 12.19.43 PM](/assets/uploads/2024/07/WhatsApp-Image-2024-08-27-at-12.19.43-PM.jpeg)
+![WhatsApp Image 2024 08 27 at 12.19.43 PM 1](/assets/uploads/2024/07/WhatsApp-Image-2024-08-27-at-12.19.43-PM-1.jpeg)
+![WhatsApp Image 2024 08 27 at 12.19.44 PM](/assets/uploads/2024/07/WhatsApp-Image-2024-08-27-at-12.19.44-PM.jpeg)
+![WhatsApp Image 2024 08 27 at 12.19.44 PM 1](/assets/uploads/2024/07/WhatsApp-Image-2024-08-27-at-12.19.44-PM-1.jpeg)
+![WhatsApp Image 2024 08 27 at 12.57.35 PM](/assets/uploads/2024/07/WhatsApp-Image-2024-08-27-at-12.57.35-PM.jpeg)
+![WhatsApp Image 2024 08 27 at 12.58.49 PM](/assets/uploads/2024/07/WhatsApp-Image-2024-08-27-at-12.58.49-PM.jpeg)
+![WhatsApp Image 2024 08 27 at 12.58.50 PM](/assets/uploads/2024/07/WhatsApp-Image-2024-08-27-at-12.58.50-PM.jpeg)
+![WhatsApp Image 2024 08 27 at 12.58.50 PM 1](/assets/uploads/2024/07/WhatsApp-Image-2024-08-27-at-12.58.50-PM-1.jpeg)
+![WhatsApp Image 2024 08 27 at 12.58.51 PM](/assets/uploads/2024/07/WhatsApp-Image-2024-08-27-at-12.58.51-PM.jpeg)
+![WhatsApp Image 2024 08 27 at 12.58.51 PM 1](/assets/uploads/2024/07/WhatsApp-Image-2024-08-27-at-12.58.51-PM-1.jpeg)
+![WhatsApp Image 2024 08 27 at 12.58.52 PM](/assets/uploads/2024/07/WhatsApp-Image-2024-08-27-at-12.58.52-PM.jpeg)

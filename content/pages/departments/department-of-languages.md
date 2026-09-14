@@ -23,3 +23,8 @@ Head of Department
 |  |  |
 | --- | --- |
 | Faculty | Shameem A P |
+
+## Gallery
+
+![language min scaled](/assets/uploads/2024/05/language-min-scaled.jpg)
+![WhatsApp Image 2025 05 15 at 1.27.16 PM](/assets/uploads/2025/05/WhatsApp-Image-2025-05-15-at-1.27.16-PM.jpeg)

@@ -38,3 +38,15 @@ Head of Department
 |  |  |
 | --- | --- |
 | Faculty | Thufail P K |
+
+## Gallery
+
+![istockphoto 512035804 612x612 1](/assets/uploads/2025/01/istockphoto-512035804-612x612-1.jpg)
+![WhatsApp Image 2025 02 05 at 8.41.38 AM](/assets/uploads/2024/07/WhatsApp-Image-2025-02-05-at-8.41.38-AM.jpeg)
+![Current Trends.jpeg page 0001](/assets/uploads/2025/01/Current-Trends.jpeg_page-0001.jpg)
+![RESEARCH METHODOLOGY page 0001](/assets/uploads/2025/01/RESEARCH-METHODOLOGY_page-0001.jpg)
+![Arabic Language Day 2024.jpeg page 0001](/assets/uploads/2025/01/Arabic-Language-Day_2024.jpeg_page-0001.jpg)
+![LEADERSHIP page 0001](/assets/uploads/2025/01/LEADERSHIP_page-0001.jpg)
+![IMG 20241205 152722 1.jpg page 0001 1](/assets/uploads/2025/01/IMG_20241205_152722-1.jpg_page-0001-1.jpg)
+![Screenshot 2025 01 20 123400](/assets/uploads/2025/01/Screenshot-2025-01-20-123400.jpg)
+![Screenshot 2025 01 20 123321](/assets/uploads/2025/01/Screenshot-2025-01-20-123321.jpg)

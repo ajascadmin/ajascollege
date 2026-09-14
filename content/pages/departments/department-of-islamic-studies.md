@@ -53,3 +53,20 @@ Head of Department
 | Faculty | Dr. Anas P Aboobacker |
 | MA Islamic Studies,PHD | Azharudheen K S |
 | MA Islamic Studies,NET | Dr. Thanveer T |
+
+## Gallery
+
+![islamic studies](/assets/uploads/2024/08/islamic-studies.png)
+![thanveer](/assets/uploads/2024/07/thanveer.jpg)
+![anas pa](/assets/uploads/2025/01/anas-pa.jpeg)
+![azharudheen](/assets/uploads/2025/01/azharudheen.jpeg)
+![WhatsApp Image 2024 12 06 at 4.05.29 PM](/assets/uploads/2024/08/WhatsApp-Image-2024-12-06-at-4.05.29-PM.jpeg)
+![WhatsApp Image 2024 12 07 at 11.18.07 AM](/assets/uploads/2024/08/WhatsApp-Image-2024-12-07-at-11.18.07-AM.jpeg)
+![WhatsApp Image 2024 12 07 at 11.17.51 AM](/assets/uploads/2024/08/WhatsApp-Image-2024-12-07-at-11.17.51-AM.jpeg)
+![LEADERSHIP page 0001](/assets/uploads/2025/01/LEADERSHIP_page-0001.jpg)
+![Arabic Language Day 2024.jpeg page 0001](/assets/uploads/2025/01/Arabic-Language-Day_2024.jpeg_page-0001.jpg)
+![RESEARCH METHODOLOGY page 0001](/assets/uploads/2025/01/RESEARCH-METHODOLOGY_page-0001.jpg)
+![Current Trends.jpeg page 0001](/assets/uploads/2025/01/Current-Trends.jpeg_page-0001.jpg)
+![IMG 20241205 152722 1.jpg page 0001 1](/assets/uploads/2025/01/IMG_20241205_152722-1.jpg_page-0001-1.jpg)
+![Screenshot 2025 01 20 123321](/assets/uploads/2025/01/Screenshot-2025-01-20-123321.jpg)
+![Screenshot 2025 01 20 123400](/assets/uploads/2025/01/Screenshot-2025-01-20-123400.jpg)

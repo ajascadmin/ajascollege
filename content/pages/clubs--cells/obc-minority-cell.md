@@ -72,3 +72,7 @@ Create support networks and peer groups to help students from OBC and minority c
 ## Coordinator of OBC /Minority Cell
 
 ## Assistant Professor Department of Food Technology
+
+## Gallery
+
+![WhatsApp Image 2025 07 18 at 11.22.49 AM](/assets/uploads/2025/07/WhatsApp-Image-2025-07-18-at-11.22.49-AM.jpeg)

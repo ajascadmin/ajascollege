@@ -9,3 +9,10 @@ image: "/assets/uploads/2026/04/WhatsApp-Image-2026-04-21-at-9.30.24-PM.jpeg"
 ![](/assets/uploads/2026/04/WhatsApp-Image-2026-04-21-at-9.30.24-PM.jpeg)
 
 # WORLD EARTH DAY
+
+## Gallery
+
+![WhatsApp Image 2026 04 22 at 12.22.34 PM](/assets/uploads/2026/04/WhatsApp-Image-2026-04-22-at-12.22.34-PM.jpeg)
+![WhatsApp Image 2026 04 22 at 12.22.34 PM 1](/assets/uploads/2026/04/WhatsApp-Image-2026-04-22-at-12.22.34-PM-1.jpeg)
+![WhatsApp Image 2026 04 22 at 12.22.30 PM](/assets/uploads/2026/04/WhatsApp-Image-2026-04-22-at-12.22.30-PM.jpeg)
+![WhatsApp Image 2026 04 22 at 12.22.31 PM](/assets/uploads/2026/04/WhatsApp-Image-2026-04-22-at-12.22.31-PM.jpeg)
