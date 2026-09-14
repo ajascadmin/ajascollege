@@ -241,6 +241,14 @@ export async function optimizeHtmlImages(
       }
       out = out.replace(full, `<img${next}>`);
     }
+
+    // Lightbox/gallery anchors commonly point at the same CMS image as the
+    // nested <img>. Point them at the generated asset too, otherwise the
+    // thumbnail works but opening it requests a non-public /assets/uploads URL.
+    out = out.replace(/\bhref\s*=\s*(["'])([^"']+)\1/gi, (full, _q, href: string) => {
+      const opt = srcMap.get(href);
+      return opt?.optimized ? `href="${opt.src}"` : full;
+    });
   }
 
   // ——— CSS background-image:url(...) (hero layers etc.) ———

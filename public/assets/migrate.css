@@ -47,7 +47,7 @@ h1,h2,h3,
 
 /* ---------- inner-page banner: Edukin's .bg-header, AJAS photo ---------- */
 .bg-header{
-    background-image:linear-gradient(rgba(24,50,81,.86),rgba(24,50,81,.86)),url('uploads/2024/01/P1222323-building-2048x1154-1.webp');
+    background-image:linear-gradient(rgba(24,50,81,.86),rgba(24,50,81,.86)),var(--ajas-campus-bg,url('/images/home1/23.jpg'));
     background-size:cover;background-position:center 32%;background-repeat:no-repeat;
     height:auto;padding-bottom:26px;
 }
@@ -501,7 +501,7 @@ h1,h2,h3,
 
 /* facilities band (was images/home1/parallax1.jpg — blank) */
 .flat-services.style1.parallax1,.parallax1{
-    background-image:url('uploads/2025/03/WhatsApp-Image-2025-03-17-at-4.16.10-PM.jpeg') !important;
+    background-image:var(--ajas-facilities-bg,url('/images/home1/parallax1.jpg')) !important;
     background-size:cover;background-position:center;}
 .flat-services.style1 .section-overlay{background:rgba(255,95,96,.90);}
 .flat-services.style1{padding:88px 0;}
@@ -514,7 +514,7 @@ h1,h2,h3,
 /* why-choose band (was images/home1/17.png — blank) */
 .flat-benefit.style1{
     background-image:linear-gradient(105deg,rgba(15,33,53,.96) 0%,rgba(24,50,81,.93) 55%,rgba(31,66,107,.88) 100%),
-        url('uploads/2024/01/building-admin-P1222310-1024x577-copy-1.png') !important;
+        var(--ajas-admin-bg,url('/images/home1/17.png')) !important;
     background-size:cover;background-position:center;}
 .flat-benefit.style1 .iconbox-content h3 a{color:#fff;font-size:19px;}
 .flat-benefit.style1 .iconbox-content h3 a:hover{color:#ff5f60;}
@@ -571,7 +571,7 @@ h1,h2,h3,
 
 /* quick-link band (was images/home1/parallax2.jpg — blank) */
 .parallax2{
-    background-image:url('uploads/2025/03/WhatsApp-Image-2025-03-17-at-4.01.34-PM.jpeg') !important;
+    background-image:var(--ajas-quick-bg,url('/images/home1/parallax2.jpg')) !important;
     background-size:cover;background-position:center 30%;}
 .quick-link .section-overlay{background:rgba(15,33,53,.90);}
 .quick-link.quick-link-style1{padding:96px 0;}
@@ -579,7 +579,7 @@ h1,h2,h3,
 /* footer band (was images/footer/01.png — blank) */
 #footer.footer-type1{
     background-image:linear-gradient(rgba(12,28,48,.97),rgba(12,28,48,.97)),
-        url('uploads/2024/01/P1222323-building-2048x1154-1.webp') !important;
+        var(--ajas-campus-bg,url('/images/home1/23.jpg')) !important;
     background-size:cover;background-position:center;}
 /* accreditation band at the top of the footer, on every page */
 .footer-trust{
@@ -1083,8 +1083,10 @@ html{scroll-behavior:smooth;}
 [id]{scroll-margin-top:110px;}
 
 /* ---------- responsive ---------- */
-@media(max-width:1400px){
-    #main-nav>ul.menu>li>a{font-size:13px;padding:0 8px;}
+@media(max-width:1500px){
+    #logo img{max-height:46px;}
+    #main-nav>ul.menu>li>a{font-size:12.5px;padding:0 6px;}
+    #main-nav>ul.menu>li>a:before{left:6px;right:6px;}
     .header-menu{max-width:calc(100% - 250px);}
 }
 @media(max-width:1199px){
@@ -1479,4 +1481,260 @@ html.is-loaded #loading-overlay{
     .footer-map-fluid{height:220px;}
     .footer-map-overlay{bottom:12px;left:14px;}
     .footer-map-overlay .map-chip{padding:7px 14px;font-size:12px;}
+}
+
+/* ============================================================
+   Responsive production pass — shared across every Astro route.
+   The desktop composition stays intact; these rules tighten the
+   tablet/mobile hierarchy, interactions, tables and footer.
+   ============================================================ */
+*,*::before,*::after{box-sizing:border-box;}
+html{max-width:100%;overflow-x:clip;text-size-adjust:100%;-webkit-text-size-adjust:100%;}
+body{max-width:100%;overflow-wrap:break-word;}
+main{display:block;min-width:0;}
+img,video,iframe,svg{max-width:100%;}
+button,input,select,textarea{font:inherit;}
+a,button,input,select,textarea{touch-action:manipulation;}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{
+    outline:3px solid #ffbe34;outline-offset:3px;border-radius:3px;}
+
+/* ArticleShell already owns the visual card; remove the nested legacy card. */
+.ajas-page-card .site-content{
+    padding:0 !important;border:0 !important;border-radius:0 !important;box-shadow:none !important;}
+
+/* Grid children default to min-width:auto, which lets a long CMS value or a
+   wide table silently stretch the whole SmartPage beyond the phone viewport. */
+body .smart-page .sp-default,
+body .smart-page .sp-admission,
+body .smart-page .sp-vision,
+.smart-page .sp-top,
+.smart-page .sp-sections,
+.smart-page .sp-prog-grid,
+.smart-page .sp-tables,
+.smart-page .sp-section,
+.smart-page .sp-lead-card,
+.smart-page .sp-fact-sheet,
+.smart-page .sp-prog-card,
+.smart-page .sp-html,
+.smart-page .dt-wrap{
+    min-width:0;max-width:100%;}
+.smart-page .sp-top>*,.smart-page .sp-sections>*,.smart-page .sp-prog-grid>*{min-width:0;}
+.smart-page .sp-html *,.smart-page dd,.smart-page dt{overflow-wrap:anywhere;word-break:normal;}
+.smart-page .sp-section img,.smart-page .sp-hero-fig img{max-width:100% !important;}
+.smart-page .sp-section-head h2{min-width:0;overflow-wrap:anywhere;}
+
+/* Interactive text at the bottom of cards should be easy to tap. */
+.btn-prog-cta,.dept-link-btn,.dept-more,.prog-card-link,
+.people-card-phone,.ajas-entity-back,.ajas-entity-more a,.menu-grid-card-cta{
+    min-height:44px;display:inline-flex;align-items:center;}
+
+/* Prevent hover-only movement on touchscreens. */
+@media(hover:none){
+    .flat-course:hover,.team-box-layout-h1:hover,.ajas-prog-card:hover,.ajas-dept-card:hover,
+    .dept-card:hover,.ajas-card:hover,.prog-grid-card:hover,.menu-grid-card:hover,.people-card:hover{
+        transform:none !important;}
+}
+
+@media(max-width:991px){
+    .has-reveal .rv-left,.has-reveal .rv-right{transform:translateY(12px) !important;}
+    .container,.container-fluid{width:100%;max-width:100%;padding-left:20px;padding-right:20px;}
+
+    /* Compact, readable tablet header. */
+    .top-bar{padding:8px 0;}
+    .top-bar .row>div:first-child{flex:0 0 100%;max-width:100%;}
+    .top-bar .information{
+        display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:4px 24px;margin:0;}
+    .top-bar .information li{
+        display:inline-flex;align-items:center;min-height:32px;margin:0;font-size:13px;line-height:1.3;}
+    .top-bar .information li a{display:inline-flex;align-items:center;min-height:32px;}
+    .menu-bar .menu-bar-wrap{position:relative;min-height:62px;padding:9px 58px 9px 0;}
+    #logo,.menu-bar #logo{max-width:min(320px,calc(100% - 28px));}
+    #logo img,.header-sticky #logo img{max-width:100% !important;max-height:42px !important;height:auto;}
+    .mobile-button{
+        appearance:none;-webkit-appearance:none;border:0;padding:9px;background:transparent;
+        width:46px;height:46px;min-width:46px;min-height:46px;right:0;top:50% !important;
+        display:flex;transform:translateY(-50%);z-index:1002;}
+    .mobile-button:hover,.mobile-button:focus,.mobile-button.active{background:transparent !important;}
+    .mobile-button::before,.mobile-button::after,.mobile-button span{
+        left:9px;width:28px;height:3px;border-radius:2px;}
+
+    /* Full-width, scrollable mobile menu with one clear disclosure icon. */
+    #mainnav-mobi{
+        left:50% !important;right:auto !important;width:100vw !important;margin:0 !important;
+        transform:translateX(-50%);max-height:calc(100dvh - 112px);overscroll-behavior:contain;
+        border-top:1px solid rgba(255,255,255,.12);box-shadow:0 22px 42px rgba(9,24,42,.32);}
+    #mainnav-mobi>ul.menu>li>a,#mainnav-mobi .sub-menu li a{
+        height:auto;min-height:50px;line-height:1.35;padding:14px 62px 14px 20px !important;
+        white-space:normal;overflow:visible;text-overflow:clip;}
+    #mainnav-mobi .sub-menu li a{padding-left:36px !important;background:rgba(0,0,0,.06);}
+    #mainnav-mobi .sub-menu .sub-menu li a{padding-left:52px !important;}
+    #mainnav-mobi .sub-menu .sub-menu .sub-menu li a{padding-left:68px !important;}
+    #mainnav-mobi .btn-submenu{
+        appearance:none;-webkit-appearance:none;border:0;border-left:1px solid rgba(255,255,255,.09);
+        background:transparent;right:4px;top:3px;width:48px;height:44px;line-height:44px;padding:0;}
+    #mainnav-mobi .btn-submenu::after{content:none !important;}
+    #mainnav-mobi .btn-submenu::before{font-family:FontAwesome;display:block;font-size:15px;}
+    body.mobile-nav-open{overflow:hidden;}
+
+    .bg-header{padding-bottom:18px;background-position:center 28%;}
+    .breadcrumbs-blog{padding-top:16px;}
+    .breadcrumbs-inner{display:flex;flex-wrap:wrap;gap:3px 0;margin-bottom:4px;}
+    .breadcrumbs-inner li,.breadcrumbs-inner li a{line-height:1.45;}
+    .breadcrumbs-wrap .title{font-size:clamp(1.4rem,4vw,1.8rem);overflow-wrap:anywhere;}
+
+    /* Tablet section rhythm and balanced two-column grids. */
+    body .ajas-listing.ajas-listing,body .ajas-prog-listing-page.ajas-prog-listing-page{padding:42px 0 58px;}
+    main .listing-intro.listing-intro{margin-bottom:32px;font-size:16px;line-height:1.65;}
+    .blog-single.content-blog{padding:48px 0 58px;}
+    .smart-page{padding-bottom:52px;}
+    .sp-default,.sp-admission,.sp-vision{padding-left:20px;padding-right:20px;}
+    .sp-lead-card,.sp-fact-sheet,.sp-section{padding:24px 22px 26px;}
+    .flat-introduce-style1 .col-left,.flat-introduce-style1 .col-right{min-width:0;}
+    .ajas-actions .row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));}
+    .ajas-actions .row>div{width:100%;max-width:100%;padding-left:10px;padding-right:10px;}
+    .ajas-actions .row>div:last-child{grid-column:1/-1;}
+    .action-tile{flex-wrap:wrap;padding:22px 20px 18px;}
+    .action-tile .tile-cta{position:static;display:block;width:100%;margin-top:10px;text-align:right;}
+
+    /* Footer: address full-width, navigation groups in a useful 2×2 grid. */
+    #footer #footer-widget{padding:36px 0 18px;}
+    #footer #footer-widget .row{display:flex;flex-wrap:wrap;}
+    #footer #footer-widget .col-footer{flex:0 0 100%;max-width:100%;margin-bottom:24px;}
+    #footer #footer-widget .col-company,
+    #footer #footer-widget .col-link,
+    #footer #footer-widget .col-course,
+    #footer #footer-widget .col-media{flex:0 0 50%;max-width:50%;margin-bottom:18px;}
+    #footer #footer-widget .widget.widget-title{margin:0 0 8px;}
+    #footer #footer-widget .widget-nav-menu li{margin:0;}
+    #footer #footer-widget .widget-nav-menu li a{
+        display:flex;align-items:center;min-height:42px;padding:7px 0;line-height:1.35;}
+    #footer .footer-address li{margin-bottom:4px;min-height:36px;display:flex;align-items:center;}
+    #footer .footer-address li i{top:10px;}
+    #footer .logo-footer img{max-width:min(100%,300px);height:auto;max-height:54px;}
+    #bottom .bottom-bar-inner-wrap{padding:22px 0;}
+    #bottom ul.bottom-nav{display:flex;justify-content:center;flex-wrap:wrap;gap:2px 8px;}
+    #bottom ul.bottom-nav>li{margin:0;padding:0;}
+    #bottom ul.bottom-nav>li>a{min-height:42px;padding:8px;}
+}
+
+@media(max-width:767px){
+    .container,.container-fluid{padding-left:16px;padding-right:16px;}
+    .menu-bar .menu-bar-wrap{min-height:58px;padding:8px 54px 8px 0;}
+    #logo img,.header-sticky #logo img{max-height:34px !important;}
+    .bg-header{padding-bottom:15px;}
+    .breadcrumbs-blog{padding-top:13px;}
+    .breadcrumbs-inner li,.breadcrumbs-inner li a{font-size:13px;}
+
+    body .ajas-listing.ajas-listing,body .ajas-prog-listing-page.ajas-prog-listing-page{padding:32px 0 48px;}
+    .blog-single.content-blog{padding:32px 0 48px;}
+    main .listing-intro.listing-intro{margin-bottom:26px;font-size:16px;line-height:1.6;}
+    main .ajas-grid.ajas-grid,main .dept-grid.dept-grid,main .prog-cards-grid.prog-cards-grid{gap:16px;}
+    main .dept-grid .dept-card,main .prog-cards-grid .prog-grid-card{padding:22px 20px 18px;}
+    main .ajas-card .ajas-card-body{padding:17px 18px 18px;}
+    .ajas-card-body h2,.dept-card h2,.prog-title-text{font-size:1.08rem;}
+    .ajas-card-media{aspect-ratio:16/10;}
+
+    .ajas-page-shell{padding:20px 0 42px;}
+    body .ajas-page-shell .ajas-page-card{padding:24px 18px 30px;box-shadow:0 7px 24px rgba(24,50,81,.07);}
+    .migrate-content,.ajas-prose,.sp-html{font-size:16px;line-height:1.72;}
+    .migrate-content h1,.ajas-prose h1{font-size:1.55rem;}
+    .migrate-content h2,.ajas-prose h2{font-size:1.3rem;margin-top:1.65em;padding-top:0;border-top:0;}
+    .migrate-content h3,.ajas-prose h3{font-size:1.08rem;}
+    .migrate-content ul>li{padding-left:24px;}
+    .migrate-content blockquote,.ajas-prose blockquote{padding:16px 18px;}
+    .migrate-content p>img,.migrate-content>img{margin:18px auto 22px;}
+    .ajas-prose p:has(> img:only-child){padding:10px;}
+    .sp-default,.sp-admission,.sp-vision{padding-left:16px;padding-right:16px;}
+    .sp-lead-card,.sp-fact-sheet,.sp-section,.sp-lead,.sp-tail{padding:21px 18px 23px;}
+    .sp-fact-row{grid-template-columns:1fr;gap:3px;}
+    .sp-fact-row dd{text-align:left;}
+    .sp-section-head{align-items:flex-start;}
+    .sp-section-num{padding-top:4px;}
+
+    /* Dense data stays legible inside its own horizontal viewport. */
+    .migrate-content table:not(.ajas-notice-table):not(.ajas-download-table),
+    .ajas-prose table:not(.ajas-notice-table):not(.ajas-download-table){
+        display:block;width:100%;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;
+        scrollbar-width:thin;border-radius:8px;}
+    .dt-wrap{margin-left:-2px;margin-right:-2px;box-shadow:inset -10px 0 12px -14px rgba(24,50,81,.55);}
+    .dt-table{min-width:560px;}
+
+    /* Download tables become cards instead of squeezing three columns. */
+    .ajas-notice-table,.ajas-download-table{
+        display:block !important;width:100%;overflow:visible !important;border-collapse:separate !important;
+        font-size:15px !important;box-shadow:none !important;}
+    .ajas-notice-table thead,.ajas-download-table thead{display:none;}
+    .ajas-notice-table tbody,.ajas-download-table tbody{display:grid;gap:12px;}
+    .ajas-notice-table tr,.ajas-download-table tr{
+        display:block;background:#fff;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;
+        box-shadow:0 5px 16px rgba(24,50,81,.06);}
+    .ajas-notice-table td,.ajas-download-table td{
+        display:block;width:100% !important;border:0 !important;padding:7px 15px !important;background:#fff !important;}
+    .ajas-notice-table td:first-child,.ajas-download-table td:first-child{
+        padding-top:14px !important;color:#183251 !important;font-weight:600;}
+    .ajas-notice-table td:nth-child(2),.ajas-download-table td:nth-child(2){font-size:13.5px;}
+    .ajas-notice-table td:nth-child(2)::before,.ajas-download-table td:nth-child(2)::before{
+        content:"Date: ";font-weight:500;color:#64748b;}
+    .ajas-notice-table td:last-child,.ajas-download-table td:last-child{padding:5px 12px 12px !important;}
+    .ajas-notice-table td:last-child a,.ajas-download-table td:last-child a{
+        display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:8px 15px;
+        background:#183251;color:#fff !important;border:0;border-radius:999px;text-decoration:none !important;}
+
+    .migrate-form input,.migrate-form select,.migrate-form textarea{
+        min-height:48px;padding:13px 14px;margin-bottom:14px;font-size:16px;}
+    .migrate-form textarea{min-height:130px;resize:vertical;}
+    .migrate-form .btn{min-height:48px;width:100%;padding:12px 22px;}
+
+    .ajas-entity{padding:20px 14px 44px;}
+    .ajas-entity-card{border-radius:12px;}
+    .ajas-entity-poster{padding:12px 12px 0;}
+    .ajas-entity-panel{padding:23px 18px 26px;}
+    .ajas-entity-foot{align-items:stretch;}
+    .ajas-entity-back{flex:1 1 100%;}
+    .ajas-entity-more{width:100%;gap:8px;}
+    .ajas-entity-more a{flex:1;justify-content:center;background:#f1f5f9;border-radius:8px;}
+
+    .gallery-section,.people-grid-section,.menu-grid{padding-left:0;padding-right:0;}
+    .gallery-section-head h2,.people-grid-head h2{white-space:normal;}
+    .menu-grid{grid-template-columns:1fr;gap:14px;}
+    .menu-grid-card{min-height:0;padding:20px 19px 16px;}
+    .people-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
+    .people-card{padding:16px 10px 17px;}
+    .people-card-role,.people-card-phone{font-size:.86rem;}
+
+    .footer-trust{padding:22px 0 18px;}
+    .trust-marks{gap:18px 16px;}
+    .trust-marks li{min-width:72px;}
+    .trust-marks img{height:38px;}
+    .footer-map-fluid{height:210px;}
+    #copyright{line-height:1.6;}
+    #scroll-top{right:14px;bottom:14px;width:44px;height:44px;line-height:44px;}
+    .pros .pros-section.pros-section-alt{margin-left:0 !important;margin-right:0 !important;padding:32px 18px;}
+}
+
+@media(max-width:575px){
+    .top-bar .information{flex-wrap:nowrap;gap:10px;justify-content:space-between;}
+    .top-bar .information li{font-size:12px;min-width:0;}
+    .top-bar .information li i{margin-right:5px;}
+    .top-bar .information li a{white-space:nowrap;}
+    .top-bar .information .email{overflow:hidden;}
+    .top-bar .information .email a{overflow:hidden;text-overflow:ellipsis;}
+    .breadcrumbs-wrap .title{font-size:1.45rem;}
+    .action-tile{min-height:0;}
+    .ajas-actions .row{grid-template-columns:1fr;}
+    .ajas-actions .row>div:last-child{grid-column:auto;}
+    .action-tile .tile-ico{flex:0 0 48px;width:48px;height:48px;}
+    .ajas-events .images-list-1{grid-template-columns:1fr;}
+    .ajas-events .images-list-1 .img-event:first-child{grid-column:auto;}
+    .ajas-events .img-event img,.ajas-events .images-list-1 .img-event:first-child img{height:220px;}
+    .pros-jump{scroll-padding-inline:16px;}
+}
+
+@media(max-width:359px){
+    .top-bar .information{flex-wrap:wrap;justify-content:center;gap:0 14px;}
+    .people-grid{grid-template-columns:1fr;}
+    #footer #footer-widget .col-company,
+    #footer #footer-widget .col-link,
+    #footer #footer-widget .col-course,
+    #footer #footer-widget .col-media{flex-basis:100%;max-width:100%;}
 }

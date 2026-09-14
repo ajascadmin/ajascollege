@@ -4,6 +4,7 @@
  * rendered as a grid with a lightbox instead of stacked inline <img>s.
  */
 import CmsImage from "./CmsImage.astro";
+import { optimizeCmsImage } from "../lib/cmsImage";
 
 interface Props {
   images: string[];
@@ -12,6 +13,12 @@ interface Props {
 }
 
 const { images, title = "Gallery", id = "page-gallery" } = Astro.props;
+const galleryImages = await Promise.all(
+  (images || []).map(async (src) => ({
+    src,
+    href: (await optimizeCmsImage(src, "inline"))?.src || src,
+  })),
+);
 ---
 
 {
@@ -22,14 +29,14 @@ const { images, title = "Gallery", id = "page-gallery" } = Astro.props;
         <h2>{title}</h2>
       </div>
       <div class="gallery-grid">
-        {images.map((src, i) => (
+        {galleryImages.map((image, i) => (
           <a
             class="gal-item"
-            href={src}
+            href={image.href}
             rel={id}
             title={`${title} ${i + 1} of ${images.length}`}
           >
-            <CmsImage src={src} alt="" preset="card" fit="cover" />
+            <CmsImage src={image.src} alt="" preset="card" fit="cover" />
           </a>
         ))}
       </div>

@@ -301,8 +301,9 @@
 
                     $('.header #header-menu').after($mobileMenu);
                     hasChildMenu.children('ul').hide();
-                    hasChildMenu.children('a').after('<span class="btn-submenu"></span>');
+                    hasChildMenu.children('a').after('<button type="button" class="btn-submenu" aria-label="Toggle submenu" aria-expanded="false"></button>');
                     $('.btn-menu').removeClass('active');
+                    $('.mobile-button').attr({'aria-controls': 'mainnav-mobi', 'aria-expanded': 'false'});
 
                 } else {
                     var $desktopMenu = $('#mainnav-mobi').attr('id', 'main-nav').removeAttr('style');
@@ -310,18 +311,31 @@
                     $desktopMenu.find('.submenu').removeAttr('style');
                     $('.header').find('#header-menu').append($desktopMenu);
                     $('.btn-submenu').remove();
+                    $('.mobile-button').attr({'aria-controls': 'main-nav', 'aria-expanded': 'false'}).removeClass('active');
                 }
             }
         });
 
-        $('.mobile-button').on('click', function() {         
+        $('.mobile-button').on('click', function() {
             $('#mainnav-mobi').slideToggle(300);
             $(this).toggleClass('active');
+            var expanded = $(this).hasClass('active');
+            $(this).attr('aria-expanded', expanded).attr('aria-label', expanded ? 'Close navigation menu' : 'Open navigation menu');
+            $('body').toggleClass('mobile-nav-open', expanded);
         });
 
         $(document).on('click', '#mainnav-mobi li .btn-submenu', function(e) {
             $(this).toggleClass('active').next('ul').slideToggle(300);
+            $(this).attr('aria-expanded', $(this).hasClass('active'));
             e.stopImmediatePropagation()
+        });
+
+        $(document).on('keydown', function(e) {
+            if (e.key === 'Escape' && $('.mobile-button').hasClass('active')) {
+                $('#mainnav-mobi').stop(true, true).slideUp(180);
+                $('.mobile-button').removeClass('active').attr({'aria-expanded': 'false', 'aria-label': 'Open navigation menu'}).focus();
+                $('body').removeClass('mobile-nav-open');
+            }
         });
     };
 
