@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getListings } from "../../lib/site";
 
 const programmes = (await getCollection("programmes", ({ data }) => !data.draft)).sort(
   (a, b) => a.data.order - b.data.order || a.data.title.localeCompare(b.data.title),
@@ -26,19 +27,20 @@ const iconFor = (title: string) => {
   if (t.includes("arabic")) return "fa-language";
   return "fa-graduation-cap";
 };
+
+const L = (await getListings())?.programmes ?? {
+  title: "Programmes Offered",
+  description: "UG (Honours) and PG programmes at Al Jamia Arts & Science College.",
+  intro:
+    "Al Jamia Arts and Science College offers university-affiliated Four-Year Undergraduate (Honours) programmes under FYUGP and specialised Postgraduate degrees with dedicated faculty and state-of-the-art labs.",
+};
 ---
 
-<BaseLayout
-  title="Programmes Offered"
-  description="UG (Honours) and PG programmes at Al Jamia Arts & Science College."
-  pageTitle="Programmes Offered"
->
+<BaseLayout title={L.title} description={L.description} pageTitle={L.title}>
   <div class="ajas-prog-listing-page" data-pagefind-body>
     <div class="container">
       <div class="prog-page-intro">
-        <p class="listing-intro">
-          Al Jamia Arts and Science College offers university-affiliated Four-Year Undergraduate (Honours) programmes under FYUGP and specialised Postgraduate degrees with dedicated faculty and state-of-the-art labs.
-        </p>
+        <p class="listing-intro">{L.intro}</p>
         <div class="prog-quick-ctas">
           <a class="prog-btn-primary" href="/admission/">Apply for Admission <i class="fa fa-arrow-right"></i></a>
           <a class="prog-btn-secondary" href="/fees/">Fees &amp; Prospectus</a>

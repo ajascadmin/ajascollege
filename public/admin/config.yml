@@ -55,6 +55,16 @@ collections:
       - { label: Draft, name: draft, widget: boolean, default: false }
       - { label: Date, name: date, widget: datetime, required: false }
       - { label: "Page content (visual editor)", name: body, widget: markdown, hint: "Edit like Word — headings, bold, lists, images. Never paste HTML code." }
+      - label: "Video (optional)"
+        name: videos
+        widget: list
+        required: false
+        summary: "{{fields.caption}}"
+        hint: "Add a video clip for this news item — upload a file OR paste a YouTube/Vimeo link, not both."
+        fields:
+          - { label: "Video file (mp4, upload)", name: file, widget: file, required: false, media_folder: src/assets/uploads, public_folder: /assets/uploads, hint: "Keep under 20MB." }
+          - { label: "OR YouTube / Vimeo link", name: url, widget: string, required: false }
+          - { label: Caption, name: caption, widget: string, required: false }
 
   - name: events
     label: "2 · Events"
@@ -80,6 +90,16 @@ collections:
       - { label: Draft, name: draft, widget: boolean, default: false }
       - { label: Date, name: date, widget: datetime, required: false }
       - { label: "Page content (visual editor)", name: body, widget: markdown, hint: "Edit like Word — headings, bold, lists, images. Never paste HTML code." }
+      - label: "Video (optional)"
+        name: videos
+        widget: list
+        required: false
+        summary: "{{fields.caption}}"
+        hint: "Add a video clip for this event — upload a file OR paste a YouTube/Vimeo link, not both."
+        fields:
+          - { label: "Video file (mp4, upload)", name: file, widget: file, required: false, media_folder: src/assets/uploads, public_folder: /assets/uploads, hint: "Keep under 20MB." }
+          - { label: "OR YouTube / Vimeo link", name: url, widget: string, required: false }
+          - { label: Caption, name: caption, widget: string, required: false }
 
   - name: notices
     label: "3 · Notices & downloads"
@@ -190,6 +210,14 @@ collections:
         label: Main navigation
         file: content/settings/navigation.json
         fields:
+          - label: "Top utility bar (small links above the logo)"
+            name: utility
+            widget: list
+            summary: "{{fields.label}}"
+            hint: "The small Alumni / Placement Cell / Payments / Career / Contact row above the main logo."
+            fields:
+              - { label: Label, name: label, widget: string }
+              - { label: Link, name: href, widget: string }
           - label: Main menu
             name: main
             widget: list
@@ -221,6 +249,260 @@ collections:
                         fields:
                           - { label: Label, name: label, widget: string }
                           - { label: Link, name: href, widget: string, required: false }
+
+  - name: footer
+    label: "5c · Footer"
+    icon: dock_to_bottom
+    description: "Address, phone/email, footer link columns, social links, map, copyright, bottom links. Shown on every page."
+    files:
+      - name: footer
+        label: Site footer
+        file: content/settings/footer.json
+        fields:
+          - { label: "Accreditation line (small text above the logos)", name: trust_line, widget: string, required: false }
+          - label: Accreditation logos
+            name: trust_marks
+            widget: list
+            collapsed: true
+            summary: "{{fields.name}}"
+            fields:
+              - { label: Logo image, name: image, widget: image }
+              - { label: Name, name: name, widget: string }
+          - label: "Footer link columns"
+            name: columns
+            widget: list
+            collapsed: true
+            summary: "{{fields.heading}}"
+            hint: "Usually 3 columns (College / Academics / Students). Add, remove, or relabel freely."
+            fields:
+              - { label: Column heading, name: heading, widget: string }
+              - label: Links
+                name: links
+                widget: list
+                summary: "{{fields.label}}"
+                fields:
+                  - { label: Label, name: label, widget: string }
+                  - { label: Link, name: href, widget: string }
+          - label: "Follow us (social links)"
+            name: social
+            widget: list
+            collapsed: true
+            summary: "{{fields.icon}}"
+            fields:
+              - { label: "Icon (Font Awesome name, no \"fa-\" prefix)", name: icon, widget: string, hint: "e.g. facebook, instagram, linkedin, youtube-play — browse names at fontawesome.com/v4/icons" }
+              - { label: Profile URL, name: url, widget: string }
+              - { label: "Accessible label (optional)", name: label, widget: string, required: false }
+          - { label: "Map embed URL", name: map_embed_url, widget: string, required: false, hint: "Google Maps → Share → Embed a map → copy the src=\"...\" URL." }
+          - { label: "\"Open in Google Maps\" link", name: map_link_url, widget: string, required: false }
+          - label: "Bottom bar links"
+            name: bottom_nav
+            widget: list
+            collapsed: true
+            summary: "{{fields.label}}"
+            hint: "The small link row next to the copyright line."
+            fields:
+              - { label: Label, name: label, widget: string }
+              - { label: Link, name: href, widget: string }
+
+  - name: listings
+    label: "5d · Section intros"
+    icon: view_list
+    description: "Heading, search-engine description, and intro paragraph at the top of each list page (News, Events, Notices, Fees, Programmes, Faculty, Departments, Labs, Clubs & Cells)."
+    files:
+      - name: listings
+        label: Section intros
+        file: content/settings/listings.json
+        fields:
+          - label: News
+            name: news
+            widget: object
+            collapsed: true
+            fields: &section_fields
+              - { label: Page heading, name: title, widget: string }
+              - { label: "Search-engine description", name: description, widget: text }
+              - { label: Intro paragraph, name: intro, widget: text }
+          - label: Events
+            name: events
+            widget: object
+            collapsed: true
+            fields: *section_fields
+          - label: Notices
+            name: notices
+            widget: object
+            collapsed: true
+            fields: *section_fields
+          - label: Fees
+            name: fees
+            widget: object
+            collapsed: true
+            fields: *section_fields
+          - label: Programmes
+            name: programmes
+            widget: object
+            collapsed: true
+            fields: *section_fields
+          - label: Faculties
+            name: faculties
+            widget: object
+            collapsed: true
+            fields: *section_fields
+          - label: Departments
+            name: departments
+            widget: object
+            collapsed: true
+            fields: *section_fields
+          - label: Labs
+            name: labs
+            widget: object
+            collapsed: true
+            fields: *section_fields
+          - label: Clubs & Cells
+            name: clubs
+            widget: object
+            collapsed: true
+            fields: *section_fields
+
+  - name: prospectus
+    label: "5e · Prospectus page"
+    icon: menu_book
+    description: "Every section of the /prospectus-2026-27/ page — hero, about, committee, programme fees, admission steps."
+    files:
+      - name: prospectus
+        label: Prospectus page
+        file: content/settings/prospectus.json
+        fields:
+          - label: "1 · Hero"
+            name: hero
+            widget: object
+            collapsed: true
+            fields:
+              - { label: Eyebrow, name: eyebrow, widget: string }
+              - { label: Heading, name: heading, widget: string }
+              - { label: Tagline, name: tagline, widget: string }
+              - { label: "Lead line (accreditation strip)", name: lead, widget: string }
+          - label: "2 · About Us"
+            name: about
+            widget: object
+            collapsed: true
+            fields:
+              - { label: Heading, name: heading, widget: string }
+              - label: Paragraphs
+                name: paragraphs
+                widget: list
+                field: { label: Paragraph, name: value, widget: text }
+          - label: "3 · At a glance stats"
+            name: glance
+            widget: list
+            collapsed: true
+            summary: "{{fields.label}}"
+            fields:
+              - { label: Label, name: label, widget: string }
+              - { label: Value, name: value, widget: string }
+          - { label: "4 · Vision", name: vision, widget: text }
+          - { label: "5 · Mission", name: mission, widget: text }
+          - label: "6 · Management Committee"
+            name: committee
+            widget: object
+            collapsed: true
+            fields:
+              - { label: Heading, name: heading, widget: string }
+              - label: Members
+                name: members
+                widget: list
+                summary: "{{fields.name}} — {{fields.role}}"
+                fields:
+                  - { label: Name, name: name, widget: string }
+                  - { label: Role, name: role, widget: string }
+              - { label: "Note (optional, supports a [link](/path/) )", name: note, widget: string, required: false }
+          - label: "7 · Programmes & Fees"
+            name: programmes
+            widget: object
+            collapsed: true
+            fields:
+              - { label: Heading, name: heading, widget: string }
+              - { label: Intro paragraph, name: intro, widget: text }
+              - { label: "UG section heading", name: ug_heading, widget: string }
+              - label: UG programmes
+                name: ug
+                widget: list
+                summary: "{{fields.name}}"
+                fields:
+                  - { label: Name, name: name, widget: string }
+                  - { label: Eligibility, name: eligibility, widget: text }
+                  - { label: "Fee / semester (₹, digits only)", name: fee, widget: string }
+              - { label: "PG section heading", name: pg_heading, widget: string }
+              - label: PG programmes
+                name: pg
+                widget: list
+                summary: "{{fields.name}}"
+                fields:
+                  - { label: Name, name: name, widget: string }
+                  - { label: Eligibility, name: eligibility, widget: text }
+                  - { label: "Fee / semester (₹, digits only)", name: fee, widget: string }
+          - label: "8 · Add-On / Certificate Courses"
+            name: addon
+            widget: object
+            collapsed: true
+            fields:
+              - { label: Heading, name: heading, widget: string }
+              - { label: Intro, name: intro, widget: text }
+              - label: Courses
+                name: courses
+                widget: list
+                field: { label: Course, name: value, widget: string }
+          - label: "9 · Infrastructure"
+            name: infrastructure
+            widget: object
+            collapsed: true
+            fields:
+              - { label: Heading, name: heading, widget: string }
+              - label: Items
+                name: items
+                widget: list
+                summary: "{{fields.title}}"
+                fields:
+                  - { label: "Icon (Font Awesome class, e.g. fa-book)", name: icon, widget: string }
+                  - { label: Title, name: title, widget: string }
+                  - { label: Text, name: text, widget: text }
+          - label: "10 · Flagship programmes"
+            name: flagship
+            widget: object
+            collapsed: true
+            fields:
+              - { label: Heading, name: heading, widget: string }
+              - label: Cards
+                name: items
+                widget: list
+                summary: "{{fields.kicker}}"
+                hint: "Usually exactly 2 cards."
+                fields:
+                  - { label: Name, name: kicker, widget: string }
+                  - { label: Text, name: text, widget: text }
+          - label: "11 · Admission process"
+            name: admission
+            widget: object
+            collapsed: true
+            fields:
+              - { label: Heading, name: heading, widget: string }
+              - { label: "Management admission — title", name: management_title, widget: string }
+              - label: "Management admission — steps"
+                name: management_steps
+                widget: list
+                field: { label: Step, name: value, widget: text }
+              - { label: "Merit admission — title", name: merit_title, widget: string }
+              - label: "Merit admission — steps"
+                name: merit_steps
+                widget: list
+                field: { label: Step, name: value, widget: text }
+              - { label: "Note (optional)", name: note, widget: text, required: false }
+          - label: "12 · Download CTA"
+            name: download_cta
+            widget: object
+            collapsed: true
+            fields:
+              - { label: Heading, name: heading, widget: string }
+              - { label: Text, name: text, widget: text }
+              - { label: Button label, name: button_label, widget: string }
 
   - name: home
     label: "6 · Homepage"
@@ -663,6 +945,16 @@ collections:
         required: false
         hint: "Shows as a proper photo grid (with lightbox) at the bottom of the page — don't paste photo dumps into the content editor above."
         field: { label: Image, name: image, widget: image }
+      - label: "Video (optional)"
+        name: videos
+        widget: list
+        required: false
+        summary: "{{fields.caption}}"
+        hint: "Add a video to this page — upload a file OR paste a YouTube/Vimeo link, not both. Shows near the bottom of the page."
+        fields:
+          - { label: "Video file (mp4, upload)", name: file, widget: file, required: false, media_folder: src/assets/uploads, public_folder: /assets/uploads, hint: "Keep under 20MB." }
+          - { label: "OR YouTube / Vimeo link", name: url, widget: string, required: false }
+          - { label: Caption, name: caption, widget: string, required: false }
       - label: "Downloads / attachments (optional)"
         name: attachments
         widget: list

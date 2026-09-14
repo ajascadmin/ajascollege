@@ -1,0 +1,57 @@
+{
+  "trust_line": "Affiliated to the University of Calicut · Recognised under UGC 2(f) · Government of Kerala & AICTE · Established 2010",
+  "trust_marks": [
+    { "image": "/assets/uploads/2025/05/University-Logo.jpg", "name": "University of Calicut" },
+    { "image": "/assets/uploads/2024/01/UGC-Logo-e1748242432780.jpg", "name": "UGC" },
+    { "image": "/assets/uploads/2024/01/AICTE-Logo-e1748242290739.jpg", "name": "AICTE" },
+    { "image": "/assets/uploads/2025/10/Naac-Symbol.jpg", "name": "NAAC" },
+    { "image": "/assets/uploads/2024/01/ISO-Logo-e1748242407313.jpg", "name": "ISO certified" }
+  ],
+  "columns": [
+    {
+      "heading": "College",
+      "links": [
+        { "label": "Overview", "href": "/overview/" },
+        { "label": "Vision & Mission", "href": "/vision-mission/" },
+        { "label": "Principal", "href": "/principal/" },
+        { "label": "Recognitions", "href": "/recognitions/" },
+        { "label": "Contact Us", "href": "/contact/" }
+      ]
+    },
+    {
+      "heading": "Academics",
+      "links": [
+        { "label": "Departments", "href": "/departments/" },
+        { "label": "Programmes", "href": "/programmes/" },
+        { "label": "Faculties", "href": "/faculties/" },
+        { "label": "Examinations", "href": "/examinations/" },
+        { "label": "Library", "href": "/library/" }
+      ]
+    },
+    {
+      "heading": "Students",
+      "links": [
+        { "label": "Admission", "href": "/admission/" },
+        { "label": "Scholarships", "href": "/scholorship/" },
+        { "label": "Placement Cell", "href": "/placement-cell/" },
+        { "label": "Alumni", "href": "/alumnae/" },
+        { "label": "Grievance", "href": "/register-a-complaint/" }
+      ]
+    }
+  ],
+  "social": [
+    { "icon": "facebook", "url": "https://www.facebook.com/ajascollege", "label": "Al Jamia on Facebook" },
+    { "icon": "instagram", "url": "https://www.instagram.com/ajascollege", "label": "Al Jamia on Instagram" },
+    { "icon": "linkedin", "url": "https://www.linkedin.com/school/ajascollege", "label": "Al Jamia on LinkedIn" },
+    { "icon": "youtube-play", "url": "https://www.youtube.com/@ajascollege", "label": "Al Jamia on YouTube" }
+  ],
+  "map_embed_url": "https://maps.google.com/maps?q=Al%20Jamia%20Arts%20and%20Science%20College&t=m&z=14&output=embed&iwloc=near",
+  "map_link_url": "https://maps.google.com/maps?q=Al%20Jamia%20Arts%20and%20Science%20College",
+  "bottom_nav": [
+    { "label": "About", "href": "/overview/" },
+    { "label": "IQAC", "href": "/iqac/" },
+    { "label": "Policies", "href": "/policy-documents/" },
+    { "label": "Careers", "href": "/career/" },
+    { "label": "Contact", "href": "/contact/" }
+  ]
+}

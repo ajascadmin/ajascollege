@@ -17,6 +17,7 @@ const phoneDisplay = site.phone_display || site.phone;
 const phoneHref = `tel:${String(site.phone).replace(/\s/g, "")}`;
 const logo = site.logo || "/assets/uploads/2024/01/AJAS-Website-Heading-Last.svg";
 const menu = (navigation as { main: NavItem[] }).main;
+const utility = (navigation as { utility?: { label: string; href: string }[] }).utility ?? [];
 // SVG logos stay in public/ (not optimized by Sharp); raster logos use CmsImage.
 const logoIsRaster = /\.(jpe?g|png|webp|gif|avif)$/i.test(logo);
 ---
@@ -42,12 +43,9 @@ const logoIsRaster = /\.(jpe?g|png|webp|gif|avif)$/i.test(logo);
               </div>
               <div class="col-lg-7 col-md-6 col-sm-12">
                 <ul class="nav-sing top-utility">
-                  <li><a href="/alumnae/">Alumni</a></li>
-                  <li><a href="/placement-cell/">Placement Cell</a></li>
-                  <li><a href="/student-life/">Students Corner</a></li>
-                  <li><a href="/payments/">Payments</a></li>
-                  <li><a href="/career/">Career</a></li>
-                  <li><a href="/contact/">Contact Us</a></li>
+                  {utility.map((u) => (
+                    <li><a href={u.href}>{u.label}</a></li>
+                  ))}
                 </ul>
               </div>
             </div>
@@ -117,12 +115,9 @@ const logoIsRaster = /\.(jpe?g|png|webp|gif|avif)$/i.test(logo);
               </div>
               <div class="col-lg-7 col-md-6 col-sm-12">
                 <ul class="nav-sing top-utility">
-                  <li><a href="/alumnae/">Alumni</a></li>
-                  <li><a href="/placement-cell/">Placement Cell</a></li>
-                  <li><a href="/student-life/">Students Corner</a></li>
-                  <li><a href="/payments/">Payments</a></li>
-                  <li><a href="/career/">Career</a></li>
-                  <li><a href="/contact/">Contact Us</a></li>
+                  {utility.map((u) => (
+                    <li><a href={u.href}>{u.label}</a></li>
+                  ))}
                 </ul>
               </div>
             </div>

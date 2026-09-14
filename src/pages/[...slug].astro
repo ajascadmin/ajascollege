@@ -10,6 +10,7 @@ import AttachmentList from "../components/AttachmentList.astro";
 import GallerySection from "../components/GallerySection.astro";
 import PeopleGrid from "../components/PeopleGrid.astro";
 import MenuGrid from "../components/MenuGrid.astro";
+import VideoSection from "../components/VideoSection.astro";
 import { optimizeHtmlImages } from "../lib/cmsImage";
 import {
   getAllEntries,
@@ -68,6 +69,7 @@ const attachments =
 const gallery = "gallery" in entry.data ? entry.data.gallery : undefined;
 const people = "people" in entry.data ? entry.data.people : undefined;
 const menuItems = "menu_items" in entry.data ? entry.data.menu_items : undefined;
+const videos = "videos" in entry.data ? entry.data.videos : undefined;
 
 /** Markdown/HTML body with CMS images rewritten to optimized webp */
 const bodyHtmlRaw = body
@@ -115,6 +117,7 @@ if (isNews) {
         backHref={isNews ? "/college-news/" : "/event/"}
         backLabel={isNews ? "All news" : "All events"}
         bodyHtml={bodyHtml}
+        videos={videos}
       />
     ) : isProfile ? (
       <div class="ajas-profile-wrap">
@@ -158,7 +161,8 @@ if (isNews) {
       !bodyHtml &&
       ((gallery && gallery.length > 0) ||
         (people && people.length > 0) ||
-        (menuItems && menuItems.length > 0)) ? null : bodyHtml ? (
+        (menuItems && menuItems.length > 0) ||
+        (videos && videos.length > 0)) ? null : bodyHtml ? (
       <ArticleShell wide={t === "listing"} variant={t === "listing" ? "listing" : "info"}>
         <Fragment set:html={bodyHtml} />
         {attachments && attachments.length > 0 && (
@@ -187,6 +191,11 @@ if (isNews) {
   {
     !isEntity && !isProfile && gallery && gallery.length > 0 && (
       <GallerySection images={gallery} title="Gallery" />
+    )
+  }
+  {
+    !isEntity && !isProfile && videos && videos.length > 0 && (
+      <VideoSection videos={videos} title="Video" />
     )
   }
 </BaseLayout>

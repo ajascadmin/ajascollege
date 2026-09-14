@@ -28,3 +28,18 @@ export async function getHomepage() {
   const all = await getCollection("home");
   return all[0]?.data ?? null;
 }
+
+export async function getFooterSettings() {
+  const all = await getCollection("footer");
+  return all[0]?.data ?? null;
+}
+
+export async function getListings() {
+  const all = await getCollection("listings");
+  return all[0]?.data ?? null;
+}
+
+export async function getProspectus() {
+  const all = await getCollection("prospectus");
+  return all[0]?.data ?? null;
+}

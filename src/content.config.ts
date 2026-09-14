@@ -38,6 +38,15 @@ const entrySchema = z.object({
       }),
     )
     .optional(),
+  videos: z
+    .array(
+      z.object({
+        file: z.string().optional(),
+        url: z.string().optional(),
+        caption: z.string().optional(),
+      }),
+    )
+    .optional(),
 });
 
 const pages = defineCollection({
@@ -123,6 +132,60 @@ const settings = defineCollection({
     admission_note: z.string().optional(),
     fee_pdf: z.string().optional(),
     prospectus_pdf: z.string().optional(),
+  }),
+});
+
+/** Footer — trust marks, address/columns, social links, map, bottom nav. */
+const footer = defineCollection({
+  loader: glob({ pattern: "footer.json", base: "./content/settings" }),
+  schema: z.object({
+    trust_line: z.string().optional(),
+    trust_marks: z
+      .array(z.object({ image: z.string(), name: z.string() }))
+      .default([]),
+    columns: z
+      .array(
+        z.object({
+          heading: z.string(),
+          links: z.array(z.object({ label: z.string(), href: z.string() })),
+        }),
+      )
+      .default([]),
+    social: z
+      .array(
+        z.object({
+          icon: z.string(),
+          url: z.string(),
+          label: z.string().optional(),
+        }),
+      )
+      .default([]),
+    map_embed_url: z.string().optional(),
+    map_link_url: z.string().optional(),
+    bottom_nav: z
+      .array(z.object({ label: z.string(), href: z.string() }))
+      .default([]),
+  }),
+});
+
+/** Heading / SEO description / intro paragraph for each list page. */
+const sectionSchema = z.object({
+  title: z.string(),
+  description: z.string(),
+  intro: z.string(),
+});
+const listings = defineCollection({
+  loader: glob({ pattern: "listings.json", base: "./content/settings" }),
+  schema: z.object({
+    news: sectionSchema,
+    events: sectionSchema,
+    notices: sectionSchema,
+    fees: sectionSchema,
+    programmes: sectionSchema,
+    faculties: sectionSchema,
+    departments: sectionSchema,
+    labs: sectionSchema,
+    clubs: sectionSchema,
   }),
 });
 
@@ -297,6 +360,71 @@ const home = defineCollection({
   }),
 });
 
+/** The bespoke /prospectus-2026-27/ microsite — every string editable. */
+const prospectus = defineCollection({
+  loader: glob({ pattern: "prospectus.json", base: "./content/settings" }),
+  schema: z.object({
+    hero: z.object({
+      eyebrow: z.string(),
+      heading: z.string(),
+      tagline: z.string(),
+      lead: z.string(),
+    }),
+    about: z.object({
+      heading: z.string().default("About Us"),
+      paragraphs: z.array(z.string()),
+    }),
+    glance: z.array(z.object({ label: z.string(), value: z.string() })),
+    vision: z.string(),
+    mission: z.string(),
+    committee: z.object({
+      heading: z.string().default("Management Committee"),
+      members: z.array(z.object({ name: z.string(), role: z.string() })),
+      note: z.string().optional(),
+    }),
+    programmes: z.object({
+      heading: z.string().default("Academic Programmes & Fees"),
+      intro: z.string(),
+      ug_heading: z.string().default("Undergraduate Honours Programmes"),
+      ug: z.array(
+        z.object({ name: z.string(), eligibility: z.string(), fee: z.string() }),
+      ),
+      pg_heading: z.string().default("Postgraduate Programmes"),
+      pg: z.array(
+        z.object({ name: z.string(), eligibility: z.string(), fee: z.string() }),
+      ),
+    }),
+    addon: z.object({
+      heading: z.string().default("Add-On / Certificate Courses"),
+      intro: z.string(),
+      courses: z.array(z.string()),
+    }),
+    infrastructure: z.object({
+      heading: z.string().default("Infrastructure"),
+      items: z.array(
+        z.object({ icon: z.string(), title: z.string(), text: z.string() }),
+      ),
+    }),
+    flagship: z.object({
+      heading: z.string().default("Our Flagship Programmes"),
+      items: z.array(z.object({ kicker: z.string(), text: z.string() })),
+    }),
+    admission: z.object({
+      heading: z.string().default("Admission Process"),
+      management_title: z.string().default("Management Admission"),
+      management_steps: z.array(z.string()),
+      merit_title: z.string().default("Merit Admission"),
+      merit_steps: z.array(z.string()),
+      note: z.string().optional(),
+    }),
+    download_cta: z.object({
+      heading: z.string(),
+      text: z.string(),
+      button_label: z.string().default("Download Prospectus"),
+    }),
+  }),
+});
+
 export const collections = {
   pages,
   news,
@@ -306,5 +434,8 @@ export const collections = {
   notices,
   fees,
   settings,
+  footer,
+  listings,
+  prospectus,
   home,
 };

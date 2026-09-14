@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { getSiteSettings } from "../../lib/site";
+import { getSiteSettings, getListings } from "../../lib/site";
 
 const fees = (await getCollection("fees", ({ data }) => !data.draft)).sort((a, b) => {
   const da = a.data.date ? +new Date(a.data.date) : 0;
@@ -9,13 +9,14 @@ const fees = (await getCollection("fees", ({ data }) => !data.draft)).sort((a, b
   return db - da;
 });
 const site = await getSiteSettings();
+const L = (await getListings())?.fees ?? {
+  title: "Fees & Prospectus",
+  description: "Fee structure and prospectus downloads — Al Jamia Arts & Science College.",
+  intro: "Fee structure and prospectus documents for the current academic year.",
+};
 ---
 
-<BaseLayout
-  title="Fees & Prospectus"
-  description="Fee structure and prospectus downloads — Al Jamia Arts & Science College."
-  pageTitle="Fees & Prospectus"
->
+<BaseLayout title={L.title} description={L.description} pageTitle={L.title}>
   <div class="blog-single content-blog narrow-page">
     <div class="container">
       <div class="row justify-content-center">
@@ -23,9 +24,7 @@ const site = await getSiteSettings();
           <div class="site-content clearfix">
             <article class="post post-blog-single">
               <div class="content-blog-single-wrap migrate-content" data-pagefind-body>
-                <p class="listing-intro">
-                  Fee structure and prospectus documents for the current academic year.
-                </p>
+                <p class="listing-intro">{L.intro}</p>
 
                 {
                   site.fee_pdf && (

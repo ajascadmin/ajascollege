@@ -1,0 +1,47 @@
+{
+  "news": {
+    "title": "News",
+    "description": "Campus news from Al Jamia Arts & Science College.",
+    "intro": "Announcements, achievements and campus happenings from Al Jamia Arts & Science College."
+  },
+  "events": {
+    "title": "Events",
+    "description": "Events at Al Jamia Arts & Science College.",
+    "intro": "Campus events, programmes and outreach activities."
+  },
+  "notices": {
+    "title": "Notices & Downloads",
+    "description": "Circulars, compliance reports and downloadable documents — Al Jamia Arts & Science College.",
+    "intro": "Official circulars, compliance reports and downloadable documents."
+  },
+  "fees": {
+    "title": "Fees & Prospectus",
+    "description": "Fee structure and prospectus downloads — Al Jamia Arts & Science College.",
+    "intro": "Fee structure and prospectus documents for the current academic year."
+  },
+  "programmes": {
+    "title": "Programmes Offered",
+    "description": "UG (Honours) and PG programmes at Al Jamia Arts & Science College.",
+    "intro": "Al Jamia Arts and Science College offers university-affiliated Four-Year Undergraduate (Honours) programmes under FYUGP and specialised Postgraduate degrees with dedicated faculty and state-of-the-art labs."
+  },
+  "faculties": {
+    "title": "Faculties",
+    "description": "Teaching faculty at Al Jamia Arts & Science College.",
+    "intro": "Scholars and practitioners across arts, science, commerce and computing — mentoring students beyond the syllabus."
+  },
+  "departments": {
+    "title": "Departments",
+    "description": "Fourteen departments offering UG (Honours) and PG programmes affiliated to the University of Calicut.",
+    "intro": "Fourteen departments offering UG (Honours) and PG programmes affiliated to the University of Calicut."
+  },
+  "labs": {
+    "title": "Laboratories",
+    "description": "Practical teaching laboratories supporting the science, computing and psychology programmes.",
+    "intro": "Practical teaching laboratories supporting the science, computing and psychology programmes."
+  },
+  "clubs": {
+    "title": "Clubs & Cells",
+    "description": "Twenty-five student clubs and statutory cells at Al Jamia Arts & Science College.",
+    "intro": "Statutory cells and student clubs covering arts, sports, coding, literary, nature, health, tourism and campus welfare."
+  }
+}

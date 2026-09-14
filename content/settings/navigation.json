@@ -1,4 +1,12 @@
 {
+  "utility": [
+    { "label": "Alumni", "href": "/alumnae/" },
+    { "label": "Placement Cell", "href": "/placement-cell/" },
+    { "label": "Students Corner", "href": "/student-life/" },
+    { "label": "Payments", "href": "/payments/" },
+    { "label": "Career", "href": "/career/" },
+    { "label": "Contact Us", "href": "/contact/" }
+  ],
   "main": [
     {
       "label": "Home",

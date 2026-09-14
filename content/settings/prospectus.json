@@ -1,0 +1,133 @@
+{
+  "hero": {
+    "eyebrow": "Prospectus 2026–27",
+    "heading": "Al Jamia Arts and Science College",
+    "tagline": "\"Learn Beyond Limits, Lead Beyond Borders\"",
+    "lead": "Affiliated to the University of Calicut · Accredited NAAC B++ · Recognised by UGC under 2(f) · ISO 9001:2015 certified"
+  },
+  "about": {
+    "heading": "About Us",
+    "paragraphs": [
+      "Al Jamia Arts and Science College stands as a center of academic excellence, innovation, and holistic development. Established in 2010, the institution is affiliated with the University of Calicut, recognized by the Government, and approved by AICTE. Accredited with a NAAC B++ Grade and certified under ISO 9001:2015, the college upholds high standards in teaching, learning, and institutional practices. Nestled within a serene 50-acre eco-friendly campus and honored with an 'A Grade' by the Haritha Keralam Mission, Al Jamia provides a nurturing and inclusive environment that promotes both intellectual growth and environmental consciousness.",
+      "The National Commission for Minority Educational Institutions, Government of India, has granted minority status to the institution. Strategically located near Perinthalmanna town along the Nilambur–highway Road, the college offers a serene and accessible setting. As a fully residential campus, Al Jamia provides well-maintained hostel facilities for both girls and boys, ensuring a safe, disciplined and value-based living environment."
+    ]
+  },
+  "glance": [
+    { "label": "Established", "value": "2010" },
+    { "label": "Affiliated University", "value": "University of Calicut" },
+    { "label": "NAAC Grade", "value": "B++" },
+    { "label": "Campus", "value": "50 acres, eco-friendly" },
+    { "label": "Status", "value": "Minority institution (NCMEI)" },
+    { "label": "Certification", "value": "ISO 9001:2015" }
+  ],
+  "vision": "To provide value based education to enrich, enlighten and empower the young generation to become the leaders of the future.",
+  "mission": "To emerge as an academic institution for modern arts and science education, setting a standard for the finest in the world.",
+  "committee": {
+    "heading": "Management Committee",
+    "members": [
+      { "name": "Dr. Abdulssalam Ahmed", "role": "Chairman" },
+      { "name": "Mr. Sharafudheen AT", "role": "Secretary" },
+      { "name": "Dr. Moideenkutty AB", "role": "Executive Member" },
+      { "name": "Dr. Mohammed Ali (Koottil)", "role": "Executive Member" },
+      { "name": "Dr. Mohammed Shahin Thayyil", "role": "Executive Member" },
+      { "name": "Dr. Mohammed Bedeeuzzamaan", "role": "Executive Member" },
+      { "name": "Dr. Sabique MK", "role": "Executive Member" },
+      { "name": "Dr. Sadique PK", "role": "Executive Member" },
+      { "name": "Dr. Nahas Mala", "role": "Executive Member" },
+      { "name": "Dr. Abdul Basith PP", "role": "Executive Member" },
+      { "name": "Dr. ZA Ashraf", "role": "Executive Member" },
+      { "name": "Sulaiman Oorakam", "role": "Executive Member" },
+      { "name": "Yusuf KP Pallikkooth", "role": "Executive Member" },
+      { "name": "Ummer M Pooppalam", "role": "Executive Member" },
+      { "name": "Atheeq A", "role": "Executive Member" },
+      { "name": "Ishaqali KV", "role": "Executive Member" }
+    ],
+    "note": "Read a message from the Chairman on the [Management Message](/chairman-message/) page."
+  },
+  "programmes": {
+    "heading": "Academic Programmes & Fees",
+    "intro": "From the academic year 2024–2025, the college has adopted the Four-Year Undergraduate Programme (FYUGP) introduced by the University of Calicut. Undergraduate programmes are structured for completion within three or four years; postgraduate programmes run two years. The semester tuition fee is the same for students admitted under both merit and management categories.",
+    "ug_heading": "Undergraduate Honours Programmes",
+    "ug": [
+      { "name": "B.Sc Computer Science", "eligibility": "+2 or equivalent with Mathematics/Computer Science/Computer Application/IT/Informatics/Additional Mathematics as one of the subjects", "fee": "21,000" },
+      { "name": "B.Sc Artificial Intelligence", "eligibility": "+2 or equivalent with Mathematics/Computer Science/Computer Application/IT/Informatics/Additional Mathematics as one of the subjects", "fee": "26,880" },
+      { "name": "Bachelors of Computer Application (BCA)", "eligibility": "+2 or equivalent with Mathematics/Computer Science/Computer Application/IT/Informatics/Additional Mathematics as one of the subjects", "fee": "21,000" },
+      { "name": "B.Sc Microbiology", "eligibility": "+2 or equivalent with Physics, Chemistry and Biology", "fee": "21,840" },
+      { "name": "B.Sc Food Technology", "eligibility": "+2 or equivalent with Science and Mathematics", "fee": "21,840" },
+      { "name": "B.Sc Psychology", "eligibility": "+2 or equivalent with 45% marks", "fee": "12,600" },
+      { "name": "B.Sc Geography", "eligibility": "+2 or equivalent", "fee": "12,600" },
+      { "name": "B.Com (Computer Application)", "eligibility": "+2 or equivalent with at least one commerce subject; non-commerce +2 with ≥45% also eligible", "fee": "12,600" },
+      { "name": "BBA (Finance)", "eligibility": "+2 or equivalent with not less than 45% marks", "fee": "10,080" },
+      { "name": "BA English Language and Literature", "eligibility": "+2 or equivalent", "fee": "10,080" },
+      { "name": "BA Islamic Studies", "eligibility": "+2 or equivalent", "fee": "10,080" }
+    ],
+    "pg_heading": "Postgraduate Programmes",
+    "pg": [
+      { "name": "M.Sc Psychology", "eligibility": "BA/BA (Honours)/B.Sc with Psychology core", "fee": "25,200" },
+      { "name": "MA Islamic Finance", "eligibility": "Any UG degree with at least 50% CGPA", "fee": "21,000" },
+      { "name": "MA Arabic Language and Literature", "eligibility": "BA Arabic/Afsalul Ulama/Double main with Arabic/BA Functional Arabic/BA/B.Sc with Arabic as common course, ≥50% CGPA", "fee": "21,000" }
+    ]
+  },
+  "addon": {
+    "heading": "Add-On / Certificate Courses",
+    "intro": "Offered through Government-approved agencies — Keltron, ASAP, SWAYAM, IHRD and others.",
+    "courses": [
+      "Fundamental Digital Literacy and Data Skills (ASAP)",
+      "Human Behaviour (SWAYAM)",
+      "Certificate in Content Writing and Proof Reading (Keltron)",
+      "Cyber Security (Keltron)",
+      "Data Analytics (Keltron)",
+      "SAP-FICO (G-Tech)",
+      "Business Analytics (ASAP)",
+      "Certificate Program in Cell Culture and Virology Techniques (ASAP)",
+      "Strategic Food Industrial Innovations",
+      "Food Product Development and Research Approach"
+    ]
+  },
+  "infrastructure": {
+    "heading": "Infrastructure",
+    "items": [
+      { "icon": "fa-book", "title": "Library", "text": "A well-curated collection of academic books, journals, reference materials and digital resources, in a quiet, student-friendly reading environment." },
+      { "icon": "fa-microchip", "title": "AI Lab", "text": "Modern computing facilities for hands-on learning in AI, machine learning and data analytics, with practical exposure to emerging technologies." },
+      { "icon": "fa-desktop", "title": "ICT Classrooms", "text": "Smart classrooms with digital presentations, multimedia resources and online learning tools for interactive, technology-driven teaching." },
+      { "icon": "fa-users", "title": "Conference Hall", "text": "A dedicated space for academic meetings, discussions and administrative sessions." },
+      { "icon": "fa-microphone", "title": "Seminar Hall", "text": "Seating for 200, hosting academic programs, workshops, conferences and guest lectures." },
+      { "icon": "fa-flag", "title": "Amphitheatre", "text": "A spacious venue for cultural events, student activities and institutional gatherings." },
+      { "icon": "fa-futbol-o", "title": "Sports Ground", "text": "Supports outdoor sports, training sessions and intercollegiate competitions." },
+      { "icon": "fa-flask", "title": "Science Laboratories", "text": "Well-maintained labs for practical exposure, research activities and skill development across disciplines." }
+    ]
+  },
+  "flagship": {
+    "heading": "Our Flagship Programmes",
+    "items": [
+      { "kicker": "Leaders' Academy", "text": "An exclusive training initiative for selected students to develop leadership abilities, communication skills, personality enhancement and a global perspective — preparing them for future professional and social leadership roles." },
+      { "kicker": "Competex", "text": "A specialized coaching programme preparing students for competitive examinations — Kerala PSC, NET, JRF, Civil Services, and other national-level examinations." }
+    ]
+  },
+  "admission": {
+    "heading": "Admission Process",
+    "management_title": "Management Admission",
+    "management_steps": [
+      "Application submitted directly at the college office, and also through the link on the college website.",
+      "Admission granted only to candidates who secure the cut-off marks fixed by the management, subject to university and government norms.",
+      "Document verification: SSLC & Plus Two certificates, Transfer Certificate, Conduct Certificate, 2 copies of SSLC/Plus Two certificates, ID proof, 2 passport photos, University CAP Registration Printout.",
+      "Management application form must carry the signature of an authorized Management Committee member.",
+      "All prescribed admission and tuition fees remitted within the stipulated time."
+    ],
+    "merit_title": "Merit Admission",
+    "merit_steps": [
+      "Application through the university's centralized admission process/allotment system; college application via the website link is mandatory.",
+      "Admission granted only to candidates who satisfy eligibility conditions prescribed by the university and government.",
+      "University publishes the rank list and allotment based on merit and reservation norms.",
+      "Candidates who receive allotment must report to the college within the time mentioned in the allotment memo.",
+      "Document verification: SSLC & Plus Two certificates, Transfer Certificate, Conduct Certificate, Community/Income certificates (if applicable), Allotment memo, ID proof, passport photos.",
+      "All prescribed admission and tuition fees remitted within the stipulated time."
+    ],
+    "note": "Under both routes, admission is complete only after document verification, fee payment, and the Principal's signature/approval — followed by university registration or confirmation. Classes commence strictly as per the schedule issued by the university."
+  },
+  "download_cta": {
+    "heading": "Need the full document?",
+    "text": "Download the complete prospectus as a PDF to save or print.",
+    "button_label": "Download Prospectus 2026–27"
+  }
+}

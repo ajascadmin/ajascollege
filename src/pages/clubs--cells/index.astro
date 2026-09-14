@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getChildPages } from "../../lib/pageListing";
+import { getListings } from "../../lib/site";
 
 const clubs = await getChildPages("/clubs--cells/");
 
@@ -32,19 +33,18 @@ const iconFor = (title: string) => {
   if (t.includes("innovators")) return "fa-rocket";
   return "fa-users";
 };
+
+const L = (await getListings())?.clubs ?? {
+  title: "Clubs & Cells",
+  description: "Twenty-five student clubs and statutory cells at Al Jamia Arts & Science College.",
+  intro: "Statutory cells and student clubs covering arts, sports, coding, literary, nature, health, tourism and campus welfare.",
+};
 ---
 
-<BaseLayout
-  title="Clubs & Cells"
-  description="Twenty-five student clubs and statutory cells at Al Jamia Arts & Science College."
-  pageTitle="Clubs & Cells"
->
+<BaseLayout title={L.title} description={L.description} pageTitle={L.title}>
   <div class="ajas-listing">
     <div class="container">
-      <p class="listing-intro">
-        Statutory cells and student clubs covering arts, sports, coding, literary, nature, health,
-        tourism and campus welfare.
-      </p>
+      <p class="listing-intro">{L.intro}</p>
       <div class="dept-grid">
         {
           clubs.map((c) => (

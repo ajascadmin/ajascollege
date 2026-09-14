@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getChildPages } from "../../lib/pageListing";
+import { getListings } from "../../lib/site";
 
 const depts = await getChildPages("/departments/");
 
@@ -22,19 +23,18 @@ const iconFor = (title: string) => {
   if (t.includes("psychology")) return "fa-lightbulb-o";
   return "fa-graduation-cap";
 };
+
+const L = (await getListings())?.departments ?? {
+  title: "Departments",
+  description: "Fourteen departments offering UG (Honours) and PG programmes affiliated to the University of Calicut.",
+  intro: "Fourteen departments offering UG (Honours) and PG programmes affiliated to the University of Calicut.",
+};
 ---
 
-<BaseLayout
-  title="Departments"
-  description="Fourteen departments offering UG (Honours) and PG programmes affiliated to the University of Calicut."
-  pageTitle="Departments"
->
+<BaseLayout title={L.title} description={L.description} pageTitle={L.title}>
   <div class="ajas-listing">
     <div class="container">
-      <p class="listing-intro">
-        Fourteen departments offering UG (Honours) and PG programmes affiliated to the University
-        of Calicut.
-      </p>
+      <p class="listing-intro">{L.intro}</p>
       <div class="dept-grid">
         {
           depts.map((d) => (

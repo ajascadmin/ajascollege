@@ -1,97 +1,25 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import CmsImage from "../components/CmsImage.astro";
+import { marked } from "marked";
+import { getProspectus, getSiteSettings } from "../lib/site";
 
-const pdfHref = "/assets/uploads/2026/05/AJAS-Prospectus-26-27_20260513_192943_0000.pdf";
+const P = await getProspectus();
+if (!P) throw new Error("content/settings/prospectus.json is missing or invalid");
+const site = await getSiteSettings();
+const pdfHref = site.prospectus_pdf || "/assets/uploads/2026/05/AJAS-Prospectus-26-27_20260513_192943_0000.pdf";
 
-const glance = [
-  { label: "Established", value: "2010" },
-  { label: "Affiliated University", value: "University of Calicut" },
-  { label: "NAAC Grade", value: "B++" },
-  { label: "Campus", value: "50 acres, eco-friendly" },
-  { label: "Status", value: "Minority institution (NCMEI)" },
-  { label: "Certification", value: "ISO 9001:2015" },
-];
-
-const committee = [
-  { name: "Dr. Abdulssalam Ahmed", role: "Chairman" },
-  { name: "Mr. Sharafudheen AT", role: "Secretary" },
-  { name: "Dr. Moideenkutty AB", role: "Executive Member" },
-  { name: "Dr. Mohammed Ali (Koottil)", role: "Executive Member" },
-  { name: "Dr. Mohammed Shahin Thayyil", role: "Executive Member" },
-  { name: "Dr. Mohammed Bedeeuzzamaan", role: "Executive Member" },
-  { name: "Dr. Sabique MK", role: "Executive Member" },
-  { name: "Dr. Sadique PK", role: "Executive Member" },
-  { name: "Dr. Nahas Mala", role: "Executive Member" },
-  { name: "Dr. Abdul Basith PP", role: "Executive Member" },
-  { name: "Dr. ZA Ashraf", role: "Executive Member" },
-  { name: "Sulaiman Oorakam", role: "Executive Member" },
-  { name: "Yusuf KP Pallikkooth", role: "Executive Member" },
-  { name: "Ummer M Pooppalam", role: "Executive Member" },
-  { name: "Atheeq A", role: "Executive Member" },
-  { name: "Ishaqali KV", role: "Executive Member" },
-];
-
-const ugProgrammes = [
-  { name: "B.Sc Computer Science", eligibility: "+2 or equivalent with Mathematics/Computer Science/Computer Application/IT/Informatics/Additional Mathematics as one of the subjects", fee: "21,000" },
-  { name: "B.Sc Artificial Intelligence", eligibility: "+2 or equivalent with Mathematics/Computer Science/Computer Application/IT/Informatics/Additional Mathematics as one of the subjects", fee: "26,880" },
-  { name: "Bachelors of Computer Application (BCA)", eligibility: "+2 or equivalent with Mathematics/Computer Science/Computer Application/IT/Informatics/Additional Mathematics as one of the subjects", fee: "21,000" },
-  { name: "B.Sc Microbiology", eligibility: "+2 or equivalent with Physics, Chemistry and Biology", fee: "21,840" },
-  { name: "B.Sc Food Technology", eligibility: "+2 or equivalent with Science and Mathematics", fee: "21,840" },
-  { name: "B.Sc Psychology", eligibility: "+2 or equivalent with 45% marks", fee: "12,600" },
-  { name: "B.Sc Geography", eligibility: "+2 or equivalent", fee: "12,600" },
-  { name: "B.Com (Computer Application)", eligibility: "+2 or equivalent with at least one commerce subject; non-commerce +2 with ≥45% also eligible", fee: "12,600" },
-  { name: "BBA (Finance)", eligibility: "+2 or equivalent with not less than 45% marks", fee: "10,080" },
-  { name: "BA English Language and Literature", eligibility: "+2 or equivalent", fee: "10,080" },
-  { name: "BA Islamic Studies", eligibility: "+2 or equivalent", fee: "10,080" },
-];
-
-const pgProgrammes = [
-  { name: "M.Sc Psychology", eligibility: "BA/BA (Honours)/B.Sc with Psychology core", fee: "25,200" },
-  { name: "MA Islamic Finance", eligibility: "Any UG degree with at least 50% CGPA", fee: "21,000" },
-  { name: "MA Arabic Language and Literature", eligibility: "BA Arabic/Afsalul Ulama/Double main with Arabic/BA Functional Arabic/BA/B.Sc with Arabic as common course, ≥50% CGPA", fee: "21,000" },
-];
-
-const addOnCourses = [
-  "Fundamental Digital Literacy and Data Skills (ASAP)",
-  "Human Behaviour (SWAYAM)",
-  "Certificate in Content Writing and Proof Reading (Keltron)",
-  "Cyber Security (Keltron)",
-  "Data Analytics (Keltron)",
-  "SAP-FICO (G-Tech)",
-  "Business Analytics (ASAP)",
-  "Certificate Program in Cell Culture and Virology Techniques (ASAP)",
-  "Strategic Food Industrial Innovations",
-  "Food Product Development and Research Approach",
-];
-
-const infrastructure = [
-  { icon: "fa-book", title: "Library", text: "A well-curated collection of academic books, journals, reference materials and digital resources, in a quiet, student-friendly reading environment." },
-  { icon: "fa-microchip", title: "AI Lab", text: "Modern computing facilities for hands-on learning in AI, machine learning and data analytics, with practical exposure to emerging technologies." },
-  { icon: "fa-desktop", title: "ICT Classrooms", text: "Smart classrooms with digital presentations, multimedia resources and online learning tools for interactive, technology-driven teaching." },
-  { icon: "fa-users", title: "Conference Hall", text: "A dedicated space for academic meetings, discussions and administrative sessions." },
-  { icon: "fa-microphone", title: "Seminar Hall", text: "Seating for 200, hosting academic programs, workshops, conferences and guest lectures." },
-  { icon: "fa-flag", title: "Amphitheatre", text: "A spacious venue for cultural events, student activities and institutional gatherings." },
-  { icon: "fa-futbol-o", title: "Sports Ground", text: "Supports outdoor sports, training sessions and intercollegiate competitions." },
-  { icon: "fa-flask", title: "Science Laboratories", text: "Well-maintained labs for practical exposure, research activities and skill development across disciplines." },
-];
-
-const managementSteps = [
-  "Application submitted directly at the college office, and also through the link on the college website.",
-  "Admission granted only to candidates who secure the cut-off marks fixed by the management, subject to university and government norms.",
-  "Document verification: SSLC & Plus Two certificates, Transfer Certificate, Conduct Certificate, 2 copies of SSLC/Plus Two certificates, ID proof, 2 passport photos, University CAP Registration Printout.",
-  "Management application form must carry the signature of an authorized Management Committee member.",
-  "All prescribed admission and tuition fees remitted within the stipulated time.",
-];
-
-const meritSteps = [
-  "Application through the university's centralized admission process/allotment system; college application via the website link is mandatory.",
-  "Admission granted only to candidates who satisfy eligibility conditions prescribed by the university and government.",
-  "University publishes the rank list and allotment based on merit and reservation norms.",
-  "Candidates who receive allotment must report to the college within the time mentioned in the allotment memo.",
-  "Document verification: SSLC & Plus Two certificates, Transfer Certificate, Conduct Certificate, Community/Income certificates (if applicable), Allotment memo, ID proof, passport photos.",
-  "All prescribed admission and tuition fees remitted within the stipulated time.",
-];
+const glance = P.glance;
+const committee = P.committee.members;
+const committeeNoteHtml = P.committee.note
+  ? await marked.parseInline(P.committee.note, { async: false })
+  : "";
+const ugProgrammes = P.programmes.ug;
+const pgProgrammes = P.programmes.pg;
+const addOnCourses = P.addon.courses;
+const infrastructure = P.infrastructure.items;
+const managementSteps = P.admission.management_steps;
+const meritSteps = P.admission.merit_steps;
 
 const sections = [
   { id: "about", label: "About" },
@@ -125,13 +53,10 @@ const sections = [
             />
           </div>
           <div class="pros-hero-body">
-            <p class="pros-eyebrow">Prospectus 2026–27</p>
-            <h1>Al Jamia Arts and Science College</h1>
-            <p class="pros-tag">"Learn Beyond Limits, Lead Beyond Borders"</p>
-            <p class="pros-lead">
-              Affiliated to the University of Calicut · Accredited NAAC B++ · Recognised by UGC
-              under 2(f) · ISO 9001:2015 certified
-            </p>
+            <p class="pros-eyebrow">{P.hero.eyebrow}</p>
+            <h1>{P.hero.heading}</h1>
+            <p class="pros-tag">{P.hero.tagline}</p>
+            <p class="pros-lead">{P.hero.lead}</p>
             <div class="pros-hero-cta">
               <a class="pros-btn pros-btn-primary" href={pdfHref} target="_blank" rel="noopener">
                 <i class="fa fa-download" aria-hidden="true" /> Download PDF
@@ -153,26 +78,8 @@ const sections = [
       <section id="about" class="pros-section">
         <div class="pros-about-grid">
           <div class="pros-prose">
-            <h2>About Us</h2>
-            <p>
-              Al Jamia Arts and Science College stands as a center of academic excellence,
-              innovation, and holistic development. Established in 2010, the institution is
-              affiliated with the University of Calicut, recognized by the Government, and
-              approved by AICTE. Accredited with a NAAC B++ Grade and certified under ISO
-              9001:2015, the college upholds high standards in teaching, learning, and
-              institutional practices. Nestled within a serene 50-acre eco-friendly campus and
-              honored with an 'A Grade' by the Haritha Keralam Mission, Al Jamia provides a
-              nurturing and inclusive environment that promotes both intellectual growth and
-              environmental consciousness.
-            </p>
-            <p>
-              The National Commission for Minority Educational Institutions, Government of India,
-              has granted minority status to the institution. Strategically located near
-              Perinthalmanna town along the Nilambur–highway Road, the college offers a serene and
-              accessible setting. As a fully residential campus, Al Jamia provides well-maintained
-              hostel facilities for both girls and boys, ensuring a safe, disciplined and
-              value-based living environment.
-            </p>
+            <h2>{P.about.heading}</h2>
+            {P.about.paragraphs.map((para) => <p>{para}</p>)}
           </div>
           <dl class="pros-glance">
             <h3>At a glance</h3>
@@ -191,23 +98,17 @@ const sections = [
         <div class="pros-vm-grid">
           <div class="pros-vm-card">
             <span class="pros-vm-kicker">Vision</span>
-            <p>
-              To provide value based education to enrich, enlighten and empower the young
-              generation to become the leaders of the future.
-            </p>
+            <p>{P.vision}</p>
           </div>
           <div class="pros-vm-card pros-vm-card-b">
             <span class="pros-vm-kicker">Mission</span>
-            <p>
-              To emerge as an academic institution for modern arts and science education, setting
-              a standard for the finest in the world.
-            </p>
+            <p>{P.mission}</p>
           </div>
         </div>
       </section>
 
       <section id="committee" class="pros-section">
-        <h2 class="pros-section-title">Management Committee</h2>
+        <h2 class="pros-section-title">{P.committee.heading}</h2>
         <div class="pros-committee-grid">
           {committee.map((m) => (
             <div class="pros-member">
@@ -216,22 +117,16 @@ const sections = [
             </div>
           ))}
         </div>
-        <p class="pros-note">
-          Read a message from the Chairman on the <a href="/chairman-message/">Management Message</a> page.
-        </p>
+        {committeeNoteHtml && (
+          <p class="pros-note" set:html={committeeNoteHtml} />
+        )}
       </section>
 
       <section id="programmes" class="pros-section pros-section-alt">
-        <h2 class="pros-section-title">Academic Programmes &amp; Fees</h2>
-        <p class="pros-lead-p">
-          From the academic year 2024–2025, the college has adopted the Four-Year Undergraduate
-          Programme (FYUGP) introduced by the University of Calicut. Undergraduate programmes are
-          structured for completion within three or four years; postgraduate programmes run two
-          years. The semester tuition fee is the same for students admitted under both merit and
-          management categories.
-        </p>
+        <h2 class="pros-section-title">{P.programmes.heading}</h2>
+        <p class="pros-lead-p">{P.programmes.intro}</p>
 
-        <h3 class="pros-subhead">Undergraduate Honours Programmes</h3>
+        <h3 class="pros-subhead">{P.programmes.ug_heading}</h3>
         <div class="pros-prog-grid">
           {ugProgrammes.map((p) => (
             <article class="pros-prog-card">
@@ -245,7 +140,7 @@ const sections = [
           ))}
         </div>
 
-        <h3 class="pros-subhead">Postgraduate Programmes</h3>
+        <h3 class="pros-subhead">{P.programmes.pg_heading}</h3>
         <div class="pros-prog-grid">
           {pgProgrammes.map((p) => (
             <article class="pros-prog-card">
@@ -261,17 +156,15 @@ const sections = [
       </section>
 
       <section id="add-on" class="pros-section">
-        <h2 class="pros-section-title">Add-On / Certificate Courses</h2>
-        <p class="pros-lead-p">
-          Offered through Government-approved agencies — Keltron, ASAP, SWAYAM, IHRD and others.
-        </p>
+        <h2 class="pros-section-title">{P.addon.heading}</h2>
+        <p class="pros-lead-p">{P.addon.intro}</p>
         <div class="pros-chips">
           {addOnCourses.map((c) => <span class="pros-chip">{c}</span>)}
         </div>
       </section>
 
       <section id="infrastructure" class="pros-section pros-section-alt">
-        <h2 class="pros-section-title">Infrastructure</h2>
+        <h2 class="pros-section-title">{P.infrastructure.heading}</h2>
         <div class="pros-infra-grid">
           {infrastructure.map((f) => (
             <div class="pros-infra-card">
@@ -286,56 +179,43 @@ const sections = [
       </section>
 
       <section id="flagship" class="pros-section">
-        <h2 class="pros-section-title">Our Flagship Programmes</h2>
+        <h2 class="pros-section-title">{P.flagship.heading}</h2>
         <div class="pros-vm-grid">
-          <div class="pros-vm-card">
-            <span class="pros-vm-kicker">Leaders' Academy</span>
-            <p>
-              An exclusive training initiative for selected students to develop leadership
-              abilities, communication skills, personality enhancement and a global perspective —
-              preparing them for future professional and social leadership roles.
-            </p>
-          </div>
-          <div class="pros-vm-card pros-vm-card-b">
-            <span class="pros-vm-kicker">Competex</span>
-            <p>
-              A specialized coaching programme preparing students for competitive examinations —
-              Kerala PSC, NET, JRF, Civil Services, and other national-level examinations.
-            </p>
-          </div>
+          {P.flagship.items.map((item, i) => (
+            <div class={`pros-vm-card ${i === 1 ? "pros-vm-card-b" : ""}`}>
+              <span class="pros-vm-kicker">{item.kicker}</span>
+              <p>{item.text}</p>
+            </div>
+          ))}
         </div>
       </section>
 
       <section id="admission" class="pros-section pros-section-alt">
-        <h2 class="pros-section-title">Admission Process</h2>
+        <h2 class="pros-section-title">{P.admission.heading}</h2>
         <div class="pros-admit-grid">
           <div class="pros-admit-col">
-            <h3 class="pros-subhead">Management Admission</h3>
+            <h3 class="pros-subhead">{P.admission.management_title}</h3>
             <ol class="pros-steps">
               {managementSteps.map((s) => <li>{s}</li>)}
             </ol>
           </div>
           <div class="pros-admit-col">
-            <h3 class="pros-subhead">Merit Admission</h3>
+            <h3 class="pros-subhead">{P.admission.merit_title}</h3>
             <ol class="pros-steps">
               {meritSteps.map((s) => <li>{s}</li>)}
             </ol>
           </div>
         </div>
-        <p class="pros-note">
-          Under both routes, admission is complete only after document verification, fee payment,
-          and the Principal's signature/approval — followed by university registration or
-          confirmation. Classes commence strictly as per the schedule issued by the university.
-        </p>
+        {P.admission.note && <p class="pros-note">{P.admission.note}</p>}
       </section>
 
       <div class="pros-download-cta">
         <div>
-          <h3>Need the full document?</h3>
-          <p>Download the complete prospectus as a PDF to save or print.</p>
+          <h3>{P.download_cta.heading}</h3>
+          <p>{P.download_cta.text}</p>
         </div>
         <a class="pros-btn pros-btn-primary" href={pdfHref} target="_blank" rel="noopener">
-          <i class="fa fa-download" aria-hidden="true" /> Download Prospectus 2026–27
+          <i class="fa fa-download" aria-hidden="true" /> {P.download_cta.button_label}
         </a>
       </div>
     </div>

@@ -1,12 +1,149 @@
 ---
-import footerHtml from "../partials/footer.html?raw";
+/**
+ * Site footer — every value (trust marks, address, footer columns, social
+ * links, map, copyright, bottom nav) comes from content/settings/footer.json
+ * and content/settings/site.json, editable in the CMS. Markup/classes are
+ * unchanged from the original static partial so the existing CSS still applies.
+ */
 import siteScripts from "../partials/site-scripts.html?raw";
-import { optimizeHtmlImages } from "../lib/cmsImage";
+import { getSiteSettings, getFooterSettings } from "../lib/site";
+import CmsImage from "./CmsImage.astro";
 
-const footer = await optimizeHtmlImages(footerHtml, "logo");
+const site = await getSiteSettings();
+const footer = await getFooterSettings();
+
+const trustLine = footer?.trust_line;
+const trustMarks = footer?.trust_marks ?? [];
+const columns = footer?.columns ?? [];
+const social = footer?.social ?? [];
+const mapEmbedUrl = footer?.map_embed_url;
+const mapLinkUrl = footer?.map_link_url;
+const bottomNav = footer?.bottom_nav ?? [];
+
+const logo = site.logo || "/assets/uploads/2024/01/AJAS-Website-Heading-Last.svg";
+const logoIsRaster = /\.(jpe?g|png|webp|gif|avif)$/i.test(logo);
+const year = new Date().getFullYear();
 ---
 
-<Fragment set:html={footer} />
+<footer id="footer" class="footer-type1">
+  {
+    (trustLine || trustMarks.length > 0) && (
+      <div class="footer-trust">
+        <div class="container">
+          {trustLine && <p class="trust-line">{trustLine}</p>}
+          {trustMarks.length > 0 && (
+            <ul class="trust-marks">
+              {trustMarks.map((m) => (
+                <li>
+                  <img src={m.image} alt={m.name} />
+                  <span>{m.name}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
+    )
+  }
+  <div id="footer-widget">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 col-md-6 col-footer">
+          <div class="logo-footer">
+            <a href="/">
+              {logoIsRaster ? (
+                <CmsImage src={logo} alt={site.college_name} preset="logo" fit="contain" loading="lazy" />
+              ) : (
+                <img src={logo} alt={site.college_name} width="320" height="58" loading="lazy" />
+              )}
+            </a>
+          </div>
+          <ul class="footer-address">
+            <li><i class="fa fa-map-marker" aria-hidden="true" /> {site.address}</li>
+            <li><i class="fa fa-envelope" aria-hidden="true" /> <a href={`mailto:${site.email}`}>{site.email}</a></li>
+            <li><i class="fa fa-phone" aria-hidden="true" /> <a href={`tel:${String(site.phone).replace(/\s/g, "")}`}>{site.phone_display || site.phone}</a></li>
+          </ul>
+        </div>
+        {
+          columns.map((col, i) => (
+            <div class={`col-lg-2 col-md-6 col-${i === 0 ? "company" : i === 1 ? "link" : "course"}`}>
+              <h3 class="widget widget-title">{col.heading}</h3>
+              <ul class="widget-nav-menu">
+                {col.links.map((l) => (
+                  <li><a href={l.href}>{l.label}</a></li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+        {
+          social.length > 0 && (
+            <div class="col-lg-2 col-md-6 col-media">
+              <h3 class="widget widget-title">Follow Us</h3>
+              <ul class="widget-social-media">
+                {social.map((s) => (
+                  <li>
+                    <a href={s.url} target="_blank" rel="noopener" aria-label={s.label || s.icon}>
+                      <i class={`fa fa-${s.icon}`} aria-hidden="true" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      </div>
+    </div>
+  </div>
+  {
+    mapEmbedUrl && (
+      <div class="footer-map-fluid">
+        <iframe
+          src={mapEmbedUrl}
+          width="100%"
+          height="280"
+          style="border:0; display:block;"
+          allowfullscreen
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title={`${site.college_name} location map`}
+        />
+        {mapLinkUrl && (
+          <div class="footer-map-overlay">
+            <a href={mapLinkUrl} target="_blank" rel="noopener" class="map-chip">
+              <i class="fa fa-map-marker" aria-hidden="true" /> Open in Google Maps{" "}
+              <i class="fa fa-external-link" aria-hidden="true" />
+            </a>
+          </div>
+        )}
+      </div>
+    )
+  }
+  <div id="bottom" class="bottom-type1 clearfix has-spacer">
+    <div id="bottom-bar-inner" class="container">
+      <div class="bottom-bar-inner-wrap">
+        <div class="bottom-bar-content">
+          <div id="copyright">
+            &copy; <span class="text-year">{year}</span> <span class="text-name">{site.college_name}.</span>
+            <span class="license"><a href="/" aria-label={`${site.college_name} home`}>All Rights Reserved</a></span>
+          </div>
+        </div>
+        {
+          bottomNav.length > 0 && (
+            <div class="bottom-bar-menu">
+              <ul class="bottom-nav">
+                {bottomNav.map((l) => (
+                  <li class="menu-item"><a href={l.href}>{l.label}</a></li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      </div>
+    </div>
+  </div>
+  <a id="scroll-top" class="show" />
+</footer>
 
 <script is:inline src="/javascript/jquery.min.js"></script>
 <script is:inline src="/javascript/plugins.js"></script>

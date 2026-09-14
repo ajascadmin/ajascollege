@@ -2,21 +2,20 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import CmsImage from "../../components/CmsImage.astro";
 import { getChildPages } from "../../lib/pageListing";
+import { getListings } from "../../lib/site";
 
 const labs = await getChildPages("/labs/");
+const L = (await getListings())?.labs ?? {
+  title: "Laboratories",
+  description: "Practical teaching laboratories supporting the science, computing and psychology programmes.",
+  intro: "Practical teaching laboratories supporting the science, computing and psychology programmes.",
+};
 ---
 
-<BaseLayout
-  title="Laboratories"
-  description="Practical teaching laboratories supporting the science, computing and psychology programmes."
-  pageTitle="Laboratories"
->
+<BaseLayout title={L.title} description={L.description} pageTitle={L.title}>
   <div class="ajas-listing">
     <div class="container">
-      <p class="listing-intro">
-        Practical teaching laboratories supporting the science, computing and psychology
-        programmes.
-      </p>
+      <p class="listing-intro">{L.intro}</p>
       <div class="ajas-grid">
         {
           labs.map((l) => (

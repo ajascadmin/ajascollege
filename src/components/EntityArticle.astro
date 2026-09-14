@@ -3,6 +3,7 @@
  * News / event detail — optimized poster + body images (Astro Image / getImage).
  */
 import CmsImage from "./CmsImage.astro";
+import VideoSection from "./VideoSection.astro";
 import { optimizeHtmlImages } from "../lib/cmsImage";
 
 interface Props {
@@ -14,9 +15,10 @@ interface Props {
   backLabel: string;
   /** Pre-rendered HTML body (already markdown-parsed). Will optimize <img> tags. */
   bodyHtml?: string;
+  videos?: { file?: string; url?: string; caption?: string }[];
 }
 
-const { kind, title, date, image, backHref, backLabel, bodyHtml = "" } = Astro.props;
+const { kind, title, date, image, backHref, backLabel, bodyHtml = "", videos = [] } = Astro.props;
 
 const dateObj = date ? new Date(date) : null;
 const dateLabel =
@@ -52,6 +54,7 @@ const optimizedBody = bodyHtml ? await optimizeHtmlImages(bodyHtml, "poster") : 
       <div class="ajas-entity-body ajas-prose">
         {optimizedBody ? <Fragment set:html={optimizedBody} /> : <slot />}
       </div>
+      {videos && videos.length > 0 && <VideoSection videos={videos} />}
       <footer class="ajas-entity-foot">
         <a class="ajas-entity-back" href={backHref}>← {backLabel}</a>
         <div class="ajas-entity-more">

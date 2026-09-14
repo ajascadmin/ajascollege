@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getListings } from "../../lib/site";
 
 const notices = (await getCollection("notices", ({ data }) => !data.draft)).sort((a, b) => {
   const da = a.data.date ? +new Date(a.data.date) : 0;
@@ -24,13 +25,15 @@ const labels: Record<string, string> = {
   admin: "Administration",
   general: "General notices",
 };
+
+const L = (await getListings())?.notices ?? {
+  title: "Notices & Downloads",
+  description: "Circulars, compliance reports and downloadable documents — Al Jamia Arts & Science College.",
+  intro: "Official circulars, compliance reports and downloadable documents.",
+};
 ---
 
-<BaseLayout
-  title="Notices & Downloads"
-  description="Circulars, compliance reports and downloadable documents — Al Jamia Arts & Science College."
-  pageTitle="Notices & Downloads"
->
+<BaseLayout title={L.title} description={L.description} pageTitle={L.title}>
   <div class="blog-single content-blog narrow-page">
     <div class="container">
       <div class="row justify-content-center">
@@ -38,9 +41,7 @@ const labels: Record<string, string> = {
           <div class="site-content clearfix">
             <article class="post post-blog-single">
               <div class="content-blog-single-wrap migrate-content" data-pagefind-body>
-                <p class="listing-intro">
-                  Official circulars, compliance reports and downloadable documents.
-                </p>
+                <p class="listing-intro">{L.intro}</p>
 
                 {
                   [...byCat.entries()].map(([cat, items]) => (

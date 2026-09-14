@@ -2,22 +2,24 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import CmsImage from "../../components/CmsImage.astro";
+import { getListings } from "../../lib/site";
 
 const events = (await getCollection("events", ({ data }) => !data.draft)).sort((a, b) => {
   const da = a.data.date ? +new Date(a.data.date) : 0;
   const db = b.data.date ? +new Date(b.data.date) : 0;
   return db - da || a.data.title.localeCompare(b.data.title);
 });
+const L = (await getListings())?.events ?? {
+  title: "Events",
+  description: "Events at Al Jamia Arts & Science College.",
+  intro: "Campus events, programmes and outreach activities.",
+};
 ---
 
-<BaseLayout
-  title="Events"
-  description="Events at Al Jamia Arts & Science College."
-  pageTitle="Events"
->
+<BaseLayout title={L.title} description={L.description} pageTitle={L.title}>
   <div class="ajas-listing">
     <div class="container">
-      <p class="listing-intro">Campus events, programmes and outreach activities.</p>
+      <p class="listing-intro">{L.intro}</p>
       <div class="ajas-grid">
         {
           events.map((e) => (
