@@ -1,0 +1,55 @@
+---
+/**
+ * Link list inside a mega-panel column — recursive, so a branch nested four
+ * levels deep in the CMS tree (Infrastructure → Facilities → Labs → each lab)
+ * still renders. A fixed two-level renderer dropped every lab behind a
+ * placeholder "Labs" link that pointed at "/".
+ */
+import type { NavItem } from "./NavAccordion.astro";
+
+interface Props {
+  items: NavItem[];
+  current: string;
+  depth?: number;
+}
+
+const { items, current, depth = 0 } = Astro.props;
+
+const isExternal = (href: string) =>
+  href.startsWith("http") || href.endsWith(".pdf") || href.includes("/assets/uploads/");
+const isReal = (href?: string) => !!href && href !== "#" && href !== "/";
+---
+
+<ul class={depth === 0 ? "ajn-col-links" : "ajn-sublinks"}>
+  {
+    items.map((item) => {
+      const href = item.href || "#";
+      const kids = item.children || [];
+      const real = isReal(href);
+      return (
+        <li>
+          {real ? (
+            <a
+              class:list={["ajn-link", current === href && "is-current"]}
+              href={href}
+              aria-current={current === href ? "page" : undefined}
+              target={isExternal(href) ? "_blank" : undefined}
+              rel={isExternal(href) ? "noopener" : undefined}
+            >
+              <span>{item.label}</span>
+              {isExternal(href) && (
+                <i class="ajn-ext" aria-hidden="true">
+                  ↗
+                </i>
+              )}
+            </a>
+          ) : (
+            /* a placeholder href="/" is a grouping label, not a destination */
+            <span class="ajn-link ajn-link-label">{item.label}</span>
+          )}
+          {kids.length > 0 && <Astro.self items={kids} current={current} depth={depth + 1} />}
+        </li>
+      );
+    })
+  }
+</ul>

@@ -33,11 +33,26 @@
   "accreditation": {
     "label": "Affiliated, recognised & accredited by",
     "items": [
-      { "image": "/assets/uploads/2025/05/University-Logo.jpg", "name": "University of Calicut" },
-      { "image": "/assets/uploads/2024/01/UGC-Logo-e1748242432780.jpg", "name": "UGC" },
-      { "image": "/assets/uploads/2024/01/AICTE-Logo-e1748242290739.jpg", "name": "AICTE" },
-      { "image": "/assets/uploads/2025/10/Naac-Symbol.jpg", "name": "NAAC" },
-      { "image": "/assets/uploads/2024/01/ISO-Logo-e1748242407313.jpg", "name": "ISO certified" }
+      {
+        "image": "/assets/uploads/2025/05/University-Logo.jpg",
+        "name": "University of Calicut"
+      },
+      {
+        "image": "/assets/uploads/2024/01/UGC-Logo-e1748242432780.jpg",
+        "name": "UGC"
+      },
+      {
+        "image": "/assets/uploads/2024/01/AICTE-Logo-e1748242290739.jpg",
+        "name": "AICTE"
+      },
+      {
+        "image": "/assets/uploads/2025/10/Naac-Symbol.jpg",
+        "name": "NAAC"
+      },
+      {
+        "image": "/assets/uploads/2024/01/ISO-Logo-e1748242407313.jpg",
+        "name": "ISO certified"
+      }
     ]
   },
   "about": {
@@ -50,10 +65,22 @@
     "cta_url": "/overview/"
   },
   "metrics": [
-    { "value": "4000+", "label": "Students" },
-    { "value": "11", "label": "UG Programmes" },
-    { "value": "3", "label": "PG Programmes" },
-    { "value": "14", "label": "Total Programs" }
+    {
+      "value": "4000+",
+      "label": "Students"
+    },
+    {
+      "value": "11",
+      "label": "UG Programmes"
+    },
+    {
+      "value": "3",
+      "label": "PG Programmes"
+    },
+    {
+      "value": "14",
+      "label": "Total Programs"
+    }
   ],
   "chairman_message": {
     "kicker": "Dr. Abdussalam Ahmed",
@@ -91,17 +118,61 @@
       "title": "UG (Honours) Programmes",
       "meta": "11 Four-Year Honours Degrees · FYUGP",
       "items": [
-        { "icon": "check-circle", "label": "B.Com (Honours)", "url": "/programmes/b-com/" },
-        { "icon": "check-circle", "label": "BBA (Honours)", "url": "/programmes/bba/" },
-        { "icon": "check-circle", "label": "BCA (Honours)", "url": "/programmes/bca/" },
-        { "icon": "check-circle", "label": "B.Sc. Artificial Intelligence", "url": "/programmes/bsc-artificial-intelligence/" },
-        { "icon": "check-circle", "label": "B.Sc. Computer Science", "url": "/programmes/bsc-computer-science/" },
-        { "icon": "check-circle", "label": "B.Sc. Food Technology", "url": "/programmes/bsc-food-technology/" },
-        { "icon": "check-circle", "label": "B.Sc. Microbiology", "url": "/programmes/bsc-microbiology/" },
-        { "icon": "check-circle", "label": "B.Sc. Psychology", "url": "/programmes/bsc-psychology/" },
-        { "icon": "check-circle", "label": "B.Sc. Geography", "url": "/programmes/bsc-geography/" },
-        { "icon": "check-circle", "label": "BA Islamic Studies", "url": "/programmes/ba-islamic-studies/" },
-        { "icon": "check-circle", "label": "BA English Language", "url": "/programmes/ba-english/" }
+        {
+          "icon": "check-circle",
+          "label": "B.Com (Honours)",
+          "url": "/programmes/b-com/"
+        },
+        {
+          "icon": "check-circle",
+          "label": "BBA (Honours)",
+          "url": "/programmes/bba/"
+        },
+        {
+          "icon": "check-circle",
+          "label": "BCA (Honours)",
+          "url": "/programmes/bca/"
+        },
+        {
+          "icon": "check-circle",
+          "label": "B.Sc. Artificial Intelligence",
+          "url": "/programmes/bsc-artificial-intelligence/"
+        },
+        {
+          "icon": "check-circle",
+          "label": "B.Sc. Computer Science",
+          "url": "/programmes/bsc-computer-science/"
+        },
+        {
+          "icon": "check-circle",
+          "label": "B.Sc. Food Technology",
+          "url": "/programmes/bsc-food-technology/"
+        },
+        {
+          "icon": "check-circle",
+          "label": "B.Sc. Microbiology",
+          "url": "/programmes/bsc-microbiology/"
+        },
+        {
+          "icon": "check-circle",
+          "label": "B.Sc. Psychology",
+          "url": "/programmes/bsc-psychology/"
+        },
+        {
+          "icon": "check-circle",
+          "label": "B.Sc. Geography",
+          "url": "/programmes/bsc-geography/"
+        },
+        {
+          "icon": "check-circle",
+          "label": "BA Islamic Studies",
+          "url": "/programmes/ba-islamic-studies/"
+        },
+        {
+          "icon": "check-circle",
+          "label": "BA English Language",
+          "url": "/programmes/ba-english/"
+        }
       ],
       "cta_primary_label": "Explore All UG Degrees",
       "cta_primary_url": "/programmes/",
@@ -114,9 +185,21 @@
       "title": "PG Programmes",
       "meta": "3 Two-Year Master's Degrees",
       "items": [
-        { "icon": "star", "label": "MA Islamic Finance", "url": "/programmes/ma-islamic-finance/" },
-        { "icon": "star", "label": "M.Sc. Psychology", "url": "/programmes/msc-psychology/" },
-        { "icon": "star", "label": "MA Arabic", "url": "/programmes/ma-arabic/" }
+        {
+          "icon": "star",
+          "label": "MA Islamic Finance",
+          "url": "/programmes/ma-islamic-finance/"
+        },
+        {
+          "icon": "star",
+          "label": "M.Sc. Psychology",
+          "url": "/programmes/msc-psychology/"
+        },
+        {
+          "icon": "star",
+          "label": "MA Arabic",
+          "url": "/programmes/ma-arabic/"
+        }
       ],
       "highlight_icon": "lightbulb-o",
       "highlight_text": "Advanced research supervision, high-impact clinical and industry internships, and specialist training aligned with Calicut University curriculum.",
@@ -131,20 +214,23 @@
       {
         "icon": "language",
         "badge_label": "Arabic",
-        "image": "/assets/uploads/2024/06/arabic-.jpg",
+        "image": "/assets/uploads/2026/09/arabic/Arabic-1-Tile-image.jpeg",
         "title": "Department of Arabic",
         "url": "/departments/arabic/",
-        "description": "Excellence in Arabic linguistics, literature, translation, and cultural studies with dedicated research faculty.",
-        "pills": ["MA Arabic"]
+        "pills": [
+          "MA Arabic"
+        ]
       },
       {
         "icon": "briefcase",
         "badge_label": "Commerce",
-        "image": "/assets/uploads/2024/05/Departmentofcommerce-scaled.jpg",
+        "image": "/assets/uploads/2026/09/commerce/Tile-Image.jpg",
         "title": "Department of Commerce & Management Studies",
         "url": "/departments/department-of-commerce/",
-        "description": "A vibrant centre of learning offering honours degrees in accounting, finance, taxation, and business management.",
-        "pills": ["B.Com Honors", "BBA Honors"]
+        "pills": [
+          "B.Com Honors",
+          "BBA Honors"
+        ]
       },
       {
         "icon": "laptop",
@@ -152,80 +238,91 @@
         "image": "/assets/uploads/2024/06/12064780_4884421.jpg",
         "title": "Department of Computer Application",
         "url": "/departments/department-of-computer-application/",
-        "description": "Modern software development, web technologies, and systems administration with practical hands-on labs.",
-        "pills": ["BCA Honors"]
+        "pills": [
+          "BCA Honors"
+        ]
       },
       {
         "icon": "desktop",
         "badge_label": "AI & CS",
-        "image": "/assets/uploads/2024/05/innovative-futuristic-classroom-students-min-scaled.jpg",
+        "image": "/assets/uploads/2026/09/computer-science/Tile-Image.jpg",
         "title": "Department of Computer Science & AI",
         "url": "/departments/department-of-computer-science/",
-        "description": "Specialised curriculum covering artificial intelligence, machine learning, data structures, and computing algorithms.",
-        "pills": ["B.Sc. AI Honors", "B.Sc. CS Honors"]
+        "pills": [
+          "B.Sc. AI Honors",
+          "B.Sc. CS Honors"
+        ]
       },
       {
         "icon": "book",
         "badge_label": "English",
-        "image": "/assets/uploads/2024/05/english-books-stacks-table-working-space-min-scaled.jpg",
+        "image": "/assets/uploads/2026/09/english/Tile-Image.jpg",
         "title": "Department of English",
         "url": "/departments/department-of-english/",
-        "description": "Critical literary analysis, communicative linguistics, creative writing, and media studies since 2010.",
-        "pills": ["BA English Honors"]
+        "pills": [
+          "BA English Honors"
+        ]
       },
       {
         "icon": "cutlery",
         "badge_label": "Food Tech",
-        "image": "/assets/uploads/2024/05/empty-microbiology-laboratory-with-nobody-it-prepared-genetic-mutation-test-min-scaled.jpg",
+        "image": "/assets/uploads/2026/09/food-technology/Tile-Image.jpg",
         "title": "Department of Food Technology",
         "url": "/departments/department-of-food-technology/",
-        "description": "Food preservation, quality assurance, nutrition analysis, and product development in state-of-the-art labs.",
-        "pills": ["B.Sc. Food Technology"]
+        "pills": [
+          "B.Sc. Food Technology"
+        ]
       },
       {
         "icon": "globe",
         "badge_label": "Geography",
-        "image": "/assets/uploads/2024/05/IMG-20240430-WA0022-1-scaled.jpg",
+        "image": "/assets/uploads/2026/09/geography/Tile-Image.jpg",
         "title": "Department of Geography",
         "url": "/departments/department-of-geography/",
-        "description": "Geospatial science, GIS mapping, remote sensing, and environmental studies backed by field research.",
-        "pills": ["B.Sc. Geography"]
+        "pills": [
+          "B.Sc. Geography"
+        ]
       },
       {
         "icon": "flask",
         "badge_label": "Microbiology",
-        "image": "/assets/uploads/2024/05/IMG-20240430-WA0048-scaled.jpg",
+        "image": "/assets/uploads/2026/09/microbiology/Tile-Image.jpg",
         "title": "Department of Microbiology",
         "url": "/departments/department-of-micro-biology/",
-        "description": "Immunology, medical microbiology, virology, and biotechnology with active clinical lab coursework.",
-        "pills": ["B.Sc. Microbiology"]
+        "pills": [
+          "B.Sc. Microbiology"
+        ]
       },
       {
         "icon": "lightbulb-o",
         "badge_label": "UG & PG",
-        "image": "/assets/uploads/2024/05/IMG-20240430-WA0014-scaled.jpg",
+        "image": "/assets/uploads/2026/09/psychology/Tile-Image.jpg",
         "title": "PG Department of Psychology",
         "url": "/departments/department-of-psychology/",
-        "description": "Comprehensive mental health, clinical psychology, counselling and experimental psychology programmes.",
-        "pills": ["B.Sc. Psychology", "M.Sc. Psychology"]
+        "pills": [
+          "B.Sc. Psychology",
+          "M.Sc. Psychology"
+        ]
       },
       {
         "icon": "moon-o",
         "badge_label": "Islamic Studies",
-        "image": "/assets/uploads/2024/01/P1222323-building-2048x1154-1.webp",
+        "image": "/assets/uploads/2026/09/islamic-studies/Islamic-Studies-Tile-Image.jpg",
         "title": "Department of Islamic Studies",
         "url": "/departments/department-of-islamic-studies/",
-        "description": "Rigorous academic study of Islamic history, civilization, philosophy, ethics, and contemporary thought.",
-        "pills": ["BA Islamic Studies Honors"]
+        "pills": [
+          "BA Islamic Studies Honors"
+        ]
       },
       {
         "icon": "university",
         "badge_label": "Finance",
-        "image": "/assets/uploads/2024/01/P1222323-building-2048x1154-1.webp",
+        "image": "/assets/uploads/2026/09/islamic-finance/islamic-finance-Tile-image.jpeg",
         "title": "Department of Islamic Finance",
         "url": "/departments/department-of-islamic-finance/",
-        "description": "Specialised postgraduate degree combining ethical Islamic finance principles with modern banking systems.",
-        "pills": ["MA Islamic Finance"]
+        "pills": [
+          "MA Islamic Finance"
+        ]
       },
       {
         "icon": "comments",
@@ -233,77 +330,92 @@
         "image": "/assets/uploads/2024/01/P1222323-building-2048x1154-1.webp",
         "title": "Department of Languages",
         "url": "/departments/department-of-languages/",
-        "description": "Prescribed common and second language courses including Malayalam, Hindi, Arabic, and English.",
-        "pills": ["Common Courses"]
+        "pills": [
+          "Common Courses"
+        ]
       }
     ],
     "view_all_label": "View all departments",
     "view_all_url": "/departments/"
   },
   "gallery": {
-    "kicker": "What makes us different",
-    "heading": "Campus & event footages",
+    "kicker": "A look around",
+    "heading": "Campus",
     "slides": [
-      { "image": "/assets/uploads/2024/01/P1222323-building-2048x1154-1.webp", "title": "AJAS Main Campus", "caption": "Poopalam, Perinthalmanna" },
-      { "image": "/assets/uploads/2025/03/WhatsApp-Image-2025-03-17-at-3.27.45-PM.jpeg", "title": "Vibrant Campus Life", "caption": "Student community & campus activities" },
-      { "image": "/assets/uploads/2025/03/WhatsApp-Image-2025-03-17-at-4.16.10-PM.jpeg", "title": "Central Library & Resource Centre", "caption": "Extensive reference collections & digital access" },
-      { "image": "/assets/uploads/2024/05/IMG-20240430-WA0040-scaled.jpg", "title": "Advanced Computer Laboratory", "caption": "High-performance computing & software labs" },
-      { "image": "/assets/uploads/2026/05/WhatsApp-Image-2026-05-04-at-10.36.26-AM.jpeg", "title": "Convocation Ceremony", "caption": "Celebrating student achievements and milestones" },
-      { "image": "/assets/uploads/2026/06/WhatsApp-Image-2026-06-09-at-1.48.11-PM.jpeg", "title": "Food Guard Awareness Campaign", "caption": "Department of Food Technology initiative" },
-      { "image": "/assets/uploads/2026/04/WhatsApp-Image-2026-04-08-at-11.07.24-AM.jpeg", "title": "Graduation Day 2023–26", "caption": "Honouring our graduating batches" },
-      { "image": "/assets/uploads/2026/02/WhatsApp-Image-2025-11-19-at-11.53.04-AM-2.jpeg", "title": "BIOCODEZ National Seminar", "caption": "Department of Microbiology seminar & workshop" }
-    ],
-    "cta_label": "More campus news & events",
-    "cta_url": "/college-news/"
-  },
-  "services": {
-    "items": [
       {
-        "icon": "book",
-        "title": "Library",
-        "text": "A reference and lending library with OPAC access, journals, e-resources and dedicated reading space for every department.",
-        "cta_label": "Read More",
-        "cta_url": "/library/"
+        "image": "/assets/uploads/2026/09/college-ambience/P1877449.JPG.jpeg",
+        "title": "AJAS Main Campus",
+        "caption": "Poopalam, Perinthalmanna"
       },
       {
-        "icon": "flask",
-        "title": "Laboratories",
-        "text": "Computer, Artificial Intelligence, Psychology, Geography, Microbiology, Physics and Food Technology labs, equipped for hands-on coursework.",
-        "cta_label": "Read More",
-        "cta_url": "/labs/computer-lab/"
+        "image": "/assets/uploads/2025/03/WhatsApp-Image-2025-03-17-at-3.27.45-PM.jpeg",
+        "title": "Vibrant Campus Life",
+        "caption": "Student community & campus activities"
       },
       {
-        "icon": "microphone",
-        "title": "Seminar Hall",
-        "text": "An air-conditioned seminar hall used for conferences, guest lectures, workshops and departmental programmes throughout the year.",
-        "cta_label": "Read More",
-        "cta_url": "/seminar-hall/"
+        "image": "/assets/uploads/2025/03/WhatsApp-Image-2025-03-17-at-4.16.10-PM.jpeg",
+        "title": "Central Library & Resource Centre",
+        "caption": "Extensive reference collections & digital access"
+      },
+      {
+        "image": "/assets/uploads/2024/05/IMG-20240430-WA0040-scaled.jpg",
+        "title": "Advanced Computer Laboratory",
+        "caption": "High-performance computing & software labs"
+      },
+      {
+        "image": "/assets/uploads/2026/09/college-ambience/8G8A4319.JPG.jpeg",
+        "title": "Campus Grounds",
+        "caption": "Everyday student life around the college"
       }
-    ]
+    ],
+    "cta_label": "View campus gallery",
+    "cta_url": "/college-ambience/",
+    "events_kicker": "What happens here",
+    "events_heading": "Events",
+    "events_slides": [
+      {
+        "image": "/assets/uploads/2026/05/WhatsApp-Image-2026-05-04-at-10.36.26-AM.jpeg",
+        "title": "Convocation Ceremony",
+        "caption": "Celebrating student achievements and milestones"
+      },
+      {
+        "image": "/assets/uploads/2026/06/WhatsApp-Image-2026-06-09-at-1.48.11-PM.jpeg",
+        "title": "Food Guard Awareness Campaign",
+        "caption": "Department of Food Technology initiative"
+      },
+      {
+        "image": "/assets/uploads/2026/04/WhatsApp-Image-2026-04-08-at-11.07.24-AM.jpeg",
+        "title": "Graduation Day 2023–26",
+        "caption": "Honouring our graduating batches"
+      },
+      {
+        "image": "/assets/uploads/2026/02/WhatsApp-Image-2025-11-19-at-11.53.04-AM-2.jpeg",
+        "title": "BIOCODEZ National Seminar",
+        "caption": "Department of Microbiology seminar & workshop"
+      }
+    ],
+    "events_cta_label": "All events",
+    "events_cta_url": "/event/"
   },
   "benefits": {
     "heading": "Why choose AJAS?",
     "items": [
       {
-        "icon": "lightbulb-o",
         "title": "Value-based education",
         "text": "A curriculum built to enrich, enlighten and empower — shaping character alongside academic achievement.",
         "url": "/vision-mission/"
       },
       {
-        "icon": "certificate",
         "title": "Recognised & accredited",
         "text": "Minority status, affiliation to the University of Calicut, Government of Kerala recognition and ISO certification.",
         "url": "/recognitions/"
       },
       {
-        "icon": "briefcase",
         "title": "Skills & placement",
         "text": "Add-on certificate courses, ASAP, Keltron, G-Tec and NPTEL/SWAYAM pathways, backed by an active placement cell.",
         "url": "/placement-cell/"
       },
       {
-        "icon": "flask",
         "title": "Research & innovation",
         "text": "Faculty publications, patents and an Innovation & Entrepreneurship Development Centre driving student projects.",
         "url": "/research-and-publications/"
@@ -315,34 +427,6 @@
     "cta_primary_url": "/admission/",
     "cta_secondary_label": "View programmes & fees",
     "cta_secondary_url": "/prospectus-2026-27/"
-  },
-  "events": {
-    "heading": "Upcoming events",
-    "items": [
-      {
-        "title": "CONVOCATION 2026",
-        "url": "/event/convocation-2026/",
-        "date": "May 4, 2026",
-        "location": "AJAS Campus, Perinthalmanna",
-        "image": "/assets/uploads/2026/05/WhatsApp-Image-2026-05-04-at-10.36.26-AM.jpeg"
-      },
-      {
-        "title": "FinNav - Financial Literacy Program",
-        "url": "/event/finnav-financial-literacy-program/",
-        "date": "June 17, 2026",
-        "location": "AJAS Campus, Perinthalmanna",
-        "image": "/assets/uploads/2026/06/WhatsApp-Image-2026-06-17-at-3.09.59-PM.jpeg"
-      },
-      {
-        "title": "Food Guard",
-        "url": "/event/food-guard/",
-        "date": "June 10, 2026",
-        "location": "AJAS Campus, Perinthalmanna",
-        "image": "/assets/uploads/2026/06/WhatsApp-Image-2026-06-09-at-1.48.11-PM.jpeg"
-      }
-    ],
-    "cta_label": "All events",
-    "cta_url": "/event/"
   },
   "testimonials": {
     "kicker": "Voices of Al Jamia",
@@ -394,12 +478,28 @@
     "primary_url": "/admission/",
     "secondary_label": "Contact us",
     "secondary_url": "/contact/",
-    "quicklinks_heading": "Quick Link",
+    "quicklinks_heading": "Quick links",
     "quicklinks": [
-      { "icon": "inr", "label": "Fee details", "url": "/assets/uploads/2025/02/SF-FEE-Addndm.pdf", "external": true },
-      { "icon": "building-o", "label": "State-of-the-art facilities", "url": "/state-of-the-art-facilities/", "external": false },
-      { "icon": "graduation-cap", "label": "Scholarships", "url": "/scholorship/", "external": false },
-      { "icon": "comments-o", "label": "Register a complaint", "url": "/register-a-complaint/", "external": false }
+      {
+        "label": "Fee details",
+        "url": "/assets/uploads/2025/02/SF-FEE-Addndm.pdf",
+        "external": true
+      },
+      {
+        "label": "State-of-the-art facilities",
+        "url": "/state-of-the-art-facilities/",
+        "external": false
+      },
+      {
+        "label": "Scholarships",
+        "url": "/scholorship/",
+        "external": false
+      },
+      {
+        "label": "Register a complaint",
+        "url": "/register-a-complaint/",
+        "external": false
+      }
     ]
   }
 }

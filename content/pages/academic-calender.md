@@ -1,5 +1,5 @@
 ---
-title: Academic Calender
+title: Academic Calendar
 description: "Al Jamia Arts & Science College, Perinthalmanna — affiliated to the University of Calicut."
 permalink: /academic-calender/
 type: page

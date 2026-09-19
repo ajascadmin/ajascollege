@@ -3,7 +3,27 @@ title: PG Department of Psychology
 description: "Al Jamia Arts & Science College, Perinthalmanna — affiliated to the University of Calicut."
 permalink: /departments/department-of-psychology/
 type: page
+people:
+  - name: "Hiba Razak K"
+    role: "MSc Psychology, SET — Head of Department"
+  - name: "Arshin K T"
+    role: "MSc Applied Psychology"
+  - name: "Salva P"
+    role: "MSc Psychology, NET, SET"
+  - name: "Yasin PK"
+    role: "MSc Psychology, NET"
+  - name: "Shahana Sherin V P"
+    role: "MSc Psychology, SET"
+  - name: "Sajla Sherin A P"
+    role: "MSc Psychology"
+image: /assets/uploads/2026/09/psychology/Tile-Image.jpg
 gallery:
+  - /assets/uploads/2026/09/psychology/Tile-Image.jpg
+  - /assets/uploads/2026/09/psychology/8G8A3949.JPG.jpeg
+  - /assets/uploads/2026/09/psychology/8G8A4013.JPG.jpeg
+  - /assets/uploads/2026/09/psychology/8G8A4018.JPG.jpeg
+  - /assets/uploads/2026/09/psychology/8G8A4031.JPG.jpeg
+  - /assets/uploads/2026/09/psychology/8G8A4076.JPG.jpeg
   - /assets/uploads/2024/05/DepartmentPsychology-scaled.jpg
   - /assets/uploads/2026/03/WhatsApp-Image-2026-03-19-at-11.52.28-AM.jpeg
   - /assets/uploads/2024/05/WhatsApp-Image-2025-01-16-at-1.35.23-PM.jpeg
@@ -75,19 +95,27 @@ The Department of Psychology was established in 2014, offering a Bachelor of Sci
 
 ## Vision
 
-The vision of Psychology Department involve envisioning a community of students who are well-versed in psychological theories and practices, equipped with skills to contribute positively to society. It also includes a commitment to advancing research, promoting diversity and inclusion, and fostering a passion for lifelong learning in the field of psychology.
+The vision of the PG Department of Psychology involves envisioning a community of students who are well-versed in psychological theories and practices, equipped with skills to contribute positively to society. It also includes a commitment to advancing research, promoting diversity and inclusion, and fostering a passion for lifelong learning in the field of psychology.
 
 ## Mission
 
-The mission of Psychology Department involves fostering a comprehensive understanding of psychological principles, promoting critical thinking skills, and preparing students for careers or further studies in psychology. It aims to provide a supportive learning environment, facilitate research opportunities, and cultivate ethical and culturally sensitive practitioners in the field.
+The mission of the PG Department of Psychology involves fostering a comprehensive understanding of psychological principles, promoting critical thinking skills and preparing students for careers or further studies in psychology. It aims to provide a supportive learning environment, facilitate research opportunities and cultivate ethical and culturally sensitive practitioners in the field.
 
+## Courses Provided
 
-## Head Of Department
+- M.Sc. Psychology
+- B.Sc. Psychology (Honours)
 
-## xyz
+## Distinctiveness
 
-Head of Department
+The PG Department of Psychology is committed to nurturing competent, ethical, and socially responsible psychology professionals through a blend of academic excellence, practical exposure, and community engagement. The department stands out for its learner-centred approach, experienced faculty, and emphasis on skill development beyond the classroom.
 
-|  |  |
-| --- | --- |
-| Faculty | Bisni Lidiya N A |
+Our distinctiveness lies in integrating theory with practice through regular psychological assessments, counselling skill training, research activities, field visits, internships, workshops, seminars and expert interactions. Students are encouraged to develop critical thinking, scientific inquiry and professional competence through active participation in research forums, case discussions and experiential learning.
+
+The department also promotes mental health awareness by organising outreach programmes, awareness campaigns and community-based initiatives in schools, colleges and the public. It is distinguished by qualified and experienced faculty, including NET, SET and university rank holders. With a strong academic profile, consistent student performance and a focus on holistic development, the department prepares students for careers in clinical psychology, counselling, education, research, organisational settings and higher studies.
+
+## Student Achievements
+
+- Safwa K — 1st Rank in B.Sc. Psychology, University of Calicut (Batch 2016–19)
+- Arsha — 5th Rank in B.Sc. Psychology, University of Calicut (Batch 2019–22)
+- Fathima Shiril — 10th Rank in B.Sc. Psychology, University of Calicut (Batch 2020–23)

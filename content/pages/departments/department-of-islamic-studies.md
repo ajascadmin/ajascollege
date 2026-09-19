@@ -3,7 +3,16 @@ title: Department of Islamic Studies
 description: "Al Jamia Arts & Science College, Perinthalmanna — affiliated to the University of Calicut."
 permalink: /departments/department-of-islamic-studies/
 type: page
+people:
+  - name: "Dr. Thanveer T"
+    role: "MA Islamic Studies, PhD — Head of Department"
+  - name: "Dr. Anas P Aboobacker"
+  - name: "Azharudheen K S"
+    role: "MA Islamic Studies, PhD"
+image: /assets/uploads/2026/09/islamic-studies/Islamic-Studies-Tile-Image.jpg
 gallery:
+  - /assets/uploads/2026/09/islamic-studies/Islamic-Studies-Tile-Image.jpg
+  - /assets/uploads/2026/09/islamic-studies/islamic-studies.jpeg
   - /assets/uploads/2024/08/islamic-studies.png
   - /assets/uploads/2024/07/thanveer.jpg
   - /assets/uploads/2025/01/anas-pa.jpeg
@@ -41,13 +50,7 @@ The Department of Islamic Studies is one of the oldest departments at AJAS Colle
 - **Empowering Education**: To prepare students for diverse careers by grounding them in Islamic Studies and social science methodologies.
 
 
-## Head Of Department
-
-## Dr. Thanveer T
-
-## MA Islamic Studies,PHD
-
-HoD, Islamic Studies
+## Message from the Head of Department
 
 Welcome to the Department of Islamic Studies at Ajas College. We take pride in offering an academic environment that strives for excellence in the study of Islamic thought, law, and culture. Our vision is to be a leading institution in Islamic Studies, fostering deep understanding, critical inquiry, and a comprehensive approach to social sciences.
 
@@ -61,10 +64,4 @@ Our department promotes cultural and social engagement, preserving Islamic herit
 
 On behalf of the Department of Islamic Studies, I invite you to join us on a journey of knowledge, growth, and social responsibility, as we work to empower students for diverse careers and impactful futures.
 
-Head of Department
-
-|  |  |
-| --- | --- |
-| Faculty | Dr. Anas P Aboobacker |
-| MA Islamic Studies,PHD | Azharudheen K S |
-| MA Islamic Studies,NET | Dr. Thanveer T |
+Dr. Thanveer T — Head of Department

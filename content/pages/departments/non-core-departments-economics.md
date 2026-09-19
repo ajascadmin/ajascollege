@@ -3,6 +3,13 @@ title: Non Core Departments
 description: "Al Jamia Arts & Science College, Perinthalmanna — affiliated to the University of Calicut."
 permalink: /departments/non-core-departments-economics/
 type: page
+people:
+  - name: "Safarudheen M"
+    role: "Mcom, NET, SET, B.Ed — Head of Department"
+  - name: "Muhammed Shahal C T"
+  - name: "Shijimol N"
+    role: "MA Economics, NET"
+image: /assets/uploads/2026/04/1590263578337.jpg
 gallery:
   - /assets/uploads/2026/04/1590263578337.jpg
   - /assets/uploads/2025/10/WhatsApp-Image-2025-10-17-at-3.52.50-PM.jpeg
@@ -17,16 +24,3 @@ Under the Four-Year Undergraduate Programme (FYUGP), non-core departments play a
 
 ## Mission
 
-
-## Head Of Department
-
-## Safarudheen M
-
-## Mcom, NET, SET, B.Ed
-
-Head of Department
-
-|  |  |
-| --- | --- |
-| Faculty | Muhammed Shahal C T |
-| MA Economics, NET | Shijimol N |

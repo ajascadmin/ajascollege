@@ -1,11 +1,25 @@
 {
   "utility": [
-    { "label": "Alumni", "href": "/alumnae/" },
-    { "label": "Placement Cell", "href": "/placement-cell/" },
-    { "label": "Students Corner", "href": "/student-life/" },
-    { "label": "Payments", "href": "/payments/" },
-    { "label": "Career", "href": "/career/" },
-    { "label": "Contact Us", "href": "/contact/" }
+    {
+      "label": "Apply Online",
+      "href": "https://ajasc.embase.in/online-admission/#/sign-in?utm_source=College"
+    },
+    {
+      "label": "EMBASE ERP",
+      "href": "https://ajasc.embase.in/"
+    },
+    {
+      "label": "Library OPAC",
+      "href": "http://116.68.127.22"
+    },
+    {
+      "label": "Payments",
+      "href": "/payments/"
+    },
+    {
+      "label": "Site index",
+      "href": "/site-index/"
+    }
   ],
   "main": [
     {
@@ -13,16 +27,16 @@
       "href": "/"
     },
     {
-      "label": "About",
-      "href": "/",
+      "label": "About Us",
+      "href": "/overview/",
       "children": [
         {
           "label": "Vision & Mission",
           "href": "/vision-mission/"
         },
         {
-          "label": "College profile",
-          "href": "/",
+          "label": "College Profile",
+          "href": "/overview/",
           "children": [
             {
               "label": "Overview",
@@ -31,6 +45,22 @@
             {
               "label": "Core Values",
               "href": "/core-values/"
+            },
+            {
+              "label": "Recognitions",
+              "href": "/recognitions/"
+            },
+            {
+              "label": "Sister Institutions",
+              "href": "/sister-institutions/"
+            },
+            {
+              "label": "College Ambience",
+              "href": "/college-ambience/"
+            },
+            {
+              "label": "Up Coming Projects",
+              "href": "/up-coming-project/"
             }
           ]
         },
@@ -40,7 +70,6 @@
         },
         {
           "label": "Administration",
-          "href": "/",
           "children": [
             {
               "label": "Principal",
@@ -51,26 +80,24 @@
               "href": "/vice-principal/"
             },
             {
-              "label": "Administrative Staff",
-              "href": "/administrative-staff/"
-            },
-            {
               "label": "College Council",
               "href": "/college-council/"
             },
             {
-              "label": "Non-Teaching Staffs",
-              "href": "/non-teaching-staffs/"
-            }
-          ]
-        },
-        {
-          "label": "College Committees",
-          "href": "/college-committees/",
-          "children": [
+              "label": "College Committees",
+              "href": "/college-committees/"
+            },
             {
               "label": "Finance Committee",
               "href": "/finance-committee-2/"
+            },
+            {
+              "label": "Administrative Staff",
+              "href": "/administrative-staff/"
+            },
+            {
+              "label": "Non-Teaching Staff",
+              "href": "/non-teaching-staffs/"
             }
           ]
         },
@@ -80,19 +107,48 @@
         },
         {
           "label": "Policy Documents",
-          "href": "/policy-documents/"
-        },
-        {
-          "label": "Add-On/ Certificate Courses",
-          "href": "/add-on-certificate-courses/"
+          "href": "/policy-documents/",
+          "children": [
+            {
+              "label": "Policy Documents",
+              "href": "/policy-documents/"
+            },
+            {
+              "label": "Code of Conduct — Principal",
+              "href": "/code-of-conduct-principal/"
+            },
+            {
+              "label": "Code of Conduct — Teachers",
+              "href": "/code-of-conduct-teachers/"
+            },
+            {
+              "label": "Code of Conduct — Non-Teaching Staff",
+              "href": "/code-of-cunduct-non-teaching-staffs/"
+            },
+            {
+              "label": "Code of Conduct — Students",
+              "href": "/code-of-cunduct-student/"
+            },
+            {
+              "label": "UGC Workload & Code of Ethics",
+              "href": "/assets/uploads/2024/06/UGC-Workload-and-Code-Ethics-Regulation-for-College-Teachers-and-Non-Teaching-Staff_20210107101751.pdf"
+            }
+          ]
         },
         {
           "label": "Mandatory Disclosure",
-          "href": "/",
           "children": [
             {
-              "label": "Affiliation",
+              "label": "All notices & downloads",
+              "href": "/notices/"
+            },
+            {
+              "label": "Affiliation (CPA 2023-24)",
               "href": "/assets/uploads/2024/06/CPA-2023-24.pdf"
+            },
+            {
+              "label": "CPA 2024-25",
+              "href": "/assets/uploads/2025/02/CPA-2024-25.pdf"
             },
             {
               "label": "RTI Declaration",
@@ -115,58 +171,30 @@
               "href": "/assets/uploads/2025/02/NOC.pdf"
             },
             {
-              "label": "2(F)",
+              "label": "UGC 2(f)",
               "href": "/assets/uploads/2025/02/2f.pdf"
             },
             {
-              "label": "CPA 2024-25",
-              "href": "/assets/uploads/2025/02/CPA-2024-25.pdf"
+              "label": "AISHE 2023-2024",
+              "href": "/assets/uploads/2025/02/AISHE-2023-2024.pdf"
+            },
+            {
+              "label": "AISHE Certificate 2023-24",
+              "href": "/assets/uploads/2025/02/AISHE-Certificate-2023-24.pdf"
+            },
+            {
+              "label": "AISHE 2022-2023",
+              "href": "/assets/uploads/2025/02/AISHE-2022-2023.pdf"
+            },
+            {
+              "label": "AISHE Certificate 2022-23",
+              "href": "/assets/uploads/2025/02/AISHE-Certificate-2022-23.pdf"
+            },
+            {
+              "label": "Fees & prospectus",
+              "href": "/fees/"
             }
           ]
-        },
-        {
-          "label": "Recognitions",
-          "href": "/recognitions/"
-        },
-        {
-          "label": "Sister Institutions",
-          "href": "/sister-institutions/"
-        }
-      ]
-    },
-    {
-      "label": "College",
-      "href": "/",
-      "children": [
-        {
-          "label": "Code of Conduct",
-          "href": "/",
-          "children": [
-            {
-              "label": "Principal",
-              "href": "/code-of-conduct-principal/"
-            },
-            {
-              "label": "Student",
-              "href": "/code-of-cunduct-student/"
-            },
-            {
-              "label": "Teachers",
-              "href": "/code-of-conduct-teachers/"
-            },
-            {
-              "label": "Non Teaching Staffs",
-              "href": "/code-of-cunduct-non-teaching-staffs/"
-            },
-            {
-              "label": "UGC Guidelines",
-              "href": "/assets/uploads/2024/06/UGC-Workload-and-Code-Ethics-Regulation-for-College-Teachers-and-Non-Teaching-Staff_20210107101751.pdf"
-            }
-          ]
-        },
-        {
-          "label": "Alumni",
-          "href": "/alumnae/"
         },
         {
           "label": "Institutional Distinctiveness",
@@ -174,7 +202,6 @@
         },
         {
           "label": "Best Practice",
-          "href": "/",
           "children": [
             {
               "label": "Best Practice 1 – HOPE",
@@ -189,134 +216,52 @@
               "href": "/best-practice-3-mud-brick/"
             }
           ]
-        },
-        {
-          "label": "Infrastructure",
-          "href": "/",
-          "children": [
-            {
-              "label": "State Of The Art Facilities",
-              "href": "/state-of-the-art-facilities/"
-            },
-            {
-              "label": "Facilities",
-              "href": "/",
-              "children": [
-                {
-                  "label": "Seminar Hall",
-                  "href": "/seminar-hall/"
-                },
-                {
-                  "label": "Library",
-                  "href": "/library/"
-                },
-                {
-                  "label": "Labs",
-                  "href": "/",
-                  "children": [
-                    {
-                      "href": "/labs/computer-lab/",
-                      "label": "Computer Lab"
-                    },
-                    {
-                      "href": "/labs/psychology-lab/",
-                      "label": "Psychology Lab"
-                    },
-                    {
-                      "href": "/labs/geography-lab/",
-                      "label": "Geography Lab"
-                    },
-                    {
-                      "href": "/labs/micro-biology-lab/",
-                      "label": "Micro Biology Lab"
-                    },
-                    {
-                      "href": "/labs/physics-lab/",
-                      "label": "Physics Lab"
-                    },
-                    {
-                      "href": "/labs/food-technology-lab/",
-                      "label": "Food Technology Lab"
-                    },
-                    {
-                      "href": "/labs/artificial-intelligence-lab/",
-                      "label": "Artificial Intelligence Lab"
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "label": "Hostel Facilities",
-          "href": "/",
-          "children": [
-            {
-              "label": "Boy’s Hostel",
-              "href": "/boys-hostel/"
-            },
-            {
-              "label": "Girl’s Hostel",
-              "href": "/girls-hostel/"
-            }
-          ]
-        },
-        {
-          "label": "Up Coming Project",
-          "href": "/up-coming-project/"
-        },
-        {
-          "label": "Fee Details",
-          "href": "/assets/uploads/2025/02/SF-FEE-Addndm.pdf"
         }
       ]
     },
     {
-      "label": "Academics",
-      "href": "/",
+      "label": "Academic",
+      "href": "/departments/",
       "children": [
-        {
-          "label": "Academic Council",
-          "href": "/academic-council/"
-        },
         {
           "label": "Departments",
           "href": "/departments/"
+        },
+        {
+          "label": "Courses",
+          "href": "/programmes/"
         },
         {
           "label": "Faculties",
           "href": "/faculties/"
         },
         {
-          "label": "Programme Offered",
-          "href": "/programmes/"
-        },
-        {
-          "label": "Academic Calendar",
-          "href": "/academic-calender/"
-        },
-        {
-          "label": "Learning Outcomes",
-          "href": "/",
+          "label": "Add on Courses",
+          "href": "/add-on-certificate-courses/",
           "children": [
             {
-              "label": "Programme Outcomes",
-              "href": "/programme-specific-outcomes/"
+              "label": "All add-on & certificate courses",
+              "href": "/add-on-certificate-courses/"
             },
             {
-              "label": "Course Outcomes",
-              "href": "/assets/uploads/2024/07/Course-Outcomes.pdf"
-            }
-          ]
-        },
-        {
-          "label": "Examinations",
-          "href": "/examinations/",
-          "children": [
+              "label": "ASAP Kerala",
+              "href": "/asap/"
+            },
             {
-              "label": "Internal Examinations",
-              "href": "/internal-examinations/"
+              "label": "Keltron",
+              "href": "/keltron/"
+            },
+            {
+              "label": "G-Tec",
+              "href": "/g-tec/"
+            },
+            {
+              "label": "NPTEL & SWAYAM",
+              "href": "/nptel-swayam/"
+            },
+            {
+              "label": "Skill Enhancement Programmes",
+              "href": "/skill-enhancement-programs/"
             }
           ]
         },
@@ -325,67 +270,142 @@
           "href": "/syllabus/"
         },
         {
-          "label": "Time Table",
-          "href": "/time-table/"
-        },
-        {
-          "label": "Add-On Courses",
-          "href": "/add-on-certificate-courses/",
+          "label": "Examination",
+          "href": "/examinations/",
           "children": [
             {
-              "label": "Keltron",
-              "href": "/keltron/"
+              "label": "Examinations",
+              "href": "/examinations/"
             },
             {
-              "label": "ASAP",
-              "href": "/asap/"
+              "label": "Internal Examinations",
+              "href": "/internal-examinations/"
             },
             {
-              "label": "G-Tec",
-              "href": "/g-tec/"
+              "label": "Time Table",
+              "href": "/time-table/"
             },
             {
-              "label": "NPTEL & Swayam",
-              "href": "/nptel-swayam/"
+              "label": "Programme Outcomes",
+              "href": "/programme-specific-outcomes/"
+            },
+            {
+              "label": "Course Outcomes",
+              "href": "/assets/uploads/2024/07/Course-Outcomes.pdf"
+            },
+            {
+              "label": "Toppers List",
+              "href": "/assets/uploads/2025/03/Toppers-List.pdf"
             }
           ]
         },
         {
-          "label": "Research and Publications",
+          "label": "Research & Publications",
           "href": "/research-and-publications/"
         },
         {
-          "label": "Patent",
+          "label": "Patents",
           "href": "/patent/"
         },
         {
-          "label": "Toppers List",
-          "href": "/assets/uploads/2025/03/Toppers-List.pdf"
+          "label": "Academic Calendar",
+          "href": "/academic-calender/"
+        },
+        {
+          "label": "Academic Council",
+          "href": "/academic-council/"
+        }
+      ]
+    },
+    {
+      "label": "Students Corner",
+      "href": "/student-life/",
+      "children": [
+        {
+          "label": "EMBASE ERP",
+          "href": "https://ajasc.embase.in/"
+        },
+        {
+          "label": "Clubs / Cells",
+          "href": "/clubs--cells/"
+        },
+        {
+          "label": "Scholarship Portal",
+          "href": "/scholorship/"
+        },
+        {
+          "label": "Placement Cell",
+          "href": "/placement-cell/"
+        },
+        {
+          "label": "Hostel Admission",
+          "href": "/hostel/"
+        },
+        {
+          "label": "Alumni Portal",
+          "href": "/alumnae/"
+        },
+        {
+          "label": "Grievance Redressal Cell",
+          "href": "/clubs--cells/grievance-redressal-cell/"
+        },
+        {
+          "label": "Students Feedback",
+          "href": "/feedback/"
+        },
+        {
+          "label": "Counselling Centre",
+          "href": "/counselling/"
+        },
+        {
+          "label": "More for students",
+          "children": [
+            {
+              "label": "Students Corner",
+              "href": "/student-life/"
+            },
+            {
+              "label": "NSS",
+              "href": "/nss/"
+            },
+            {
+              "label": "Register a Complaint",
+              "href": "/register-a-complaint/"
+            },
+            {
+              "label": "Library Book Suggestion",
+              "href": "/library-book-suggession/"
+            },
+            {
+              "label": "Payments",
+              "href": "/payments/"
+            },
+            {
+              "label": "Admission",
+              "href": "/admission/"
+            },
+            {
+              "label": "Fee Details",
+              "href": "/assets/uploads/2025/02/SF-FEE-Addndm.pdf"
+            }
+          ]
         }
       ]
     },
     {
       "label": "IQAC",
-      "href": "/",
+      "href": "/iqac/",
       "children": [
-        {
-          "label": "About IQAC",
-          "href": "/iqac/"
-        },
         {
           "label": "IQAC Composition",
           "href": "/iqac-composition/"
         },
         {
-          "label": "IQAC Minutes and Reports",
+          "label": "IQAC Meeting Minutes and Reports",
           "href": "/iqac-minutes-and-reports/"
         },
         {
-          "label": "IIQA",
-          "href": "/assets/uploads/2025/02/AL_JAMIA_ARTS_AND_SCIENCE_COLLEGE_PERINTHALMANNA_iiqa-25-06-2024.pdf"
-        },
-        {
-          "label": "Feedback",
+          "label": "Feedback Analysis Report",
           "href": "/feedback/"
         },
         {
@@ -393,8 +413,16 @@
           "href": "/assets/uploads/2024/07/strategic-plan.pdf"
         },
         {
+          "label": "About IQAC",
+          "href": "/iqac/"
+        },
+        {
           "label": "Perspective Plan",
           "href": "/assets/uploads/2024/07/perspective-plan.pdf"
+        },
+        {
+          "label": "IIQA",
+          "href": "/assets/uploads/2025/02/AL_JAMIA_ARTS_AND_SCIENCE_COLLEGE_PERINTHALMANNA_iiqa-25-06-2024.pdf"
         },
         {
           "label": "SSR",
@@ -403,76 +431,11 @@
       ]
     },
     {
-      "label": "Events",
-      "href": "/",
-      "children": [
-        {
-          "label": "Skill enhancement programs",
-          "href": "/skill-enhancement-programs/"
-        },
-        {
-          "label": "Events",
-          "href": "/event/"
-        },
-        {
-          "label": "Extension and Outreach Programmes",
-          "href": "/extension-and-outreach-programmes/"
-        }
-      ]
-    },
-    {
-      "label": "News",
-      "href": "/college-news/"
-    },
-    {
-      "label": "Notices",
-      "href": "/notices/",
-      "children": [
-        {
-          "label": "All notices & downloads",
-          "href": "/notices/"
-        },
-        {
-          "label": "Fees & prospectus",
-          "href": "/fees/"
-        }
-      ]
-    },
-    {
       "label": "NIRF",
-      "href": "/",
-      "children": [
-        {
-          "label": "NIRF 2025",
-          "href": "/assets/uploads/2025/02/NIRF-2025.pdf"
-        }
-      ]
-    },
-    {
-      "label": "AISHE",
-      "href": "/",
-      "children": [
-        {
-          "label": "AISHE 2023-2024",
-          "href": "/assets/uploads/2025/02/AISHE-2023-2024.pdf"
-        },
-        {
-          "label": "AISHE Certificate 2023-24",
-          "href": "/assets/uploads/2025/02/AISHE-Certificate-2023-24.pdf"
-        },
-        {
-          "label": "AISHE 2022-2023",
-          "href": "/assets/uploads/2025/02/AISHE-2022-2023.pdf"
-        },
-        {
-          "label": "AISHE Certificate 2022-23",
-          "href": "/assets/uploads/2025/02/AISHE-Certificate-2022-23.pdf"
-        }
-      ]
+      "href": "/assets/uploads/2025/02/NIRF-2025.pdf"
     },
     {
       "label": "AICTE",
-      "href": "/",
       "children": [
         {
           "label": "AICTE 2025-26",
@@ -487,6 +450,138 @@
           "href": "/assets/uploads/2025/02/ICC-Certificate.pdf"
         }
       ]
+    },
+    {
+      "label": "Facilities",
+      "href": "/state-of-the-art-facilities/",
+      "children": [
+        {
+          "label": "Campus Tour 360",
+          "href": "/campus-tour-360/"
+        },
+        {
+          "label": "Library",
+          "href": "/library/"
+        },
+        {
+          "label": "Lab",
+          "href": "/labs/",
+          "children": [
+            {
+              "label": "All laboratories",
+              "href": "/labs/"
+            },
+            {
+              "label": "Computer Lab",
+              "href": "/labs/computer-lab/"
+            },
+            {
+              "label": "Food Technology Lab",
+              "href": "/labs/food-technology-lab/"
+            },
+            {
+              "label": "Micro Biology Lab",
+              "href": "/labs/micro-biology-lab/"
+            },
+            {
+              "label": "Geography Lab",
+              "href": "/labs/geography-lab/"
+            },
+            {
+              "label": "Psychology Lab",
+              "href": "/labs/psychology-lab/"
+            },
+            {
+              "label": "Physics Lab",
+              "href": "/labs/physics-lab/"
+            }
+          ]
+        },
+        {
+          "label": "AI Lab",
+          "href": "/labs/artificial-intelligence-lab/"
+        },
+        {
+          "label": "Cafeteria",
+          "href": "/cafeteria/"
+        },
+        {
+          "label": "Hostel",
+          "href": "/hostel/",
+          "children": [
+            {
+              "label": "Hostel",
+              "href": "/hostel/"
+            },
+            {
+              "label": "Boy's Hostel",
+              "href": "/boys-hostel/"
+            },
+            {
+              "label": "Girl's Hostel",
+              "href": "/girls-hostel/"
+            }
+          ]
+        },
+        {
+          "label": "Play Ground",
+          "href": "/play-ground/"
+        },
+        {
+          "label": "Amphitheatre",
+          "href": "/amphitheatre/"
+        },
+        {
+          "label": "Seminar Hall",
+          "href": "/seminar-hall/"
+        },
+        {
+          "label": "Mini Gym",
+          "href": "/mini-gym/"
+        },
+        {
+          "label": "Nourish Nova",
+          "href": "/nourish-nova/"
+        },
+        {
+          "label": "State of the Art Facilities",
+          "href": "/state-of-the-art-facilities/"
+        }
+      ]
+    },
+    {
+      "label": "News & Events",
+      "href": "/event/",
+      "children": [
+        {
+          "label": "Events",
+          "href": "/event/"
+        },
+        {
+          "label": "College News",
+          "href": "/college-news/"
+        },
+        {
+          "label": "Notices & Downloads",
+          "href": "/notices/"
+        },
+        {
+          "label": "Skill Enhancement Programmes",
+          "href": "/skill-enhancement-programs/"
+        },
+        {
+          "label": "Extension and Outreach Programmes",
+          "href": "/extension-and-outreach-programmes/"
+        }
+      ]
+    },
+    {
+      "label": "Contact Us",
+      "href": "/contact/"
+    },
+    {
+      "label": "Career",
+      "href": "/career/"
     }
   ]
 }

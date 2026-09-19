@@ -12,43 +12,103 @@ const L = (await getListings())?.faculties ?? {
   description: "Teaching faculty at Al Jamia Arts & Science College.",
   intro: "Scholars and practitioners across arts, science, commerce and computing — mentoring students beyond the syllabus.",
 };
+function getScholarlyBadges(data: { name?: string; title?: string; role?: string; credentials?: string }) {
+  const badges: { label: string; type: "gold" | "green" | "blue" | "navy" }[] = [];
+  const text = `${data.name || ""} ${data.title || ""} ${data.credentials || ""} ${data.role || ""}`;
+
+  if (/\b(ph\.?d|doctorate)\b/i.test(text)) {
+    badges.push({ label: "Ph.D.", type: "gold" });
+  }
+  if (/\b(jrf)\b/i.test(text)) {
+    badges.push({ label: "UGC-JRF", type: "green" });
+  } else if (/\b(net)\b/i.test(text)) {
+    badges.push({ label: "UGC-NET", type: "green" });
+  }
+  if (/\b(m\.?phil)\b/i.test(text)) {
+    badges.push({ label: "M.Phil.", type: "blue" });
+  }
+  if (/\b(hod|head of the department|head)\b/i.test(data.role || "")) {
+    badges.push({ label: "HoD", type: "navy" });
+  } else if (/\b(coordinator|co-ordinator)\b/i.test(data.role || "")) {
+    badges.push({ label: "Coordinator", type: "navy" });
+  }
+
+  return badges;
+}
 ---
 
 <BaseLayout title={L.title} description={L.description} pageTitle={L.title}>
-  <div class="flat-team blog-single content-blog">
+  <div class="flat-team ajas-listing-page">
     <div class="container">
       <p class="listing-intro">{L.intro}</p>
       <div class="row">
         {
-          faculty.map((f) => (
-            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-              <a class="ajas-faculty-card" href={f.data.permalink}>
-                <div class="ajas-faculty-photo">
-                  {f.data.image ? (
-                    <CmsImage
-                      src={f.data.image}
-                      alt={f.data.title}
-                      preset="avatar"
-                      fit="cover"
-                      width={400}
-                    />
-                  ) : (
-                    <div class="ajas-faculty-placeholder" />
-                  )}
-                </div>
-                <div class="ajas-faculty-body">
-                  <h3>{f.data.name || f.data.title}</h3>
-                  {f.data.role && <p class="role">{f.data.role}</p>}
-                  {f.data.credentials && <p class="cred">{f.data.credentials}</p>}
-                </div>
-              </a>
-            </div>
-          ))
+          faculty.map((f) => {
+            const badges = getScholarlyBadges(f.data);
+            return (
+              <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 faculty-col">
+                <a class="ajas-faculty-card" href={f.data.permalink}>
+                  <div class="ajas-faculty-photo">
+                    {f.data.image ? (
+                      <CmsImage
+                        src={f.data.image}
+                        alt={f.data.title}
+                        preset="avatar"
+                        fit="cover"
+                        width={400}
+                      />
+                    ) : (
+                      <div class="ajas-faculty-placeholder" />
+                    )}
+                    {badges.length > 0 && (
+                      <div class="faculty-photo-badges">
+                        {badges.map((b) => (
+                          <span class={`badge-pill badge-${b.type}`}>{b.label}</span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  <div class="ajas-faculty-body">
+                    <h3>{f.data.name || f.data.title}</h3>
+                    {f.data.role && <p class="role">{f.data.role}</p>}
+                    {f.data.credentials && <p class="cred">{f.data.credentials}</p>}
+                  </div>
+                </a>
+              </div>
+            );
+          })
         }
       </div>
     </div>
   </div>
 </BaseLayout>
+
+<style is:global>
+  .ajas-listing-page {
+    padding: 26px 0 24px;
+    background: #fff;
+  }
+  .ajas-listing-page > .container {
+    max-width: 1200px;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  .ajas-listing-page > .container > .listing-intro {
+    max-width: 68ch;
+    margin: 0 0 32px;
+    text-align: left;
+    font-size: 1.05rem;
+    line-height: 1.7;
+  }
+  @media (max-width: 1023px) {
+    .ajas-listing-page > .container { padding-left: 24px; padding-right: 24px; }
+  }
+  @media (max-width: 767px) {
+    .ajas-listing-page { padding: 18px 0 18px; }
+    .ajas-listing-page > .container { padding-left: 16px; padding-right: 16px; }
+    .ajas-listing-page > .container > .listing-intro { margin-bottom: 22px; }
+  }
+</style>
 
 <style>
   .listing-intro {
@@ -58,38 +118,92 @@ const L = (await getListings())?.faculties ?? {
     font-size: 1.05rem;
     line-height: 1.55;
   }
-  .ajas-faculty-card {
-    display: block;
+  /* every card in a row is the same height: the column stretches (bootstrap
+     flex row), the card fills the column, and the portrait is pinned to one
+     aspect ratio so headshots of different crops still line up */
+  .faculty-col {
+    display: flex;
     margin-bottom: 28px;
+  }
+  /* a directory of people, not a deck of cards — matches the department roster */
+  .ajas-faculty-card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
     text-decoration: none;
     color: inherit;
-    background: #fff;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 6px 22px rgba(24, 50, 81, 0.08);
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
   }
-  .ajas-faculty-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 14px 32px rgba(24, 50, 81, 0.14);
+  .ajas-faculty-card:hover h3 {
+    color: #ff5f60;
   }
-  .ajas-faculty-photo img,
+  .ajas-faculty-photo,
   .ajas-faculty-placeholder {
     width: 100%;
-    height: 220px;
+    aspect-ratio: 4 / 5;
+    background: #eef2f7;
+    display: block;
+    overflow: hidden;
+    flex: none;
+    border-radius: 0;
+    position: relative;
+  }
+  .faculty-photo-badges {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    right: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    z-index: 2;
+  }
+  .badge-pill {
+    display: inline-block;
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding: 2px 6px;
+    border-radius: 0;
+    text-transform: uppercase;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
+  .badge-gold {
+    background: #c9a961;
+    color: #0b1b2b;
+  }
+  .badge-green {
+    background: #059669;
+    color: #fff;
+  }
+  .badge-blue {
+    background: #0284c7;
+    color: #fff;
+  }
+  .badge-navy {
+    background: #0f2947;
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.3);
+  }
+  /* :global — the <img> is rendered by CmsImage, so a scoped selector never
+     reaches it and the fixed height is silently dropped */
+  .ajas-faculty-photo :global(img) {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    background: #e8eef4;
+    object-position: center top;
     display: block;
   }
   .ajas-faculty-body {
-    padding: 14px 14px 16px;
+    padding: 12px 0 0;
+    flex: 1;
   }
   .ajas-faculty-body h3 {
-    margin: 0 0 4px;
-    font-size: 1rem;
+    margin: 0 0 3px;
+    font-size: 0.97rem;
     color: #183251;
     font-weight: 600;
     line-height: 1.3;
+    transition: color 0.15s ease;
   }
   .ajas-faculty-body .role {
     margin: 0;

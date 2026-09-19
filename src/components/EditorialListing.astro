@@ -1,0 +1,178 @@
+---
+import CmsImage from "./CmsImage.astro";
+
+interface Item {
+  title: string;
+  permalink: string;
+  image?: string;
+  date?: Date | string;
+}
+
+interface Props {
+  kind: "news" | "event";
+  intro: string;
+  items: Item[];
+}
+
+const { kind, intro, items } = Astro.props;
+const [lead, ...remaining] = items;
+const label = kind === "news" ? "News" : "Events";
+const action = kind === "news" ? "Read story" : "View event";
+const formatDate = (value?: Date | string) => {
+  if (!value) return null;
+  const date = new Date(value);
+  if (Number.isNaN(+date)) return null;
+  return {
+    iso: date.toISOString(),
+    day: date.toLocaleDateString("en-IN", { day: "2-digit" }),
+    month: date.toLocaleDateString("en-IN", { month: "short" }),
+    year: date.toLocaleDateString("en-IN", { year: "numeric" }),
+    full: date.toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" }),
+  };
+};
+---
+
+<section class="editorial-listing" data-kind={kind}>
+  <div class="container editorial-intro-row">
+    <p>{intro}</p>
+    <span>{items.length} {items.length === 1 ? "entry" : "entries"}</span>
+  </div>
+
+  {lead && (
+    <article class="editorial-lead">
+      <div class="container editorial-lead-grid">
+        <a class="editorial-lead-media" href={lead.permalink} aria-label={`${action}: ${lead.title}`}>
+          {lead.image ? (
+            <CmsImage src={lead.image} alt="" preset="hero" fit="cover" loading="eager" />
+          ) : (
+            <span class="editorial-placeholder" aria-hidden="true" />
+          )}
+        </a>
+        <div class="editorial-lead-copy">
+          <span class="editorial-type">Latest {label.toLowerCase()}</span>
+          {formatDate(lead.date) && (
+            <time datetime={formatDate(lead.date)!.iso}>{formatDate(lead.date)!.full}</time>
+          )}
+          <h2><a href={lead.permalink}>{lead.title}</a></h2>
+          <a class="editorial-action" href={lead.permalink}>{action}<span aria-hidden="true">›</span></a>
+        </div>
+      </div>
+    </article>
+  )}
+
+  {remaining.length > 0 && (
+    <div class="container editorial-index">
+      <div class="editorial-index-heading">
+        <h2>{kind === "news" ? "More from the college" : "Event archive"}</h2>
+        <span>Browse all</span>
+      </div>
+      <div class="editorial-rows">
+        {remaining.map((item) => {
+          const date = formatDate(item.date);
+          return (
+            <article class="editorial-row">
+              <div class="editorial-date" aria-label={date?.full}>
+                {date ? <><strong>{date.day}</strong><span>{date.month} {date.year}</span></> : <span>{label}</span>}
+              </div>
+              <a class="editorial-thumb" href={item.permalink} tabindex="-1" aria-hidden="true">
+                {item.image ? <CmsImage src={item.image} alt="" preset="card" fit="cover" /> : <span class="editorial-placeholder" />}
+              </a>
+              <h3><a href={item.permalink}>{item.title}</a></h3>
+              <a class="editorial-row-action" href={item.permalink} aria-label={`${action}: ${item.title}`}>
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+              </a>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  )}
+</section>
+
+<style>
+  .editorial-listing { padding: 42px 0 72px; background: #fff; color: #183251; }
+  .editorial-intro-row { display:flex; justify-content:space-between; gap:30px; align-items:flex-end; margin-bottom:34px; }
+  .editorial-intro-row p { max-width:48rem; margin:0; font-size:1.08rem; line-height:1.7; color:#4f6076; }
+  .editorial-intro-row span { color:#8491a2; font-size:.82rem; white-space:nowrap; }
+  .editorial-lead { background:#112b49; color:#fff; }
+  .editorial-lead-grid { display:grid; height:460px; padding-top:0; padding-bottom:0; }
+  .editorial-lead-media { display:block; min-height:280px; overflow:hidden; background:#0c1e34; }
+  .editorial-lead-media :global(img), .editorial-placeholder { width:100%; height:100%; min-height:inherit; display:block; object-fit:cover; }
+  .editorial-placeholder { background:linear-gradient(135deg,#244261,#7a1f2b); }
+  .editorial-lead-copy { padding:42px 30px 46px; align-self:center; }
+  .editorial-type { display:block; color:#dbc27d; font-size:.82rem; font-weight:650; margin-bottom:16px; }
+  .editorial-lead-copy time { display:block; color:rgba(255,255,255,.65); font-size:.82rem; margin-bottom:14px; }
+  .editorial-lead-copy h2 { margin:0 0 28px; font-size:clamp(2rem,4vw,3.5rem); line-height:1.05; }
+  .editorial-lead-copy h2 a { color:#fff; }
+  .editorial-action { display:inline-flex; align-items:center; gap:10px; color:#fff; padding-bottom:7px; border-bottom:1px solid rgba(255,255,255,.45); font-weight:600; }
+  .editorial-action span { font-size:1.5rem; line-height:.7; }
+  .editorial-index { padding-top:52px; }
+  .editorial-index-heading { display:flex; align-items:baseline; justify-content:space-between; padding-bottom:16px; border-bottom:2px solid #183251; }
+  .editorial-index-heading h2 { margin:0; font-size:1.55rem; }
+  .editorial-index-heading span { color:#7a8798; font-size:.8rem; }
+  .editorial-row {
+    display:grid;
+    grid-template-columns:90px 170px minmax(0,1fr) 48px;
+    gap:24px;
+    align-items:center;
+    padding:22px 14px;
+    border-bottom:1px solid #dce3ec;
+    border-radius:0;
+    transition:background-color 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .editorial-row:hover {
+    background-color:#f7f9fc;
+    box-shadow:0 4px 16px rgba(15, 41, 71, 0.05);
+  }
+  .editorial-date { color:#6d7b8e; font-size:.75rem; line-height:1.25; }
+  .editorial-date strong { display:block; color:#183251; font-family:var(--font-serif); font-size:1.75rem; font-weight:600; }
+  .editorial-date span { display:block; }
+  .editorial-thumb { height:96px; overflow:hidden; background:#edf1f5; border-radius:0; }
+  .editorial-thumb :global(img) {
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    transition:transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .editorial-row:hover .editorial-thumb :global(img) {
+    transform:scale(1.04);
+  }
+  .editorial-row h3 { margin:0; font-size:clamp(1.12rem,2vw,1.45rem); line-height:1.3; }
+  .editorial-row h3 a { color:#183251; }
+  .editorial-row h3 a:hover { color:#8f2934; }
+  .editorial-row-action {
+    width:44px;
+    height:44px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid #bdc9d7;
+    color:#183251;
+    transition:background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  }
+  .editorial-row:hover .editorial-row-action {
+    background:#183251;
+    color:#fff;
+    border-color:#183251;
+    transform:translateX(2px);
+  }
+  .editorial-row-action svg { width:20px; stroke:currentColor; stroke-width:1.7; transition:transform 0.2s ease; }
+  .editorial-row:hover .editorial-row-action svg { transform:translateX(2px); }
+  @media(min-width:900px){ .editorial-lead-grid { grid-template-columns:minmax(0,1.55fr) minmax(320px,.75fr); } }
+  @media(max-width:767px){
+    .editorial-listing { padding-top:30px; }
+    .editorial-intro-row { align-items:flex-start; flex-direction:column; gap:10px; margin-bottom:24px; }
+    .editorial-lead-grid { min-height:0; height:auto; }
+    .editorial-lead-media { height:280px; min-height:0; }
+    .editorial-lead-copy { padding:30px 0 36px; }
+    .editorial-row { grid-template-columns:62px 92px minmax(0,1fr); gap:13px; }
+    .editorial-thumb { height:72px; }
+    .editorial-row-action { display:none; }
+    .editorial-date strong { font-size:1.45rem; }
+  }
+  @media(max-width:480px){
+    .editorial-row { grid-template-columns:54px minmax(0,1fr); }
+    .editorial-thumb { display:none; }
+  }
+</style>

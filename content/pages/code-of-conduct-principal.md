@@ -1,11 +1,13 @@
 ---
-title: code of conduct for principal
+title: Code of Conduct for the Principal
 description: "Al Jamia Arts & Science College, Perinthalmanna — affiliated to the University of Calicut."
 permalink: /code-of-conduct-principal/
 type: page
 ---
 
-# Code of Conduct Principal
+The Principal provides the academic and administrative leadership required to advance the institution's educational mission.
+
+## Institutional leadership
 
 - Principal is the academic and administrative head of the institute and works for the growth of the institute.
 - Shall implement the policies approved by the highest decision-making body of the college.
@@ -14,6 +16,9 @@ type: page
 - Shall authorize to nominate Coordinators, Convener and other administration functionaries.
 - Shall coordinate and motivate the faculty, administrative authorities and the supporting staff, to play their respective roles more effectively.
 - Shall work for the common goal of providing effective technical education and guidance to enable the students to carve out promising careers and lifelong learning.
+
+## Academic administration
+
 - In matters of admissions, nodal officer of admission will assist the principal.
 - An integrated timetable of the entire institution shall be prepared and submitted to the principal. In this endeavor, conveners of timetables, along with the various heads of the departments, extend support to the principal.
 - Shall closely monitor the class work as per the timetables and the almanac with assistance of faculty in charge.
@@ -23,6 +28,9 @@ type: page
 - If necessary, shall instruct the Head of Department to conduct remedial classes to academically support the slow learners, in matters related to internal examinations, end semester examinations (both theory and practical), result analysis, and detained
   candidates.
 - Principal shall also ensure quality assurance and should be assisted by the coordinator of IQAC.
+
+## Research, development and welfare
+
 - Shall monitor and evaluate research, development and consultancy activities. Should advise faculty to get sponsored research projects from various funding agencies.
 - The Principal should promote industry institute interaction for better employability of the students.
 - Shall promote internal revenue generation activities with the help of staff and students.

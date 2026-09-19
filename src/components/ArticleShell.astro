@@ -1,7 +1,13 @@
 ---
 /**
- * Content page shell — overview, about, IQAC, etc.
- * Prose + media/tables styled to feel intentional, not bare markdown.
+ * Shell for pages that are not run through SmartPage — migrated HTML bodies,
+ * listing pages, anything with a hand-authored body.
+ *
+ * It deliberately uses the same geometry as SmartPage: one container, prose at
+ * a fixed measure, and a `wide` track for tables and media. The previous
+ * version floated a shadowed card inside a bootstrap row, which on a listing
+ * page rendered a single sentence inside a 1170px panel with ~100px of dead
+ * space above and below it.
  */
 interface Props {
   wide?: boolean;
@@ -10,43 +16,73 @@ interface Props {
 }
 
 const { wide = false, variant = "default" } = Astro.props;
-const outer = wide
-  ? "blog-single content-blog ajas-page-shell is-wide"
-  : "blog-single content-blog narrow-page ajas-page-shell";
 ---
 
-<div class={outer} data-variant={variant}>
-  <div class="container">
-    <div class={wide ? "row" : "row justify-content-center"}>
-      <div class={wide ? "col-lg-12" : "col-lg-10 col-xl-9"}>
-        <div class="ajas-page-card">
-          <div class="site-content clearfix">
-            <article class="post post-blog-single">
-              <div class="content-blog-single-wrap migrate-content ajas-prose">
-                <slot />
-              </div>
-            </article>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+<div class="ajas-page-shell" data-variant={variant} data-wide={wide ? "true" : "false"}>
+  <article class="ajas-page-body migrate-content ajas-prose">
+    <slot />
+  </article>
 </div>
 
 <style is:global>
   .ajas-page-shell {
-    padding: 28px 0 56px;
-    background: linear-gradient(180deg, #f0f3f8 0%, #f8fafc 35%, #fff 100%);
-  }
-  .ajas-page-card {
     background: #fff;
-    border-radius: 12px;
-    padding: 28px 22px 36px;
-    box-shadow: 0 10px 36px rgba(24, 50, 81, 0.08);
+    padding: 26px 0 16px;
   }
-  @media (min-width: 768px) {
-    .ajas-page-card {
-      padding: 40px 44px 48px;
+  /* Matches SmartPage's container: prose keeps a measure, everything visual
+     or tabular takes the full width rather than leaving 400px of margin. */
+  .ajas-page-body {
+    max-width: 1520px;
+    margin: 0 auto;
+    padding: 0 clamp(16px, 3.4vw, 56px);
+    display: grid;
+    grid-template-columns:
+      [wide-start] minmax(0, 0.12fr)
+      [content-start] minmax(0, 900px)
+      [content-end] minmax(0, 1fr)
+      [wide-end];
+  }
+  .ajas-page-body > * {
+    grid-column: content;
+    min-width: 0;
+  }
+  /* the theme centres .listing-intro; inside a left-aligned document it reads
+     as a stray caption */
+  .ajas-page-body > .listing-intro,
+  .ajas-page-shell .ajas-page-body > p.listing-intro {
+    text-align: left;
+    max-width: 68ch;
+    margin: 0 0 32px;
+    font-size: 1.05rem;
+    line-height: 1.7;
+  }
+  /* dense or visual blocks earn the full container */
+  .ajas-page-body > table,
+  .ajas-page-body > .dt-wrap,
+  .ajas-page-body > .ajas-attachments,
+  .ajas-page-body > .mig-roster,
+  .ajas-page-body > figure,
+  .ajas-page-shell[data-wide="true"] .ajas-page-body > .row,
+  .ajas-page-shell[data-wide="true"] .ajas-page-body > .ajas-grid,
+  .ajas-page-shell[data-wide="true"] .ajas-page-body > .dept-grid,
+  .ajas-page-shell[data-wide="true"] .ajas-page-body > .prog-cards-grid,
+  .ajas-page-body > .ajas-notice-group,
+  .ajas-page-body > .ajas-download-group {
+    grid-column: wide;
+  }
+  /* A listing is a directory, not an essay: its blocks all share the container
+     edge so the lede doesn't sit visibly indented from the tables below it. */
+  .ajas-page-shell[data-variant="listing"] .ajas-page-body > * {
+    grid-column: wide;
+  }
+  @media (max-width: 1099px) {
+    .ajas-page-body {
+      grid-template-columns: [wide-start content-start] minmax(0, 1fr) [content-end wide-end];
+    }
+  }
+  @media (max-width: 767px) {
+    .ajas-page-shell {
+      padding: 18px 0 8px;
     }
   }
 
@@ -64,21 +100,33 @@ const outer = wide
   .ajas-prose h3,
   .ajas-prose h4 {
     margin: 1.5em 0 0.55em;
-    line-height: 1.28;
+    line-height: 1.24;
     font-weight: 600;
-    color: #183251;
-    letter-spacing: -0.02em;
+    color: #17304f;
+    letter-spacing: -0.015em;
+  }
+  .ajas-prose h1,
+  .ajas-prose h2 {
+    font-family: var(--font-serif);
   }
   .ajas-prose h1 {
-    font-size: 1.7rem;
+    font-size: 1.85rem;
     margin-top: 0;
-    padding-bottom: 0.45em;
-    border-bottom: 3px solid #ff5f60;
   }
-  .ajas-prose h2 {
-    font-size: 1.32rem;
-    border-left: 4px solid #ff5f60;
-    padding-left: 12px;
+  /* Scoped to this shell on purpose: SmartPage sections also carry
+     .ajas-prose, and they draw their own section rule — a bare .ajas-prose h2
+     border painted a second, shorter line right under it. */
+  .ajas-page-body h2 {
+    font-size: clamp(1.42rem, 2.1vw, 1.85rem);
+    margin-top: 1.7em;
+    padding-top: 0.9em;
+    border-top: 1px solid #e4eaf1;
+  }
+  .ajas-page-body > h2:first-child,
+  .ajas-page-body > h1 + h2 {
+    margin-top: 0.8em;
+    padding-top: 0;
+    border-top: 0;
   }
   .ajas-prose h3 {
     font-size: 1.12rem;
@@ -104,7 +152,7 @@ const outer = wide
     object-fit: contain;
     display: block;
     margin: 1.1em auto 1.4em;
-    border-radius: 6px;
+    border-radius: 0;
     box-shadow: 0 8px 28px rgba(24, 50, 81, 0.1);
     background: #f8fafc;
   }
@@ -113,7 +161,7 @@ const outer = wide
     text-align: center;
     background: #f4f6fa;
     padding: 16px;
-    border-radius: 10px;
+    border-radius: 0;
     margin: 1.25em 0;
   }
   .ajas-prose p:has(> img:only-child) img {
@@ -154,52 +202,71 @@ const outer = wide
     color: #ff5f60;
     border-bottom-color: #ff5f60;
   }
-  /* Fact tables (overview, IQAC, rosters) */
-  .ajas-prose table {
+  /* Reference tables — same treatment as DataTable (see DataTable.astro), so a
+     raw markdown table and a parsed one look identical. `.dt-table` is excluded
+     because these rules were leaking into it: the zebra striping and rounded
+     card here were overriding that component's own scoped styles. */
+  .ajas-prose table:not(.dt-table) {
     width: 100%;
-    margin: 1.25em 0 1.5em;
-    border-collapse: separate;
-    border-spacing: 0;
+    margin: 1.4em 0 1.6em;
+    border-collapse: collapse;
     font-size: 0.95rem;
-    overflow: hidden;
-    border-radius: 8px;
-    box-shadow: 0 2px 12px rgba(24, 50, 81, 0.06);
+    border-top: 2px solid #17304f;
+    border-bottom: 1px solid #c6d1de;
+    border-radius: 0;
+    box-shadow: none;
+    overflow: visible;
   }
-  .ajas-prose th,
-  .ajas-prose td {
-    border: 1px solid #e8eef4;
-    padding: 0.7em 1em;
+  .ajas-prose table:not(.dt-table) th,
+  .ajas-prose table:not(.dt-table) td {
+    border: 0;
+    border-bottom: 1px solid #e9eef4;
+    padding: 13px 18px 13px 0;
     text-align: left;
     vertical-align: top;
+    line-height: 1.5;
+    background: none;
   }
-  .ajas-prose th {
-    background: #183251;
-    color: #fff;
-    font-weight: 600;
+  .ajas-prose table:not(.dt-table) th:last-child,
+  .ajas-prose table:not(.dt-table) td:last-child {
+    padding-right: 0;
   }
-  .ajas-prose tr:nth-child(even) td {
-    background: #f8fafc;
+  .ajas-prose table:not(.dt-table) thead th {
+    background: none;
+    color: #7d8ba0;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    white-space: nowrap;
+    border-bottom: 1px solid #c6d1de;
   }
-  .ajas-prose tr:hover td {
-    background: #eef2ff;
-  }
-  /* 2-col fact tables: first cell as label */
-  .ajas-prose table td:first-child {
-    font-weight: 600;
-    color: #183251;
-    width: 38%;
-    background: #f0f4f9;
-  }
-  .ajas-prose table th:first-child {
+  .ajas-prose table:not(.dt-table) tbody td:first-child {
     width: auto;
+    font-weight: 600;
+    color: #17304f;
+    background: none;
   }
+  .ajas-prose table:not(.dt-table) tbody td:not(:first-child) {
+    color: #4a5a70;
+  }
+  .ajas-prose table:not(.dt-table) tbody tr:last-child td {
+    border-bottom: 0;
+  }
+  .ajas-prose table:not(.dt-table) tbody tr:hover td {
+    background: #f7f9fc;
+  }
+  .ajas-prose table:not(.dt-table):not(:has(td:nth-child(3))) tbody td:last-child {
+    text-align: right;
+  }
+
   .ajas-prose blockquote {
     margin: 1.25em 0;
     padding: 0.85em 1.15em;
     border-left: 4px solid #ff5f60;
     background: #fff8f8;
     color: #475569;
-    border-radius: 0 8px 8px 0;
+    border-radius: 0;
   }
   .ajas-prose hr {
     border: 0;
@@ -212,18 +279,18 @@ const outer = wide
     color: #183251;
   }
   /* Programme / fee style lists under headings */
-  .ajas-prose h3 + ul {
+  .ajas-page-body.ajas-prose h3 + ul {
     background: #f8fafc;
     border: 1px solid #e8eef4;
-    border-radius: 8px;
+    border-radius: 0;
     padding: 0.85em 0.85em 0.85em 1.6em;
     list-style: none;
   }
-  .ajas-prose h3 + ul li {
+  .ajas-page-body.ajas-prose h3 + ul li {
     padding: 0.25em 0;
     border-bottom: 1px solid #eef2f7;
   }
-  .ajas-prose h3 + ul li:last-child {
+  .ajas-page-body.ajas-prose h3 + ul li:last-child {
     border-bottom: 0;
   }
 </style>

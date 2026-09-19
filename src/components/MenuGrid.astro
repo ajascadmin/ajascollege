@@ -54,7 +54,7 @@ const { items } = Astro.props;
     flex-direction: column;
     justify-content: space-between;
     background: #fff;
-    border-radius: 12px;
+    border-radius: 0;
     padding: 24px 24px 20px;
     box-shadow: 0 8px 26px rgba(24, 50, 81, 0.08);
     text-decoration: none;
@@ -81,6 +81,8 @@ const { items } = Astro.props;
   .menu-grid-card-cta {
     display: inline-block;
     margin-top: 16px;
+    padding-bottom: 3px;
+    border-bottom: 1px solid rgba(255, 95, 96, 0.45);
     font-size: 0.76rem;
     font-weight: 700;
     text-transform: uppercase;

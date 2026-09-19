@@ -10,79 +10,152 @@
     document.documentElement.classList.add('has-reveal');
     // [selector, motion variant] — variants are defined in migrate.css
     var groups = [
-      ['.title-section, .listing-intro, .accred-label',            'up'],
-      ['.action-tile',                                             'up'],
-      ['.accred-row li',                                           'fade'],
-      ['.videobox, .profile-photo',                                'left'],
-      ['.content-introduce, .profile-head',                        'right'],
+      // Section heads & intros
+      ['.title-section, .listing-intro, .accred-label, .cl-head, .hd-head, .hc-head, .dx2-head, .gb-head', 'up'],
+      ['.ajas-pagehead-inner, .editorial-intro-row, .editorial-index-heading', 'up'],
+      // Interactive cards & tiles
+      ['.action-tile, .accred-card',                               'up'],
+      ['.dx2-grid > li, .dx-card, .dx2-tile, .px-card, .dept-card, .ajas-card', 'up'],
+      ['.menu-grid-card, .page-chip, .nt-chip',                   'up'],
+      // Programmes & statistics
+      ['.pl-col',                                                  'up'],
+      ['.pl-list > li',                                            'up'],
+      ['.ajas-metric-row > li',                                    'up'],
+      ['.sp-stat, .sp-prog-card',                                  'up'],
+      ['.pros-glance, .pros-prog-card, .pros-infra-card, .pros-member', 'up'],
+      // Content & editorial blocks
+      ['.ajas-about',                                              'up'],
+      ['.editorial-lead, .editorial-row',                          'up'],
+      ['.site-content, .profile-card, .profile-bio',               'up'],
+      // Notices, tables & compliance
+      ['.hd-notices > li',                                         'up'],
+      ['.hc-grid > li, .hc-item',                                  'up'],
+      ['.ajas-notice-table tbody tr, .dt-wrap, .data-table, .mig-roster tbody tr', 'up'],
+      // Campus life, why AJAS & next steps
+      ['.cl-group, .cl-chips > li',                                'up'],
+      ['.wy-item, .st-copy, .st-links, .hd-col',                   'up'],
+      ['.gal-item, .gal-slide, .testi-item, .mig-clubs > div',     'up'],
+      // People & directories
+      ['.people-grid-section, .people-card',                       'up'],
+      // Smart page & article furniture
+      /* .sp-subnav is position:sticky — animating its transform makes the
+         rail jump while it settles, so the rail stays put. */
+      ['.sp-intro, .sp-banner, .sp-section',                       'up'],
+      ['.ajas-entity-panel, .ajas-attachments > ul > li, .ajas-attachments, .pn-item', 'up'],
+      ['.pros-section, .pros-section-alt, .pros-download-cta',     'up'],
       ['.prog-columns > div, .prog-cards > div',                   'up'],
       ['.flat-courses .course, .team-box-layout-h1, .post-blog',   'up'],
-      ['.flat-imagebox, .iconbox-benefit .iconbox',                'up'],
-      ['.content-event',                                           'left'],
-      ['.images-list .img-event',                                  'zoom'],
-      ['.ajas-success .textbox-about',                             'left'],
-      ['.iconbox-about .iconbox',                                  'zoom'],
-      ['.wrap-link-left',                                          'left'],
-      ['.wrap-link-right, .info-quick-link li',                    'right'],
-      ['.mig-clubs > div, .gal-item, .page-chip',                  'up'],
-      ['.people-card',                                             'up'],
-      ['.site-content, .profile-card, .profile-bio',               'up'],
-      ['.sidebar .widget',                                         'right']
-      // the footer deliberately does not animate — it is chrome, not content
+      ['.flat-imagebox',                                           'up'],
+      // Lateral entrances (deliberate asymmetry)
+      ['.videobox, .profile-photo, .content-event, .ajas-success .textbox-about, .ajas-entity-poster, .leadership-photo', 'left'],
+      ['.content-introduce, .profile-head, .sidebar .widget, .leadership-body', 'right'],
+      // Subtle scale / zoom
+      ['.images-list .img-event, .iconbox-about .iconbox',         'zoom'],
+      // Pure fade entrances
+      ['.accred-row > li, .wy-cta, .hc-doc, .ajf-marks > li',      'fade']
     ];
+
+    /* Once an element has landed, strip the motion classes entirely. A
+       lingering `will-change`/`transform` on a block like .sp-section makes it
+       a containing block, which silently kills position:sticky inside it. */
+    var settle = function(el){
+      el.classList.remove('reveal','is-in','rv-up','rv-left','rv-right','rv-zoom','rv-scale','rv-fade');
+      el.style.transitionDelay = '';
+    };
     var io = new IntersectionObserver(function(es){
       es.forEach(function(e){
-        if (e.isIntersecting){ e.target.classList.add('is-in'); io.unobserve(e.target); }
+        if (!e.isIntersecting) return;
+        var el = e.target;
+        el.classList.add('is-in');
+        io.unobserve(el);
+        var done = false;
+        var finish = function(){ if (done) return; done = true; settle(el); };
+        el.addEventListener('transitionend', function(ev){
+          if (ev.target === el && ev.propertyName === 'opacity') finish();
+        });
+        // belt and braces: a tab switched away mid-transition never fires one
+        setTimeout(finish, 1400);
       });
-    }, {rootMargin:'0px 0px -7% 0px', threshold:0.05});
+    }, {rootMargin:'0px 0px -5% 0px', threshold:0.04});
+
     var seen = new WeakSet();
     groups.forEach(function(g){
-      var i = 0;
       document.querySelectorAll(g[0]).forEach(function(el){
         if (seen.has(el)) return;
         seen.add(el);
         el.classList.add('reveal', 'rv-' + g[1]);
-        el.style.transitionDelay = ((i++ % 4) * 80) + 'ms';
+        // Smart sibling stagger: cascade within immediate parent container
+        var delay = 0;
+        if (el.parentElement) {
+          var siblings = Array.prototype.filter.call(el.parentElement.children, function(c){
+            return c === el || (c.classList && c.classList.contains('reveal'));
+          });
+          var idx = siblings.indexOf(el);
+          if (idx !== -1) {
+            delay = (idx % 6) * 60; // 0ms, 60ms, 120ms, 180ms, 240ms, 300ms
+          }
+        }
+        if (delay > 0) {
+          el.style.transitionDelay = delay + 'ms';
+        }
         io.observe(el);
       });
     });
-    // counters restart cleanly when their tile animates in
-    var nums = document.querySelectorAll('.numb-count');
-    if (nums.length && window.jQuery && jQuery.fn.countTo){
-      var cio = new IntersectionObserver(function(es){
-        es.forEach(function(e){
-          if (!e.isIntersecting) return;
-          cio.unobserve(e.target);
-          jQuery(e.target).countTo({
-            from: 0, to: parseInt(e.target.getAttribute('data-to'), 10) || 0,
-            speed: 1800, refreshInterval: 40
-          });
+
+    // Smooth institutional counter roll for numbers (metrics, stats, numb-count)
+    var statNums = document.querySelectorAll('.ajas-metric-row strong, .sp-stat strong, .numb-count');
+    if (statNums.length && !reduce) {
+      var nio = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if (!entry.isIntersecting) return;
+          nio.unobserve(entry.target);
+          var el = entry.target;
+          var original = el.textContent.trim();
+          var match = original.match(/^(\D*)(\d+)(\D*)$/);
+          if (!match) return;
+          var prefix = match[1] || '';
+          var targetVal = parseInt(match[2], 10);
+          var suffix = match[3] || '';
+          var duration = 1200;
+          var startTime = null;
+          function step(now) {
+            if (!startTime) startTime = now;
+            var elapsed = now - startTime;
+            var progress = Math.min(elapsed / duration, 1);
+            // easeOutCubic curve
+            var ease = 1 - Math.pow(1 - progress, 3);
+            var current = Math.floor(ease * targetVal);
+            el.textContent = prefix + current + suffix;
+            if (progress < 1) {
+              requestAnimationFrame(step);
+            } else {
+              el.textContent = original;
+            }
+          }
+          requestAnimationFrame(step);
         });
-      }, {threshold:0.5});
-      nums.forEach(function(n){ cio.observe(n); });
+      }, { threshold: 0.25 });
+      statNums.forEach(function(n){ nio.observe(n); });
     }
   }
-  // On the home page the sticky bar engages ~130px down, which is exactly
-  // where the hero headline still is — so it clipped the kicker. Hold the
-  // sticky state back until the hero has genuinely scrolled away.
-  // The theme adds .header-sticky ~130px down — right where the hero kicker
-  // still is, so the bar clipped it. Removing the class here loses a race with
-  // the theme's own scroll handler, so flag it on <body> and let CSS neutralise
-  // the sticky state instead. Class order can't matter to CSS.
-  var hero = document.querySelector('.ajas-hero');
-  var wrap = document.querySelector('.wrap-header');
-  if (hero){
-    var gate = function(){
-      // Revolution absolutely positions its wrapper, so the section's own rect
-      // reports top 0; add the header block explicitly instead.
-      var head = wrap ? wrap.offsetHeight : 0;
-      var release = head + hero.getBoundingClientRect().height - 80;
-      document.body.classList.toggle('hero-hold', window.pageYOffset < release);
+
+  // Reading progress bar tracking on sticky navigation
+  var progressEl = document.querySelector('.ajn-progress-bar');
+  if (progressEl) {
+    var ticking = false;
+    var updateProgress = function(){
+      var scrollH = document.documentElement.scrollHeight - window.innerHeight;
+      var pct = scrollH > 0 ? (window.pageYOffset / scrollH) * 100 : 0;
+      progressEl.style.width = Math.min(100, Math.max(0, pct)) + '%';
+      ticking = false;
     };
-    window.addEventListener('scroll', gate, {passive:true});
-    window.addEventListener('resize', gate);
-    window.addEventListener('load', gate);
-    gate();
+    window.addEventListener('scroll', function(){
+      if (!ticking) {
+        requestAnimationFrame(updateProgress);
+        ticking = true;
+      }
+    }, { passive: true });
+    updateProgress();
   }
 
   // highlight the current section in the "On this page" nav
@@ -94,10 +167,23 @@
       if (t) targets.push({a:a, t:t});
     });
     var onScroll = function(){
-      var y = window.pageYOffset + 140, cur = null;
+      var barEl = document.querySelector('.ajn-bar');
+      var railEl = document.querySelector('.sp-subnav');
+      var y = window.pageYOffset +
+              (barEl ? barEl.offsetHeight : 66) + (railEl ? railEl.offsetHeight : 0) + 24,
+          cur = null;
       targets.forEach(function(o){ if (o.t.offsetTop <= y) cur = o; });
       links.forEach(function(a){ a.parentNode.classList.remove('active'); });
-      if (cur) cur.a.parentNode.classList.add('active');
+      if (!cur) return;
+      cur.a.parentNode.classList.add('active');
+      // keep the active chip visible in the horizontally-scrolling rail without
+      // scrolling the page itself (scrollIntoView would do both)
+      var list = cur.a.closest('.toc-wrap');
+      if (!list || list.scrollWidth <= list.clientWidth + 4) return;
+      var chip = cur.a.parentNode;
+      var target = chip.offsetLeft - (list.clientWidth - chip.offsetWidth) / 2;
+      var max = list.scrollWidth - list.clientWidth;
+      list.scrollLeft = Math.max(0, Math.min(max, target));
     };
     window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
     links.forEach(function(a){
@@ -105,15 +191,130 @@
         var t = document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1)));
         if (!t) return;
         e.preventDefault();
-        window.scrollTo({top: t.offsetTop - 110, behavior: reduce ? 'auto' : 'smooth'});
+        // clear the sticky nav bar *and* the sticky section rail
+        var bar = document.querySelector('.ajn-bar');
+        var rail = document.querySelector('.sp-subnav');
+        var offset = (bar ? bar.offsetHeight : 66) + (rail ? rail.offsetHeight : 0) + 16;
+        window.scrollTo({top: t.offsetTop - offset, behavior: reduce ? 'auto' : 'smooth'});
       });
     });
   }
-  // Photo galleries (GallerySection.astro) open in a lightbox — fancyBox v2,
-  // grouped/next-prev via the shared rel="" attribute on each .gal-item
-  if (window.jQuery && jQuery.fn.fancybox) {
-    jQuery('.gal-item').fancybox({ openEffect: 'fade', closeEffect: 'fade', helpers: { title: { type: 'inside' } } });
+})();
+</script>
+<script>
+/* Photo galleries (.gal-item) open in a lightbox, grouped by the shared rel="".
+   Self-contained on purpose: fancyBox v2 guesses the media type from the file
+   extension, and Astro's optimized URLs (/_image/?...&f=webp, or a .webp file)
+   fail that check — it silently declined to bind and every click navigated to
+   the raw image instead. */
+(function () {
+  var items = Array.prototype.slice.call(document.querySelectorAll('a.gal-item[href]'));
+  if (!items.length) return;
+
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var group = [], index = 0, lastFocus = null, box = null;
+
+  function build() {
+    if (box) return box;
+    box = document.createElement('div');
+    box.className = 'ajas-lb';
+    box.setAttribute('role', 'dialog');
+    box.setAttribute('aria-modal', 'true');
+    box.setAttribute('aria-label', 'Image viewer');
+    box.innerHTML =
+      '<button class="ajas-lb-close" type="button" aria-label="Close viewer">' +
+        '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>' +
+      '<button class="ajas-lb-nav ajas-lb-prev" type="button" aria-label="Previous image">' +
+        '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>' +
+      '<button class="ajas-lb-nav ajas-lb-next" type="button" aria-label="Next image">' +
+        '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>' +
+      '<figure class="ajas-lb-stage">' +
+        '<img class="ajas-lb-img" alt="">' +
+        '<figcaption class="ajas-lb-cap"><span class="ajas-lb-title"></span>' +
+        '<span class="ajas-lb-count"></span></figcaption>' +
+      '</figure>';
+    document.body.appendChild(box);
+
+    box.querySelector('.ajas-lb-close').addEventListener('click', close);
+    box.querySelector('.ajas-lb-prev').addEventListener('click', function (e) { e.stopPropagation(); step(-1); });
+    box.querySelector('.ajas-lb-next').addEventListener('click', function (e) { e.stopPropagation(); step(1); });
+    // backdrop click closes; clicks on the image itself must not
+    box.addEventListener('click', function (e) { if (e.target === box || e.target.classList.contains('ajas-lb-stage')) close(); });
+
+    var sx = null;
+    box.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; }, { passive: true });
+    box.addEventListener('touchend', function (e) {
+      if (sx === null) return;
+      var dx = e.changedTouches[0].clientX - sx;
+      if (Math.abs(dx) > 45) step(dx < 0 ? 1 : -1);
+      sx = null;
+    }, { passive: true });
+    return box;
   }
+
+  function render() {
+    var a = group[index];
+    if (!a) return;
+    var img = box.querySelector('.ajas-lb-img');
+    var thumb = a.querySelector('img');
+    img.src = a.getAttribute('href');
+    img.alt = (thumb && thumb.getAttribute('alt')) || a.getAttribute('title') || '';
+    box.querySelector('.ajas-lb-title').textContent = a.getAttribute('data-caption') || '';
+    box.querySelector('.ajas-lb-count').textContent = group.length > 1 ? (index + 1) + ' / ' + group.length : '';
+    var multi = group.length > 1;
+    box.querySelector('.ajas-lb-prev').hidden = !multi;
+    box.querySelector('.ajas-lb-next').hidden = !multi;
+    // warm the neighbour so stepping feels instant
+    if (multi) {
+      var nxt = group[(index + 1) % group.length];
+      if (nxt) { var pre = new Image(); pre.src = nxt.getAttribute('href'); }
+    }
+  }
+
+  function step(dir) {
+    if (group.length < 2) return;
+    index = (index + dir + group.length) % group.length;
+    render();
+  }
+
+  function open(a) {
+    var rel = a.getAttribute('rel') || a.getAttribute('data-group');
+    group = rel
+      ? items.filter(function (el) { return (el.getAttribute('rel') || el.getAttribute('data-group')) === rel; })
+      : [a];
+    index = Math.max(0, group.indexOf(a));
+    lastFocus = document.activeElement;
+    build();
+    render();
+    document.body.classList.add('ajas-lb-open');
+    box.classList.toggle('no-anim', !!reduce);
+    box.classList.add('is-open');
+    box.querySelector('.ajas-lb-close').focus();
+    document.addEventListener('keydown', onKey);
+  }
+
+  function close() {
+    if (!box) return;
+    box.classList.remove('is-open');
+    document.body.classList.remove('ajas-lb-open');
+    document.removeEventListener('keydown', onKey);
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  function onKey(e) {
+    if (e.key === 'Escape') close();
+    else if (e.key === 'ArrowLeft') step(-1);
+    else if (e.key === 'ArrowRight') step(1);
+    else if (e.key === 'Tab') { e.preventDefault(); box.querySelector('.ajas-lb-close').focus(); }
+  }
+
+  items.forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return; // let "open in new tab" work
+      e.preventDefault();
+      open(a);
+    });
+  });
 })();
 </script>
 <script>

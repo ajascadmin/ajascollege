@@ -5,6 +5,10 @@ permalink: /labs/psychology-lab/
 type: page
 image: "/assets/uploads/2024/05/IMG-20240430-WA0014-scaled.jpg"
 gallery:
+  - /assets/uploads/2026/09/psychology-lab/8G8A4120.JPG.jpeg
+  - /assets/uploads/2026/09/psychology-lab/8G8A4127.JPG.jpeg
+  - /assets/uploads/2026/09/psychology-lab/8G8A4130.JPG.jpeg
+  - /assets/uploads/2026/09/psychology-lab/8G8A4145.JPG.jpeg
   - /assets/uploads/2024/05/IMG-20240430-WA0014-scaled.jpg
   - /assets/uploads/2024/05/IMG-20240430-WA0015-scaled.jpg
   - /assets/uploads/2024/05/IMG-20240430-WA0016-scaled.jpg

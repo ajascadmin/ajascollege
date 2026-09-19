@@ -5,10 +5,9 @@ permalink: /core-values/
 type: page
 ---
 
-|  |  |
-| --- | --- |
-| Core Values | Secularism |
-| Diversity | Inclusiveness |
-| Professional Ethics | Social commitment |
-
-Environmental Awareness
+- Secularism
+- Diversity
+- Inclusiveness
+- Professional Ethics
+- Social commitment
+- Environmental Awareness

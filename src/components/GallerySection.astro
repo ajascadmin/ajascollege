@@ -10,62 +10,127 @@ interface Props {
   images: string[];
   title?: string;
   id?: string;
+  /** How many tiles to show before the rest collapse behind "Show all". */
+  preview?: number;
 }
 
-const { images, title = "Gallery", id = "page-gallery" } = Astro.props;
+const { images, title = "Gallery", id = "page-gallery", preview = 8 } = Astro.props;
 const galleryImages = await Promise.all(
   (images || []).map(async (src) => ({
     src,
     href: (await optimizeCmsImage(src, "inline"))?.src || src,
   })),
 );
+/* A department can carry 90+ photos. Dropping all of them on the page buries
+   the content under a contact sheet, so only a preview row renders up front —
+   the rest stay in the DOM (hidden) so the lightbox can still page through
+   the full set. */
+const hiddenCount = Math.max(0, galleryImages.length - preview);
 ---
 
 {
   images && images.length > 0 && (
-    <section class="gallery-section" id={id}>
+    <section class="gallery-section" id={id} data-preview={preview}>
       <div class="gallery-section-head">
-        <span class="gallery-section-line" aria-hidden="true" />
         <h2>{title}</h2>
+        <span class="gallery-section-line" aria-hidden="true" />
+        <span class="gallery-count">{images.length} photos</span>
       </div>
       <div class="gallery-grid">
         {galleryImages.map((image, i) => (
           <a
-            class="gal-item"
+            class:list={["gal-item", i >= preview && "gal-extra"]}
             href={image.href}
             rel={id}
-            title={`${title} ${i + 1} of ${images.length}`}
+            hidden={i >= preview}
+            aria-label="Open image"
           >
-            <CmsImage src={image.src} alt="" preset="card" fit="cover" />
+            <CmsImage src={image.src} alt="" preset="card" fit="cover" loading="lazy" />
           </a>
         ))}
       </div>
+      {hiddenCount > 0 && (
+        <button class="gallery-more" type="button" data-target={id}>
+          <span class="gallery-more-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <rect x="3" y="3" width="7" height="7" rx="1" />
+              <rect x="14" y="3" width="7" height="7" rx="1" />
+              <rect x="3" y="14" width="7" height="7" rx="1" />
+              <rect x="14" y="14" width="7" height="7" rx="1" />
+            </svg>
+          </span>
+          <span>View the complete gallery</span>
+          <span class="gallery-more-count">{images.length} photos</span>
+        </button>
+      )}
     </section>
   )
 }
 
+<script is:inline>
+  document.querySelectorAll(".gallery-more").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var section = document.getElementById(btn.getAttribute("data-target"));
+      if (!section) return;
+      section.querySelectorAll(".gal-extra").forEach(function (el) {
+        el.hidden = false;
+      });
+      btn.remove();
+    });
+  });
+</script>
+
 <style>
   .gallery-section {
-    max-width: 1100px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 8px 16px 40px;
+    padding: 18px 40px 36px;
   }
   .gallery-section-head {
     display: flex;
     align-items: baseline;
-    gap: 14px;
-    margin-bottom: 18px;
+    gap: 16px;
+    margin-bottom: 20px;
   }
   .gallery-section-head h2 {
     margin: 0;
-    font-size: 1.25rem;
-    color: #183251;
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #17304f;
     white-space: nowrap;
   }
   .gallery-section-line {
     flex: 1 1 auto;
     height: 1px;
     background: #e2e8f0;
+  }
+  .gallery-count {
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #94a3b8;
+    white-space: nowrap;
+  }
+  .gal-item {
+    position: relative;
+  }
+  /* affordance: these open a viewer, so say so on hover */
+  .gal-item::after {
+    content: "";
+    position: absolute;
+    right: 10px;
+    bottom: 8px;
+    width: 18px;
+    height: 18px;
+    background: #fff;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='6.5'/%3E%3Cpath d='m15.3 15.3 5 5M10.5 7.5v6M7.5 10.5h6'/%3E%3C/svg%3E") center / contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='6.5'/%3E%3Cpath d='m15.3 15.3 5 5M10.5 7.5v6M7.5 10.5h6'/%3E%3C/svg%3E") center / contain no-repeat;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+  .gal-item:hover::after {
+    opacity: 1;
   }
   .gallery-grid {
     display: grid;
@@ -84,9 +149,9 @@ const galleryImages = await Promise.all(
   }
   .gal-item {
     display: block;
-    border-radius: 8px;
+    border-radius: 0;
     overflow: hidden;
-    box-shadow: 0 6px 22px rgba(24, 50, 81, 0.1);
+    background: #eef2f7;
     aspect-ratio: 4 / 3;
     cursor: zoom-in;
   }
@@ -98,6 +163,52 @@ const galleryImages = await Promise.all(
     transition: transform 0.4s ease;
   }
   .gal-item:hover :global(img) {
-    transform: scale(1.06);
+    transform: scale(1.04);
+  }
+  .gallery-more {
+    margin-top: 24px;
+    padding: 0 0 9px;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid #9dacbf;
+    border-radius: 0;
+    color: #183251;
+    font-size: 0.95rem;
+    font-weight: 650;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+  .gallery-more:hover {
+    color: #a7333e;
+    border-color: #a7333e;
+  }
+  .gallery-more-icon {
+    width: 20px;
+    height: 20px;
+    display: inline-flex;
+  }
+  .gallery-more-icon svg {
+    width: 100%;
+    height: 100%;
+    stroke: currentColor;
+    stroke-width: 1.6;
+  }
+  .gallery-more-count {
+    color: #77869a;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+  @media (max-width: 767px) {
+    .gallery-section { padding: 14px 16px 28px; }
+    .gallery-section-head { gap: 9px; margin-bottom: 14px; }
+    .gallery-section-head h2 { font-size: 1.25rem; }
+    .gallery-count { font-size: 0.68rem; letter-spacing: 0.04em; }
+    .gallery-grid { gap: 8px; }
+    .gallery-more { width: 100%; }
+    .gallery-more-count { margin-left: auto; }
   }
 </style>

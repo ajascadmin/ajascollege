@@ -1,0 +1,75 @@
+---
+/**
+ * Mobile drawer navigation — recursive accordion.
+ * A branch renders as <button> + nested list; a leaf renders as a plain link.
+ * Deliberately independent of the desktop mega-menu markup: the two have
+ * different affordances and sharing one DOM forced compromises in both.
+ */
+export type NavItem = {
+  label: string;
+  href?: string;
+  children?: NavItem[];
+};
+
+interface Props {
+  items: NavItem[];
+  depth?: number;
+  current?: string;
+}
+
+const { items, depth = 0, current = "" } = Astro.props;
+
+const isReal = (href?: string) => !!href && href !== "#" && href !== "/";
+const isExternal = (href: string) =>
+  href.startsWith("http") || href.endsWith(".pdf") || href.includes("/assets/uploads/");
+const containsCurrent = (item: NavItem): boolean => {
+  if (item.href && item.href === current) return true;
+  return (item.children || []).some(containsCurrent);
+};
+---
+
+<ul class="ajn-acc" data-depth={depth}>
+  {
+    items.map((item) => {
+      const kids = item.children || [];
+      const href = item.href || "";
+      const active = containsCurrent(item);
+
+      if (!kids.length) {
+        return (
+          <li class="ajn-acc-leaf">
+            <a
+              href={href || "#"}
+              class:list={["ajn-acc-link", href === current && "is-current"]}
+              aria-current={href === current ? "page" : undefined}
+              target={isExternal(href) ? "_blank" : undefined}
+              rel={isExternal(href) ? "noopener" : undefined}
+            >
+              <span>{item.label}</span>
+              {isExternal(href) && <i class="ajn-acc-ext" aria-hidden="true">↗</i>}
+            </a>
+          </li>
+        );
+      }
+
+      return (
+        <li class:list={["ajn-acc-branch", active && "is-active"]}>
+          <button class="ajn-acc-toggle" type="button" aria-expanded={active ? "true" : "false"}>
+            <span>{item.label}</span>
+            <svg class="ajn-acc-chev" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </button>
+          <div class="ajn-acc-panel" hidden={!active}>
+            {isReal(href) && (
+              <a class="ajn-acc-overview" href={href}>
+                {item.label} overview
+              </a>
+            )}
+            <Astro.self items={kids} depth={depth + 1} current={current} />
+          </div>
+        </li>
+      );
+    })
+  }
+</ul>

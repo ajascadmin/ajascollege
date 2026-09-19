@@ -25,18 +25,17 @@ const logoIsRaster = /\.(jpe?g|png|webp|gif|avif)$/i.test(logo);
 const year = new Date().getFullYear();
 ---
 
-<footer id="footer" class="footer-type1">
+<footer id="footer" class="ajf">
   {
     (trustLine || trustMarks.length > 0) && (
-      <div class="footer-trust">
-        <div class="container">
-          {trustLine && <p class="trust-line">{trustLine}</p>}
+      <div class="ajf-trust">
+        <div class="ajf-inner ajf-trust-inner">
+          {trustLine && <p class="ajf-trust-line">{trustLine}</p>}
           {trustMarks.length > 0 && (
-            <ul class="trust-marks">
+            <ul class="ajf-marks">
               {trustMarks.map((m) => (
-                <li>
-                  <img src={m.image} alt={m.name} />
-                  <span>{m.name}</span>
+                <li title={m.name}>
+                  <CmsImage src={m.image} alt={m.name} preset="logo" fit="contain" loading="lazy" />
                 </li>
               ))}
             </ul>
@@ -45,101 +44,109 @@ const year = new Date().getFullYear();
       </div>
     )
   }
-  <div id="footer-widget">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-4 col-md-6 col-footer">
-          <div class="logo-footer">
-            <a href="/">
-              {logoIsRaster ? (
-                <CmsImage src={logo} alt={site.college_name} preset="logo" fit="contain" loading="lazy" />
-              ) : (
-                <img src={logo} alt={site.college_name} width="320" height="58" loading="lazy" />
-              )}
-            </a>
-          </div>
-          <ul class="footer-address">
-            <li><i class="fa fa-map-marker" aria-hidden="true" /> {site.address}</li>
-            <li><i class="fa fa-envelope" aria-hidden="true" /> <a href={`mailto:${site.email}`}>{site.email}</a></li>
-            <li><i class="fa fa-phone" aria-hidden="true" /> <a href={`tel:${String(site.phone).replace(/\s/g, "")}`}>{site.phone_display || site.phone}</a></li>
+
+  <div class="ajf-main">
+    <div class="ajf-inner">
+      <div class="ajf-grid">
+        <div class="ajf-brand">
+        <a class="ajf-logo" href="/">
+          {logoIsRaster ? (
+            <CmsImage src={logo} alt={site.college_name} preset="logo" fit="contain" loading="lazy" />
+          ) : (
+            <img src={logo} alt={site.college_name} width="320" height="58" loading="lazy" />
+          )}
+        </a>
+        <ul class="ajf-contact">
+          <li>
+            <i class="fa fa-map-marker" aria-hidden="true" />
+            <span>{site.address}</span>
+          </li>
+          <li>
+            <i class="fa fa-envelope" aria-hidden="true" />
+            <a href={`mailto:${site.email}`}>{site.email}</a>
+          </li>
+          <li>
+            <i class="fa fa-phone" aria-hidden="true" />
+            <a href={`tel:${String(site.phone).replace(/\s/g, "")}`}>{site.phone_display || site.phone}</a>
+          </li>
+        </ul>
+        {social.length > 0 && (
+          <ul class="ajf-social">
+            {social.map((s) => (
+              <li>
+                <a href={s.url} target="_blank" rel="noopener" aria-label={s.label || s.icon}>
+                  <i class={`fa fa-${s.icon}`} aria-hidden="true" />
+                </a>
+              </li>
+            ))}
           </ul>
-        </div>
-        {
-          columns.map((col, i) => (
-            <div class={`col-lg-2 col-md-6 col-${i === 0 ? "company" : i === 1 ? "link" : "course"}`}>
-              <h3 class="widget widget-title">{col.heading}</h3>
-              <ul class="widget-nav-menu">
-                {col.links.map((l) => (
-                  <li><a href={l.href}>{l.label}</a></li>
-                ))}
-              </ul>
-            </div>
-          ))
-        }
-        {
-          social.length > 0 && (
-            <div class="col-lg-2 col-md-6 col-media">
-              <h3 class="widget widget-title">Follow Us</h3>
-              <ul class="widget-social-media">
-                {social.map((s) => (
-                  <li>
-                    <a href={s.url} target="_blank" rel="noopener" aria-label={s.label || s.icon}>
-                      <i class={`fa fa-${s.icon}`} aria-hidden="true" />
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )
-        }
-      </div>
-    </div>
-  </div>
-  {
-    mapEmbedUrl && (
-      <div class="footer-map-fluid">
-        <iframe
-          src={mapEmbedUrl}
-          width="100%"
-          height="280"
-          style="border:0; display:block;"
-          allowfullscreen
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-          title={`${site.college_name} location map`}
-        />
-        {mapLinkUrl && (
-          <div class="footer-map-overlay">
-            <a href={mapLinkUrl} target="_blank" rel="noopener" class="map-chip">
-              <i class="fa fa-map-marker" aria-hidden="true" /> Open in Google Maps{" "}
-              <i class="fa fa-external-link" aria-hidden="true" />
-            </a>
-          </div>
         )}
       </div>
-    )
-  }
-  <div id="bottom" class="bottom-type1 clearfix has-spacer">
-    <div id="bottom-bar-inner" class="container">
-      <div class="bottom-bar-inner-wrap">
-        <div class="bottom-bar-content">
-          <div id="copyright">
-            &copy; <span class="text-year">{year}</span> <span class="text-name">{site.college_name}.</span>
-            <span class="license"><a href="/" aria-label={`${site.college_name} home`}>All Rights Reserved</a></span>
+
+      {
+        columns.map((col) => (
+          <nav class="ajf-col" aria-label={col.heading}>
+            <h3>{col.heading}</h3>
+            <ul>
+              {col.links.map((l) => (
+                <li>
+                  <a href={l.href}>{l.label}</a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        ))
+      }
+
+      </div>
+
+      {mapEmbedUrl && (
+        <div class="ajf-map-wrap">
+          <div class="ajf-map">
+            <iframe
+              src={mapEmbedUrl}
+              width="100%"
+              height="100%"
+              style="border:0; display:block;"
+              allowfullscreen
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              title={`${site.college_name} location map`}
+            />
+            {mapLinkUrl && (
+              <a class="ajf-map-chip" href={mapLinkUrl} target="_blank" rel="noopener">
+                <i class="fa fa-map-marker" aria-hidden="true" /> Open in Maps ↗
+              </a>
+            )}
           </div>
         </div>
-        {
-          bottomNav.length > 0 && (
-            <div class="bottom-bar-menu">
-              <ul class="bottom-nav">
-                {bottomNav.map((l) => (
-                  <li class="menu-item"><a href={l.href}>{l.label}</a></li>
-                ))}
-              </ul>
-            </div>
-          )
-        }
-      </div>
+      )}
+    </div>
+  </div>
+
+  <div class="ajf-bottom">
+    <div class="ajf-inner ajf-bottom-inner">
+      <a class="ajf-rss" href="/rss.xml">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 11a9 9 0 0 1 9 9M4 4a16 16 0 0 1 16 16" />
+          <circle cx="5" cy="19" r="1.6" fill="currentColor" stroke="none" />
+        </svg>
+        News &amp; notices feed
+      </a>
+      <p class="ajf-copy">
+        &copy; <span>{year}</span> {site.college_name}. All rights reserved.
+      </p>
+      {
+        bottomNav.length > 0 && (
+          <ul class="ajf-bottom-nav">
+            {bottomNav.map((l) => (
+              <li>
+                <a href={l.href}>{l.label}</a>
+              </li>
+            ))}
+          </ul>
+        )
+      }
     </div>
   </div>
   <a id="scroll-top" class="show" />
@@ -164,3 +171,326 @@ const year = new Date().getFullYear();
    auto-upgrade on parse, no init script needed (see SearchModal.astro). */}
 <link href="/pagefind/pagefind-component-ui.css" rel="stylesheet" />
 <script is:inline type="module" src="/pagefind/pagefind-component-ui.js"></script>
+
+<style is:global>
+  /* ============================================================
+     FOOTER — one compact band. The previous one stacked a trust
+     strip, a five-column widget area and a full-bleed 280px map,
+     which ran to ~900px of chrome under every page.
+     ============================================================ */
+  #footer.ajf {
+    --ajf-ink: rgba(255, 255, 255, 0.62);
+    --ajf-line: rgba(255, 255, 255, 0.11);
+    position: relative;
+    background:
+      linear-gradient(180deg, rgba(10, 28, 49, 0.95) 0%, rgba(8, 22, 39, 0.98) 100%),
+      var(--ajas-campus-bg, none);
+    background-size: cover;
+    background-position: center 30%;
+    color: var(--ajf-ink);
+    font-size: 14px;
+  }
+  #footer.ajf a {
+    color: var(--ajf-ink);
+    text-decoration: none;
+    transition: color 0.16s ease;
+  }
+  #footer.ajf a:hover {
+    color: #fff;
+  }
+  .ajf-inner {
+    max-width: 1520px;
+    margin: 0 auto;
+    padding-left: clamp(16px, 3.4vw, 56px);
+    padding-right: clamp(16px, 3.4vw, 56px);
+  }
+
+  /* ---- trust strip: one line ---- */
+  .ajf-trust {
+    border-bottom: 1px solid var(--ajf-line);
+    background: rgba(255, 255, 255, 0.03);
+  }
+  .ajf-trust-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px clamp(18px, 3vw, 40px);
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
+  .ajf-trust-line {
+    margin: 0;
+    font-size: 12.5px;
+    color: rgba(255, 255, 255, 0.5);
+  }
+  .ajf-marks {
+    display: flex;
+    align-items: center;
+    gap: clamp(14px, 2vw, 28px);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .ajf-marks li {
+    display: flex;
+    background: #fff;
+    border-radius: 0;
+    padding: 4px;
+  }
+  .ajf-marks img {
+    height: 28px;
+    width: auto;
+    display: block;
+  }
+
+  /* ---- main grid ---- */
+  .ajf-main {
+    padding: 36px 0 32px;
+  }
+  .ajf-grid {
+    display: grid;
+    grid-template-columns: minmax(300px, 1.4fr) repeat(5, minmax(0, 0.78fr));
+    gap: 24px clamp(16px, 2.2vw, 36px);
+    align-items: start;
+  }
+  .ajf-brand {
+  }
+  .ajf-logo {
+    display: block;
+    margin-bottom: 16px;
+  }
+  .ajf-logo img {
+    height: auto;
+    max-height: 44px;
+    width: auto;
+    max-width: 290px;
+    filter: brightness(0) invert(1);
+    display: block;
+  }
+  .ajf-contact {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 9px;
+    font-size: 13.5px;
+    line-height: 1.55;
+  }
+  .ajf-contact li {
+    display: grid;
+    grid-template-columns: 18px minmax(0, 1fr);
+    gap: 8px;
+    align-items: start;
+  }
+  .ajf-contact i {
+    color: #ff5f60;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .ajf-social {
+    display: flex;
+    gap: 8px;
+    margin: 18px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .ajf-social a {
+    width: 36px;
+    height: 36px;
+    border-radius: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid var(--ajf-line);
+    font-size: 14px;
+    transition: background 0.18s ease, border-color 0.18s ease;
+  }
+  .ajf-social a:hover {
+    background: #ff5f60;
+    border-color: #ff5f60;
+    color: #fff;
+  }
+
+
+  .ajf-col h3 {
+    margin: 0 0 12px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.92);
+  }
+  .ajf-col ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 7px;
+  }
+  .ajf-col a {
+    font-size: 13.5px;
+    line-height: 1.5;
+    display: inline-block;
+  }
+
+  /* ---- map strip: sleek, contained, full-width across the container ---- */
+  .ajf-map-wrap {
+    margin-top: 30px;
+    width: 100%;
+  }
+  .ajf-map {
+    position: relative;
+    width: 100%;
+    height: 180px;
+    border-radius: 0;
+    overflow: hidden;
+    border: 1px solid var(--ajf-line);
+    background: rgba(255, 255, 255, 0.05);
+  }
+  .ajf-map iframe {
+    filter: grayscale(0.2) contrast(1.02);
+  }
+  .ajf-map-chip {
+    position: absolute;
+    left: 12px;
+    bottom: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border-radius: 0;
+    background: rgba(10, 28, 49, 0.88);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: #fff !important;
+    font-size: 12px;
+    font-weight: 600;
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+  .ajf-map-chip:hover {
+    background: rgba(255, 95, 96, 0.92);
+    border-color: #ff5f60;
+  }
+  .ajf-map-chip i {
+    color: #ff5f60;
+  }
+  .ajf-map-chip:hover i {
+    color: #fff;
+  }
+
+  /* ---- bottom bar ---- */
+  .ajf-bottom {
+    border-top: 1px solid var(--ajf-line);
+    background: rgba(0, 0, 0, 0.22);
+  }
+  /* the floating back-to-top button sits over this row's right end */
+  .ajf-bottom-inner {
+    padding-right: calc(clamp(16px, 3.4vw, 56px) + 56px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+  /* sits at the end of the bottom row; `order` alone pushed it past the
+     container edge once the nav wrapped */
+  .ajf-rss {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    order: 3;
+    flex: none;
+    font-size: 12.5px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .ajf-rss svg {
+    width: 13px;
+    height: 13px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+  .ajf-copy {
+    order: 1;
+    margin: 0;
+    font-size: 12.5px;
+    color: rgba(255, 255, 255, 0.48);
+  }
+  .ajf-bottom-nav {
+    order: 2;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 20px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 12.5px;
+  }
+
+  @media (max-width: 1200px) {
+    .ajf-grid {
+      grid-template-columns: minmax(260px, 1.25fr) repeat(5, minmax(0, 1fr));
+      gap: 20px 16px;
+    }
+  }
+  @media (max-width: 991px) {
+    .ajf-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+    }
+    .ajf-brand {
+      grid-column: 1 / -1;
+    }
+    .ajf-map {
+      height: 200px;
+    }
+  }
+  @media (max-width: 767px) {
+    .ajf-main {
+      padding: 26px 0 22px;
+    }
+    .ajf-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px 16px;
+    }
+    .ajf-brand {
+      grid-column: 1 / -1;
+    }
+    .ajf-map-wrap {
+      margin-top: 22px;
+    }
+    .ajf-map {
+      height: 180px;
+    }
+    .ajf-logo img {
+      max-height: 36px;
+    }
+    .ajf-trust-inner {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      gap: 10px 16px;
+    }
+    .ajf-trust-line {
+      flex: 1 1 100%;
+      text-align: center;
+      font-size: 11.5px;
+    }
+    .ajf-marks img {
+      height: 24px;
+    }
+    .ajf-bottom-inner {
+      justify-content: center;
+      text-align: center;
+    }
+    .ajf-bottom-nav {
+      justify-content: center;
+    }
+  }
+</style>

@@ -3,6 +3,13 @@ title: Overview
 description: "Al Jamia Arts & Science College, Perinthalmanna — affiliated to the University of Calicut."
 permalink: /overview/
 type: page
+videos:
+  - file: /assets/uploads/2025/03/WhatsApp-Video-2025-03-10-at-6.16.37-PM.mp4
+    caption: Campus life at Al Jamia Arts & Science College
+  - file: /assets/uploads/2025/02/WhatsApp-Video-2025-02-01-at-6.20.15-AM.mp4
+    caption: Around the campus
+  - file: /assets/uploads/2025/02/WhatsApp-Video-2025-02-01-at-6.18.29-AM.mp4
+    caption: Around the campus
 gallery:
   - /assets/uploads/2024/01/P1222323-building-2048x1154-1.webp
   - /assets/uploads/2024/05/About.policy-scaled.jpg
@@ -34,36 +41,40 @@ gallery:
   - /assets/uploads/2025/02/IMG_4187.jpg
 ---
 
-## Al Jamia Arts & Science College (AJAS)
-
 *Empowering Minds. Enlightening Lives. Shaping Tomorrow.*
 
-Established in 2010, Al Jamia Arts and Science College (AJAS) in Perinthalmanna is a premier destination for higher education in the region. Affiliated with the University of Calicut and recognised by the Government of Kerala, AJAS was founded with a clear, noble purpose: to uplift educationally developing communities by delivering accessible, value-based and world-class education. With minority institution status, AJAS stands as a beacon of academic excellence, blending traditional ethical values with modern scientific and technological advancements.
+Al Jamia Arts and Science College (AJAS) stands at Poopalam, Perinthalmanna, in Malappuram district, Kerala. It was established in 2010 with a clear and noble purpose: to uplift educationally developing communities by delivering accessible, value-based and world-class higher education. The college is affiliated to the University of Calicut, recognised by the Government of Kerala, and holds minority institution status; it runs as an unaided, self-financing institution. Across sixteen years it has grown into a beacon of academic excellence in the region, blending traditional ethical values with modern scientific and technological advancement.
 
-**What Drives Us:** At AJAS, education goes beyond textbooks and degree certificates. We focus on holistic student development — moulding young men and women into professionally competent, morally sound and socially responsible global citizens.
+Education here goes beyond textbooks and degree certificates. The college's work is holistic student development — moulding young men and women into professionally competent, morally sound and socially responsible global citizens, and giving them an academic excellence support system that blends classroom learning with practical experience.
 
-|  |  |
+| | |
 | --- | --- |
 | Name of the college | Al Jamia Arts and Science College, Perinthalmanna |
 | Place | Poopalam, Perinthalmanna |
 | State | Kerala |
 | Affiliated university | University of Calicut |
 | Status of college | Minority institution, recognised by the Government of Kerala |
+| Financial category | Unaided, self-financing |
 | UG programmes | 11 |
 | PG programmes | 3 |
-| Year of established | 2010 |
+| Year of establishment | 2010 |
 
-## Our Vision
+## Vision and mission
 
-To provide value-based education that enriches, enlightens and empowers the younger generation to become visionary leaders and torchbearers of positive social change.
+The college exists to provide value-based education that enriches, enlightens and empowers the younger generation to become visionary leaders and torchbearers of positive social change. Its mission follows from that: to establish itself as an internationally recognised institution for modern arts and science education, fostering an environment of innovation, academic rigour, ethical leadership and continuous personal growth.
 
-## Our Mission
+## Why students choose Al Jamia
 
-To establish ourselves as an internationally recognised institution for Modern Arts and Science Education, fostering an environment of innovation, academic rigor, ethical leadership and continuous personal growth.
+The curriculum is deliberately broad and current. Alongside traditional disciplines in the humanities, commerce and Islamic studies, the college teaches Artificial Intelligence, Computer Science, Food Technology and Microbiology, so that a graduate leaves prepared for the workforce as it actually is rather than as it was. That teaching is supported by modern AI and science laboratories, comprehensive library resources and dedicated residential facilities designed to nurture curiosity and practical learning.
 
-## Why Choose AJAS?
+Around the timetable sits an active student community. The Innovation and Entrepreneurship Development Centre, the Coding Club, NSS and the nature, arts and welfare clubs give students real responsibility and the leadership and life skills that come with it. Behind them stands a network of thousands of alumni working across academia, media, business and public service in India and abroad — a legacy that keeps returning to the college as mentorship, scholarship and support.
 
-- **Diverse & Modern Curriculum** — From cutting-edge fields like Artificial Intelligence, Computer Science, Food Technology and Microbiology to traditional disciplines in Humanities, Commerce and Islamic Studies, our programmes are tailored for the modern workforce.
-- **State-of-the-Art Infrastructure** — Modern AI labs, science laboratories, comprehensive library resources and dedicated residential facilities designed to nurture curiosity and practical learning.
-- **Empowering Community & Clubs** — Active student forums, from the Innovation and Entrepreneurship Development Centre (IEDC) and Coding Club to NSS and Nature Clubs, where students build real-world leadership and life skills.
-- **A Legacy of Success** — A strong network of thousands of successful alumni across academia, media, business and public service worldwide.
+## Educational policy
+
+Teaching is more than a profession; it is a calling, a vocation and a profound responsibility. It involves not only imparting knowledge but also nurturing minds, fostering critical thinking and shaping the future of society. Education is the noblest of all professions and the worthiest of all sectors, for it shapes the coming days and fashions the future.
+
+Education in general still leans heavily on conventional subjects that do not prepare students for a rapidly changing world, and students miss the chance to build the transferable life skills that independence, a sustainable future and secure employment require. Al Jamia deliberately avoids that testing trap, offering every student who can benefit from it an academic training programme that pairs education with practical experience.
+
+## Code of conduct
+
+The standards expected of everyone who works and studies here are published in full: for [the Principal](/code-of-conduct-principal/), for [teachers](/code-of-conduct-teachers/), for [non-teaching and other staff](/code-of-cunduct-non-teaching-staffs/) and for [students](/code-of-cunduct-student/).

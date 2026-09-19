@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import ArticleShell from "../../components/ArticleShell.astro";
 import { getSiteSettings, getListings } from "../../lib/site";
 
 const fees = (await getCollection("fees", ({ data }) => !data.draft)).sort((a, b) => {
@@ -17,13 +18,7 @@ const L = (await getListings())?.fees ?? {
 ---
 
 <BaseLayout title={L.title} description={L.description} pageTitle={L.title}>
-  <div class="blog-single content-blog narrow-page">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-9">
-          <div class="site-content clearfix">
-            <article class="post post-blog-single">
-              <div class="content-blog-single-wrap migrate-content" data-pagefind-body>
+  <ArticleShell variant="listing">
                 <p class="listing-intro">{L.intro}</p>
 
                 {
@@ -76,11 +71,5 @@ const L = (await getListings())?.fees ?? {
                   {" · "}
                   <a href="/admission/">Admissions</a>
                 </p>
-              </div>
-            </article>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  </ArticleShell>
 </BaseLayout>

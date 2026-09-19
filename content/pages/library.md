@@ -67,6 +67,7 @@ Membership of the Library is open to all staff and students of Al Jamia College.
 
 | Resource | Link |
 | --- | --- |
+| Library OPAC (Koha catalogue) | [Search the catalogue](http://116.68.127.22) |
 | N-LIST (INFLIBNET) | [Login](http://iproxy.inflibnet.ac.in:2048/login) |
 | LibriVox | [Visit](https://librivox.org/) |
 | DELNET | [Visit](http://delnet.in/) |

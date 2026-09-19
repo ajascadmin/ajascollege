@@ -7,6 +7,13 @@
  */
 import type { CollectionEntry } from "astro:content";
 import CmsImage from "../CmsImage.astro";
+import { getCollection } from "astro:content";
+import HomeDispatch from "./HomeDispatch.astro";
+import HomeCredentials from "./HomeCredentials.astro";
+import HomeCampusLife from "./HomeCampusLife.astro";
+import HomePlacement from "./HomePlacement.astro";
+import HomeWhy from "./HomeWhy.astro";
+import HomeStart from "./HomeStart.astro";
 import { optimizeCmsImage } from "../../lib/cmsImage";
 
 interface Props {
@@ -14,6 +21,22 @@ interface Props {
 }
 
 const { data } = Astro.props;
+
+/** "Department of Commerce & Management Studies" → "Commerce & Management Studies" */
+const programmeEntries = await getCollection("programmes", ({ data }) => !data.draft);
+const durationByPermalink = new Map(
+  programmeEntries.map((p) => [p.data.permalink.replace(/\/+$/, ""), p.data.duration]),
+);
+/** "4 Years (FYUGP)" → "4 yrs" — a ledger column, not a sentence */
+const durationFor = (url: string) => {
+  const d = durationByPermalink.get((url || "").replace(/\/+$/, ""));
+  if (!d) return "";
+  const m = d.match(/(\d+)\s*year/i);
+  return m ? `${m[1]} yrs` : d;
+};
+
+const shortDept = (t: string) =>
+  t.replace(/^(pg\s+)?department\s+of\s+/i, "").replace(/\s*&\s*/g, " & ");
 const {
   hero,
   quick_actions,
@@ -24,22 +47,29 @@ const {
   principal_message,
   programmes,
   gallery,
-  services,
   benefits,
-  events,
   testimonials,
   quick_link_cta,
 } = data;
 
-const eventColors = ["7ecc88", "3f4c99", "ff5f60"];
-
 // Lightbox anchors must point at the generated /_astro asset, not the raw
 // /assets/uploads path — mirrors optimizeHtmlImages()'s href-rewrite for
 // markdown-driven pages (see src/lib/cmsImage.ts).
-const gallerySlideHrefs = await Promise.all(
+const campusHrefs = await Promise.all(
   gallery.slides.map(async (slide) => (await optimizeCmsImage(slide.image, "inline"))?.src || slide.image),
 );
+const eventHrefs = await Promise.all(
+  (gallery.events_slides || []).map(
+    async (slide) => (await optimizeCmsImage(slide.image, "inline"))?.src || slide.image,
+  ),
+);
 ---
+
+{/* The home page shipped without an <h1>. The hero is a silent video, so the
+    heading is set for crawlers and screen readers rather than shown twice. */}
+<h1 class="ajas-sr-only">
+  Al Jamia Arts &amp; Science College, Perinthalmanna — affiliated to the University of Calicut
+</h1>
 
 <section class="ajas-hero ajas-hero--video-only" aria-label="Campus video">
   <div class="hero-media">
@@ -53,16 +83,20 @@ const gallerySlideHrefs = await Promise.all(
   <div class="container">
     <div class="row">
       {
-        quick_actions.map((tile) => (
-          <div class="col-lg-4 col-md-4 col-sm-12">
-            <a class={`action-tile tile-${tile.style}`} href={tile.url}>
+        quick_actions.map((tile, idx) => (
+          <div class="col-lg-4 col-md-4 col-sm-12" data-animate="up" style={`--delay: ${idx * 90}ms`}>
+            <a class={`action-tile tile-${tile.style} ${idx === 0 ? "action-tile--featured" : ""}`} href={tile.url}>
               <span class="tile-ico"><i class={`fa fa-${tile.icon}`} aria-hidden="true" /></span>
               <span class="tile-body">
-                <span class="tile-title">{tile.title}</span>
+                <span class="tile-head">
+                  <span class="tile-title">{tile.title}</span>
+                  {idx === 0 && <span class="tile-badge">Open</span>}
+                </span>
                 <span class="tile-sub">{tile.subtitle}</span>
               </span>
-              <span class="tile-cta">
-                {tile.cta_label} <i class="fa fa-long-arrow-right" aria-hidden="true" />
+              <span class="tile-cta" aria-label={tile.cta_label}>
+                <span class="tile-cta-label">{tile.cta_label}</span>
+                <i class="fa fa-arrow-right" aria-hidden="true" />
               </span>
             </a>
           </div>
@@ -72,19 +106,27 @@ const gallerySlideHrefs = await Promise.all(
   </div>
 </section>
 
-<section class="partner-clients ajas-accred">
+<section class="partner-clients ajas-accred" aria-label="Accreditations and Affiliations">
   <div class="container">
-    <p class="accred-label">{accreditation.label}</p>
-    <ul class="accred-row">
-      {
-        accreditation.items.map((item) => (
-          <li>
-            <CmsImage src={item.image} alt={item.name} preset="logo" fit="contain" />
-            <span>{item.name}</span>
-          </li>
-        ))
-      }
-    </ul>
+    <div class="accred-head">
+      <span class="accred-line" aria-hidden="true"></span>
+      <p class="accred-label">{accreditation.label}</p>
+      <span class="accred-line" aria-hidden="true"></span>
+    </div>
+    <div class="accred-rail">
+      <ul class="accred-row">
+        {
+          accreditation.items.map((item, idx) => (
+            <li class="accred-card" data-animate="up" style={`--delay: ${idx * 60}ms`}>
+              <span class="accred-img-wrap">
+                <CmsImage src={item.image} alt={item.name} preset="logo" fit="contain" />
+              </span>
+              <span class="accred-name">{item.name}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
   </div>
 </section>
 
@@ -95,6 +137,7 @@ const gallerySlideHrefs = await Promise.all(
     <a href={about.cta_url} class="btn-box-shadow">{about.cta_label}</a>
   </div>
 </section>
+
 
 <section class="ajas-metric-banner">
   <div class="container">
@@ -111,60 +154,48 @@ const gallerySlideHrefs = await Promise.all(
   </div>
 </section>
 
-<section class="flat-introduce flat-introduce-style1 clearfix">
-  <div class="container">
-    <div class="col-left">
-      <div class="videobox">
-        <a href={chairman_message.photo_url}>
-          <CmsImage src={chairman_message.photo} alt={chairman_message.kicker} preset="poster" />
-        </a>
-      </div>
-    </div>
-    <div class="col-right">
-      <div class="content-introduce content-introduce-style1">
-        <div class="title-section">
-          <p class="sub-title lt-sp25">{chairman_message.kicker}</p>
-          <div class="flat-title larger heading-type1">{chairman_message.heading}</div>
-        </div>
-        <div class="content-introduce-inner">
-          {chairman_message.paragraphs.map((p) => <p>{p}</p>)}
-          <div class="btn-about">
-            <a href={chairman_message.cta_url} class="btn-box-shadow">{chairman_message.cta_label}</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+{/* dated notices and circulars — the page's evidence that the
+    institution is active, not a brochure */}
+<HomeDispatch />
 
-<section class="flat-introduce flat-introduce-style1 clearfix">
+{/* formal standing, each claim linked to its certificate */}
+<HomeCredentials />
+
+<section class="ajas-leadership">
   <div class="container">
-    <div class="col-left">
-      <div class="videobox">
-        <a href={principal_message.photo_url}>
-          <CmsImage src={principal_message.photo} alt={principal_message.kicker} preset="poster" />
-        </a>
-      </div>
-    </div>
-    <div class="col-right">
-      <div class="content-introduce content-introduce-style1">
-        <div class="title-section">
-          <p class="sub-title lt-sp25">{principal_message.kicker}</p>
-          <div class="flat-title larger heading-type1">{principal_message.heading}</div>
-        </div>
-        <div class="content-introduce-inner">
-          <p>{principal_message.quote}</p>
-          <div class="content-list">
-            <ul>
-              {principal_message.bullet_points.map((b) => (
-                <li><span class="text">{b}</span></li>
-              ))}
-            </ul>
-          </div>
-          <div class="btn-about">
-            <a href={principal_message.cta_url} class="btn-box-shadow">{principal_message.cta_label}</a>
-          </div>
-        </div>
+    <div
+      class="flat-carousel-box clearfix leadership-box"
+      data-gap="0" data-column="1" data-column2="1" data-column3="1" data-column4="1"
+      data-dots="true" data-auto="true" data-nav="true" data-loop="true"
+    >
+      <div class="owl-carousel leadership-carousel">
+        {
+          [chairman_message, principal_message].map((msg) => (
+            <div class="leadership-slide">
+              <figure class="leadership-photo">
+                <a href={msg.photo_url}>
+                  <CmsImage src={msg.photo} alt={msg.kicker} preset="poster" fit="cover" />
+                </a>
+              </figure>
+              <div class="leadership-body">
+                {/* The person is the subject of the section; "Chairman's
+                    message" is the label for it, not the headline. */}
+                <p class="leadership-role">{msg.heading}</p>
+                <h2 class="leadership-heading">{msg.kicker}</h2>
+                {"quote" in msg && msg.quote && <p class="leadership-quote">{msg.quote}</p>}
+                {"paragraphs" in msg &&
+                  msg.paragraphs &&
+                  msg.paragraphs.map((t) => <p class="leadership-text">{t}</p>)}
+                {"bullet_points" in msg && msg.bullet_points && (
+                  <ul class="leadership-points">
+                    {msg.bullet_points.map((b) => <li>{b}</li>)}
+                  </ul>
+                )}
+                <a href={msg.cta_url} class="leadership-link">{msg.cta_label} <i class="fa fa-arrow-right" /></a>
+              </div>
+            </div>
+          ))
+        }
       </div>
     </div>
   </div>
@@ -178,292 +209,190 @@ const gallerySlideHrefs = await Promise.all(
     </div>
     <p class="listing-intro">{programmes.intro}</p>
 
-    <div class="row ajas-prog-grid">
-      <div class="col-lg-6 col-md-12">
-        <div class="ajas-prog-card ug-card">
-          <div class="prog-card-header">
-            <div class="prog-icon-badge"><i class={`fa fa-${programmes.ug.icon}`} aria-hidden="true" /></div>
-            <div class="prog-header-text">
-              <span class="prog-level-tag">{programmes.ug.level_tag}</span>
-              <h3 class="prog-card-title">{programmes.ug.title}</h3>
-              <span class="prog-meta">{programmes.ug.meta}</span>
-            </div>
-          </div>
-          <div class="prog-card-body">
-            <ul class="prog-chips-grid">
-              {programmes.ug.items.map((it) => (
-                <li>
-                  <a href={it.url} class="prog-chip">
-                    <i class={`fa fa-${it.icon || "check-circle"}`} />
-                    {" "}{it.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div class="prog-card-footer">
-            <a href={programmes.ug.cta_primary_url} class="btn-prog-cta">
-              {programmes.ug.cta_primary_label} <i class="fa fa-arrow-right" />
-            </a>
-            <a href={programmes.ug.cta_secondary_url} class="btn-prog-alt">{programmes.ug.cta_secondary_label}</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-lg-6 col-md-12">
-        <div class="ajas-prog-card pg-card">
-          <div class="prog-card-header">
-            <div class="prog-icon-badge"><i class={`fa fa-${programmes.pg.icon}`} aria-hidden="true" /></div>
-            <div class="prog-header-text">
-              <span class="prog-level-tag">{programmes.pg.level_tag}</span>
-              <h3 class="prog-card-title">{programmes.pg.title}</h3>
-              <span class="prog-meta">{programmes.pg.meta}</span>
-            </div>
-          </div>
-          <div class="prog-card-body">
-            <ul class="prog-chips-grid pg-chips">
-              {programmes.pg.items.map((it) => (
-                <li>
-                  <a href={it.url} class="prog-chip">
-                    <i class={`fa fa-${it.icon || "star"}`} />
-                    {" "}{it.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-            {programmes.pg.highlight_text && (
-              <div class="pg-highlight-box">
-                <div class="pg-hl-icon"><i class={`fa fa-${programmes.pg.highlight_icon || "lightbulb-o"}`} /></div>
-                <p>{programmes.pg.highlight_text}</p>
-              </div>
-            )}
-          </div>
-          <div class="prog-card-footer">
-            <a href={programmes.pg.cta_primary_url} class="btn-prog-cta">
-              {programmes.pg.cta_primary_label} <i class="fa fa-arrow-right" />
-            </a>
-            <a href={programmes.pg.cta_secondary_url} class="btn-prog-alt">{programmes.pg.cta_secondary_label}</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="title-section text-center pd-top60">
-      <p class="sub-title lt-sp17">{programmes.departments_kicker}</p>
-      <h2 class="flat-title medium">{programmes.departments_heading}</h2>
-    </div>
-
-    <div class="flat-courses clearfix">
-      <div class="row">
-        {
-          programmes.departments.map((dept) => (
-            <div class="col-lg-4 col-md-6 col-sm-12 course-col">
-              <div class="ajas-dept-card">
-                <div class="dept-card-media">
-                  <CmsImage src={dept.image} alt={dept.title} preset="card" />
-                  <span class="dept-card-badge"><i class={`fa fa-${dept.icon}`} /> {dept.badge_label}</span>
-                </div>
-                <div class="dept-card-content">
-                  <h3 class="dept-card-heading"><a href={dept.url}>{dept.title}</a></h3>
-                  <p class="dept-card-text">{dept.description}</p>
-                  <div class="dept-card-pills">
-                    {dept.pills.map((pill) => <span class="dept-pill">{pill}</span>)}
-                  </div>
-                  <div class="dept-card-bottom">
-                    <a href={dept.url} class="dept-link-btn">Explore Department <i class="fa fa-arrow-right" /></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))
-        }
-      </div>
-      <div class="text-center pd-top30">
-        <a href={programmes.view_all_url} class="btn bg-clff5f60 ajas-apply-btn">{programmes.view_all_label}</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="ajas-media">
-  <div class="container">
-    <div class="title-section text-center">
-      <p class="sub-title lt-sp17">{gallery.kicker}</p>
-      <h2 class="flat-title medium">{gallery.heading}</h2>
-    </div>
-    <div
-      class="flat-carousel-box data-effect clearfix"
-      data-gap="0"
-      data-column="1"
-      data-column2="1"
-      data-column3="1"
-      data-column4="1"
-      data-dots="true"
-      data-auto="true"
-      data-nav="true"
-      data-loop="true"
-    >
-      <div class="owl-carousel footages-carousel">
-        {
-          gallery.slides.map((slide, i) => (
-            <div class="gal-slide">
-              <a class="gal-item" href={gallerySlideHrefs[i]} rel="ajas-home-media" title={slide.title}>
-                <CmsImage src={slide.image} alt={slide.title} preset="card" />
-                <div class="gal-caption">
-                  <h3 class="gal-title">{slide.title}</h3>
-                  <span class="gal-sub">{slide.caption}</span>
-                </div>
-              </a>
-            </div>
-          ))
-        }
-      </div>
-    </div>
-    <div class="text-center pd-top30">
-      <a href={gallery.cta_url} class="btn bg-clff5f60 ajas-apply-btn">{gallery.cta_label}</a>
-    </div>
-  </div>
-</section>
-
-<section class="flat-services style1 parallax parallax1 clearfix ajas-services">
-  <div class="section-overlay" />
-  <div class="container-fluid">
-    <div class="row">
+    {/* Two ledgers, not two cards of chips. Each row is one programme:
+        name, how long it runs, where it goes. The duration comes from the
+        programmes collection, matched on permalink, so the homepage cannot
+        drift from the programme pages. */}
+    <div class="pl">
       {
-        services.items.map((svc, i) => (
-          <div class="col-lg-4">
-            <div
-              class="services-content-box themesflat-content-box"
-              data-padding={i === 0 ? "0% 30% 0% 0%" : i === 1 ? "0% 15% 0% 16%" : "0% 0% 0% 30.5%"}
-              data-mobipadding="0% 0% 0% 0%"
-              data-smobipadding="0% 0% 0% 0%"
-            >
-              <div class="flat-imagebox imagebox-services style1">
-                <div class="imagebox-content">
-                  <span class="ajas-icon"><i class={`fa fa-${svc.icon}`} aria-hidden="true" /></span>
-                  <h5 class={`text-${["one", "two", "three"][i] || "one"} text-white`}>{svc.title}</h5>
-                  <p class="text-white">{svc.text}</p>
-                  <div class="read-more"><a href={svc.cta_url}>{svc.cta_label}</a></div>
-                </div>
+        [
+          { key: "ug", data: programmes.ug, tone: "ug" },
+          { key: "pg", data: programmes.pg, tone: "pg" },
+        ].map(({ key, data, tone }) => (
+          <section class="pl-col" data-tone={tone}>
+            <header class="pl-head">
+              <div>
+                <p class="pl-level">{data.level_tag}</p>
+                <h3>{data.title}</h3>
               </div>
+              <span class="pl-count">
+                <strong>{data.items.length}</strong>
+                <span>{key === "ug" ? "degrees" : "masters"}</span>
+              </span>
+            </header>
+            <p class="pl-meta">{data.meta}</p>
+
+            <ul class="pl-list">
+              {data.items.map((it) => (
+                <li>
+                  <a href={it.url}>
+                    <span class="pl-name">{it.label}</span>
+                    {durationFor(it.url) && <span class="pl-dur">{durationFor(it.url)}</span>}
+                    <svg class="pl-arrow" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M5 12h14M13 6l6 6-6 6" />
+                    </svg>
+                  </a>
+                </li>
+              ))}
+            </ul>
+
+            {key === "pg" && programmes.pg.highlight_text && (
+              <p class="pl-note">{programmes.pg.highlight_text}</p>
+            )}
+
+            <div class="pl-foot">
+              <a class="pl-cta" href={data.cta_primary_url}>{data.cta_primary_label}</a>
+              <a class="pl-cta pl-cta-alt" href={data.cta_secondary_url}>{data.cta_secondary_label}</a>
             </div>
-          </div>
+          </section>
         ))
       }
     </div>
+
+    {/* A prospectus contents page, not a card grid: an editorial header with
+        the count stated, then a numbered index of departments. Each tile is a
+        photograph, an index number, the department's name and what it teaches. */}
+    <header class="dx2-head">
+      <div>
+        <p class="dx2-kicker">{programmes.departments_kicker}</p>
+        <h2>{programmes.departments_heading}</h2>
+      </div>
+      <div class="dx2-head-right">
+        <span class="dx2-count">
+          <strong>{programmes.departments.length}</strong>
+          <span>departments</span>
+        </span>
+        <a class="dx2-all" href={programmes.view_all_url}>
+          {programmes.view_all_label}
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+        </a>
+      </div>
+    </header>
+
+    <ol class="dx2-grid">
+      {
+        programmes.departments.map((dept, i) => (
+          <li>
+            <a class="dx2-tile" href={dept.url}>
+              <span class="dx2-media">
+                <CmsImage src={dept.image} alt="" preset="card" fit="cover" loading="lazy" />
+                <span class="dx2-veil" aria-hidden="true" />
+                <span class="dx2-num" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+              </span>
+              <span class="dx2-body">
+                <span class="dx2-name">{shortDept(dept.title)}</span>
+                {dept.pills && dept.pills.length > 0 && (
+                  <span class="dx2-progs">
+                    {dept.pills.map((pill) => (
+                      <span>{pill}</span>
+                    ))}
+                  </span>
+                )}
+                <span class="dx2-go" aria-hidden="true">
+                  Department
+                  <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                </span>
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ol>
   </div>
 </section>
 
-<section class="flat-benefit style1 clearfix ajas-benefit">
-  <div class="container-fluid">
-    <div class="col-benefit-left">
-      <div class="wrap-inconbox-benefit">
-        <div class="title-section"><div class="flat-title small heading-type2 text-white">{benefits.heading}</div></div>
-        <div class="iconbox-benefit iconbox-benefit-style1">
-          <div class="row">
-            {
-              benefits.items.map((b, i) => (
-                <div class="col-lg-6 col-md-6 col-sm-6 col-sx-12">
-                  <div
-                    class="themesflat-content-box"
-                    data-padding="0% 4% 0% 0%"
-                    data-mobipadding="0% 0% 0% 0%"
-                    data-smobipadding="0% 0% 0% 0%"
-                  >
-                    <div class="iconbox">
-                      <div class="iconbox-icon"><span class="ajas-icon"><i class={`fa fa-${b.icon}`} aria-hidden="true" /></span></div>
-                      <div class={`iconbox-content img-${["one", "two", "three", "four"][i] || "one"}`}>
-                        <h3><a href={b.url}>{b.title}</a></h3>
-                        <p>{b.text}</p>
-                      </div>
-                    </div>
+{/* Campus and Events sat as two stacked full-bleed sliders doing the same
+    thing twice. One band, two columns: still two carousels, half the height,
+    and they now read as a pair rather than a repeat. */}
+<section class="gb">
+  <div class="gb-inner">
+    <div class="gb-grid">
+      <div class="gb-col">
+        <header class="gb-head">
+          <p class="gb-kicker">{gallery.kicker}</p>
+          <h2>{gallery.heading}</h2>
+          <a href={gallery.cta_url}>{gallery.cta_label}</a>
+        </header>
+        <div
+          class="flat-carousel-box data-effect clearfix"
+          data-gap="0" data-column="1" data-column2="1" data-column3="1" data-column4="1"
+          data-dots="true" data-auto="true" data-nav="true" data-loop="true"
+        >
+          <div class="owl-carousel footages-carousel gb-carousel">
+            {gallery.slides.map((slide, i) => (
+              <div class="gal-slide">
+                <a
+                  class="gal-item"
+                  href={campusHrefs[i]}
+                  rel="ajas-home-campus"
+                  data-caption={`${slide.title} — ${slide.caption}`}
+                  aria-label={`Open image: ${slide.title}`}
+                >
+                  <CmsImage src={slide.image} alt={slide.title} preset="card" />
+                  <div class="gal-caption">
+                    <h3 class="gal-title">{slide.title}</h3>
+                    <span class="gal-sub">{slide.caption}</span>
                   </div>
-                </div>
-              ))
-            }
+                </a>
+              </div>
+            ))}
           </div>
         </div>
       </div>
-    </div>
-    <div class="col-benefit-right">
-      <div class="ajas-apply-cta">
-        <h2>{benefits.cta_heading}</h2>
-        <p>{benefits.cta_text}</p>
-        <a href={benefits.cta_primary_url} class="ajas-apply-cta-btn">
-          {benefits.cta_primary_label} <i class="fa fa-long-arrow-right" aria-hidden="true" />
-        </a>
-        <a href={benefits.cta_secondary_url} class="ajas-apply-cta-link">{benefits.cta_secondary_label}</a>
-      </div>
+
+      {gallery.events_slides && gallery.events_slides.length > 0 && (
+        <div class="gb-col">
+          <header class="gb-head">
+            <p class="gb-kicker">{gallery.events_kicker}</p>
+            <h2>{gallery.events_heading}</h2>
+            <a href={gallery.events_cta_url}>{gallery.events_cta_label}</a>
+          </header>
+          <div
+            class="flat-carousel-box data-effect clearfix"
+            data-gap="0" data-column="1" data-column2="1" data-column3="1" data-column4="1"
+            data-dots="true" data-auto="true" data-nav="true" data-loop="true"
+          >
+            <div class="owl-carousel footages-carousel gb-carousel gb-carousel-events">
+              {gallery.events_slides.map((slide, i) => (
+                <div class="gal-slide">
+                  <a
+                    class="gal-item"
+                    href={eventHrefs[i]}
+                    rel="ajas-home-events"
+                    data-caption={`${slide.title} — ${slide.caption}`}
+                    aria-label={`Open image: ${slide.title}`}
+                  >
+                    <CmsImage src={slide.image} alt={slide.title} preset="card" />
+                    <div class="gal-caption">
+                      <h3 class="gal-title">{slide.title}</h3>
+                      <span class="gal-sub">{slide.caption}</span>
+                    </div>
+                  </a>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   </div>
 </section>
 
-<section class="flat-event flat-event-style1 clearfix ajas-events">
-  <div class="container-fluid">
-    <div class="col-left">
-      <div
-        class="content-event-style1 themesflat-content-box"
-        data-padding="13.7% 1.2% 0% 0%"
-        data-mobipadding="0% 0% 0% 0%"
-        data-smobipadding="0% 0% 0% 0%"
-      >
-        <div class="title-section"><div class="flat-title larger heading-type3">{events.heading}</div></div>
-        <div class="content-event-list">
-          {
-            events.items.map((ev, i) => {
-              const color = eventColors[i % eventColors.length];
-              const numberWord = ["one", "two", "three", "four", "five"][i] || "one";
-              return (
-                <div class="content-event">
-                  <div class="entry-info clearfix">
-                    <div class="entry-title"><a href={ev.url} class={`cl-${color}`}>{ev.title}</a></div>
-                    <div class="entry-meta">
-                      <ul>
-                        <li class="date clearfix"><span class="icon-event icon-icons8-planner-100" /><span class="detail-event">{ev.date}</span></li>
-                        <li class="location clearfix"><span class="icon-event icon-icons8-marker-100" /><span class="detail-event">{ev.location}</span></li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div class={`entry-number number-${numberWord}`}><span class={`cl-${color}`}>{i + 1}</span></div>
-                </div>
-              );
-            })
-          }
-        </div>
-        <div class="btn-about pd-top15"><a href={events.cta_url} class="btn-box-shadow">{events.cta_label}</a></div>
-      </div>
-    </div>
-    <div class="col-right">
-      <div
-        class="images-list themesflat-content-box"
-        data-padding="0% 0% 0% 15.1%"
-        data-mobipadding="0% 0% 0% 0%"
-        data-smobipadding="0% 0% 0% 0%"
-      >
-        <div class="images-list-1">
-          {
-            events.items.slice(0, 2).map((ev, i) => (
-              <div class="img-event">
-                {ev.image && <CmsImage src={ev.image} alt={ev.title} preset="card" />}
-                <span class={`number bg-cl${eventColors[i % eventColors.length]}`}>{i + 1}</span>
-              </div>
-            ))
-          }
-        </div>
-        {
-          events.items[2] && (
-            <div class="images-list-2">
-              <div class="img-event">
-                {events.items[2].image && <CmsImage src={events.items[2].image} alt={events.items[2].title} preset="card" />}
-                <span class={`number bg-cl${eventColors[2 % eventColors.length]}`}>3</span>
-              </div>
-            </div>
-          )
-        }
-      </div>
-    </div>
-  </div>
-</section>
+<HomeCampusLife />
+
+<HomePlacement />
+
+<HomeWhy data={benefits} />
 
 <section class="ajas-testimonials-section">
   <div class="container">
@@ -471,68 +400,53 @@ const gallerySlideHrefs = await Promise.all(
       <p class="sub-title lt-sp17">{testimonials.kicker}</p>
       <h2 class="flat-title medium">{testimonials.heading}</h2>
     </div>
-    <div class="ajas-testi-wrapper">
-      <div id="slider-testimonial" class="flexslider ajas-testi-slider">
-        <ul class="slides">
-          {
-            testimonials.items.map((t) => (
-              <li>
-                <div class="ajas-testi-card">
-                  <div class="testi-photo-col">
-                    <div class="testi-avatar-frame">
-                      <CmsImage src={t.photo} alt={t.name} preset="avatar" />
-                    </div>
-                  </div>
-                  <div class="testi-content-col">
-                    <div class="testi-quote-mark"><i class="fa fa-quote-left" aria-hidden="true" /></div>
-                    <p class="testi-speech">&ldquo; {t.quote} &rdquo;</p>
-                    <div class="testi-author-info">
-                      <h4 class="testi-name">{t.name}</h4>
-                      <span class="testi-role-badge">{t.role}</span>
-                    </div>
-                  </div>
-                </div>
-              </li>
-            ))
-          }
-        </ul>
+    <div
+      class="flat-carousel-box clearfix testi-box"
+      data-gap="0" data-column="1" data-column2="1" data-column3="1" data-column4="1"
+      data-dots="true" data-auto="true" data-nav="false" data-loop="true"
+    >
+      <div class="owl-carousel testi-carousel">
+        {
+          testimonials.items.map((t) => (
+            <figure class="testi-item">
+              <blockquote class="testi-quote">{t.quote}</blockquote>
+              <figcaption class="testi-by">
+                <CmsImage src={t.photo} alt={t.name} preset="avatar" fit="cover" />
+                <span class="testi-meta">
+                  <span class="testi-name">{t.name}</span>
+                  <span class="testi-role">{t.role}</span>
+                </span>
+              </figcaption>
+            </figure>
+          ))
+        }
       </div>
     </div>
   </div>
 </section>
 
-<section class="quick-link quick-link-style1 parallax parallax2 ajas-quicklink">
-  <div class="section-overlay" />
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-7">
-        <div class="wrap-link-left">
-          <div class="caption lt-sp275">{quick_link_cta.kicker}</div>
-          <div class="heading-lf lt-sp03">{quick_link_cta.heading}</div>
-          <p>{quick_link_cta.text}</p>
-          <div class="btn-apply-link">
-            <ul>
-              <li><a href={quick_link_cta.primary_url} class="btn btn-apply bg-clff5f60">{quick_link_cta.primary_label}</a></li>
-              <li><a href={quick_link_cta.secondary_url} class="btn btn-request lt-sp06">{quick_link_cta.secondary_label}</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-5">
-        <div class="wrap-link-right">
-          <div class="heading-rg"><span>{quick_link_cta.quicklinks_heading}</span></div>
-          <ul class="info-quick-link">
-            {
-              quick_link_cta.quicklinks.map((link) => (
-                <li>
-                  <i class={`fa fa-${link.icon}`} aria-hidden="true" />
-                  <a href={link.url} target={link.external ? "_blank" : undefined}>{link.label}</a>
-                </li>
-              ))
-            }
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+<HomeStart data={quick_link_cta} />
+
+<script is:inline>
+  /* Owl clones each slide and parks the copies thousands of pixels off-screen,
+     where a `loading="lazy"` <img> never intersects the viewport — so a looping
+     carousel (leadership, campus, events, testimonials) rotates a blank grey
+     frame into view. Once the page is idle, let every carousel image fetch. */
+  (function () {
+    function warmCarouselImages() {
+      document.querySelectorAll('.owl-carousel img[loading="lazy"]').forEach(function (img) {
+        img.loading = "eager";
+        if (!img.complete) img.src = img.src;
+      });
+    }
+    var done = false;
+    function once() {
+      if (done) return;
+      done = true;
+      warmCarouselImages();
+    }
+    window.addEventListener("load", once);
+    if ("requestIdleCallback" in window) requestIdleCallback(once, { timeout: 1500 });
+    else setTimeout(once, 1500);
+  })();
+</script>

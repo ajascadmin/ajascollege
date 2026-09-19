@@ -3,6 +3,7 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import SearchModal from "../components/SearchModal.astro";
 import { optimizeCmsImage } from "../lib/cmsImage";
+import { getSiteSettings } from "../lib/site";
 
 interface Props {
   title: string;
@@ -10,6 +11,15 @@ interface Props {
   variant?: "home" | "inner";
   pageTitle?: string;
   breadcrumbs?: { label: string; href?: string }[];
+  /** Social-share image for this page (falls back to the campus photograph). */
+  image?: string;
+  /** Extra JSON-LD for this page type (Event, Person, Programme…). */
+  jsonLd?: Record<string, unknown> | null;
+  /** ISO dates for article-type pages. */
+  publishedTime?: string;
+  noindex?: boolean;
+  /** The article below supplies the <h1>; render the band title as a <p>. */
+  bandTitleIsLabel?: boolean;
 }
 
 const {
@@ -18,7 +28,20 @@ const {
   variant = "inner",
   pageTitle,
   breadcrumbs = [],
+  image,
+  jsonLd = null,
+  publishedTime,
+  noindex = false,
+  bandTitleIsLabel = false,
 } = Astro.props;
+
+const site = await getSiteSettings();
+
+/* On news and event pages the band shows the section name ("Events") while the
+   article below carries the real headline — so the band must not also be an
+   <h1>. Three <h1>s on one page is a genuine ranking problem, not a nicety. */
+const bandIsLabel =
+  bandTitleIsLabel || (!!pageTitle && !!title && pageTitle.trim() !== title.trim());
 
 const fullTitle =
   title === "Home"
@@ -43,6 +66,67 @@ const deferredStyles = [
   "/stylesheet/jquery-fancybox.css", // lightbox — not used until click
 ];
 
+const canonical = new URL(Astro.url.pathname, Astro.site ?? "https://ajascollege.ac.in").href;
+const shareImage = new URL(
+  image || "/assets/uploads/2024/01/P1222323-building-2048x1154-1.webp",
+  Astro.site ?? "https://ajascollege.ac.in",
+).href;
+
+/* Structured data. The organisation block is site-wide; the breadcrumb trail
+   is emitted only where there is a real trail, so search results can show the
+   section a page sits in. */
+const orgLd = {
+  "@context": "https://schema.org",
+  "@type": "CollegeOrUniversity",
+  name: site.college_name,
+  url: (Astro.site ?? "https://ajascollege.ac.in").toString(),
+  logo: new URL(site.logo, Astro.site ?? "https://ajascollege.ac.in").href,
+  email: site.email,
+  telephone: site.phone,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "Poopalam, Valambur (P.O)",
+    addressLocality: "Perinthalmanna",
+    addressRegion: "Kerala",
+    postalCode: "679325",
+    addressCountry: "IN",
+  },
+  parentOrganization: { "@type": "CollegeOrUniversity", name: "University of Calicut" },
+};
+
+/* Sitelinks search box: lets Google surface this site's own search in results
+   rather than only the pages it happens to rank. */
+const siteLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: site.college_name,
+  url: (Astro.site ?? "https://ajascollege.ac.in").toString(),
+  potentialAction: {
+    "@type": "SearchAction",
+    target: {
+      "@type": "EntryPoint",
+      urlTemplate: `${(Astro.site ?? "https://ajascollege.ac.in").toString().replace(/\/$/, "")}/site-index/?q={search_term_string}`,
+    },
+    "query-input": "required name=search_term_string",
+  },
+};
+
+const crumbLd =
+  breadcrumbs.length > 1
+    ? {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: breadcrumbs.map((c, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          name: c.label,
+          ...(c.href
+            ? { item: new URL(c.href, Astro.site ?? "https://ajascollege.ac.in").href }
+            : {}),
+        })),
+      }
+    : null;
+
 const [campusBg, facilitiesBg, adminBg, quickBg] = await Promise.all([
   optimizeCmsImage("/assets/uploads/2024/01/P1222323-building-2048x1154-1.webp", "hero"),
   optimizeCmsImage("/assets/uploads/2025/03/WhatsApp-Image-2025-03-17-at-4.16.10-PM.jpeg", "hero"),
@@ -65,17 +149,53 @@ const responsiveAssetCss = `:root{
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
-    <link rel="icon" href="/icon/favicon.ico" />
+    <link rel="canonical" href={canonical} />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="AJAS College — news, events and notices"
+      href="/rss.xml"
+    />
+
+    {/* Sharing: without these, a link pasted into WhatsApp or Facebook — how
+        most prospective students receive it — rendered as a bare URL. */}
+    <meta property="og:type" content={variant === "home" ? "website" : "article"} />
+    <meta property="og:site_name" content={site.college_name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={shareImage} />
+    <meta property="og:locale" content="en_IN" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={shareImage} />
+    <meta name="theme-color" content="#0f2947" />
+
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    {publishedTime && <meta property="article:published_time" content={publishedTime} />}
+    {publishedTime && <meta property="article:publisher" content={site.college_name} />}
+
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(orgLd)} />
+    {variant === "home" && <script type="application/ld+json" is:inline set:html={JSON.stringify(siteLd)} />}
+    {crumbLd && <script type="application/ld+json" is:inline set:html={JSON.stringify(crumbLd)} />}
+    {jsonLd && <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />}
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="alternate icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
 
     {/*
-      Fonts: load early (blocking is OK for small CSS).
-      display=optional avoids late FOUT/CLS; system stack is already set in migrate.css.
+      Typefaces. Source Serif 4 (headings) + Libre Franklin (UI/body) — a
+      scholarly text serif with an optical-size axis, paired with a Franklin
+      Gothic grotesque. Both read as institutional print rather than product UI.
+      display=swap, not optional: `optional` silently skipped the webfonts on a
+      slow first visit, which is exactly when the page has to look credible.
     */}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=optional"
+      href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap"
     />
 
     {/* Layout-critical CSS — all blocking to prevent CLS */}
@@ -105,45 +225,19 @@ const responsiveAssetCss = `:root{
     }
   </head>
   <body>
+    <a class="ajas-skip" href="#main-content">Skip to main content</a>
+
     {/* Fixed overlay — must not affect document flow / CLS */}
     <div id="loading-overlay" aria-hidden="true"><div class="loader"></div></div>
 
-    {
-      variant === "home" ? (
-        <Header variant="home" />
-      ) : (
-        <Header variant="inner">
-          <Fragment slot="page-title">
-            {pageTitle && (
-              <div class="page-title page-title-blog">
-                <div class="page-title-inner">
-                  <div class="breadcrumbs breadcrumbs-blog text-left">
-                    <div class="container">
-                      <div class="breadcrumbs-wrap">
-                        <ul class="breadcrumbs-inner">
-                          {crumbs.map((c, i) => (
-                            <li class={i === crumbs.length - 1 ? "active" : undefined}>
-                              {c.href && i < crumbs.length - 1 ? (
-                                <a href={c.href}>{c.label}</a>
-                              ) : (
-                                c.label
-                              )}
-                            </li>
-                          ))}
-                        </ul>
-                        <h1 class="title">{pageTitle}</h1>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </Fragment>
-        </Header>
-      )
-    }
+    <Header
+      variant={variant}
+      pageTitle={pageTitle}
+      breadcrumbs={crumbs}
+      titleAs={bandIsLabel ? "p" : "h1"}
+    />
 
-    <main data-pagefind-body>
+    <main id="main-content" data-pagefind-body>
       <slot />
     </main>
 

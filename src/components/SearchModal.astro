@@ -60,30 +60,34 @@
     z-index: 9990;
   }
   .ajas-search-trigger .pf-trigger-btn {
-    width: 50px;
-    height: 50px;
-    border: 0;
-    border-radius: 50%;
-    background: linear-gradient(150deg, #183251, #3f4c99);
-    box-shadow: 0 10px 26px rgba(24, 50, 81, 0.32);
+    width: 48px !important;
+    height: 48px !important;
+    padding: 0 !important;
+    border: 1px solid rgba(255,255,255,.35) !important;
+    border-radius: 0 !important;
+    background: #183251 !important;
+    box-shadow: 0 8px 22px rgba(12, 30, 52, 0.24);
     cursor: pointer;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.2s cubic-bezier(0.2, 0.7, 0.3, 1), box-shadow 0.2s ease;
+    transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.24s ease, background 0.2s ease;
   }
   .ajas-search-trigger .pf-trigger-btn:hover {
-    transform: translateY(-2px) scale(1.05);
-    box-shadow: 0 14px 32px rgba(24, 50, 81, 0.4);
+    transform: translateY(-3px);
+    background:#8f2934 !important;
+    box-shadow: 0 14px 30px rgba(12, 30, 52, 0.32);
   }
   .ajas-search-trigger .pf-trigger-btn:focus-visible {
     outline: 2px solid #c4a35a;
     outline-offset: 3px;
   }
   .ajas-search-trigger .pf-trigger-icon {
-    width: 17px;
-    height: 17px;
-    background: #fff;
+    width: 19px !important;
+    height: 19px !important;
+    background: #fff !important;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='6.5'/%3E%3Cpath d='m15.5 15.5 4.5 4.5'/%3E%3C/svg%3E") center/contain no-repeat !important;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='6.5'/%3E%3Cpath d='m15.5 15.5 4.5 4.5'/%3E%3C/svg%3E") center/contain no-repeat !important;
   }
 
   /* Keep go-top aligned under search, coral so the pair reads as one stack */
@@ -93,21 +97,22 @@
     width: 42px !important;
     height: 42px !important;
     line-height: 42px !important;
-    border-radius: 50% !important;
-    background: linear-gradient(150deg, #ff5f60, #e6484f) !important;
+    border-radius: 0 !important;
+    background: #8f2934 !important;
     box-shadow: 0 8px 20px rgba(230, 72, 79, 0.35) !important;
     z-index: 9980 !important;
     overflow: hidden;
-    transition: transform 0.2s cubic-bezier(0.2, 0.7, 0.3, 1) !important;
+    transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.24s ease !important;
   }
   #scroll-top:hover {
-    background: linear-gradient(150deg, #ff5f60, #e6484f) !important;
-    transform: translateY(-2px) scale(1.05);
+    background: #a7333e !important;
+    transform: translateY(-3px) !important;
+    box-shadow: 0 12px 26px rgba(230, 72, 79, 0.45) !important;
   }
 
   /* ========== Pagefind Component UI theming ========== */
   pagefind-modal {
-    --pf-font: Rubik, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --pf-font: var(--font-sans);
     --pf-text: #2c3e50;
     --pf-text-secondary: #5c6578;
     --pf-text-muted: #8b96a8;
@@ -116,8 +121,8 @@
     --pf-border-focus: #7a1f2b;
     --pf-hover: #f7f9fc;
     --pf-mark: #7a1f2b;
-    --pf-border-radius: 8px;
-    --pf-modal-backdrop: rgba(9, 24, 42, 0.62);
+    --pf-border-radius: 0px;
+    --pf-modal-backdrop: rgba(9, 24, 42, 0.64);
     --pf-modal-max-width: 640px;
     --pf-modal-top: max(8vh, 24px);
     --pf-input-font-size: 16px;
@@ -126,11 +131,28 @@
     --pf-summary-font-size: 13px;
   }
   dialog.pf-modal {
-    border-radius: 16px;
+    border-radius: 0;
     box-shadow: 0 24px 64px rgba(0, 0, 0, 0.28);
+    animation: pf-modal-in 0.24s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
   dialog.pf-modal::backdrop {
-    backdrop-filter: blur(2px);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    animation: pf-backdrop-in 0.2s ease forwards;
+  }
+  @keyframes pf-modal-in {
+    from {
+      opacity: 0;
+      transform: translateY(-8px) scale(0.985);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+  @keyframes pf-backdrop-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
   }
   .pf-modal-header {
     display: flex;
@@ -155,7 +177,7 @@
   }
   .ajas-search-brand strong {
     display: block;
-    font-family: Rubik, system-ui, sans-serif;
+    font-family: var(--font-sans);
     font-size: 15px;
     font-weight: 600;
     line-height: 1.2;
@@ -204,8 +226,8 @@
       bottom: 68px;
     }
     .ajas-search-trigger .pf-trigger-btn {
-      width: 44px;
-      height: 44px;
+      width: 44px !important;
+      height: 44px !important;
     }
     pagefind-modal {
       --pf-modal-top: 12px;

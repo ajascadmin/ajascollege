@@ -1,0 +1,242 @@
+---
+/**
+ * The closing band: a last push to apply, plus the handful of links people
+ * actually arrive looking for.
+ *
+ * Replaces the legacy Edukin `.quick-link` markup, which split the content
+ * into three disconnected clusters — copy top-left, a bordered 2x2 panel of
+ * icon tiles floating right, and the buttons stranded far below the copy with
+ * a large empty gap between them. The eyebrow and the panel label were both
+ * set as tracked-out capitals.
+ *
+ * Now: one two-column band. Everything that is one thought — the notice, the
+ * heading, the paragraph and the two buttons — sits together in the left
+ * column, and the quick links run down the right as a plain hairline list.
+ */
+interface QuickLink {
+  label: string;
+  url: string;
+  external?: boolean;
+}
+
+interface Props {
+  data: {
+    kicker: string;
+    heading: string;
+    text: string;
+    primary_label: string;
+    primary_url: string;
+    secondary_label: string;
+    secondary_url: string;
+    quicklinks_heading: string;
+    quicklinks: QuickLink[];
+  };
+}
+
+const { data } = Astro.props;
+---
+
+<section class="st">
+  <div class="st-inner">
+    <div class="st-copy">
+      {data.kicker && <p class="st-kicker">{data.kicker}</p>}
+      <h2 class="st-heading">{data.heading}</h2>
+      <p class="st-text">{data.text}</p>
+      <div class="st-actions">
+        <a class="st-btn" href={data.primary_url}>{data.primary_label}</a>
+        <a class="st-btn st-btn-ghost" href={data.secondary_url}>{data.secondary_label}</a>
+      </div>
+    </div>
+
+    {
+      data.quicklinks.length > 0 && (
+        <nav class="st-links" aria-label={data.quicklinks_heading}>
+          <p class="st-links-head">{data.quicklinks_heading}</p>
+          <ul>
+            {data.quicklinks.map((link) => (
+              <li>
+                <a
+                  href={link.url}
+                  target={link.external ? "_blank" : undefined}
+                  rel={link.external ? "noopener" : undefined}
+                >
+                  <span>{link.label}</span>
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M5 12h14M13 6l6 6-6 6" />
+                  </svg>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .st {
+    position: relative;
+    background-image: linear-gradient(
+        96deg,
+        rgba(8, 20, 35, 0.97) 0%,
+        rgba(11, 28, 47, 0.94) 48%,
+        rgba(16, 38, 63, 0.88) 100%
+      ),
+      var(--ajas-quick-bg, url("/images/home1/parallax2.jpg"));
+    background-size: cover;
+    background-position: center;
+    padding: clamp(50px, 5.5vw, 82px) 0;
+  }
+  .st-inner {
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 0 clamp(16px, 3vw, 40px);
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: clamp(32px, 5vw, 80px);
+    align-items: center;
+  }
+
+  /* ---- left: one block, so the buttons belong to the sentence above them ---- */
+  .st-copy {
+    min-width: 0;
+  }
+  .st-kicker {
+    margin: 0 0 12px;
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--ajn-gold, #c9a961);
+  }
+  .st-heading {
+    margin: 0 0 16px;
+    font-family: var(--font-serif);
+    font-size: clamp(1.8rem, 3.4vw, 2.9rem);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: #fff;
+  }
+  .st-text {
+    margin: 0 0 clamp(24px, 3vw, 34px);
+    max-width: 56ch;
+    font-size: 1rem;
+    line-height: 1.68;
+    color: rgba(255, 255, 255, 0.76);
+  }
+  .st-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .st-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 50px;
+    padding: 0 30px;
+    background: var(--ajn-accent, #ff5f60);
+    color: #fff;
+    font-size: 0.97rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+    transition: background 0.18s ease, border-color 0.18s ease;
+  }
+  .st-btn:hover {
+    background: #ff4a4b;
+    color: #fff;
+  }
+  .st-btn-ghost {
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.32);
+    color: #fff;
+  }
+  .st-btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: #fff;
+    color: #fff;
+  }
+
+  /* ---- right: a list, not a panel of tiles ---- */
+  .st-links {
+    min-width: 0;
+  }
+  .st-links-head {
+    margin: 0 0 4px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(201, 169, 97, 0.5);
+    font-family: var(--font-serif);
+    font-size: 1.12rem;
+    font-weight: 600;
+    color: #fff;
+  }
+  .st-links ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .st-links li + li a {
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  .st-links a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 15px 0;
+    color: rgba(255, 255, 255, 0.86);
+    font-size: 1rem;
+    text-decoration: none;
+    transition: color 0.18s ease, padding-left 0.18s ease;
+  }
+  .st-links a svg {
+    flex: none;
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: 0.4;
+    transition: opacity 0.18s ease, transform 0.18s ease;
+  }
+  .st-links a:hover {
+    color: #fff;
+    padding-left: 6px;
+  }
+  .st-links a:hover svg {
+    opacity: 1;
+    transform: translateX(3px);
+    stroke: var(--ajn-gold, #c9a961);
+  }
+  .st-links a:focus-visible {
+    outline: 2px solid var(--ajn-gold, #c9a961);
+    outline-offset: 3px;
+  }
+
+  @media (max-width: 991px) {
+    .st-inner {
+      grid-template-columns: minmax(0, 1fr);
+      gap: clamp(30px, 5vw, 44px);
+      align-items: start;
+    }
+  }
+  @media (max-width: 479px) {
+    .st-actions {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .st-btn {
+      width: 100%;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .st-btn,
+    .st-links a,
+    .st-links a svg {
+      transition: none;
+    }
+  }
+</style>

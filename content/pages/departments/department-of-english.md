@@ -3,7 +3,26 @@ title: Department of English
 description: "Al Jamia Arts & Science College, Perinthalmanna — affiliated to the University of Calicut."
 permalink: /departments/department-of-english/
 type: page
+people:
+  - name: "Muhammed Shanif K T"
+    role: "M.A. English, B.Ed."
+  - name: "Alisha Shereef"
+    role: "M.A. English, NET"
+  - name: "Danish"
+    role: "M.A. English, NET"
+  - name: "Thasleema A T"
+    role: "M.A. English, NET"
+  - name: "Roshna"
+    role: "M.A. English, B.Ed., NET"
+  - name: "Fathima Muneeba K. P."
+    role: "M.A. English, NET"
+image: /assets/uploads/2026/09/english/Tile-Image.jpg
 gallery:
+  - /assets/uploads/2026/09/english/first-leaf-mariyam-hiba.jpg
+  - /assets/uploads/2026/09/english/aliss-fathima-saja.jpg
+  - /assets/uploads/2026/09/english/nic-muhammad-althaf.jpg
+  - /assets/uploads/2026/09/english/Tile-Image.jpg
+  - /assets/uploads/2026/09/english/P1877396.JPG.jpeg
   - /assets/uploads/2024/05/english-books-stacks-table-working-space-min-scaled.jpg
   - /assets/uploads/2025/01/THASLEEMA-e1737557598113.jpeg
   - /assets/uploads/2025/05/WhatsApp-Image-2025-05-14-at-10.41.09-AM.jpeg
@@ -53,28 +72,30 @@ gallery:
 
 ## About
 
-The Department Established in the Year 2010 along with the; inception of the college.B.A English Language and Literatue course was started in 2011.
+Established in 2010, the Department of English offers undergraduate programmes in English Language and Literature, with a focus on language proficiency, literary appreciation, critical thinking, communication and professional development. The department strives to nurture confident, creative and responsible learners through innovative teaching, academic activities, skill-oriented programmes and exposure to diverse perspectives. With the introduction of the B.A. English Language and Literature Honours programme in 2024, the department continues to prepare students for higher studies, diverse career opportunities and leadership roles in a global society.
 
 ## Vision
 
-The vision of the Department of English is to offer students adequate communication skills to prepare them for their professional needs in the globalized scenario prevalent today.
+To empower students with strong communication, critical thinking and creative skills, enabling them to become confident, responsible and future-ready leaders in a global society.
 
 ## Mission
 
-The Department aims to cultivate critical thinking, effective communication and cultural understanding through the study of literature ,writing and language.
-The Department empower students with analytical skills, writing proficiency and appreciation for diverse perspectives, preparing them for careers in writing, education, publishing, media and beyond
+To develop students' analytical, writing, communication and leadership skills, foster an appreciation of diverse perspectives, and prepare them for professional success and meaningful contributions to society.
 
+## Courses Offered
 
-## Head Of Department
+| Programme | Year of Establishment | Level | Duration |
+| --- | --- | --- | --- |
+| B.A. English Language and Literature | 2010 | Undergraduate | 3 Years |
+| B.A. English Language and Literature (Honours) | 2024 | Undergraduate | 4 Years |
 
-## Thasleema A T
+## Student & Alumni Achievements
 
-## MA English , NET
+- **Ashish Govind O. T.** (Alumnus, 2020–2023 Batch) — Selected as Constable (General Duty) in the Central Industrial Security Force (CISF).
+- **Muhammad Althaf M. T.** (Alumnus) — Selected to participate in the National Integration Camp (NIC) organised by the National Service Scheme (NSS), held in Himachal Pradesh.
+- **Mariyam Hiba** (Alumna) — Published her poetry collection, registered under ISBN 979-8890024565.
+- **Fathima Saja** (Third Year, B.A. English Language and Literature) — Presented a research paper titled "Subverting Patriarchal Vision: The Performance of Gender in *Lokah Chapter 1: Chandra*" at the Alshifa International Student Seminar, Al Shifa College of Arts and Science.
 
-Head of Department
+## Department Facilities
 
-|  |  |
-| --- | --- |
-| Faculty | Roshna Maneri Abbas |
-| MA English , NET | Thasleema A T |
-| MA English , NET | Muhammed Shanif K T |
+- Department Library

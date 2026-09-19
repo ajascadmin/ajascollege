@@ -12,6 +12,9 @@ import PeopleGrid from "../components/PeopleGrid.astro";
 import MenuGrid from "../components/MenuGrid.astro";
 import VideoSection from "../components/VideoSection.astro";
 import { optimizeHtmlImages } from "../lib/cmsImage";
+import DocTools from "../components/DocTools.astro";
+import { pageDescription } from "../lib/seo";
+import PrevNext from "../components/PrevNext.astro";
 import {
   getAllEntries,
   normalizePermalink,
@@ -48,6 +51,7 @@ const isProfile = collection === "faculty" || t === "profile";
 const isNews = collection === "news";
 const isEvent = collection === "events";
 const isEntity = isNews || isEvent;
+const isVisionPage = perm === "/vision-mission/";
 // Structured info pages (not listings, not pure HTML leftovers)
 const isSmartPage =
   collection === "pages" &&
@@ -67,15 +71,251 @@ const date = "date" in entry.data ? entry.data.date : undefined;
 const attachments =
   "attachments" in entry.data ? entry.data.attachments : undefined;
 const gallery = "gallery" in entry.data ? entry.data.gallery : undefined;
-const people = "people" in entry.data ? entry.data.people : undefined;
+const rawPeople = "people" in entry.data ? entry.data.people : undefined;
+
+/* Department rosters carry only a name + qualification, so they rendered as
+   grey initial blocks — while the same people already have headshots and
+   profile pages in the faculty collection. Match on name and fill those in. */
+const normalizeName = (n: string) =>
+  n
+    .toLowerCase()
+    .replace(/\b(dr|mr|mrs|ms|prof)\.?\s+/g, "")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+
+let people = rawPeople;
+if (rawPeople && rawPeople.length > 0) {
+  const { getCollection } = await import("astro:content");
+  const facultyEntries = await getCollection("faculty", ({ data }) => !data.draft);
+  const byName = new Map<string, { image?: string; permalink: string }>();
+  for (const f of facultyEntries) {
+    const key = normalizeName(String(f.data.name || f.data.title));
+    if (key && !byName.has(key)) {
+      byName.set(key, { image: f.data.image, permalink: f.data.permalink });
+    }
+  }
+  people = rawPeople.map((p) => {
+    const match = byName.get(normalizeName(p.name));
+    if (!match) return p;
+    return { ...p, photo: p.photo || match.image, link: p.link || match.permalink };
+  });
+}
 const menuItems = "menu_items" in entry.data ? entry.data.menu_items : undefined;
+
+/* A page whose lead `image` is also a person's headshot (warden, HoD…) had
+   that portrait cropped into a 16:5 banner — a pair of eyes across the top of
+   the page. Prefer the first gallery photograph in that case. */
+const peoplePhotos = new Set((rawPeople || []).map((p) => p.photo).filter(Boolean) as string[]);
+const banner =
+  image && peoplePhotos.has(image) ? (gallery && gallery[0]) || undefined : image;
+
+/* A roster with no heading reads as a stray card, which is what made thin
+   pages (one council chairman, one hostel warden) look broken. Name the list
+   after what the page is about. */
+function rosterLabel(): string {
+  const t = entry.data.title.toLowerCase();
+  if (perm.startsWith("/departments/") && perm !== "/departments/") return "Faculty";
+  if (/council|committee|board/.test(t)) return "Members";
+  if (/hostel/.test(t)) return "Warden";
+  if (/non-?teaching|administrative|office/.test(t)) return "Staff";
+  if (/cell|club|forum/.test(t)) return "Convenors";
+  if (/principal|management|leadership/.test(t)) return "Leadership";
+  return "People";
+}
+const rosterTitle = rosterLabel();
+
+/* Which department lists this person? Department pages carry a `people`
+   roster, so the link can be derived rather than duplicated in frontmatter. */
+let facultyDept: { permalink: string; short: string } | undefined;
+if (isProfile) {
+  const { getCollection: getCol } = await import("astro:content");
+  const deptPages = await getCol("pages", ({ data }) =>
+    data.permalink.startsWith("/departments/") && data.permalink !== "/departments/",
+  );
+  const me = normalizeName(displayName);
+  for (const d of deptPages) {
+    const roster = ("people" in d.data ? d.data.people : undefined) || [];
+    if (roster.some((r) => normalizeName(r.name) === me)) {
+      facultyDept = {
+        permalink: d.data.permalink,
+        short: d.data.title
+          .replace(/^(pg\s+)?department\s+of\s+/i, "")
+          .replace(/^non[-\s]core\s+departments?\s*[-–]?\s*/i, ""),
+      };
+      break;
+    }
+  }
+}
+
+function getScholarlyBadges(data: { name?: string; title?: string; role?: string; credentials?: string }) {
+  const badges: { label: string; type: "gold" | "green" | "blue" | "navy" }[] = [];
+  const text = `${data.name || ""} ${data.title || ""} ${data.credentials || ""} ${data.role || ""}`;
+
+  if (/\b(ph\.?d|doctorate)\b/i.test(text)) {
+    badges.push({ label: "Ph.D.", type: "gold" });
+  }
+  if (/\b(jrf)\b/i.test(text)) {
+    badges.push({ label: "UGC-JRF", type: "green" });
+  } else if (/\b(net)\b/i.test(text)) {
+    badges.push({ label: "UGC-NET", type: "green" });
+  }
+  if (/\b(m\.?phil)\b/i.test(text)) {
+    badges.push({ label: "M.Phil.", type: "blue" });
+  }
+  if (/\b(hod|head of the department|head)\b/i.test(data.role || "")) {
+    badges.push({ label: "HoD", type: "navy" });
+  } else if (/\b(coordinator|co-ordinator)\b/i.test(data.role || "")) {
+    badges.push({ label: "Coordinator", type: "navy" });
+  }
+
+  return badges;
+}
+const profileBadges = isProfile
+  ? getScholarlyBadges({ name: displayName, title: entry.data.title, role, credentials })
+  : [];
+
+/* ——— SEO ———————————————————————————————————————————————— */
+const SITE_URL = "https://ajascollege.ac.in";
+const abs = (u?: string) => (u ? new URL(u, SITE_URL).href : undefined);
+
+const metaDescription = pageDescription({
+  frontmatter: entry.data.description,
+  body,
+  fallback: `${entry.data.title} — Al Jamia Arts & Science College, Perinthalmanna.`,
+});
+
+/* One structured-data type per kind of page, so results can carry dates for
+   an event, a job title for a member of staff, and so on. */
+let jsonLd: Record<string, unknown> | null = null;
+if (isEvent) {
+  jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Event",
+    name: entry.data.title,
+    description: metaDescription,
+    ...(date ? { startDate: new Date(date).toISOString().slice(0, 10) } : {}),
+    eventStatus: "https://schema.org/EventScheduled",
+    eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+    ...(image ? { image: [abs(image)] } : {}),
+    url: abs(perm),
+    location: {
+      "@type": "Place",
+      name: "Al Jamia Arts & Science College",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "Poopalam, Valambur (P.O)",
+        addressLocality: "Perinthalmanna",
+        addressRegion: "Kerala",
+        postalCode: "679325",
+        addressCountry: "IN",
+      },
+    },
+    organizer: {
+      "@type": "CollegeOrUniversity",
+      name: "Al Jamia Arts & Science College",
+      url: SITE_URL,
+    },
+  };
+} else if (isNews) {
+  jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    headline: entry.data.title,
+    description: metaDescription,
+    ...(date ? { datePublished: new Date(date).toISOString() } : {}),
+    ...(image ? { image: [abs(image)] } : {}),
+    mainEntityOfPage: abs(perm),
+    publisher: {
+      "@type": "CollegeOrUniversity",
+      name: "Al Jamia Arts & Science College",
+      url: SITE_URL,
+    },
+  };
+} else if (isProfile) {
+  jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: displayName,
+    ...(role ? { jobTitle: role } : {}),
+    ...(credentials ? { hasCredential: credentials } : {}),
+    ...(image ? { image: abs(image) } : {}),
+    url: abs(perm),
+    worksFor: {
+      "@type": "CollegeOrUniversity",
+      name: "Al Jamia Arts & Science College",
+      url: SITE_URL,
+    },
+    ...(facultyDept ? { department: { "@type": "Organization", name: facultyDept.short } } : {}),
+  };
+} else if (perm.startsWith("/departments/") && perm !== "/departments/") {
+  jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CollegeDepartment",
+    name: entry.data.title,
+    description: metaDescription,
+    url: abs(perm),
+    ...(image ? { image: abs(image) } : {}),
+    parentOrganization: {
+      "@type": "CollegeOrUniversity",
+      name: "Al Jamia Arts & Science College",
+      url: SITE_URL,
+    },
+  };
+}
+
+/* Sibling navigation: the next department, the next news item, and so on.
+   Scoped to the entry's own section so it never jumps between unrelated
+   parts of the site. */
+const SECTIONS: { prefix: string; label: string }[] = [
+  { prefix: "/departments/", label: "All departments" },
+  { prefix: "/labs/", label: "All labs" },
+  { prefix: "/clubs--cells/", label: "All clubs & cells" },
+  { prefix: "/faculties/", label: "All faculty" },
+  { prefix: "/college-news/", label: "All news" },
+  { prefix: "/event/", label: "All events" },
+];
+const section = SECTIONS.find((sec) => perm.startsWith(sec.prefix) && perm !== sec.prefix);
+
+let prevItem: { label: string; href: string } | null = null;
+let nextItem: { label: string; href: string } | null = null;
+if (section) {
+  const { getCollection: gc } = await import("astro:content");
+  const pool = await gc(collection as "pages", ({ data }) => !data.draft);
+  const siblings = pool
+    .filter((e) => {
+      const pl = normalizePermalink(e.data.permalink);
+      return pl.startsWith(section.prefix) && pl !== section.prefix;
+    })
+    .sort((a, b) => {
+      const da = "date" in a.data && a.data.date ? +new Date(a.data.date) : null;
+      const db = "date" in b.data && b.data.date ? +new Date(b.data.date) : null;
+      if (da !== null && db !== null && da !== db) return db - da; // newest first
+      return a.data.title.localeCompare(b.data.title);
+    });
+  const i = siblings.findIndex((e) => normalizePermalink(e.data.permalink) === perm);
+  if (i > -1) {
+    const p0 = siblings[i - 1];
+    const n0 = siblings[i + 1];
+    if (p0) prevItem = { label: p0.data.title, href: p0.data.permalink };
+    if (n0) nextItem = { label: n0.data.title, href: n0.data.permalink };
+  }
+}
+
 const videos = "videos" in entry.data ? entry.data.videos : undefined;
 
 /** Markdown/HTML body with CMS images rewritten to optimized webp */
 const bodyHtmlRaw = body
   ? ((await marked.parse(body, { async: false })) as string)
   : "";
-const bodyHtml = bodyHtmlRaw ? await optimizeHtmlImages(bodyHtmlRaw, "inline") : "";
+/* A migrated body often opens with its own <h1>, which duplicates the page
+   band's heading. SmartPage already demotes these; do the same for the routes
+   that render raw markdown, so every page ships exactly one <h1>. */
+const bodyHtmlSingleH1 = bodyHtmlRaw
+  .replace(/<h1(\s[^>]*)?>/gi, "<h2$1>")
+  .replace(/<\/h1>/gi, "</h2>");
+const bodyHtml = bodyHtmlSingleH1
+  ? await optimizeHtmlImages(bodyHtmlSingleH1, "inline")
+  : "";
 
 if (isNews) {
   crumbs.push({ label: "News", href: "/college-news/" });
@@ -102,9 +342,13 @@ if (isNews) {
 
 <BaseLayout
   title={entry.data.title}
-  description={entry.data.description}
+  description={metaDescription}
+  image={image}
+  jsonLd={jsonLd}
+  publishedTime={date ? new Date(date).toISOString() : undefined}
+  bandTitleIsLabel={isProfile}
   variant="inner"
-  pageTitle={entry.data.title}
+  pageTitle={isNews ? "News" : isEvent ? "Events" : entry.data.title}
   breadcrumbs={crumbs}
 >
   {
@@ -120,41 +364,73 @@ if (isNews) {
         videos={videos}
       />
     ) : isProfile ? (
-      <div class="ajas-profile-wrap">
-        <article class="ajas-profile-card">
-          <div class="ajas-profile">
-            {image && (
-              <div class="ajas-profile-photo">
-                <CmsImage
-                  src={image}
-                  alt={displayName}
-                  preset="avatar"
-                  fit="cover"
-                  width={400}
-                  loading="eager"
-                />
-              </div>
-            )}
-            <div class="ajas-profile-meta">
+      <div class="fp">
+        <div class="fp-inner">
+          <div class="fp-grid">
+            <figure class="fp-photo">
+              {image ? (
+                <CmsImage src={image} alt={displayName} preset="avatar" fit="cover" width={520} loading="eager" />
+              ) : (
+                <span class="fp-monogram" aria-hidden="true">
+                  {displayName
+                    .split(/\s+/)
+                    .slice(0, 2)
+                    .map((w) => w[0])
+                    .join("")}
+                </span>
+              )}
+            </figure>
+
+            <div class="fp-body">
+              <p class="fp-kicker">Faculty</p>
               <h1>{displayName}</h1>
-              {credentials && <p class="ajas-profile-cred">{credentials}</p>}
-              {role && <p class="ajas-profile-role">{role}</p>}
-              <a class="ajas-profile-back" href="/faculties/">
-                ← All faculty
-              </a>
+              {role && <p class="fp-role">{role}</p>}
+              {profileBadges.length > 0 && (
+                <div class="fp-badges">
+                  {profileBadges.map((b) => (
+                    <span class={`badge-pill badge-${b.type}`}>{b.label}</span>
+                  ))}
+                </div>
+              )}
+
+              <dl class="fp-facts">
+                {credentials && (
+                  <div>
+                    <dt>Qualifications</dt>
+                    <dd>{credentials}</dd>
+                  </div>
+                )}
+                {facultyDept && (
+                  <div>
+                    <dt>Department</dt>
+                    <dd>
+                      <a href={facultyDept.permalink}>{facultyDept.short}</a>
+                    </dd>
+                  </div>
+                )}
+                <div>
+                  <dt>Institution</dt>
+                  <dd>Al Jamia Arts &amp; Science College</dd>
+                </div>
+              </dl>
+
+              {bodyHtml && <div class="fp-bio ajas-prose" set:html={bodyHtml} />}
+
+              <div class="fp-foot">
+                <a class="fp-link" href="/faculties/">← All faculty</a>
+                {facultyDept && <a class="fp-link" href={facultyDept.permalink}>Visit the department →</a>}
+              </div>
             </div>
-            {bodyHtml && (
-              <div class="ajas-profile-bio ajas-prose" set:html={bodyHtml} />
-            )}
           </div>
-        </article>
+        </div>
       </div>
     ) : isSmartPage && body ? (
       <SmartPage
         title={entry.data.title}
         body={body}
         permalink={perm}
-        image={image}
+        image={banner}
+        gallery={gallery}
         attachments={attachments}
       />
     ) : !body &&
@@ -180,7 +456,7 @@ if (isNews) {
   }
   {
     !isEntity && !isProfile && people && people.length > 0 && (
-      <PeopleGrid people={people} />
+      <PeopleGrid people={people} title={rosterTitle} />
     )
   }
   {
@@ -189,7 +465,7 @@ if (isNews) {
     )
   }
   {
-    !isEntity && !isProfile && gallery && gallery.length > 0 && (
+    !isEntity && !isProfile && !isVisionPage && gallery && gallery.length > 0 && (
       <GallerySection images={gallery} title="Gallery" />
     )
   }
@@ -198,85 +474,195 @@ if (isNews) {
       <VideoSection videos={videos} title="Video" />
     )
   }
+
+  {isSmartPage && body && <DocTools />}
+  <PrevNext
+    prev={prevItem}
+    next={nextItem}
+    indexLabel={section?.label}
+    indexHref={section?.prefix}
+  />
 </BaseLayout>
 
 <style>
-  /* Single profile card — no nested ArticleShell */
-  .ajas-profile-wrap {
-    padding: 28px 16px 56px;
-    background: linear-gradient(180deg, #f0f3f8 0%, #f8fafc 35%, #fff 100%);
-  }
-  .ajas-profile-card {
-    max-width: 820px;
-    margin: 0 auto;
+  /* ---- faculty profile: the department-page frame, not a centred card ---- */
+  .fp {
     background: #fff;
-    border-radius: 12px;
-    padding: 28px 24px 32px;
-    box-shadow: 0 10px 36px rgba(24, 50, 81, 0.08);
+    padding: 30px 0 52px;
   }
-  @media (min-width: 768px) {
-    .ajas-profile-card {
-      padding: 36px 40px 40px;
-    }
+  .fp-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 clamp(16px, 3.4vw, 56px);
   }
-  .ajas-profile {
+  .fp-grid {
     display: grid;
-    gap: 1.25rem;
+    gap: 30px clamp(32px, 4vw, 64px);
+    align-items: start;
   }
-  @media (min-width: 768px) {
-    .ajas-profile {
-      grid-template-columns: 200px 1fr;
-      grid-template-areas:
-        "photo meta"
-        "bio bio";
-      column-gap: 1.75rem;
+  @media (min-width: 900px) {
+    .fp-grid {
+      grid-template-columns: minmax(230px, 320px) minmax(0, 1fr);
     }
-    .ajas-profile-photo {
-      grid-area: photo;
-    }
-    .ajas-profile-meta {
-      grid-area: meta;
-      align-self: center;
-    }
-    .ajas-profile-bio {
-      grid-area: bio;
-      margin-top: 0.5rem;
-      padding-top: 1.25rem;
-      border-top: 1px solid #e8eef4;
+    .fp-photo {
+      position: sticky;
+      top: calc(var(--ajn-bar-h, 66px) + 24px);
     }
   }
-  .ajas-profile-photo img {
+  .fp-photo {
+    margin: 0;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border-radius: 0;
+    background: #eef2f7;
+    border-top: 3px solid #c9a961;
+  }
+  .fp-photo :global(img) {
     width: 100%;
-    max-width: 220px;
-    aspect-ratio: 3 / 4;
-    border-radius: 10px;
+    height: 100%;
     object-fit: cover;
     object-position: center top;
     display: block;
   }
-  .ajas-profile-meta h1 {
-    margin: 0 0 0.35em;
-    font-size: 1.6rem;
-    color: #183251;
-  }
-  .ajas-profile-cred,
-  .ajas-profile-role {
-    margin: 0.15em 0;
-    color: #475569;
-  }
-  .ajas-profile-role {
+  .fp-monogram {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    font-family: var(--font-serif);
+    font-size: 3rem;
     font-weight: 600;
-    color: #3f4c99;
+    letter-spacing: 0.06em;
+    color: #fff;
+    background: linear-gradient(150deg, #1c3a5e, #10263f);
   }
-  .ajas-profile-back {
+  .fp-kicker {
+    margin: 0 0 8px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #8a99ad;
+  }
+  .fp-body h1 {
+    margin: 0 0 6px;
+    font-family: var(--font-serif);
+    font-size: clamp(1.9rem, 3vw, 2.7rem);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: #17304f;
+  }
+  .fp-role {
+    margin: 0 0 12px;
+    font-size: 1.12rem;
+    color: #55647c;
+  }
+  .fp-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0 0 22px;
+    padding-bottom: 18px;
+    border-bottom: 2px solid #17304f;
+  }
+  .fp-badges .badge-pill {
     display: inline-block;
-    margin-top: 0.85rem;
-    font-size: 0.9rem;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .badge-gold {
+    background: #c9a961;
+    color: #0b1b2b;
+  }
+  .badge-green {
+    background: #059669;
+    color: #fff;
+  }
+  .badge-blue {
+    background: #0284c7;
+    color: #fff;
+  }
+  .badge-navy {
+    background: #0f2947;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+  .fp-facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1px;
+    margin: 0 0 26px;
+    background: #dde4ed;
+    border: 1px solid #dde4ed;
+  }
+  .fp-facts div {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding: 14px 16px;
+    background: #fff;
+    min-width: 0;
+  }
+  .fp-facts dt {
+    margin: 0;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: #91a0b4;
+  }
+  .fp-facts dd {
+    margin: 0;
+    font-size: 0.98rem;
     font-weight: 600;
-    color: #3f4c99;
+    line-height: 1.4;
+    color: #17304f;
+  }
+  .fp-facts a {
+    color: inherit;
+    border-bottom: 1px solid rgba(23, 48, 79, 0.28);
     text-decoration: none;
   }
-  .ajas-profile-back:hover {
+  .fp-facts a:hover {
     color: #ff5f60;
+    border-bottom-color: #ff5f60;
+  }
+  .fp-bio {
+    max-width: 74ch;
+  }
+  .fp-foot {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 24px;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #e4eaf1;
+  }
+  .fp-link {
+    font-size: 14px;
+    font-weight: 600;
+    color: #17304f;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(23, 48, 79, 0.34);
+    padding-bottom: 2px;
+    transition: color 0.18s ease, border-color 0.18s ease;
+  }
+  .fp-link:hover {
+    color: #ff5f60;
+    border-bottom-color: #ff5f60;
+  }
+  @media (max-width: 899px) {
+    .fp {
+      padding: 20px 0 34px;
+    }
+    .fp-photo {
+      max-width: 240px;
+    }
   }
 </style>

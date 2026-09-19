@@ -41,7 +41,7 @@ With thriving international chapters across the UAE, Saudi Arabia, Kuwait, Qatar
 - **Mentorship & Career Guidance** — facilitating interactions to share industry insights and guide career pathways.
 - **Social & Cultural Events** — hosting competitions, cultural gatherings and global reunions.
 
-<div class="btn-apply-link"><ul>
-<li><a href="/contact/" class="btn btn-apply bg-clff5f60">Register as an Alumnus</a></li>
-<li><a href="/contact/" class="btn btn-request lt-sp06">Join Your Local Chapter</a></li>
-</ul></div>
+<div class="ajas-cta-row">
+<a href="/contact/" class="ajas-cta-primary">Register as an Alumnus</a>
+<a href="/contact/" class="ajas-cta-secondary">Join Your Local Chapter</a>
+</div>

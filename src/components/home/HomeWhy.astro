@@ -1,0 +1,256 @@
+---
+/**
+ * "Why choose AJAS" + the admissions call to action.
+ *
+ * Replaces the legacy Edukin `.flat-benefit` markup, whose styling was spread
+ * across a dozen places in migrate.css with competing `!important` rules. The
+ * visible symptoms: four identical bordered cells crammed into the left half,
+ * and a solid coral slab floating in the right half that lined up with neither
+ * the top nor the bottom of the grid.
+ *
+ * Here the four reasons run as one open row under a gold rule — no boxes — and
+ * the CTA sits as a full-width strip beneath them, so nothing has to be
+ * vertically matched against anything else. Content still comes from
+ * content/home/homepage.json.
+ */
+interface BenefitItem {
+  title: string;
+  text: string;
+  url: string;
+}
+
+interface Props {
+  data: {
+    heading: string;
+    items: BenefitItem[];
+    cta_heading: string;
+    cta_text: string;
+    cta_primary_label: string;
+    cta_primary_url: string;
+    cta_secondary_label: string;
+    cta_secondary_url: string;
+  };
+}
+
+const { data } = Astro.props;
+---
+
+<section class="wy">
+  <div class="wy-inner">
+    <h2 class="wy-heading">{data.heading}</h2>
+
+    <ul class="wy-grid">
+      {
+        data.items.map((item) => (
+          <li>
+            <a class="wy-item" href={item.url}>
+              <span class="wy-title">{item.title}</span>
+              <span class="wy-text">{item.text}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="wy-cta">
+      <div class="wy-cta-copy">
+        <h3>{data.cta_heading}</h3>
+        <p>{data.cta_text}</p>
+      </div>
+      <div class="wy-cta-actions">
+        <a class="wy-cta-btn" href={data.cta_primary_url}>{data.cta_primary_label}</a>
+        <a class="wy-cta-link" href={data.cta_secondary_url}>{data.cta_secondary_label}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .wy {
+    position: relative;
+    background-image: linear-gradient(
+        104deg,
+        rgba(9, 22, 38, 0.96) 0%,
+        rgba(14, 35, 58, 0.93) 52%,
+        rgba(20, 46, 76, 0.9) 100%
+      ),
+      var(--ajas-admin-bg, url("/images/home1/17.png"));
+    background-size: cover;
+    background-position: center;
+    padding: clamp(46px, 5vw, 74px) 0 clamp(44px, 5vw, 70px);
+  }
+  .wy-inner {
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 0 clamp(16px, 3vw, 40px);
+  }
+
+  .wy-heading {
+    margin: 0 0 clamp(26px, 3vw, 38px);
+    font-family: var(--font-serif);
+    font-size: clamp(1.55rem, 2.6vw, 2.25rem);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    color: #fff;
+  }
+
+  /* ---- the four reasons: an open row, not a grid of cards ---- */
+  .wy-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(22px, 2.6vw, 44px);
+    margin: 0 0 clamp(36px, 4vw, 54px);
+    padding: 0;
+    list-style: none;
+  }
+  .wy-item {
+    display: grid;
+    gap: 10px;
+    align-content: start;
+    height: 100%;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    color: inherit;
+    text-decoration: none;
+    transition: border-color 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .wy-title {
+    justify-self: start;
+    font-family: var(--font-serif);
+    font-size: 1.16rem;
+    font-weight: 600;
+    line-height: 1.25;
+    color: #fff;
+    /* the whole column is the link; the underline is its affordance */
+    border-bottom: 1px solid transparent;
+    padding-bottom: 2px;
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+  .wy-text {
+    font-size: 0.925rem;
+    line-height: 1.62;
+    color: rgba(255, 255, 255, 0.72);
+  }
+  .wy-item:hover {
+    border-top-color: var(--ajn-gold, #c9a961);
+    transform: translateY(-2px);
+  }
+  .wy-item:hover .wy-title {
+    color: #f0d9a8;
+    border-bottom-color: rgba(240, 217, 168, 0.6);
+  }
+  .wy-item:focus-visible {
+    outline: 2px solid var(--ajn-gold, #c9a961);
+    outline-offset: 6px;
+  }
+
+  /* ---- admissions strip: a band across the foot, not a floating slab ---- */
+  .wy-cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 22px clamp(24px, 3vw, 48px);
+    padding: clamp(22px, 2.4vw, 30px) clamp(22px, 2.6vw, 36px);
+    background: rgba(255, 255, 255, 0.055);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-left: 3px solid var(--ajn-accent, #ff5f60);
+  }
+  .wy-cta-copy {
+    min-width: 0;
+    max-width: 60ch;
+  }
+  .wy-cta-copy h3 {
+    margin: 0 0 6px;
+    font-family: var(--font-serif);
+    font-size: clamp(1.18rem, 1.8vw, 1.5rem);
+    font-weight: 600;
+    line-height: 1.2;
+    color: #fff;
+  }
+  .wy-cta-copy p {
+    margin: 0;
+    font-size: 0.94rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.76);
+  }
+  .wy-cta-actions {
+    flex: none;
+    display: flex;
+    align-items: center;
+    gap: clamp(14px, 1.8vw, 26px);
+  }
+  .wy-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    min-height: 46px;
+    padding: 0 26px;
+    background: var(--ajn-accent, #ff5f60);
+    color: #fff;
+    font-size: 0.94rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.18s ease;
+  }
+  .wy-cta-btn:hover {
+    background: #ff4a4b;
+    color: #fff;
+  }
+  .wy-cta-link {
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.82);
+    text-decoration: none;
+    white-space: nowrap;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.34);
+    padding-bottom: 2px;
+    transition: color 0.18s ease, border-color 0.18s ease;
+  }
+  .wy-cta-link:hover {
+    color: #fff;
+    border-bottom-color: #fff;
+  }
+
+  @media (max-width: 1099px) {
+    .wy-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 767px) {
+    .wy-cta {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .wy-cta-actions {
+      width: 100%;
+      flex-wrap: wrap;
+      gap: 14px 20px;
+    }
+  }
+  @media (max-width: 559px) {
+    .wy-grid {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0;
+    }
+    /* stacked, the top rule on every item reads as a divider list */
+    .wy-item {
+      padding: 16px 0 20px;
+      border-top-color: rgba(255, 255, 255, 0.16);
+    }
+    .wy-cta-btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .wy-item,
+    .wy-title,
+    .wy-cta-btn,
+    .wy-cta-link {
+      transition: none;
+    }
+  }
+</style>

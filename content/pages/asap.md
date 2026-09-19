@@ -6,6 +6,9 @@ type: page
 image: "/assets/uploads/2025/04/foreign.png"
 gallery:
   - /assets/uploads/2025/04/WhatsApp-Image-2025-04-05-at-3.20.15-PM-2-e1743850107655.jpeg
+attachments:
+  - label: "ASAP Kerala — MoU (PDF)"
+    file: "/assets/uploads/2025/04/asap-mou.pdf"
 ---
 
 ![](/assets/uploads/2025/04/foreign.png)

@@ -3,7 +3,25 @@ title: Department of Food Technology
 description: "Al Jamia Arts & Science College, Perinthalmanna — affiliated to the University of Calicut."
 permalink: /departments/department-of-food-technology/
 type: page
+people:
+  - name: "Sameeha Shirin K V"
+    role: "M.Sc. Food Science and Technology, UGC-NET, Ph.D. Scholar — Head of Department"
+  - name: "Shaniba K"
+    role: "M.Sc. Chemistry, B.Ed."
+  - name: "Arsha A Vinod"
+    role: "M.Sc. Food Science and Technology"
+  - name: "Jalva C"
+    role: "M.Sc. Food Science and Technology"
+image: /assets/uploads/2026/09/food-technology/Tile-Image.jpg
 gallery:
+  - /assets/uploads/2026/09/food-technology/Tile-Image.jpg
+  - /assets/uploads/2026/09/food-technology/8G8A3832.JPG.jpeg
+  - /assets/uploads/2026/09/food-technology/8G8A3855.JPG.jpeg
+  - /assets/uploads/2026/09/food-technology/8G8A3872.JPG.jpeg
+  - /assets/uploads/2026/09/food-technology/8G8A3900.JPG.jpeg
+  - /assets/uploads/2026/09/food-technology/8G8A3911.JPG.jpeg
+  - /assets/uploads/2026/09/food-technology/8G8A3925.JPG.jpeg
+  - /assets/uploads/2026/09/food-technology/8G8A3944.JPG.jpeg
   - /assets/uploads/2024/05/empty-microbiology-laboratory-with-nobody-it-prepared-genetic-mutation-test-min-scaled.jpg
   - /assets/uploads/2025/08/WhatsApp-Image-2025-07-31-at-7.40.50-PM.jpeg
   - /assets/uploads/2025/10/WhatsApp-Image-2025-10-18-at-1.15.15-PM.jpeg
@@ -141,27 +159,37 @@ gallery:
 
 ## About
 
-Established in the year 2018. The Department of Food Technology is committed to provide quality education to aspiring graduates. At present, it has Four Assistant Professors with rich experience in the field of teaching.The department is endowed with a group of well experienced and dedicated faculty members.
+Established in 2018, the Department of Food Technology is committed to providing quality education to aspiring food technologists. The department currently offers the B.Sc. Food Technology (Honours) programme and is supported by a team of four dedicated and experienced faculty members. The department focuses on academic excellence, practical learning, research, innovation, entrepreneurship and industry exposure to prepare students for successful careers in the food sector.
 
 ## Vision
 
-The vision of Food Technology Department in college include advancing food science and technology,fostering innovation in food processing,promting sustainable and healthy food practices and preparing students for careers in the food industry through experimental learning and research opportunities.
+To be a centre of excellence in Food Technology education by nurturing competent professionals through quality education, innovation, research and entrepreneurship.
 
 ## Mission
 
-The mission of Food Technology department in college is to educate and train students in the principles and practices of food Science and technology, to conduct research that advances knowledge in food related fields, and to promote innovation and sustainability in the food industry.
+- Provide quality education with a strong foundation in food science and technology.
+- Promote practical learning through laboratory training, internships and industry interaction.
+- Encourage innovation and entrepreneurship through product development initiatives.
+- Enhance students' professional skills through certificate courses, research and extension activities.
 
+## Courses Offered
 
-## Head Of Department
+- B.Sc. Food Technology (Honours)
 
-## Sameeha Shirin K V
+## Department Distinctiveness
 
-## M.Sc. Food Science and Technology, NET
+- New Product Development Zone — Nourish Nova
+- Entrepreneurship support and mentoring
+- Internship guidance and industry exposure
+- Department certificate courses for skill enhancement
 
-Head of Department
+## Student Achievements
 
-|  |  |
-| --- | --- |
-| Faculty | Arsha A Vinod |
-| MSc Food Science and Technology, NET | Jalva C |
-| MSc Food Science and Technology, NET | Shaniba K |
+- University Rank Holders
+- Inter-collegiate Food Fest champions and prize winners in various competitions
+
+## Department Facilities
+
+- Food Technology Laboratory
+- Chemistry Laboratory
+- New Product Development Zone — Nourish Nova

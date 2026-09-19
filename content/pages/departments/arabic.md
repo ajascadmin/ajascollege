@@ -3,7 +3,13 @@ title: Department of Arabic
 description: "Al Jamia Arts & Science College, Perinthalmanna — affiliated to the University of Calicut."
 permalink: /departments/arabic/
 type: page
+people:
+  - name: "Abdul Rahiman P Y"
+    role: "MA Arabic — Head of Department"
+image: /assets/uploads/2026/09/arabic/Arabic-1-Tile-image.jpeg
 gallery:
+  - /assets/uploads/2026/09/arabic/Arabic-1-Tile-image.jpeg
+  - /assets/uploads/2026/09/arabic/arabic-2.jpeg
   - /assets/uploads/2024/06/arabic-.jpg
   - /assets/uploads/2025/01/abdurahman.jpeg
   - /assets/uploads/2025/01/LEADERSHIP_page-0001.jpg
@@ -27,15 +33,3 @@ To be a leading center of excellence in Arabic language and cultural studies, re
 
 To cultivate a profound understanding and appreciation of the Arabic language and culture among students, fostering critical thinking, effective communication, and intercultural competence. We aim to equip students with the linguistic and cultural tools necessary for academic, professional, and personal success in a globalized world.
 
-
-## Head Of Department
-
-## Abdul Rahiman P Y
-
-## MA Arabic
-
-Head of Department
-
-|  |  |
-| --- | --- |
-| Faculty | Abdul Rahiman P Y |

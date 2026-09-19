@@ -3,7 +3,22 @@ title: Department of Computer Application
 description: "Al Jamia Arts & Science College, Perinthalmanna — affiliated to the University of Calicut."
 permalink: /departments/department-of-computer-application/
 type: page
+people:
+  - name: "Rasli Marva T"
+    role: "M.Sc. Computer Science, UGC-NET"
+  - name: "Anfa Shareef"
+    role: "MCA"
+  - name: "Mohammed Shihabudeen A P"
+    role: "M.Sc. Mathematics"
+  - name: "Mufeeda"
+    role: "MCA"
+image: /assets/uploads/2026/09/computer-science/Tile-Image.jpg
 gallery:
+  - /assets/uploads/2026/09/bca/texarita-4-0.jpg
+  - /assets/uploads/2026/09/computer-science/Tile-Image.jpg
+  - /assets/uploads/2026/09/computer-science/P1877300.JPG.jpeg
+  - /assets/uploads/2026/09/computer-science/P1877315.JPG.jpeg
+  - /assets/uploads/2026/09/computer-science/P1877329.JPG.jpeg
   - /assets/uploads/2024/06/12064780_4884421.jpg
   - /assets/uploads/2024/05/WhatsApp-Image-2025-01-20-at-9.58.09-AM-1.jpeg
   - /assets/uploads/2025/10/WhatsApp-Image-2025-10-28-at-9.39.28-AM.jpeg
@@ -48,26 +63,56 @@ gallery:
 
 ## About
 
-Established in the year 2010, the Department of Computer Applications is committed to provide quality education to aspiring graduates. The department is endowed with a group of experienced, dedicated and enthusiastic faculty members who aim to impart sound knowledge and awareness in the latest trends of Computer Science and Applications. The department encourages student’s involvement in various co-curricular activities along with their academics. The students are also provided with the finest of opportunities to participate in various technical fests and recruitment drives. The department has a well-equipped and advanced operational Computer laboratory to provide the students with the necessary and sufficient backing of practical knowledge, in order to encourage them to manifest their innovative ideas. The laboratory provides machines with facilities in the area of Advanced Software Programming. The department conducted Experts talks, lectures/demonstrations from various technical area are periodically invited to give to the students on the latest developments in the field. As part of the faculty empowerment, the faculty members are encouraged to attend seminars and workshops in assorted areas. The Course was in self-financing stream. The Bachelor of Computer Applications (BCA) course is approved by the All India Council for Technical Education (AICTE) in 2024.
+Established in 2010, the Department of Computer Applications at Al Jamia Arts & Science College is dedicated to providing quality education in Computer Science and Information Technology. The department offers an industry-oriented curriculum that equips students with technical knowledge, practical skills and professional values. Through innovative teaching methods, hands-on laboratory sessions, internships, workshops, seminars and placement training, the department prepares students for successful careers in the IT industry and higher education. The Bachelor of Computer Applications (BCA) programme, offered in the self-financing stream, was approved by the All India Council for Technical Education (AICTE) in 2024.
 
 ## Vision
 
-To be a centre of excellence in computer applications education, fostering innovation, ethical professionalism, and lifelong learning, so that graduates are ready to meet global technological challenges and contribute meaningfully to society.
+To become a centre of excellence in computer applications by nurturing competent, innovative and socially responsible IT professionals through quality education, research and industry collaboration.
 
 ## Mission
 
-Provide quality education in computer applications and equip students with essential technical and professional skills. It aims to prepare students for the IT industry through practical learning and industry exposure. The department encourages innovation, research, and ethical responsibility among learners. Its goal is to produce competent and socially responsible computer professionals ready to meet global challenges.
+- Provide quality education in computer applications through an outcome-based learning approach.
+- Develop students' technical, analytical and problem-solving skills.
+- Promote innovation, entrepreneurship, research and lifelong learning.
+- Strengthen industry interaction through internships, workshops and placement activities.
+- Instil ethical values and professional responsibility among students.
 
+## Courses Provided
 
-## Head Of Department
+- BCA (Honours)
 
-## Jasira M K
+## Departmental Distinctiveness
 
-## MCA,NET
+- Industry-oriented curriculum with practical learning.
+- Well-equipped computer laboratories with internet facilities.
+- Value-added courses in emerging technologies.
+- Regular workshops, seminars, hackathons, coding competitions, and technical events.
+- Internship and placement support through industry collaborations.
+- Active Coding Club, Placement Cell, Innovation and Entrepreneurship initiatives.
+- Continuous mentoring and career guidance for students.
+- Strong academic performance with university rank holders and excellent pass percentage.
 
-Head of Department
+## Student Achievements
 
-|  |  |
-| --- | --- |
-| Faculty | Anfa Shareef |
-| MCA | Mohammed Shihabudheen A P |
+- **Fathima Irfana N P** (2021–2024) — 4th Rank in BCA, University of Calicut.
+- Prize winners at **Texarita 4.0**, the inter-collegiate tech fest at MES Kalladi College, Mannarkkad.
+- University Rank Holder in BCA.
+- Consistently excellent university examination results.
+- Students successfully placed in reputed IT companies.
+- Active participation and prizes in technical competitions, coding contests, project exhibitions, and innovation programmes.
+- Successful completion of internships and certification programmes, including international internship opportunities in Finland.
+
+## Department Facilities
+
+- Advanced Computer Laboratory
+- High-speed Internet and Wi-Fi
+- Smart Classrooms
+- AI Programming Lab
+- Licensed and Open-Source Software
+- Digital Learning Resources
+- Placement and Career Guidance Support
+
+## Alumni Achievers
+
+- Ninsha (Batch 2018) — Frontend and backend developer in the GCC
+- Regional Senior Security Consultant, Bangalore (Batch 2018)

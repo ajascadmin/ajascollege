@@ -1,0 +1,191 @@
+---
+/**
+ * Clubs, cells and support services — read from the /clubs--cells/ pages, so
+ * the homepage shows the real breadth of student life (and the statutory
+ * cells that a regulator looks for) without a hand-maintained list.
+ */
+import { getChildPages } from "../../lib/pageListing";
+
+const all = await getChildPages("/clubs--cells/");
+
+/** Statutory / redressal bodies read as assurance; the rest read as campus life. */
+const isCell = (t: string) => /cell|grievance|anti-|redressal|centre|committee/i.test(t);
+const cells = all.filter((c) => isCell(c.title));
+const clubs = all.filter((c) => !isCell(c.title));
+
+/* Some club pages are titled in caps ("FILM CLUB", "MALAYALAM VEDHI") and
+   others in sentence case; normalise so the chip row reads as one list. */
+const titleCase = (t: string) =>
+  t
+    .toLowerCase()
+    .replace(/\b([a-z])/g, (m) => m.toUpperCase())
+    .replace(/\b(Sc|St|Obc|Iedc|Nss)\b/g, (m) => m.toUpperCase())
+    .replace(/\bAnd\b/g, "and")
+    .replace(/\bIn\b/g, "in")
+    .replace(/\bOf\b/g, "of");
+
+const strip = (t: string) => {
+  const clean = t.replace(/\s*[-–]\s*AJAS.*$/i, "").trim();
+  return /[a-z]/.test(clean) ? clean : titleCase(clean);
+};
+---
+
+{
+  all.length > 0 && (
+    <section class="cl">
+      <div class="cl-inner">
+        <header class="cl-head">
+          <p class="cl-kicker">Beyond the syllabus</p>
+          <h2>Campus life &amp; student support</h2>
+          <p class="cl-lede">
+            {clubs.length} clubs and forums, and {cells.length} standing cells for welfare,
+            redressal and equal opportunity — each with a convenor and a page of its own.
+          </p>
+        </header>
+
+        <div class="cl-body">
+          <div class="cl-group">
+            <h3>Clubs &amp; forums</h3>
+            <ul class="cl-chips">
+              {clubs.map((c) => (
+                <li>
+                  <a href={c.permalink}>{strip(c.title)}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div class="cl-group cl-group-cells">
+            <h3>Cells &amp; committees</h3>
+            <ul class="cl-chips cl-chips-cells">
+              {cells.map((c) => (
+                <li>
+                  <a href={c.permalink}>{strip(c.title)}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .cl {
+    background: #f6f8fb;
+    border-top: 1px solid #e8edf4;
+    padding: 52px 0 54px;
+  }
+  .cl-inner {
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 0 clamp(16px, 3vw, 40px);
+  }
+  .cl-head {
+    max-width: 62ch;
+    margin-bottom: 28px;
+  }
+  .cl-kicker {
+    margin: 0 0 8px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #8a99ad;
+  }
+  .cl-head h2 {
+    margin: 0 0 10px;
+    font-family: var(--font-serif);
+    font-size: clamp(1.6rem, 2.4vw, 2.2rem);
+    font-weight: 600;
+    line-height: 1.14;
+    letter-spacing: -0.02em;
+    color: #17304f;
+  }
+  .cl-lede {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #56677e;
+  }
+
+  .cl-body {
+    display: grid;
+    gap: 28px clamp(28px, 4vw, 64px);
+  }
+  @media (min-width: 900px) {
+    .cl-body {
+      grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+    }
+  }
+  .cl-group h3 {
+    margin: 0 0 14px;
+    padding-bottom: 9px;
+    border-bottom: 1px solid #dce4ee;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #17304f;
+  }
+  .cl-chips {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .cl-chips a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    padding: 6px 13px;
+    border: 1px solid #dce4ee;
+    border-radius: 0;
+    background: #fff;
+    font-size: 13.2px;
+    font-weight: 500;
+    line-height: 1.3;
+    color: #3d4f67;
+    text-decoration: none;
+    transition: border-color 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+                color 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+                background 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .cl-chips a:hover {
+    border-color: #17304f;
+    background: #17304f;
+    color: #fff;
+    transform: translateY(-1.5px);
+    box-shadow: 0 4px 10px rgba(23, 48, 79, 0.12);
+  }
+  .cl-chips-cells a {
+    border-style: dashed;
+    background: transparent;
+  }
+  .cl-chips-cells a:hover {
+    border-style: solid;
+    border-color: #9b3440;
+    background: #9b3440;
+    color: #fff;
+    transform: translateY(-1.5px);
+    box-shadow: 0 4px 10px rgba(155, 52, 64, 0.14);
+  }
+
+  @media (max-width: 639px) {
+    .cl {
+      padding: 34px 0 34px;
+    }
+    .cl-head {
+      margin-bottom: 20px;
+    }
+    .cl-chips a {
+      font-size: 12.6px;
+      padding: 5px 11px;
+    }
+  }
+</style>

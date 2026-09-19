@@ -32,11 +32,17 @@ const dateLabel =
     : null;
 
 const kindLabel = kind === "news" ? "News" : kind === "event" ? "Event" : "Page";
-const optimizedBody = bodyHtml ? await optimizeHtmlImages(bodyHtml, "poster") : "";
+/* Migrated bodies repeat the headline as a leading <h1>. It used to be hidden
+   with CSS, which left a second (and with the page band, a third) <h1> in the
+   document for crawlers to read. Strip it instead. */
+const withoutLeadHeading = bodyHtml.replace(/^\s*<h1[^>]*>[\s\S]*?<\/h1>\s*/i, "");
+const optimizedBody = withoutLeadHeading
+  ? await optimizeHtmlImages(withoutLeadHeading, "poster")
+  : "";
 ---
 
 <article class="ajas-entity" data-kind={kind}>
-  <div class="ajas-entity-card">
+  <div class="ajas-entity-layout">
     {
       image && (
         <figure class="ajas-entity-poster">
@@ -68,24 +74,24 @@ const optimizedBody = bodyHtml ? await optimizeHtmlImages(bodyHtml, "poster") : 
 
 <style>
   .ajas-entity {
-    padding: 28px 16px 56px;
-    background: linear-gradient(180deg, #eef2f7 0%, #f7f9fc 50%, #fff 100%);
-  }
-  .ajas-entity-card {
-    max-width: 920px;
-    margin: 0 auto;
+    padding: 48px 20px 72px;
     background: #fff;
-    border-radius: 16px;
-    box-shadow: 0 12px 36px rgba(24, 50, 81, 0.1);
-    overflow: hidden;
+  }
+  .ajas-entity-layout {
+    max-width: 1180px;
+    margin: 0 auto;
+    display: grid;
+    gap: 42px;
+    align-items: start;
   }
   .ajas-entity-poster {
     margin: 0;
-    padding: 20px 20px 0;
-    background: #f4f6fa;
+    padding: 0;
+    background: #eef2f6;
     display: flex;
     align-items: center;
     justify-content: center;
+    border-top: 4px solid #c4a35a;
   }
   .ajas-entity-poster :global(img) {
     display: block;
@@ -94,18 +100,16 @@ const optimizedBody = bodyHtml ? await optimizeHtmlImages(bodyHtml, "poster") : 
     height: auto;
     max-height: min(72vh, 820px);
     object-fit: contain;
-    border-radius: 4px;
+    border-radius: 0;
   }
   .ajas-entity-panel {
-    padding: 28px 24px 32px;
+    padding: 0;
   }
-  @media (min-width: 768px) {
-    .ajas-entity-panel {
-      padding: 32px 40px 40px;
+  @media (min-width: 900px) {
+    .ajas-entity-layout:has(.ajas-entity-poster) {
+      grid-template-columns: minmax(360px, .9fr) minmax(0, 1.1fr);
     }
-    .ajas-entity-poster {
-      padding: 28px 28px 0;
-    }
+    .ajas-entity-poster { position: sticky; top: 104px; }
   }
   .ajas-entity-meta {
     display: flex;
@@ -117,28 +121,24 @@ const optimizedBody = bodyHtml ? await optimizeHtmlImages(bodyHtml, "poster") : 
   }
   .ajas-entity-kind {
     display: inline-block;
-    background: #183251;
-    color: #fff;
+    color: #8f2934;
     font-weight: 600;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    font-size: 11px;
-    padding: 4px 10px;
-    border-radius: 999px;
+    font-size: 13px;
+    padding-right: 16px;
+    border-right: 1px solid #cfd8e5;
   }
   .ajas-entity-meta time {
     color: #64748b;
   }
   .ajas-entity-title {
-    margin: 0 0 1.15rem;
-    font-size: clamp(1.4rem, 2.5vw, 1.85rem);
-    line-height: 1.25;
+    margin: 0 0 1.4rem;
+    padding-bottom: 1.15rem;
+    border-bottom: 2px solid #183251;
+    font-size: clamp(2rem, 4vw, 3.45rem);
+    line-height: 1.08;
     color: #183251;
     font-weight: 600;
     letter-spacing: -0.02em;
-  }
-  .ajas-entity-body :global(h1:first-child) {
-    display: none;
   }
   .ajas-entity-body :global(> p:first-child:has(> img:only-child)) {
     display: none;
@@ -147,7 +147,7 @@ const optimizedBody = bodyHtml ? await optimizeHtmlImages(bodyHtml, "poster") : 
     max-width: 100%;
     height: auto;
     object-fit: contain;
-    border-radius: 6px;
+    border-radius: 0;
     margin: 1em auto;
     display: block;
   }
@@ -160,6 +160,10 @@ const optimizedBody = bodyHtml ? await optimizeHtmlImages(bodyHtml, "poster") : 
     gap: 12px 20px;
     justify-content: space-between;
     align-items: center;
+  }
+  @media (max-width: 899px) {
+    .ajas-entity { padding-top: 32px; }
+    .ajas-entity-layout { gap: 30px; max-width: 760px; }
   }
   .ajas-entity-back {
     font-weight: 600;
@@ -176,10 +180,15 @@ const optimizedBody = bodyHtml ? await optimizeHtmlImages(bodyHtml, "poster") : 
     font-size: 14px;
   }
   .ajas-entity-more a {
-    color: #64748b;
+    color: #17304f;
+    font-weight: 600;
     text-decoration: none;
+    border-bottom: 1px solid rgba(23, 48, 79, 0.3);
+    padding-bottom: 2px;
+    transition: color 0.18s ease, border-color 0.18s ease;
   }
   .ajas-entity-more a:hover {
-    color: #183251;
+    color: #ff5f60;
+    border-bottom-color: #ff5f60;
   }
 </style>

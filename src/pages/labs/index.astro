@@ -74,7 +74,7 @@ const L = (await getListings())?.labs ?? {
   }
   .ajas-card {
     background: #fff;
-    border-radius: 14px;
+    border-radius: 0;
     overflow: hidden;
     box-shadow: 0 8px 26px rgba(24, 50, 81, 0.09);
     display: flex;
@@ -133,10 +133,13 @@ const L = (await getListings())?.labs ?? {
     flex: 1;
   }
   .ajas-card-more {
+    display: inline-block;
     font-size: 0.85rem;
     font-weight: 600;
     color: #ff5f60;
     text-decoration: none;
+    padding-bottom: 3px;
+    border-bottom: 1px solid rgba(255, 95, 96, 0.45);
   }
   .ajas-card-more i {
     margin-left: 4px;

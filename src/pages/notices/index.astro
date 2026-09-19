@@ -1,6 +1,9 @@
 ---
+import fs from "node:fs";
+import path from "node:path";
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import ArticleShell from "../../components/ArticleShell.astro";
 import { getListings } from "../../lib/site";
 
 const notices = (await getCollection("notices", ({ data }) => !data.draft)).sort((a, b) => {
@@ -8,6 +11,21 @@ const notices = (await getCollection("notices", ({ data }) => !data.draft)).sort
   const db = b.data.date ? +new Date(b.data.date) : 0;
   return db - da;
 });
+
+function getFileSize(filePath?: string): string {
+  if (!filePath) return "";
+  try {
+    const clean = filePath.startsWith("/") ? filePath.slice(1) : filePath;
+    const full = path.join(process.cwd(), "public", clean);
+    if (fs.existsSync(full)) {
+      const bytes = fs.statSync(full).size;
+      if (bytes < 1024) return `${bytes} B`;
+      if (bytes < 1024 * 1024) return `${Math.round(bytes / 1024)} KB`;
+      return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+    }
+  } catch (e) {}
+  return "";
+}
 
 const byCat = new Map<string, typeof notices>();
 for (const n of notices) {
@@ -20,7 +38,7 @@ const labels: Record<string, string> = {
   admission: "Admission",
   academic: "Academic",
   compliance: "NIRF / AISHE / AICTE",
-  iqac: "IQAC",
+  iqac: "IQAC & NAAC",
   mandatory: "Mandatory disclosure",
   admin: "Administration",
   general: "General notices",
@@ -29,71 +47,332 @@ const labels: Record<string, string> = {
 const L = (await getListings())?.notices ?? {
   title: "Notices & Downloads",
   description: "Circulars, compliance reports and downloadable documents — Al Jamia Arts & Science College.",
-  intro: "Official circulars, compliance reports and downloadable documents.",
+  intro: "Official circulars, compliance reports and statutory downloadable documents.",
 };
 ---
 
 <BaseLayout title={L.title} description={L.description} pageTitle={L.title}>
-  <div class="blog-single content-blog narrow-page">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-9">
-          <div class="site-content clearfix">
-            <article class="post post-blog-single">
-              <div class="content-blog-single-wrap migrate-content" data-pagefind-body>
-                <p class="listing-intro">{L.intro}</p>
+  <ArticleShell variant="listing">
+    <p class="listing-intro">{L.intro}</p>
 
-                {
-                  [...byCat.entries()].map(([cat, items]) => (
-                    <section class="ajas-notice-group">
-                      <h2>{labels[cat] || cat}</h2>
-                      <table class="mig-roster ajas-notice-table">
-                        <thead>
-                          <tr>
-                            <th>Document</th>
-                            <th>Date</th>
-                            <th></th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {items.map((n) => (
-                            <tr>
-                              <td class="nm">{n.data.title}</td>
-                              <td class="rl">
-                                {n.data.date
-                                  ? new Date(n.data.date).toLocaleDateString("en-IN", {
-                                      year: "numeric",
-                                      month: "short",
-                                      day: "numeric",
-                                    })
-                                  : "—"}
-                              </td>
-                              <td>
-                                <a href={n.data.file} target="_blank" rel="noopener">
-                                  Download PDF
-                                </a>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </section>
-                  ))
-                }
-              </div>
-            </article>
-          </div>
-        </div>
-      </div>
+    {/* Filter without a framework: the groups are already in the
+        DOM, so the buttons just toggle their visibility. Works as
+        a plain list of anchored sections when JS is unavailable. */}
+    <div class="nt-filter" role="group" aria-label="Filter notices by category">
+      <button type="button" class="nt-chip is-on" data-nt="all">
+        All Documents <span>{notices.length}</span>
+      </button>
+      {[...byCat.entries()].map(([cat, items]) => (
+        <button type="button" class="nt-chip" data-nt={cat}>
+          {labels[cat] || cat} <span>{items.length}</span>
+        </button>
+      ))}
     </div>
-  </div>
+
+    {
+      [...byCat.entries()].map(([cat, items]) => (
+        <section class="ajas-notice-group" data-cat={cat}>
+          <div class="ajas-notice-group-head">
+            <h2>{labels[cat] || cat}</h2>
+            <span class="group-count">{items.length} {items.length === 1 ? "record" : "records"}</span>
+          </div>
+          <table class="mig-roster ajas-notice-table">
+            <thead>
+              <tr>
+                <th style="width: 58%;">Document &amp; Reference</th>
+                <th style="width: 20%;">Date of Record</th>
+                <th style="width: 22%; text-align: right;">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {items.map((n) => {
+                const size = getFileSize(n.data.file);
+                const isPdf = n.data.file?.endsWith(".pdf");
+                return (
+                  <tr>
+                    <td class="nm">
+                      <div class="doc-cell">
+                        <span class="doc-title">{n.data.title}</span>
+                        <div class="doc-meta-pills">
+                          <span class={`cat-pill cat-${cat}`}>{labels[cat] || cat}</span>
+                          {isPdf && (
+                            <span class="pdf-pill" title="Official PDF format">
+                              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                              PDF {size ? `· ${size}` : ""}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </td>
+                    <td class="rl">
+                      <span class="date-text">
+                        {n.data.date
+                          ? new Date(n.data.date).toLocaleDateString("en-IN", {
+                              year: "numeric",
+                              month: "short",
+                              day: "numeric",
+                            })
+                          : "Permanent Record"}
+                      </span>
+                    </td>
+                    <td style="text-align: right;">
+                      {n.data.file ? (
+                        <a class="btn-doc-download" href={n.data.file} target="_blank" rel="noopener">
+                          <span>Download</span>
+                          <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                            <polyline points="7 10 12 15 17 10" />
+                            <line x1="12" y1="15" x2="12" y2="3" />
+                          </svg>
+                        </a>
+                      ) : (
+                        <a class="btn-doc-view" href={n.data.permalink}>
+                          <span>View Notice</span>
+                          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                        </a>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </section>
+      ))
+    }
+  </ArticleShell>
 </BaseLayout>
 
+<script is:inline>
+  (function () {
+    var chips = document.querySelectorAll(".nt-chip");
+    var groups = document.querySelectorAll(".ajas-notice-group");
+    if (!chips.length) return;
+    chips.forEach(function (c) {
+      c.addEventListener("click", function () {
+        var want = c.getAttribute("data-nt");
+        chips.forEach(function (o) {
+          o.classList.toggle("is-on", o === c);
+          o.setAttribute("aria-pressed", o === c ? "true" : "false");
+        });
+        groups.forEach(function (g) {
+          g.hidden = want !== "all" && g.getAttribute("data-cat") !== want;
+        });
+      });
+    });
+  })();
+</script>
+
 <style>
+  .nt-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0 0 30px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid #e4eaf1;
+  }
+  .nt-chip {
+    appearance: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 38px;
+    padding: 0 15px;
+    border: 1px solid #dfe6ef;
+    border-radius: 0;
+    background: #fff;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    color: #55647c;
+    cursor: pointer;
+    transition: border-color 0.16s ease, background 0.16s ease, color 0.16s ease;
+  }
+  .nt-chip span {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: #a0adbe;
+  }
+  .nt-chip:hover {
+    border-color: #17304f;
+    color: #17304f;
+  }
+  .nt-chip.is-on {
+    background: #17304f;
+    border-color: #17304f;
+    color: #fff;
+  }
+  .nt-chip.is-on span {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  .ajas-notice-group[hidden] {
+    display: none;
+  }
   .ajas-notice-group {
-    margin-bottom: 2rem;
+    margin: 0 0 34px;
+  }
+  .ajas-notice-group + .ajas-notice-group {
+    margin-top: 34px;
+    padding-top: 28px;
+    border-top: 1px solid #e4eaf1;
+  }
+  .ajas-notice-group-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .ajas-notice-group > h2,
+  .ajas-notice-group-head > h2 {
+    margin: 0 !important;
+    padding-top: 0 !important;
+    border-top: 0 !important;
+    font-size: 1.4rem;
+    color: #17304f;
+  }
+  .group-count {
+    font-size: 12px;
+    font-weight: 600;
+    color: #7a889b;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
   }
   .ajas-notice-table {
     width: 100%;
+    border-collapse: collapse;
+  }
+  .doc-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .doc-title {
+    font-weight: 600;
+    color: #17304f;
+    font-size: 14.5px;
+    line-height: 1.4;
+  }
+  .doc-meta-pills {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .cat-pill {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 0;
+    background: #eef3f9;
+    color: #274b76;
+    border: 1px solid #d7e2ee;
+  }
+  .cat-pill.cat-compliance,
+  .cat-pill.cat-iqac {
+    background: #fdf6ea;
+    color: #93600f;
+    border-color: #f3dfb9;
+  }
+  .cat-pill.cat-admission {
+    background: #fff0f2;
+    color: #b91047;
+    border-color: #ffd6df;
+  }
+  .pdf-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 2px 6px;
+    border-radius: 0;
+    background: #fbf2f4;
+    color: #c92a2a;
+    border: 1px solid #f8d7da;
+  }
+  .pdf-pill svg {
+    width: 11px;
+    height: 11px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+  }
+  .date-text {
+    font-size: 13px;
+    color: #55647c;
+    white-space: nowrap;
+  }
+  .btn-doc-download {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background: #17304f;
+    color: #fff !important;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 0;
+    transition: background 0.18s ease, transform 0.18s ease;
+    white-space: nowrap;
+  }
+  .btn-doc-download:hover {
+    background: #b91047;
+    transform: translateY(-1px);
+    color: #fff !important;
+  }
+  .btn-doc-download svg {
+    width: 13px;
+    height: 13px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .btn-doc-view {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 12px;
+    border: 1px solid #dfe6ef;
+    background: #fff;
+    color: #17304f !important;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 0;
+    white-space: nowrap;
+  }
+  .btn-doc-view:hover {
+    border-color: #17304f;
+  }
+  .btn-doc-view svg {
+    width: 12px;
+    height: 12px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+  }
+  @media (max-width: 767px) {
+    .ajas-notice-table th:nth-child(2),
+    .ajas-notice-table td:nth-child(2) {
+      display: none;
+    }
+    .btn-doc-download span,
+    .btn-doc-view span {
+      display: none;
+    }
+    .btn-doc-download,
+    .btn-doc-view {
+      padding: 8px 10px;
+    }
   }
 </style>

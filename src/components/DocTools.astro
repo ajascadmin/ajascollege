@@ -1,0 +1,76 @@
+---
+/**
+ * A copyable anchor on every section heading: regulations get cited
+ * ("see §Attendance") and a link to the top of the page is useless.
+ */
+---
+
+<script is:inline>
+  (function () {
+    /* anchor links on section headings */
+    var heads = document.querySelectorAll(".sp-section[id] > .sp-section-head > h2");
+    heads.forEach(function (h) {
+      var id = h.closest(".sp-section").id;
+      if (!id) return;
+      var a = document.createElement("a");
+      a.className = "dt-anchor";
+      a.href = "#" + id;
+      a.setAttribute("aria-label", "Copy link to “" + h.textContent.trim() + "”");
+      a.innerHTML =
+        '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>';
+      a.addEventListener("click", function (e) {
+        e.preventDefault();
+        var url = window.location.href.split("#")[0] + "#" + id;
+        history.replaceState(null, "", "#" + id);
+        if (navigator.clipboard) navigator.clipboard.writeText(url).catch(function () {});
+        a.classList.add("is-copied");
+        setTimeout(function () {
+          a.classList.remove("is-copied");
+        }, 1400);
+      });
+      h.appendChild(a);
+    });
+  })();
+</script>
+
+<style is:global>
+  .dt-anchor {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 10px;
+    vertical-align: middle;
+    opacity: 0;
+    color: #a9b5c5;
+    transition: opacity 0.15s ease, color 0.15s ease;
+  }
+  .dt-anchor svg {
+    width: 15px;
+    height: 15px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.9;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .sp-section-head:hover .dt-anchor,
+  .dt-anchor:focus-visible {
+    opacity: 1;
+  }
+  .dt-anchor:hover {
+    color: #ff5f60;
+  }
+  .dt-anchor.is-copied {
+    opacity: 1;
+    color: #2f7d52;
+  }
+  @media (hover: none) {
+    .dt-anchor {
+      opacity: 0.55;
+    }
+  }
+  @media print {
+    .dt-anchor {
+      display: none;
+    }
+  }
+</style>

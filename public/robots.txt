@@ -1,5 +1,4 @@
-# Regenerated site map on every build via @astrojs/sitemap → /sitemap-index.xml
-# When the custom domain goes live, update "Sitemap:" and astro.config.mjs `site`.
+# Regenerated on every build via @astrojs/sitemap → /sitemap-index.xml
 User-agent: *
 Allow: /
 
@@ -10,4 +9,4 @@ Disallow: /admin
 # Pagefind runtime assets
 Disallow: /pagefind/
 
-Sitemap: https://ajascollege.pages.dev/sitemap-index.xml
+Sitemap: https://ajascollege.ac.in/sitemap-index.xml

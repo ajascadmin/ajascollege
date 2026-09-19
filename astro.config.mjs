@@ -5,9 +5,11 @@ import sitemap from "@astrojs/sitemap";
 // Static site → Cloudflare Pages (no adapter needed for pure SSG).
 // Images: built-in Sharp service optimizes files under src/assets/ (not public/).
 // Sitemap: regenerated on every `astro build` from all routes.
-// When custom domain is live, set site to https://ajascollege.ac.in
 export default defineConfig({
-  site: "https://ajascollege.pages.dev",
+  // The canonical host. Every canonical tag, Open Graph URL, sitemap entry and
+  // RSS link is built from this — pointing it at the pages.dev preview tells
+  // search engines the preview is the authoritative copy.
+  site: "https://ajascollege.ac.in",
   trailingSlash: "always",
   build: {
     format: "directory",

@@ -28,4 +28,14 @@ Qualifications:
 
 If you are a passionate educator and researcher who is eager to make a meaningful impact, we encourage you to apply for this exciting opportunity to join our dynamic faculty.
 
-## Apply Now
+## How to apply
+
+Send your application to [mail@ajascollege.ac.in](mailto:mail@ajascollege.ac.in) with the subject line "Application — Assistant Professor", including:
+
+- Your full name and address for communication
+- Educational qualifications
+- Telephone number and email address
+- A brief note on your teaching and research interests
+- Your CV as a PDF attachment
+
+Shortlisted candidates are contacted for an interview. For enquiries, call [+91 7994 188918](tel:+917994188918) or see the [Careers](/career/) page for other open positions.

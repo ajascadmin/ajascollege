@@ -1,5 +1,6 @@
 ---
 title: PROTECT YOUR PLATE - A Campaign for Healthy Food Choices
+date: 2026-06-11
 description: "Al Jamia Arts & Science College, Perinthalmanna — affiliated to the University of Calicut."
 permalink: /event/protect-your-plate-a-campaign-for-healthy-food-choices/
 type: article
@@ -12,12 +13,6 @@ gallery:
 ---
 
 # PROTECT YOUR PLATE – A Campaign for Healthy Food Choices
-
-![](/assets/uploads/2026/06/WhatsApp-Image-2026-06-11-at-9.02.15-PM.jpeg)
-
-## Event Date :
-
-## 11/06/2026
 
 The Department of Food Technology, in association with IQAC, organized an outreach programme titled “Protect Your Plate – A Campaign for Healthy Food Choices” at PTM AUP School, Mulliakurssi, on 11 June 2026.
 

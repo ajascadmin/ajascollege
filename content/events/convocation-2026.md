@@ -1,5 +1,6 @@
 ---
 title: CONVOCATION 2026
+date: 2026-04-08
 description: "Al Jamia Arts & Science College, Perinthalmanna — affiliated to the University of Calicut."
 permalink: /event/convocation-2026/
 type: article
@@ -16,12 +17,6 @@ gallery:
   - /assets/uploads/2026/05/WhatsApp-Image-2026-05-04-at-10.36.21-AM.jpeg
   - /assets/uploads/2026/05/WhatsApp-Image-2026-05-04-at-10.36.20-AM.jpeg
 ---
-
-![](/assets/uploads/2026/05/WhatsApp-Image-2026-05-04-at-10.36.26-AM.jpeg)
-
-## Event Date :
-
-## 02/05/2026
 
 A Grand Celebration of Academic Excellence: AJAS College Hosts 2026 Convocation Ceremony
 

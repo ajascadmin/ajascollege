@@ -3,7 +3,13 @@ title: Department of Islamic Finance
 description: "Al Jamia Arts & Science College, Perinthalmanna — affiliated to the University of Calicut."
 permalink: /departments/department-of-islamic-finance/
 type: page
+people:
+  - name: "Thufail P K"
+    role: "MA Applied Economics, B.Ed — Head of Department"
+image: /assets/uploads/2026/09/islamic-finance/islamic-finance-Tile-image.jpeg
 gallery:
+  - /assets/uploads/2026/09/islamic-finance/islamic-finance-Tile-image.jpeg
+  - /assets/uploads/2026/09/islamic-finance/Islamic-Finance.jpg
   - /assets/uploads/2025/01/istockphoto-512035804-612x612-1.jpg
   - /assets/uploads/2024/07/WhatsApp-Image-2025-02-05-at-8.41.38-AM.jpeg
   - /assets/uploads/2025/01/Current-Trends.jpeg_page-0001.jpg
@@ -26,11 +32,7 @@ To be a world-class center of excellence developing ethical leaders who combine 
 To educate and empower the next generation of Islamic finance professionals through high-quality education that bridges Islamic principles with contemporary financial practices.
 
 
-## Head Of Department
-
-## Thufail P K
-
-## MA Applied Economics , B.Ed
+## Message from the Head of Department
 
 As the Head of the Department of Islamic Finance, I am proud to oversee a program that is at the forefront of this rapidly evolving field. Our curriculum blends advanced technical knowledge with a deep exploration of the ethical principles that define Islamic finance.
 
@@ -42,9 +44,3 @@ I invite you to join us on this rewarding journey as we redefine the standards o
 
 Mr. THUFAIL PK
 Head of Department, Islamic Finance
-
-Head of Department
-
-|  |  |
-| --- | --- |
-| Faculty | Thufail P K |

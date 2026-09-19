@@ -1,19 +1,51 @@
 ---
+import { stat } from "node:fs/promises";
+import path from "node:path";
+
 interface Props {
   items: { label: string; file: string }[];
 }
 const { items } = Astro.props;
+
+/* Tell people what they are about to download. A 40 MB scanned report on a
+   phone data connection is a different decision from a 200 KB circular, and
+   the file is sitting right there in public/ at build time. */
+const fmtSize = (bytes: number) =>
+  bytes >= 1024 * 1024
+    ? `${(bytes / (1024 * 1024)).toFixed(bytes >= 10 * 1024 * 1024 ? 0 : 1)} MB`
+    : `${Math.max(1, Math.round(bytes / 1024))} KB`;
+
+const withMeta = await Promise.all(
+  items.map(async (a) => {
+    const ext = (a.file.split(".").pop() || "").toUpperCase();
+    let size = "";
+    if (a.file.startsWith("/")) {
+      try {
+        const s = await stat(path.join(process.cwd(), "public", a.file));
+        if (s.isFile()) size = fmtSize(s.size);
+      } catch {
+        /* file not in public/ (external or not yet uploaded) — omit the size */
+      }
+    }
+    return { ...a, ext: /^[A-Z0-9]{2,4}$/.test(ext) ? ext : "", size };
+  }),
+);
 ---
 
 <div class="ajas-attachments">
   <h3>Downloads</h3>
   <ul>
     {
-      items.map((a) => (
+      withMeta.map((a) => (
         <li>
           <a href={a.file} target="_blank" rel="noopener">
             <i class="fa fa-file-pdf-o" aria-hidden="true" />
             <span>{a.label}</span>
+            {(a.ext || a.size) && (
+              <span class="ajas-att-meta">
+                {[a.ext, a.size].filter(Boolean).join(" · ")}
+              </span>
+            )}
           </a>
         </li>
       ))
@@ -22,6 +54,22 @@ const { items } = Astro.props;
 </div>
 
 <style>
+  /* the label has to claim the free space for the meta to sit on the right */
+  .ajas-attachments a > span:first-of-type {
+    flex: 1;
+    min-width: 0;
+  }
+  .ajas-att-meta {
+    margin-left: auto;
+    padding-left: 14px;
+    flex: none;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #97a5b8;
+    white-space: nowrap;
+  }
   .ajas-attachments {
     margin-top: 2rem;
     padding-top: 1.5rem;
@@ -48,19 +96,31 @@ const { items } = Astro.props;
     gap: 10px;
     padding: 10px 14px;
     background: #f4f6fa;
-    border-radius: 8px;
+    border-radius: 0;
     color: #183251;
     font-weight: 500;
     font-size: 0.92rem;
     text-decoration: none;
-    transition: background 0.2s;
+    border: 1px solid transparent;
+    transition: background-color 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                color 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .ajas-attachments a:hover {
     background: #eef1fb;
+    border-color: #dce4f0;
     color: #ff5f60;
+    transform: translateY(-1.5px);
+    box-shadow: 0 4px 12px rgba(24, 50, 81, 0.06);
   }
   .ajas-attachments a i {
     color: #ff5f60;
     font-size: 1rem;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .ajas-attachments a:hover i {
+    transform: translateY(-1px) scale(1.08);
   }
 </style>

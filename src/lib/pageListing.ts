@@ -5,6 +5,20 @@ export interface ChildPageSummary {
   permalink: string;
   image?: string;
   blurb: string;
+  /** Programme names pulled from a "Courses Offered" / "Programmes" section. */
+  courses: string[];
+}
+
+/** Bullet items under a courses/programmes heading, for listing cards. */
+function extractCourses(body: string, max = 4): string[] {
+  const m = body.match(
+    /^##\s*(?:courses?\s+offered|programmes?\s+offered|programmes?|courses?)\s*$([\s\S]*?)(?=^##\s|\Z)/im,
+  );
+  if (!m) return [];
+  return (m[1].match(/^\s*[-*]\s+(.+)$/gm) || [])
+    .map((l) => l.replace(/^\s*[-*]\s+/, "").replace(/[*_`]/g, "").trim())
+    .filter(Boolean)
+    .slice(0, max);
 }
 
 /** First real prose paragraph of a markdown body — skips headings, images, empty sections. */
@@ -31,6 +45,7 @@ export async function getChildPages(prefix: string): Promise<ChildPageSummary[]>
         permalink: p.data.permalink,
         image: "image" in p.data ? (p.data.image as string | undefined) : undefined,
         blurb: extractBlurb(body),
+        courses: extractCourses(body),
       };
     })
     .sort((a, b) => a.title.localeCompare(b.title));

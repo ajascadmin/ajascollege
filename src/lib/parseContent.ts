@@ -274,11 +274,21 @@ export function parseProgrammes(body: string): {
   };
 }
 
-export function looksLikeAdmission(body: string, permalink: string): boolean {
-  return (
-    normalizeForVisionCheck(permalink) === "/admission/" ||
-    (/### /.test(body) && /Fee|Intake|Duration/i.test(body))
-  );
+/**
+ * The programme-card layout is for a body that actually lists programmes as
+ * `### Name` blocks with `Fee :` / `Intake :` lines under them.
+ *
+ * This used to return true for the /admission/ permalink whatever the page
+ * said. When that page's content changed to prose and tables, parseProgrammes
+ * found no blocks and the page rendered as an unstyled dump — no document
+ * shell, no table, no list markers. Match the shape of the content instead,
+ * so the layout follows the body rather than the URL.
+ */
+export function looksLikeAdmission(body: string): boolean {
+  return body
+    .split(/^###\s+/m)
+    .slice(1)
+    .some((block) => /^\s*(Fee|Intake|Duration)\s*:/im.test(block));
 }
 
 /**

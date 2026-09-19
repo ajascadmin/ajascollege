@@ -3,7 +3,16 @@ title: Department of Geography
 description: "Al Jamia Arts & Science College, Perinthalmanna — affiliated to the University of Calicut."
 permalink: /departments/department-of-geography/
 type: page
+people:
+  - name: "Mohammed Abdul Ganiyy A P"
+    role: "MSc Geography, NET — Head of Department"
+  - name: "Yazeena Pharveen M"
+image: /assets/uploads/2026/09/geography/Tile-Image.jpg
 gallery:
+  - /assets/uploads/2026/09/geography/Tile-Image.jpg
+  - /assets/uploads/2026/09/geography/P1877065.JPG.jpeg
+  - /assets/uploads/2026/09/geography/P1877095.JPG.jpeg
+  - /assets/uploads/2026/09/geography/P1877107.JPG.jpeg
   - /assets/uploads/2024/05/retro-tourist-supplies-notebook-1-min-scaled.jpg
   - /assets/uploads/2024/05/WhatsApp-Image-2025-01-22-at-10.35.41-AM.jpeg
   - /assets/uploads/2025/07/9295.jpg
@@ -52,11 +61,7 @@ This programme in particular will impart knowledge in conventional and recent co
 The mission of a geography department is to advance knowledge and understanding of the Earth’s physical and human environments through research, education, and outreach.
 
 
-## Head Of Department
-
-## Mohammed Abdul Ganiyy A P
-
-## MSc Geography,NET
+## Message from the Head of Department
 
 Welcome to the Department of Geography at Al Jamia Arts & Science College , Perinthalmanna.
 
@@ -71,10 +76,4 @@ Whether you are interested in studying landscapes, urban environments, climate c
 I encourage you to explore our website to learn more about our programs, faculty profiles, research initiatives, and the vibrant community that defines the Department of Geography at Calicut University. Join us as we explore the complexities of our world and contribute to creating a sustainable future.
 
 Warm regards,
-
-Head of Department
-
-|  |  |
-| --- | --- |
-| Faculty | Yazeena Pharveen M |
-| MSc Geography | Mohammed Abdul Ganiyy A P |
+Mohammed Abdul Ganiyy A P — Head of Department

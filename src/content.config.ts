@@ -279,7 +279,6 @@ const home = defineCollection({
           image: z.string(),
           title: z.string(),
           url: z.string(),
-          description: z.string(),
           pills: z.array(z.string()).default([]),
         }),
       ),
@@ -294,22 +293,19 @@ const home = defineCollection({
       ),
       cta_label: z.string(),
       cta_url: z.string(),
-    }),
-    services: z.object({
-      items: z.array(
-        z.object({
-          icon: z.string(),
-          title: z.string(),
-          text: z.string(),
-          cta_label: z.string(),
-          cta_url: z.string(),
-        }),
-      ),
+      /* campus and events are shown as two separate sliding areas */
+      events_kicker: z.string().optional(),
+      events_heading: z.string().optional(),
+      events_slides: z
+        .array(z.object({ image: z.string(), title: z.string(), caption: z.string() }))
+        .default([]),
+      events_cta_label: z.string().optional(),
+      events_cta_url: z.string().optional(),
     }),
     benefits: z.object({
       heading: z.string(),
       items: z.array(
-        z.object({ icon: z.string(), title: z.string(), text: z.string(), url: z.string() }),
+        z.object({ title: z.string(), text: z.string(), url: z.string() }),
       ),
       cta_heading: z.string(),
       cta_text: z.string(),
@@ -317,20 +313,6 @@ const home = defineCollection({
       cta_primary_url: z.string(),
       cta_secondary_label: z.string(),
       cta_secondary_url: z.string(),
-    }),
-    events: z.object({
-      heading: z.string(),
-      items: z.array(
-        z.object({
-          title: z.string(),
-          url: z.string(),
-          date: z.string(),
-          location: z.string(),
-          image: z.string().optional(),
-        }),
-      ),
-      cta_label: z.string(),
-      cta_url: z.string(),
     }),
     testimonials: z.object({
       kicker: z.string(),
@@ -354,7 +336,7 @@ const home = defineCollection({
       secondary_url: z.string(),
       quicklinks_heading: z.string(),
       quicklinks: z.array(
-        z.object({ icon: z.string(), label: z.string(), url: z.string(), external: z.boolean().default(false) }),
+        z.object({ label: z.string(), url: z.string(), external: z.boolean().default(false) }),
       ),
     }),
   }),

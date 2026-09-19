@@ -1,6 +1,14 @@
 ---
+/**
+ * Programme detail — same frame as a department page: a lead photograph
+ * borrowed from the teaching department, a fact rail, then the body in the
+ * heading-rail document layout.
+ */
 import { getCollection, render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import CmsImage from "../../components/CmsImage.astro";
+import SmartPage from "../../components/layouts/SmartPage.astro";
+import { getChildPages } from "../../lib/pageListing";
 
 export async function getStaticPaths() {
   const programmes = await getCollection("programmes", ({ data }) => !data.draft);
@@ -12,185 +20,256 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
-const levelLabel =
-  entry.data.level === "ug"
-    ? "UG (Honours)"
-    : entry.data.level === "pg"
-      ? "PG"
-      : entry.data.level;
-const hasMeta =
-  entry.data.department || entry.data.duration || entry.data.seats || entry.data.level;
 const body = ((entry as { body?: string }).body || "").trim();
+
+const levelLabel =
+  entry.data.level === "ug" ? "UG (Honours)" : entry.data.level === "pg" ? "Postgraduate" : "Programme";
+
+/* Same department match as the programmes index, so the detail page opens on
+   the department's own photograph rather than a blank header. */
+const departments = await getChildPages("/departments/");
+const DEPT_FOR: [RegExp, string][] = [
+  [/islamic finance/i, "islamic-finance"],
+  [/islamic studies/i, "islamic-studies"],
+  [/arabic/i, "arabic"],
+  [/english/i, "english"],
+  [/psychology/i, "psychology"],
+  [/geography/i, "geography"],
+  [/food tech/i, "food-technology"],
+  [/micro ?biology/i, "micro-biology"],
+  [/artificial intelligence|computer science/i, "computer-science"],
+  [/bca|computer application/i, "computer-application"],
+  [/b\.?\s?com|bba|commerce|management/i, "commerce"],
+  [/economics/i, "economics"],
+  [/physical education/i, "physical-education"],
+];
+const dept = (() => {
+  for (const [re, slug] of DEPT_FOR) {
+    if (!re.test(entry.data.title)) continue;
+    const hit = departments.find((d) => d.permalink.includes(slug));
+    if (hit) return hit;
+  }
+  return undefined;
+})();
+const shortDept = (t: string) =>
+  t.replace(/^(pg\s+)?department\s+of\s+/i, "").replace(/^non[-\s]core\s+departments?\s*[-–]?\s*/i, "");
+
+const progLd = {
+  "@context": "https://schema.org",
+  "@type": "EducationalOccupationalProgram",
+  name: entry.data.title,
+  description: entry.data.description || `${entry.data.title} at Al Jamia Arts & Science College.`,
+  url: new URL(entry.data.permalink, "https://ajascollege.ac.in").href,
+  programType: levelLabel,
+  ...(entry.data.duration ? { timeToComplete: entry.data.duration } : {}),
+  educationalCredentialAwarded: entry.data.level === "pg" ? "Master's degree" : "Bachelor's degree (Honours)",
+  provider: {
+    "@type": "CollegeOrUniversity",
+    name: "Al Jamia Arts & Science College",
+    url: "https://ajascollege.ac.in",
+  },
+};
+
+const facts = [
+  { label: "Level", value: levelLabel },
+  entry.data.duration ? { label: "Duration", value: entry.data.duration } : null,
+  dept ? { label: "Department", value: shortDept(dept.title), href: dept.permalink } : null,
+  entry.data.seats ? { label: "Intake", value: entry.data.seats } : null,
+  { label: "Affiliation", value: "University of Calicut" },
+].filter(Boolean) as { label: string; value: string; href?: string }[];
 ---
 
 <BaseLayout
   title={entry.data.title}
   description={entry.data.description}
   pageTitle={entry.data.title}
+  image={dept?.image}
+  jsonLd={progLd}
   breadcrumbs={[
     { label: "Home", href: "/" },
     { label: "Programmes", href: "/programmes/" },
     { label: entry.data.title },
   ]}
 >
-  <div class="prog-detail-wrap">
-    <article class="prog-detail-card">
-      <header class="prog-detail-head">
-        <span class="prog-detail-level">{levelLabel}</span>
-        <h1>{entry.data.title}</h1>
+  <div class="pd">
+    <div class="pd-inner">
+      {
+        dept?.image && (
+          <figure class="pd-banner">
+            <CmsImage src={dept.image} alt="" preset="hero" fit="cover" loading="eager" />
+          </figure>
+        )
+      }
+
+      <dl class="pd-facts">
         {
-          entry.data.description && (
-            <p class="prog-detail-desc">{entry.data.description}</p>
-          )
-        }
-      </header>
-
-      {
-        hasMeta && (
-          <dl class="prog-detail-facts">
+          facts.map((f) => (
             <div>
-              <dt>Level</dt>
-              <dd>{levelLabel}</dd>
+              <dt>{f.label}</dt>
+              <dd>{f.href ? <a href={f.href}>{f.value}</a> : f.value}</dd>
             </div>
-            {entry.data.department && (
-              <div>
-                <dt>Department</dt>
-                <dd>{entry.data.department}</dd>
-              </div>
-            )}
-            {entry.data.duration && (
-              <div>
-                <dt>Duration</dt>
-                <dd>{entry.data.duration}</dd>
-              </div>
-            )}
-            {entry.data.seats && (
-              <div>
-                <dt>Seats</dt>
-                <dd>{entry.data.seats}</dd>
-              </div>
-            )}
-          </dl>
-        )
-      }
+          ))
+        }
+      </dl>
+    </div>
+  </div>
 
-      {
-        body && (
-          <div class="prog-detail-body ajas-prose">
-            <Content />
-          </div>
-        )
-      }
-
-      <footer class="prog-detail-foot">
-        <a href="/programmes/">← All programmes</a>
-        <div>
-          <a href="/admission/">Apply</a>
-          <a href="/fees/">Fees</a>
+  {
+    body ? (
+      <SmartPage title={entry.data.title} body={body} permalink={entry.data.permalink} />
+    ) : (
+      <div class="pd pd-empty">
+        <div class="pd-inner">
+          <p>Detailed syllabus and outcomes for this programme are published on the department page.</p>
         </div>
-      </footer>
-    </article>
+      </div>
+    )
+  }
+
+  <div class="pd pd-foot">
+    <div class="pd-inner">
+      <div class="pd-cta">
+        <a class="pd-btn" href="/admission/">Apply for admission</a>
+        <a class="pd-btn pd-btn-alt" href="/fees/">Fees &amp; prospectus</a>
+        {dept && <a class="pd-link" href={dept.permalink}>Visit the department →</a>}
+        <a class="pd-link" href="/programmes/">All programmes →</a>
+      </div>
+    </div>
   </div>
 </BaseLayout>
 
 <style>
-  .prog-detail-wrap {
-    padding: 28px 16px 56px;
-    background: linear-gradient(180deg, #f0f3f8 0%, #f8fafc 35%, #fff 100%);
-  }
-  .prog-detail-card {
-    max-width: 820px;
-    margin: 0 auto;
+  .pd {
     background: #fff;
-    border-radius: 12px;
-    padding: 28px 24px 32px;
-    box-shadow: 0 10px 36px rgba(24, 50, 81, 0.08);
   }
-  @media (min-width: 768px) {
-    .prog-detail-card {
-      padding: 36px 40px 40px;
-    }
+  .pd-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 clamp(16px, 3.4vw, 56px);
   }
-  .prog-detail-level {
-    display: inline-block;
-    background: #183251;
-    color: #fff;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    padding: 4px 10px;
-    border-radius: 999px;
-    margin-bottom: 12px;
+  .pd-banner {
+    margin: 26px 0 0;
+    height: clamp(150px, 19vw, 250px);
+    border-radius: 0;
+    overflow: hidden;
+    background: #0c1e34;
   }
-  .prog-detail-head h1 {
-    margin: 0 0 0.5rem;
-    font-size: clamp(1.45rem, 2.5vw, 1.85rem);
-    color: #183251;
-    line-height: 1.25;
+  .pd-banner :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
-  .prog-detail-desc {
-    margin: 0;
-    color: #64748b;
-    font-size: 1.02rem;
-    line-height: 1.55;
-  }
-  .prog-detail-facts {
+  /* the same hairline fact grid used on the recognitions block */
+  .pd-facts {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 12px;
-    margin: 1.5rem 0 0;
-    padding: 1rem 0 0;
-    border-top: 1px solid #e8eef4;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1px;
+    margin: 26px 0 0;
+    background: #dde4ed;
+    border: 1px solid #dde4ed;
   }
-  .prog-detail-facts div {
-    background: #f7f9fc;
-    border-radius: 8px;
-    padding: 12px 14px;
-  }
-  .prog-detail-facts dt {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: #94a3b8;
-    font-weight: 600;
-    margin: 0 0 4px;
-  }
-  .prog-detail-facts dd {
-    margin: 0;
-    font-weight: 600;
-    color: #183251;
-    font-size: 0.98rem;
-  }
-  .prog-detail-body {
-    margin-top: 1.5rem;
-    padding-top: 1.25rem;
-    border-top: 1px solid #e8eef4;
-  }
-  .prog-detail-foot {
-    margin-top: 2rem;
-    padding-top: 1.25rem;
-    border-top: 1px solid #e8eef4;
+  .pd-facts div {
     display: flex;
-    flex-wrap: wrap;
-    gap: 12px 20px;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    gap: 3px;
+    padding: 14px 16px;
+    background: #fff;
+    min-width: 0;
   }
-  .prog-detail-foot a {
+  .pd-facts dt {
+    margin: 0;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: #91a0b4;
+  }
+  .pd-facts dd {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
     font-weight: 600;
-    color: #3f4c99;
+    line-height: 1.3;
+    color: #17304f;
+  }
+  .pd-facts a {
+    color: inherit;
+    border-bottom: 1px solid rgba(23, 48, 79, 0.28);
     text-decoration: none;
   }
-  .prog-detail-foot a:hover {
+  .pd-facts a:hover {
     color: #ff5f60;
+    border-bottom-color: #ff5f60;
   }
-  .prog-detail-foot div {
+
+  .pd-empty p {
+    margin: 30px 0 0;
+    font-size: 1.05rem;
+    color: #56677e;
+  }
+
+  .pd-foot {
+    padding-bottom: 52px;
+  }
+  .pd-cta {
     display: flex;
-    gap: 16px;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 22px;
+    margin-top: 34px;
+    padding-top: 24px;
+    border-top: 1px solid #e4eaf1;
   }
-  .prog-detail-foot div a {
-    font-weight: 500;
-    color: #64748b;
+  .pd-btn {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 22px;
+    border-radius: 0;
+    background: #ff5f60;
+    color: #fff;
+    font-size: 14.5px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .pd-btn:hover {
+    background: #e04a4b;
+    color: #fff;
+  }
+  .pd-btn-alt {
+    background: none;
+    color: #17304f;
+    border: 1px solid #d9e1ec;
+  }
+  .pd-btn-alt:hover {
+    background: #f4f7fb;
+    color: #17304f;
+  }
+  .pd-link {
+    font-size: 14px;
+    font-weight: 600;
+    color: #17304f;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(23, 48, 79, 0.34);
+    padding-bottom: 2px;
+    transition: color 0.18s ease, border-color 0.18s ease;
+  }
+  .pd-link:hover {
+    color: #ff5f60;
+    border-bottom-color: #ff5f60;
+  }
+  @media (max-width: 767px) {
+    .pd-banner {
+      margin-top: 18px;
+      height: clamp(130px, 38vw, 190px);
+    }
+    .pd-facts {
+      margin-top: 18px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .pd-foot {
+      padding-bottom: 34px;
+    }
   }
 </style>

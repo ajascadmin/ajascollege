@@ -37,3 +37,9 @@ A flagship platform dedicated to unlocking leadership potential. Leaders Academy
 A specialised initiative providing coaching and mentoring for prestigious state, national and international competitive exams — UGC-NET/JRF, UPSC Civil Services, Kerala PSC, Banking and Higher Education Entrance Exams. COMPTEX includes expert modules, mock tests, performance analytics and one-on-one mentoring.
 
 **Key highlights:** Specialised Entrance & PSC/UPSC Coaching, UGC-NET Orientation, One-on-One Mentoring, Mock Test Series, Career Guidance.
+
+## Mud Brick Preparation
+
+The college also carries a distinctive building tradition: the new Science Block was raised from bricks prepared on site, using clay sourced from the college grounds and minimal cement, under the guidance of a certified brickmaker. Students and staff took part in every stage — sourcing, moulding, drying, firing and laying.
+
+Read the full account in [Best Practice 3 — Mud Brick Preparation](/best-practice-3-mud-brick/).

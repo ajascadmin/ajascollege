@@ -1,5 +1,6 @@
 ---
 title: WORLD EARTH DAY
+date: 2026-04-22
 description: "Al Jamia Arts & Science College, Perinthalmanna — affiliated to the University of Calicut."
 permalink: /college-news/world-earth-day/
 type: article
@@ -10,7 +11,5 @@ gallery:
   - /assets/uploads/2026/04/WhatsApp-Image-2026-04-22-at-12.22.30-PM.jpeg
   - /assets/uploads/2026/04/WhatsApp-Image-2026-04-22-at-12.22.31-PM.jpeg
 ---
-
-![](/assets/uploads/2026/04/WhatsApp-Image-2026-04-21-at-9.30.24-PM.jpeg)
 
 # WORLD EARTH DAY

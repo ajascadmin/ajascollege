@@ -1,264 +1,141 @@
 ---
+/**
+ * Site header = navigation (SiteNav) + the inner-page title band + the
+ * admissions strip. The nav itself is a standalone component; this file only
+ * decides what chrome sits around it for a given page variant.
+ */
+import SiteNav from "./nav/SiteNav.astro";
 import { getSiteSettings } from "../lib/site";
-import NavMenu from "./NavMenu.astro";
-import type { NavItem } from "./NavMenu.astro";
-import navigation from "../../content/settings/navigation.json";
-import CmsImage from "./CmsImage.astro";
 
 interface Props {
   variant?: "home" | "inner";
+  pageTitle?: string;
+  breadcrumbs?: { label: string; href?: string }[];
+  /** "p" where the article below already provides the page's <h1>. */
+  titleAs?: "h1" | "p";
 }
 
-const { variant = "inner" } = Astro.props;
-const isHome = variant === "home";
+const { variant = "inner", pageTitle, breadcrumbs = [], titleAs = "h1" } = Astro.props;
+const BandTitle = titleAs;
 const site = await getSiteSettings();
+const isHome = variant === "home";
 
-const phoneDisplay = site.phone_display || site.phone;
-const phoneHref = `tel:${String(site.phone).replace(/\s/g, "")}`;
-const logo = site.logo || "/assets/uploads/2024/01/AJAS-Website-Heading-Last.svg";
-const menu = (navigation as { main: NavItem[] }).main;
-const utility = (navigation as { utility?: { label: string; href: string }[] }).utility ?? [];
-// SVG logos stay in public/ (not optimized by Sharp); raster logos use CmsImage.
-const logoIsRaster = /\.(jpe?g|png|webp|gif|avif)$/i.test(logo);
+/* The trail's last crumb is the current page, which the <h1> right below it
+   already says — printing both read as the title rendered twice. Keep the
+   trail as ancestors only. */
+/* A crumb with no href IS the current page, so the trail is already complete
+   and the band title must not be appended after it. Two cases this gets right
+   that the previous version did not: an article whose band title is the
+   section name ("… / Outreach Awareness Programme" + band "Events"), and a
+   page whose last crumb already equals its own title. */
+const last = breadcrumbs[breadcrumbs.length - 1];
+const trail = breadcrumbs;
+const appendTitle = !!pageTitle && !(last && !last.href);
 ---
 
-{
-  isHome ? (
-    <div class="wrap-header">
-      <div class="flat-header flat-header-style2 ajas-home-header">
-        <div class="top-bar clearfix">
-          <div class="container">
-            <div class="row">
-              <div class="col-lg-5 col-md-6 col-sm-12">
-                <ul class="information">
-                  <li class="phone lt-sp003">
-                    <i class="fa fa-phone" aria-hidden="true" />{" "}
-                    <a href={phoneHref}>{phoneDisplay}</a>
-                  </li>
-                  <li class="email">
-                    <i class="fa fa-envelope" aria-hidden="true" />{" "}
-                    <a href={`mailto:${site.email}`}>{site.email}</a>
-                  </li>
-                </ul>
-              </div>
-              <div class="col-lg-7 col-md-6 col-sm-12">
-                <ul class="nav-sing top-utility">
-                  {utility.map((u) => (
-                    <li><a href={u.href}>{u.label}</a></li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <header class="header header-blog menu-bar hv-menu-type2">
-          <div class="container">
-            <div class="menu-bar-wrap clearfix">
-              <div id="logo" class="logo">
-                <a href="/">
-                  {logoIsRaster ? (
-                    <CmsImage
-                      src={logo}
-                      alt={site.college_name || "AJAS College"}
-                      preset="logo"
-                      fit="contain"
-                      loading="eager"
-                      fetchpriority="high"
-                    />
-                  ) : (
-                    <img
-                      src={logo}
-                      alt={site.college_name || "AJAS College"}
-                      width="220"
-                      height="48"
-                      loading="eager"
-                      decoding="async"
-                      fetchpriority="high"
-                    />
-                  )}
-                </a>
-              </div>
-              <button
-                class="mobile-button"
-                type="button"
-                aria-label="Open navigation menu"
-                aria-expanded="false"
-                aria-controls="main-nav"
-              ><span /></button>
-              <div class="header-menu">
-                <nav id="main-nav" class="main-nav">
-                  <NavMenu items={menu} />
-                </nav>
-              </div>
-            </div>
-          </div>
-        </header>
-      </div>
-    </div>
-  ) : (
-    <div class="bg-header">
-      <div class="flat-header-blog">
-        <div class="top-bar clearfix">
-          <div class="container">
-            <div class="row">
-              <div class="col-lg-5 col-md-6 col-sm-12">
-                <ul class="information">
-                  <li class="phone lt-sp003">
-                    <i class="fa fa-phone" aria-hidden="true" />{" "}
-                    <a href={phoneHref}>{phoneDisplay}</a>
-                  </li>
-                  <li class="email">
-                    <i class="fa fa-envelope" aria-hidden="true" />{" "}
-                    <a href={`mailto:${site.email}`}>{site.email}</a>
-                  </li>
-                </ul>
-              </div>
-              <div class="col-lg-7 col-md-6 col-sm-12">
-                <ul class="nav-sing top-utility">
-                  {utility.map((u) => (
-                    <li><a href={u.href}>{u.label}</a></li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <header class="header header-blog menu-bar hv-menu-type2">
-          <div class="container">
-            <div class="menu-bar-wrap clearfix">
-              <div id="logo" class="logo">
-                <a href="/">
-                  {logoIsRaster ? (
-                    <CmsImage
-                      src={logo}
-                      alt={site.college_name || "AJAS College"}
-                      preset="logo"
-                      fit="contain"
-                      loading="eager"
-                      fetchpriority="high"
-                    />
-                  ) : (
-                    <img
-                      src={logo}
-                      alt={site.college_name || "AJAS College"}
-                      width="220"
-                      height="48"
-                      loading="eager"
-                      decoding="async"
-                      fetchpriority="high"
-                    />
-                  )}
-                </a>
-              </div>
-              <button
-                class="mobile-button"
-                type="button"
-                aria-label="Open navigation menu"
-                aria-expanded="false"
-                aria-controls="main-nav"
-              ><span /></button>
-              <div class="header-menu">
-                <nav id="main-nav" class="main-nav">
-                  <NavMenu items={menu} />
-                </nav>
-              </div>
-            </div>
-          </div>
-        </header>
-        <slot name="page-title" />
-      </div>
-    </div>
-  )
-}
+<SiteNav variant={variant} />
+
 
 {
-  site.admission_open && (
-    <div class="ajas-admit-strip" role="status">
-      <div class="container ajas-admit-inner">
-        <a class="ajas-admit-primary" href={site.admission_url || "/admission/"}>
-          <strong>{site.admission_label || "Admissions open"}</strong>
-          {site.admission_note && (
-            <span class="ajas-admit-note">
-              <span class="ajas-admit-separator" aria-hidden="true"> — </span>
-              {site.admission_note}
-            </span>
-          )}
-        </a>
-        <span class="ajas-admit-links">
-          {site.fee_pdf && (
-            <a href={site.fee_pdf} target="_blank" rel="noopener">
-              Fee structure
-            </a>
-          )}
-          <a href="/notices/">Notices</a>
-        </span>
+  !isHome && pageTitle && (
+    <div class="ajas-pagehead">
+      <div class="ajas-pagehead-inner">
+        {trail.length > 0 && (
+          <nav class="ajas-crumbs" aria-label="Breadcrumb">
+            <ol>
+              {trail.map((c) => (
+                <li {...(!c.href ? { "aria-current": "page" } : {})}>
+                  {c.href ? <a href={c.href}>{c.label}</a> : <span>{c.label}</span>}
+                </li>
+              ))}
+              {appendTitle && (
+                <li aria-current="page">
+                  <span>{pageTitle}</span>
+                </li>
+              )}
+            </ol>
+          </nav>
+        )}
+        <BandTitle class="ajas-pagehead-title">{pageTitle}</BandTitle>
       </div>
     </div>
   )
 }
 
 <style is:global>
-  .ajas-admit-strip {
-    background: #183251;
+  /* ---------- inner page title band ---------- */
+  .ajas-pagehead {
+    position: relative;
+    background-image: linear-gradient(90deg, rgba(10, 28, 49, 0.93) 0%, rgba(10, 28, 49, 0.78) 55%, rgba(10, 28, 49, 0.6) 100%),
+      var(--ajas-campus-bg, url("/images/home1/23.jpg"));
+    background-size: cover;
+    background-position: center 38%;
     color: #fff;
-    font-size: 14px;
-    padding: 8px 0;
-    text-align: center;
   }
-  .ajas-admit-strip a {
-    color: #fff;
+  .ajas-pagehead-inner {
+    max-width: 1560px;
+    margin: 0 auto;
+    padding: 34px 32px 36px;
+  }
+  .ajas-crumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    margin: 0 0 10px;
+    padding: 0;
+    list-style: none;
+    font-size: 12.5px;
+    color: rgba(255, 255, 255, 0.62);
+  }
+  .ajas-crumbs li + li::before {
+    content: "/";
+    margin-right: 6px;
+    color: rgba(255, 255, 255, 0.34);
+  }
+  .ajas-crumbs a {
+    color: rgba(255, 255, 255, 0.72);
     text-decoration: none;
   }
-  .ajas-admit-strip a:hover {
-    color: #ffbe34;
+  .ajas-crumbs a:hover {
+    color: #fff;
   }
-  .ajas-admit-strip strong {
-    color: #ffbe34;
+  .ajas-crumbs li:last-child span {
+    color: #ffc24a;
   }
-  .ajas-admit-inner,
-  .ajas-admit-links {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
+  .ajas-pagehead-title {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-weight: 600;
+    font-size: clamp(1.75rem, 3.6vw, 3rem);
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    max-width: 22ch;
+    color: #fff;
   }
-  .ajas-admit-links a::before {
-    content: "\00b7";
-    padding: 0 8px;
-    color: rgba(255, 255, 255, 0.65);
+  @media (max-width: 991px) {
+    .ajas-pagehead-inner {
+      padding: 26px 24px 28px;
+    }
   }
-  @media (max-width: 575px) {
-    .ajas-admit-strip {
-      padding: 9px 0 10px;
-      line-height: 1.45;
+  @media (max-width: 767px) {
+    .ajas-pagehead-inner {
+      padding: 20px 16px 22px;
     }
-    .ajas-admit-inner {
-      display: block;
+    .ajas-crumbs ol {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      white-space: nowrap;
+      scrollbar-width: none;
+      margin-bottom: 8px;
     }
-    .ajas-admit-primary {
-      display: block;
+    .ajas-crumbs ol::-webkit-scrollbar {
+      display: none;
     }
-    .ajas-admit-primary > span {
-      display: block;
-    }
-    .ajas-admit-separator {
-      display: none !important;
-    }
-    .ajas-admit-links {
-      gap: 8px;
-      margin-top: 5px;
-    }
-    .ajas-admit-links a {
-      min-height: 32px;
-      display: inline-flex;
-      align-items: center;
-      padding: 2px 10px;
-      border: 1px solid rgba(255, 255, 255, 0.22);
-      border-radius: 999px;
-      font-size: 12.5px;
-    }
-    .ajas-admit-links a::before {
-      content: none;
+    .ajas-pagehead-title {
+      font-size: clamp(1.45rem, 6.4vw, 2rem);
+      max-width: none;
+      overflow-wrap: anywhere;
     }
   }
 </style>

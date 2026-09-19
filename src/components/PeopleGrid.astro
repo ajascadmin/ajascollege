@@ -20,6 +20,39 @@ interface Props {
 }
 
 const { people, title } = Astro.props;
+
+/**
+ * A roster of one or two people in the same auto-fill portrait grid used for a
+ * 30-person faculty list left a single small card marooned at the far left of
+ * a very wide band. Small rosters get a horizontal card that actually occupies
+ * the column instead.
+ */
+const count = people?.length ?? 0;
+const size = count <= 2 ? "solo" : count <= 4 ? "few" : "many";
+
+function getScholarlyBadges(person: { name?: string; role?: string }) {
+  const badges: { label: string; type: "gold" | "green" | "blue" | "navy" }[] = [];
+  const text = `${person.name || ""} ${person.role || ""}`;
+
+  if (/\b(ph\.?d|doctorate)\b/i.test(text)) {
+    badges.push({ label: "Ph.D.", type: "gold" });
+  }
+  if (/\b(jrf)\b/i.test(text)) {
+    badges.push({ label: "UGC-JRF", type: "green" });
+  } else if (/\b(net)\b/i.test(text)) {
+    badges.push({ label: "UGC-NET", type: "green" });
+  }
+  if (/\b(m\.?phil)\b/i.test(text)) {
+    badges.push({ label: "M.Phil.", type: "blue" });
+  }
+  if (/\b(hod|head of the department|head)\b/i.test(person.role || "")) {
+    badges.push({ label: "HoD", type: "navy" });
+  } else if (/\b(coordinator|co-ordinator)\b/i.test(person.role || "")) {
+    badges.push({ label: "Coordinator", type: "navy" });
+  }
+
+  return badges;
+}
 ---
 
 {
@@ -27,28 +60,38 @@ const { people, title } = Astro.props;
     <section class="people-grid-section">
       {title && (
         <div class="people-grid-head">
-          <span class="people-grid-line" aria-hidden="true" />
           <h2>{title}</h2>
+          <span class="people-grid-line" aria-hidden="true" />
         </div>
       )}
-      <div class="people-grid">
+      <div class="people-grid" data-size={size} data-count={count}>
         {people.map((p) => {
           const Tag = p.link ? "a" : "article";
+          const badges = getScholarlyBadges(p);
           return (
           <Tag class="people-card" {...(p.link ? { href: p.link } : {})}>
-            {p.photo ? (
-              <div class="people-card-photo">
-                <CmsImage src={p.photo} alt={p.name} preset="avatar" fit="cover" />
-              </div>
-            ) : (
-              <div class="people-card-photo people-card-photo-fallback" aria-hidden="true">
-                {p.name
-                  .split(/\s+/)
-                  .slice(0, 2)
-                  .map((w) => w[0])
-                  .join("")}
-              </div>
-            )}
+            <div class="people-card-photo-wrap">
+              {p.photo ? (
+                <div class="people-card-photo">
+                  <CmsImage src={p.photo} alt={p.name} preset="avatar" fit="cover" />
+                </div>
+              ) : (
+                <div class="people-card-photo people-card-photo-fallback" aria-hidden="true">
+                  {p.name
+                    .split(/\s+/)
+                    .slice(0, 2)
+                    .map((w) => w[0])
+                    .join("")}
+                </div>
+              )}
+              {badges.length > 0 && (
+                <div class="people-photo-badges">
+                  {badges.map((b) => (
+                    <span class={`badge-pill badge-${b.type}`}>{b.label}</span>
+                  ))}
+                </div>
+              )}
+            </div>
             <div class="people-card-body">
               <h3>{p.name}</h3>
               {p.role && <p class="people-card-role">{p.role}</p>}
@@ -68,57 +111,121 @@ const { people, title } = Astro.props;
 
 <style>
   .people-grid-section {
-    max-width: 1100px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 8px 16px 40px;
+    padding: 22px 40px 34px;
   }
   .people-grid-head {
     display: flex;
     align-items: baseline;
-    gap: 14px;
-    margin-bottom: 18px;
+    gap: 16px;
+    margin-bottom: 20px;
   }
   .people-grid-head h2 {
     margin: 0;
-    font-size: 1.25rem;
-    color: #183251;
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #17304f;
     white-space: nowrap;
   }
   .people-grid-line {
     flex: 1 1 auto;
     height: 1px;
-    background: #e2e8f0;
+    background: #e4eaf1;
   }
+
   .people-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 18px;
+    gap: 26px 22px;
   }
+  .people-grid[data-size="many"] {
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  }
+  .people-grid[data-size="few"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  @media (min-width: 760px) {
+    .people-grid[data-size="few"][data-count="3"] {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .people-grid[data-size="few"][data-count="4"] {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+  /* one or two people: a horizontal card that fills its column */
+  .people-grid[data-size="solo"] {
+    /* capped: a lone head-of-department card stretched across 1120px has more
+       empty card than card */
+    grid-template-columns: repeat(auto-fit, minmax(0, 820px));
+    justify-content: start;
+    gap: 16px;
+  }
+
+  /* not cards: a photo, a name, a role. No panel, no shadow. */
   .people-card {
-    background: #fff;
-    border-radius: 12px;
-    padding: 18px 16px 20px;
-    text-align: center;
-    box-shadow: 0 8px 26px rgba(24, 50, 81, 0.08);
+    padding: 0;
+    text-align: left;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     text-decoration: none;
     color: inherit;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    min-width: 0;
   }
-  a.people-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 32px rgba(24, 50, 81, 0.14);
+  a.people-card:hover h3 {
+    color: #ff5f60;
+  }
+  .people-card-photo-wrap {
+    width: 100%;
+    position: relative;
+    margin-bottom: 12px;
   }
   .people-card-photo {
-    width: 92px;
-    height: 92px;
-    border-radius: 50%;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    border-radius: 0;
     overflow: hidden;
-    margin-bottom: 14px;
-    background: #f0f3f8;
+    background: #eef2f7;
     flex-shrink: 0;
+    transition: box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1), transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .people-photo-badges {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    right: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    z-index: 2;
+  }
+  .badge-pill {
+    display: inline-block;
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding: 2px 6px;
+    border-radius: 0;
+    text-transform: uppercase;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+  }
+  .badge-gold {
+    background: #c9a961;
+    color: #0b1b2b;
+  }
+  .badge-green {
+    background: #059669;
+    color: #fff;
+  }
+  .badge-blue {
+    background: #0284c7;
+    color: #fff;
+  }
+  .badge-navy {
+    background: #0f2947;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
   }
   .people-card-photo :global(img) {
     width: 100%;
@@ -126,27 +233,44 @@ const { people, title } = Astro.props;
     object-fit: cover;
     object-position: center top;
     display: block;
+    transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
   }
+  .people-card:hover .people-card-photo {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px -4px rgba(15, 41, 71, 0.14);
+  }
+  .people-card:hover .people-card-photo :global(img) {
+    transform: scale(1.035);
+  }
+  /* no headshot on file: a set monogram reads as deliberate, a pale grey
+     rectangle reads as a broken image */
   .people-card-photo-fallback {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: #7a8aa8;
-    background: linear-gradient(160deg, #eef2f9, #e2e8f4);
+    font-family: var(--font-serif);
+    font-size: 1.7rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: #fff;
+    background: linear-gradient(150deg, #1c3a5e, #10263f);
+  }
+  .people-card-body {
+    min-width: 0;
   }
   .people-card-body h3 {
-    margin: 0 0 4px;
-    font-size: 0.98rem;
-    color: #183251;
+    margin: 0 0 3px;
+    font-size: 0.97rem;
+    font-weight: 600;
+    color: #17304f;
     line-height: 1.3;
+    transition: color 0.15s ease;
   }
   .people-card-role {
     margin: 0;
     font-size: 0.82rem;
     color: #5c6578;
-    line-height: 1.4;
+    line-height: 1.45;
   }
   .people-card-phone {
     display: inline-block;
@@ -158,5 +282,70 @@ const { people, title } = Astro.props;
   }
   .people-card-phone:hover {
     color: #ff5f60;
+  }
+
+  /* —— solo/duo horizontal treatment —— */
+  .people-grid[data-size="solo"] .people-card {
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    padding: 18px 22px 18px 18px;
+    border: 1px solid #e4eaf1;
+    border-left: 3px solid #c9a961;
+    border-radius: 0;
+    background: #fbfcfe;
+  }
+  .people-grid[data-size="solo"] .people-card-photo {
+    width: 128px;
+    flex: 0 0 128px;
+    aspect-ratio: 4 / 5;
+    margin-bottom: 0;
+    border-radius: 0;
+  }
+  .people-grid[data-size="solo"] .people-card-body h3 {
+    font-size: 1.14rem;
+    margin-bottom: 5px;
+  }
+  .people-grid[data-size="solo"] .people-card-role {
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 767px) {
+    .people-grid-section {
+      padding: 16px 16px 26px;
+    }
+    .people-grid-head {
+      margin-bottom: 14px;
+      gap: 12px;
+    }
+    .people-grid-head h2 {
+      font-size: 1.25rem;
+    }
+    .people-grid[data-size="many"],
+    .people-grid[data-size="few"] {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px 12px;
+    }
+    .people-card-photo {
+      margin-bottom: 9px;
+    }
+    .people-card-body h3 {
+      font-size: 0.9rem;
+      overflow-wrap: anywhere;
+    }
+    .people-card-role {
+      font-size: 0.78rem;
+    }
+    .people-grid[data-size="solo"] .people-card {
+      padding: 14px 16px 14px 14px;
+      gap: 15px;
+    }
+    .people-grid[data-size="solo"] .people-card-photo {
+      width: 92px;
+      flex: 0 0 92px;
+    }
+    .people-grid[data-size="solo"] .people-card-body h3 {
+      font-size: 1.02rem;
+    }
   }
 </style>

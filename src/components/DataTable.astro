@@ -16,10 +16,19 @@ const { table } = Astro.props;
 
 const renderCell = (cell: string) =>
   cell ? (marked.parseInline(cell, { async: false }) as string) : "";
+
+/* A two-column table reads as a definition list, and right-aligning the value
+   lets the eye run down one edge — but only while the values are short. Set
+   long prose that way (the admission page's documents-by-board list) and every
+   row wraps to a ragged-left block. Measure before choosing. */
+const columnCount = Math.max(table.headers.length, ...table.rows.map((r) => r.length), 0);
+const lastCells = table.rows.map((r) => r[r.length - 1] || "");
+const alignValueRight =
+  columnCount === 2 && lastCells.every((c) => c.length <= 40);
 ---
 
 <div class="dt-wrap">
-  <table class="dt-table">
+  <table class="dt-table" data-align={alignValueRight ? "value-right" : undefined}>
     {
       table.headers.length > 0 && (
         <thead>
@@ -44,46 +53,81 @@ const renderCell = (cell: string) =>
 </div>
 
 <style>
+  /* A reference table, set like one in a printed report: hairline rules, no
+     rounded panel, no zebra. The previous version was a shadowed card with
+     striped rows and grey 0.92rem text — it read as a spreadsheet embed. */
   .dt-wrap {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-    border: 1px solid #eef2f7;
-    border-radius: 10px;
-    margin: 0 0 1em;
+    margin: 0 0 1.4em;
+    border-top: 2px solid #17304f;
+    border-bottom: 1px solid #c6d1de;
   }
   .dt-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.92rem;
+    font-size: 0.95rem;
   }
   .dt-table th,
   .dt-table td {
-    padding: 10px 14px;
+    padding: 13px 18px 13px 0;
     text-align: left;
     vertical-align: top;
-    border-bottom: 1px solid #eef2f7;
+    border-bottom: 1px solid #e9eef4;
     white-space: normal;
+    line-height: 1.5;
+    transition: background-color 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .dt-table th:last-child,
+  .dt-table td:last-child {
+    padding-right: 0;
   }
   .dt-table thead th {
-    background: #f4f6fa;
-    color: #183251;
-    font-size: 0.78rem;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background: none;
+    color: #7d8ba0;
+    font-size: 0.68rem;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.12em;
     font-weight: 700;
     white-space: nowrap;
+    border-bottom: 1px solid #c6d1de;
   }
   .dt-table tbody tr:last-child td {
     border-bottom: 0;
   }
-  .dt-table tbody tr:nth-child(even) {
-    background: #fafbfd;
+  .dt-table tbody tr:hover td {
+    background: #f7f9fc;
+  }
+  /* first column carries the row's subject — set it as a label, not body copy */
+  .dt-table tbody td:first-child {
+    font-weight: 600;
+    color: #17304f;
+    padding-left: 0;
+  }
+  .dt-table tbody td:not(:first-child) {
+    color: #4a5a70;
+  }
+  .dt-table[data-align="value-right"] tbody td:last-child {
+    text-align: right;
   }
   .dt-table :global(a) {
     color: #3f4c99;
     font-weight: 600;
+    border-bottom: 1px solid rgba(63, 76, 153, 0.3);
   }
   .dt-table :global(a:hover) {
     color: #ff5f60;
+    border-bottom-color: #ff5f60;
+  }
+  @media (max-width: 767px) {
+    .dt-table {
+      font-size: 0.9rem;
+    }
+    .dt-table th,
+    .dt-table td {
+      padding: 11px 12px 11px 0;
+    }
   }
 </style>

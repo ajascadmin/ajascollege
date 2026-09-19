@@ -3,7 +3,20 @@ title: Department of Microbiology
 description: "Al Jamia Arts & Science College, Perinthalmanna — affiliated to the University of Calicut."
 permalink: /departments/department-of-micro-biology/
 type: page
+people:
+  - name: "Dr. Thahiya Naushad"
+    role: "Ph.D. in Basic and Industrial Microbiology — Head of Department"
+  - name: "Dr. Divya Nair"
+    role: "Ph.D. in Biotechnology"
+  - name: "Aiswarya Rajan"
+    role: "M.Sc. in Biotechnology, NET"
+  - name: "Namratha"
+    role: "M.Sc. in Biochemistry"
+image: /assets/uploads/2026/09/microbiology/Tile-Image.jpg
 gallery:
+  - /assets/uploads/2026/09/microbiology/Tile-Image.jpg
+  - /assets/uploads/2026/09/microbiology/P1877207.JPG.jpeg
+  - /assets/uploads/2026/09/microbiology/P1877266.JPG.jpeg
   - /assets/uploads/2024/05/DepartmentofMicroBiology-min-scaled.jpg
   - /assets/uploads/2025/07/WhatsApp-Image-2025-07-18-at-11.10.40-AM.jpeg
   - /assets/uploads/2024/05/c4898755-9149-4428-8fcd-e2c74cace294.jpg
@@ -44,25 +57,36 @@ gallery:
 
 ## About
 
-Established in the year 2018. The Department of Micro biology is committed to provide quality education to aspiring graduates. At present, it has Three Assistant Professors with rich experience in the field of teaching.The department is endowed with a group of well experienced and dedicated faculty members.
+The Department of Microbiology at Al Jamia Arts & Science College was established in 2018 with the vision of providing quality education in microbiology and promoting scientific research. The department offers a student-centred learning environment with well-equipped laboratories, experienced faculty and a curriculum aligned with the University of Calicut. We focus on developing scientific knowledge, practical laboratory skills, research aptitude and ethical values, preparing students for higher education, research, healthcare, industry and entrepreneurship.
 
 ## Vision
 
-To inspire and empower students with a transformative education in microbiology, fostering scientific curiosity, innovation and a deep understanding of microbial life to address global challenges in health, environment and biotechnology
+To become a centre of excellence in microbiological education and research by nurturing competent professionals with scientific knowledge, innovation, ethical values and social responsibility.
 
 ## Mission
 
-Provide a strong and engaging curriculum that combines theory, practical skills and research to prepare students for careers in microbiology. Encourage curiosity and creativity by involving students in research and exploring new developments in microbiology. Raise awareness about the role of Microbiology in solving global challenges and inspire students to make ethical and meaningful contributions to society.
+- Provide quality education through effective teaching and laboratory training.
+- Encourage research aptitude, innovation and scientific thinking.
+- Promote awareness of public health, environmental sustainability and antimicrobial resistance.
+- Equip students with technical skills for higher education, research, healthcare and industry.
+- Foster ethical values, leadership and lifelong learning.
 
-## Head Of Department
+## Courses Provided
 
-## Dr. Thahiya Naushad
+- B.Sc. Microbiology (FYUGP — University of Calicut)
 
-## PHD, MSc Applied Microbiology, NET
+## Distinctiveness
 
-Head of Department
+The Department of Microbiology is committed to providing outcome-based education with a strong emphasis on practical learning and research orientation. The department regularly organizes seminars, workshops, awareness programs, industrial visits, extension activities, and skill development programs. Special focus is given to antimicrobial resistance (AMR), biofilm research, environmental microbiology, and laboratory competency, enabling students to bridge the gap between academic learning and real-world applications.
 
-|  |  |
-| --- | --- |
-| Faculty | Dr. Thahiya Naushad |
-| PHD, MSc Applied Microbiology, NET | Aiswarya Rajan |
+## Department Facilities
+
+- Well-equipped Undergraduate Microbiology Laboratory
+- Research and Project Facilities for Undergraduate Students
+- ICT-enabled Classrooms with Smart Teaching Facilities
+- Mushroom Mansion for Mushroom Cultivation and Training
+- Internet and Digital Learning Resources
+
+## Alumni Achievers
+
+The Department of Microbiology takes pride in its accomplished alumni who have consistently excelled in academics and professional careers. Our alumni include University Rank Holders and graduates who have successfully pursued higher studies and secured positions in various sectors such as healthcare, research laboratories, academia, pharmaceuticals, biotechnology, food and dairy industries, quality control, and public health organizations.

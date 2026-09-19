@@ -95,7 +95,7 @@ const L = (await getListings())?.clubs ?? {
   }
   .dept-card {
     background: #fff;
-    border-radius: 14px;
+    border-radius: 0;
     padding: 26px 24px 22px;
     box-shadow: 0 8px 26px rgba(24, 50, 81, 0.08);
     text-decoration: none;
@@ -133,9 +133,12 @@ const L = (await getListings())?.clubs ?? {
     flex: 1;
   }
   .dept-more {
+    display: inline-block;
     font-size: 0.85rem;
     font-weight: 600;
     color: #ff5f60;
+    padding-bottom: 3px;
+    border-bottom: 1px solid rgba(255, 95, 96, 0.45);
   }
   .dept-more i {
     margin-left: 4px;

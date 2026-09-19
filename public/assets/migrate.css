@@ -1,25 +1,34 @@
 /* ============================================================
-   Typeface: Rubik (loaded once from BaseLayout <link>, not @import)
-   replaces the theme's Poppins everywhere except icon fonts.
+   TYPE TOKENS — change the family here, nowhere else.
+   Source Serif 4: a text serif with an optical-size axis, built for
+   long-form reading. Libre Franklin: a Franklin Gothic grotesque.
+   Together they read as an institution's printed prospectus rather
+   than a product landing page.
+   Loaded once from BaseLayout <link>, not @import.
    ============================================================ */
+:root{
+    --font-sans:"Libre Franklin","Helvetica Neue",Helvetica,Arial,sans-serif;
+    --font-serif:"Source Serif 4","Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
+}
+
 body,button,input,select,textarea,
 h1,h2,h3,h4,h5,h6,p,a,li,span,div,td,th,label,blockquote,figcaption,
 .flat-title,.widget-title,.title,.breadcrumbs-wrap .title,.education-text,
 .numb-count,.name-count,.entry-title,.item-title,.sub-title,.caption{
-    font-family:'Rubik',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}
+    font-family:var(--font-sans);}
 i,em.fa,.fa,[class^="fa-"],[class*=" fa-"]{font-family:FontAwesome !important;}
 [class^="icon-"],[class*=" icon-"],.icon-event,.icon-quote{font-family:'icomoon' !important;}
 [class^="ti-"],[class*=" ti-"]{font-family:'themify' !important;}
-/* Rubik runs a touch wider than Poppins — tighten the display sizes */
+/* tighten the display sizes for the sans */
 h1,h2,h3,h4,h5,h6,.flat-title,.education-text,.breadcrumbs-wrap .title{letter-spacing:-.4px;}
 .flat-title{font-weight:600;}
 
 /* ============================================================
    Display serif for headings — the thing that actually reads as
-   "university" rather than "startup landing page". Source Serif 4
+   "university" rather than "startup landing page". Spectral
    on headings + big titles (restrained, editorial-but-institutional,
    holds up from small subheads to a 56px hero at its opsz axis),
-   Rubik stays on everything else (nav, body, buttons, labels) so
+   Public Sans stays on everything else (nav, body, buttons, labels) so
    the UI itself doesn't slow down.
    ============================================================ */
 h1,h2,h3,
@@ -28,7 +37,7 @@ h1,h2,h3,
 .pros-hero-body h1,.pros-section-title,.pros-vm-kicker,
 .ajas-card-body h2,.dept-card h2,.ajas-entity-title,
 .ajas-profile-meta h1,.prog-detail-title,.content-introduce-inner .flat-title{
-    font-family:'Source Serif 4',Georgia,'Times New Roman',serif;
+    font-family:var(--font-serif);
     font-weight:600;
     letter-spacing:0;
 }
@@ -85,32 +94,48 @@ h1,h2,h3,
 #main-nav>ul.menu>li>a:after{content:"";}
 #main-nav>ul.menu>li.has-sub>a:after{
     content:"\f107";font-family:FontAwesome;margin-left:6px;font-size:11px;opacity:.7;font-weight:400;}
-/* dropdown panels — rounded card, quiet accent instead of a top strip.
-   No margin/gap between trigger and panel: a gap is a dead zone the
-   mouse crosses on the way down, which drops :hover and closes the
-   menu before the cursor ever reaches it. Panel sits flush (top:100%,
-   left:100% inherited from base styles) and only transforms in place. */
+/* dropdown panels — light card, not a solid dark slab. Quiet elevation,
+   a coral rail marks the item under the pointer instead of a background
+   fill, and has-sub items read visibly heavier than plain leaf links so
+   the panel scans as a hierarchy, not a flat wall of equal-weight text.
+   No margin/gap between trigger and panel — see prior note on hover dead
+   zones; panel sits flush (top:100%) and only transforms in place. */
 #main-nav .sub-menu{
-    background-color:#183251;margin-left:0;min-width:250px;padding:10px;line-height:1.45;
-    border-radius:6px;box-shadow:0 20px 44px rgba(9,24,42,.38);
-    transition:opacity .18s ease,transform .18s ease;transform:translateY(0);}
+    background-color:#fff;margin-left:0;min-width:236px;padding:6px;line-height:1.35;
+    border-radius:4px;border:1px solid #e3e9f1;box-shadow:0 14px 34px rgba(15,30,52,.15);
+    border-top:3px solid #ff5f60;
+    transition:opacity .16s ease,transform .16s ease;transform:translateY(0);}
 #main-nav .sub-menu li a{
-    display:flex;align-items:center;gap:8px;padding:9px 14px;border-radius:6px;
-    font-size:13.5px;font-weight:500;color:#dbe4f2;white-space:normal;transition:background .15s,color .15s,padding-left .15s;}
-#main-nav .sub-menu li a:hover{background:rgba(255,255,255,.08);color:#ff8f8f;padding-left:18px;}
-/* big dropdowns (8+ items) flow into two columns instead of one long wall */
-#main-nav>ul.menu>li>.sub-menu:has(>li:nth-child(8)){
-    columns:2;column-gap:6px;width:520px;padding:14px;}
-#main-nav>ul.menu>li>.sub-menu:has(>li:nth-child(8))>li{break-inside:avoid;}
-/* level 3+ flyouts */
+    display:flex;align-items:center;gap:8px;padding:7px 12px;border-radius:3px;
+    font-size:13px;font-weight:400;color:#46536b;white-space:normal;letter-spacing:0;
+    transition:background .13s,color .13s;}
+/* parents of a flyout carry the weight; leaf links stay quiet */
+#main-nav .sub-menu li.has-sub>a{font-weight:600;color:#183251;}
+#main-nav .sub-menu li>a:hover{background:#eef2f8;color:#183251;}
+/* the theme paints every has-sub link amber on hover via a very specific
+   selector (.header #main-nav ul li ul.sub-menu .menu-item a:hover); match its
+   weight so parent rows hover the same quiet navy as leaf rows */
+.header #main-nav ul li ul.sub-menu .menu-item>a:hover,
+.header #main-nav ul li ul.sub-menu li>a:hover{color:#183251;}
+/* Single column on purpose. A two-column panel put half the rows far from the
+   panel edge, so a third-level flyout either overlapped the second column or
+   opened across a gap the pointer had to jump — unreachable either way.
+   One compact column keeps every row flush against its flyout. */
+#main-nav>ul.menu>li>.sub-menu{width:auto;min-width:244px;max-width:300px;}
+/* level 3+ flyouts — same panel, nudged up so it aligns with its parent row */
 #main-nav .sub-menu li{position:relative;}
 #main-nav .sub-menu .sub-menu{
-    left:100%;top:-11px;border-radius:6px;margin-left:0;
-    background-color:#1e3a6e;}
+    left:100%;top:-7px;border-radius:4px;margin-left:2px;
+    background-color:#fff;border-color:#e3e9f1;border-top-width:3px;}
 #main-nav .sub-menu li.has-sub>a:after{
-    content:"\f105";font-family:FontAwesome;margin-left:auto;opacity:.55;font-size:12px;}
+    content:"\f105";font-family:FontAwesome;margin-left:auto;opacity:.45;font-size:11px;}
 #main-nav .sub-menu li:hover>.sub-menu{opacity:1;visibility:visible;transform:translateY(0);}
-#main-nav .sub-menu li:not(:hover)>.sub-menu{opacity:0;visibility:hidden;}
+/* …unless hover-intent is holding it open (site-scripts.html): reaching a
+   flyout means crossing sibling rows, which drops :hover on the trigger. */
+#main-nav .sub-menu li:not(:hover)>.sub-menu:not(.nav-open){opacity:0;visibility:hidden;}
+/* every level, not just nested ones: a parent panel left at opacity:0 hides its
+   flyout regardless of the child's own visibility, so ancestors are held open too */
+#main-nav .sub-menu.nav-open{opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto;}
 /* keep the last few menus from running off-screen */
 .menu-bar #main-nav>ul>li:nth-last-child(-n+3) .sub-menu{left:auto;right:0;}
 .menu-bar #main-nav>ul>li:nth-last-child(-n+3) .sub-menu .sub-menu{left:auto;right:100%;margin-left:0;margin-right:0;}
@@ -133,8 +158,9 @@ h1,h2,h3,
 .migrate-content h3{font-size:19px;margin:28px 0 12px;}
 .migrate-content h4{font-size:17px;margin:24px 0 10px;}
 .migrate-content h5,.migrate-content h6{font-size:15px;margin:20px 0 8px;}
-.migrate-content h2:after,.migrate-content h1:after{
-    content:"";display:block;width:52px;height:3px;background:#ff5f60;margin-top:13px;border-radius:2px;}
+/* headings are set in the display serif and separated by space and a hairline;
+   the extra coral bar under every one of them read as decoration, not structure */
+.migrate-content h2:after,.migrate-content h1:after{content:none;}
 .migrate-content p{margin:0 0 18px;}
 .migrate-content a{color:#ff5f60;font-weight:500;}
 .migrate-content a:hover{text-decoration:underline;}
@@ -447,7 +473,114 @@ h1,h2,h3,
 .ajas-dept-card:hover .dept-card-heading a{
     color:#ff5f60;}
 .dept-card-text{
-    font-size:14px;line-height:1.65;color:#64748b;margin:0 0 16px;flex:1;}
+    font-size:14px;line-height:1.65;color:#64748b;margin:0 0 16px;flex:1;min-height:2.65em;}
+/* department cards now live inside an owl carousel, not a bootstrap row —
+   owl floats items rather than stretching them, so pin the card height. */
+.dept-carousel .owl-item{display:flex;}
+.dept-carousel .dept-slide{display:flex;width:100%;}
+.dept-carousel .ajas-dept-card{height:100%;}
+
+/* ============================================================
+   COMPACT RHYTHM + MOBILE COMFORT
+   The original theme stacked its own large section padding on top of the
+   migrated components. Keep a clear editorial cadence without blank screens.
+   ============================================================ */
+.ajas-programmes{padding:58px 0 52px !important;}
+.ajas-programmes .title-section.pd-top60{padding-top:38px !important;}
+.ajas-programmes .listing-intro{margin-bottom:26px !important;}
+.ajas-programmes .dept-carousel-box{padding-top:36px;}
+.ajas-programmes .pd-top30,.ajas-media .pd-top30{padding-top:18px !important;}
+.ajas-media{padding:46px 0 50px !important;}
+.ajas-media + .ajas-media{border-top:1px solid #e3e8ef;}
+.ajas-leadership{padding:48px 0 46px;}
+.ajas-testimonials-section{padding:48px 0 52px;}
+
+.title-section .sub-title{margin-bottom:9px;}
+.title-section.text-center .flat-title{padding-bottom:14px;}
+.listing-intro{margin-bottom:30px;line-height:1.7;}
+
+@media(max-width:991px){
+    .ajas-programmes,.ajas-media,.ajas-leadership,.ajas-testimonials-section,
+    .flat-benefit.style1,.quick-link.quick-link-style1{
+        padding-top:44px !important;padding-bottom:44px !important;}
+    .ajas-programmes .title-section.pd-top60{padding-top:34px !important;}
+    
+    
+}
+
+@media(max-width:767px){
+    body{font-size:16px;-webkit-text-size-adjust:100%;}
+    .container,.container-fluid{padding-left:18px;padding-right:18px;}
+    .breadcrumbs-blog .breadcrumbs-wrap{padding:18px 0 17px !important;}
+    .breadcrumbs-inner{white-space:nowrap;overflow-x:auto;scrollbar-width:none;}
+    .breadcrumbs-inner::-webkit-scrollbar{display:none;}
+    .breadcrumbs-wrap .title{font-size:clamp(1.45rem,7vw,1.9rem);overflow-wrap:anywhere;}
+    .ajas-actions{padding:16px 0 4px !important;}
+    .ajas-actions .row>div{padding-left:0;padding-right:0;}
+    .action-tile{margin-bottom:12px;padding:18px;gap:14px;}
+    .action-tile .tile-ico{width:46px;height:46px;line-height:46px;}
+    .action-tile .tile-ico i{line-height:46px;}
+    .ajas-accred{padding:38px 0 34px;}
+    .accred-label{margin-bottom:20px;line-height:1.5;}
+    .accred-row{gap:24px;}
+    .ajas-about{padding:40px 0 4px;}
+    .ajas-about p{font-size:15.75px;line-height:1.68;text-align:left;}
+    .ajas-metric-banner{padding:30px 0;margin-top:34px;}
+    .ajas-metric-row li{margin-bottom:12px;padding:4px 10px;}
+    .ajas-programmes,.ajas-media,.ajas-leadership,.ajas-testimonials-section,
+    .flat-benefit.style1,.quick-link.quick-link-style1{
+        padding-top:38px !important;padding-bottom:38px !important;}
+    .title-section{margin-bottom:12px;}
+    .title-section .sub-title{font-size:.72rem !important;letter-spacing:.11em;line-height:1.45;}
+    .title-section.text-center .flat-title{padding-bottom:11px;}
+    .title-section.text-center .flat-title:after{width:46px;height:2px;}
+    .listing-intro,.ajas-programmes .listing-intro{
+        margin-bottom:22px !important;font-size:15px;line-height:1.65;text-align:left;}
+    .ajas-programmes .title-section.pd-top60{padding-top:30px !important;}
+    .ajas-programmes .dept-carousel-box{padding-top:34px;}
+    .dept-carousel .owl-nav{top:-40px;}
+    .dept-carousel .owl-nav button.owl-prev,
+    .dept-carousel .owl-nav button.owl-next{width:44px;height:44px;line-height:44px;}
+    .dept-carousel .owl-dots{margin-top:18px;}
+    .footages-carousel{margin-top:16px;}
+    .footages-carousel .gal-item{aspect-ratio:4/3;border-radius:8px;}
+    .footages-carousel .owl-dots{margin-top:16px;}
+    .ajas-media .pd-top30{padding-top:14px !important;}
+    .leadership-slide{gap:22px;}
+    .leadership-photo{aspect-ratio:16/10;}
+    .leadership-text,.leadership-quote{line-height:1.62;}
+    
+    
+    .ajas-testi-card{border-radius:10px;}
+    
+    #footer #footer-widget{padding:32px 0 20px;}
+}
+
+@media(max-width:480px){
+    .container,.container-fluid{padding-left:16px;padding-right:16px;}
+    .ajas-metric-row li{flex-basis:50%;}
+    .accred-row li{flex:1 1 38%;}
+    .accred-row img{height:54px;}
+    .footages-carousel .owl-nav{display:none;}
+    .gallery-grid{gap:8px;}
+}
+
+/* ============================================================
+   INSTITUTIONAL PAGE FRAME
+   A shared editorial hierarchy for every inner route.
+   ============================================================ */
+.page-title.page-title-blog{background-position:center 42% !important;}
+.page-title.page-title-blog:before{
+    background:linear-gradient(90deg,rgba(15,42,70,.94),rgba(15,42,70,.74) 58%,rgba(15,42,70,.54)) !important;}
+.breadcrumbs-blog .breadcrumbs-wrap{
+    padding:36px 0 34px !important;max-width:760px;}
+.breadcrumbs-wrap .breadcrumbs-inner{
+    margin-bottom:13px !important;font-size:.86rem;color:rgba(255,255,255,.74);}
+.breadcrumbs-wrap .title{
+    font-size:clamp(2rem,4.2vw,3.65rem) !important;line-height:1.06 !important;max-width:16ch;}
+/* SmartPage owns its own layout end to end (see SmartPage.astro). The old
+   overrides that lived here fought it — notably a 2-column checklist grid that
+   collapsed sentence-length policy rules into unreadable ribbons. */
 
 .dept-card-pills{
     display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px;}
@@ -511,46 +644,6 @@ h1,h2,h3,
 .flat-event.flat-event-style1>.container-fluid{
     max-width:1200px;margin:0 auto;padding-left:15px;padding-right:15px;}
 
-/* why-choose band (was images/home1/17.png — blank) */
-.flat-benefit.style1{
-    background-image:linear-gradient(105deg,rgba(15,33,53,.96) 0%,rgba(24,50,81,.93) 55%,rgba(31,66,107,.88) 100%),
-        var(--ajas-admin-bg,url('/images/home1/17.png')) !important;
-    background-size:cover;background-position:center;}
-.flat-benefit.style1 .iconbox-content h3 a{color:#fff;font-size:19px;}
-.flat-benefit.style1 .iconbox-content h3 a:hover{color:#ff5f60;}
-.flat-benefit.style1 .iconbox-content p{color:rgba(255,255,255,.72);font-size:14.5px;line-height:26px;}
-.flat-benefit.style1 .iconbox{margin-bottom:42px;}
-.flat-benefit.style1 .col-benefit-left{padding-right:60px;}
-.ajas-apply-cta{
-    background:linear-gradient(160deg,#ff5f60,#e6484f);border-radius:18px;
-    padding:34px 28px;box-shadow:0 20px 48px rgba(230,72,79,.32);}
-.ajas-apply-cta h2{margin:0 0 12px;font-size:1.5rem;color:#fff;}
-.ajas-apply-cta p{margin:0 0 24px;color:rgba(255,255,255,.88);font-size:14.5px;line-height:1.6;}
-.ajas-apply-cta-btn{
-    display:inline-flex;align-items:center;gap:8px;background:#fff;color:#e6484f !important;
-    font-weight:600;font-size:14.5px;padding:13px 24px;border-radius:28px;text-decoration:none;
-    transition:.25s;box-shadow:0 10px 24px rgba(0,0,0,.15);}
-.ajas-apply-cta-btn:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(0,0,0,.22);}
-.ajas-apply-cta-link{
-    display:block;margin-top:16px;color:#fff;font-size:13.5px;font-weight:500;
-    text-decoration:underline;text-underline-offset:3px;opacity:.9;}
-.ajas-apply-cta-link:hover{opacity:1;color:#fff;}
-.flat-benefit .form-apply .apply-now .btn-50 .btn,
-.flat-benefit .form-apply .btn,.flat-benefit .btn-50 .btn,
-.flat-benefit .btn-50.hv-border .btn{
-    background:#ff5f60 !important;color:#fff !important;padding:15px 44px !important;border-radius:28px !important;
-    font-weight:500;font-size:15px;display:inline-block !important;border:2px solid #ff5f60 !important;
-    width:auto !important;height:auto !important;line-height:1 !important;opacity:1 !important;
-    box-shadow:0 14px 32px rgba(255,95,96,.4);transition:.28s cubic-bezier(.2,.7,.3,1);}
-.flat-benefit .form-apply .btn:hover,.flat-benefit .btn-50 .btn:hover{
-    background:#fff !important;border-color:#fff !important;color:#183251 !important;transform:translateY(-3px);}
-.flat-benefit .btn-50{margin-top:26px;}
-/* .section-overlay183251 is a translucent sheet painted over the form —
-   lift the form itself above it or the fields and button look greyed out */
-.flat-benefit .form-apply{position:relative;}
-.flat-benefit .form-apply .section-overlay183251{z-index:0;}
-.flat-benefit .form-apply .apply-now{position:relative;z-index:2;}
-.flat-benefit .form-apply input::placeholder{color:rgba(255,255,255,.72);}
 /* Edukin's staggered event collage depends on its demo images' exact sizes;
    ours are posters of every shape, so lay them out as a plain stacked grid. */
 .ajas-events .images-list{
@@ -568,13 +661,6 @@ h1,h2,h3,
 .ajas-events .img-event .number{
     position:absolute;left:16px;top:16px;width:38px;height:38px;line-height:38px;text-align:center;
     border-radius:50%;color:#fff;font-weight:600;font-size:15px;z-index:2;}
-
-/* quick-link band (was images/home1/parallax2.jpg — blank) */
-.parallax2{
-    background-image:var(--ajas-quick-bg,url('/images/home1/parallax2.jpg')) !important;
-    background-size:cover;background-position:center 30%;}
-.quick-link .section-overlay{background:rgba(15,33,53,.90);}
-.quick-link.quick-link-style1{padding:96px 0;}
 
 /* footer band (was images/footer/01.png — blank) */
 #footer.footer-type1{
@@ -817,8 +903,6 @@ body.hero-hold .header-sticky #main-nav>ul.menu>li>a{font-size:14px;}
 .ajas-services .read-more a:after{content:"\f105";font-family:FontAwesome;font-size:13px;transition:transform .2s;}
 .ajas-services .read-more a:hover{color:#fff;border-bottom-color:#fff;}
 .ajas-services .read-more a:hover:after{transform:translateX(3px);}
-.ajas-benefit .iconbox-content h3 a{color:#fff;}
-.ajas-quicklink .info-quick-link li img{max-height:30px;width:auto;}
 
 /* Campus news carousel — Edukin's card assumes a fixed-ratio demo image
    and an author avatar; ours has neither, so re-balance the two columns. */
@@ -877,7 +961,7 @@ body.hero-hold .header-sticky #main-nav>ul.menu>li>a{font-size:14px;}
     font-size:30px;color:#ff5f60;margin-bottom:14px;line-height:1;opacity:.9;}
 .testi-speech{
     font-size:18.5px;line-height:1.7;color:#475569;margin:0 0 22px;
-    font-style:italic;font-family:'Source Serif 4',Georgia,serif;}
+    font-style:italic;font-family:var(--font-serif);}
 .testi-author-info{}
 .testi-name{
     font-size:20px;font-weight:700;color:#183251;margin:0 0 6px;line-height:1.2;}
@@ -941,21 +1025,11 @@ body.hero-hold .header-sticky #main-nav>ul.menu>li>a{font-size:14px;}
    ============================================================ */
 .has-reveal .reveal{
     opacity:0;
-    transition:opacity .75s cubic-bezier(.2,.7,.3,1),transform .75s cubic-bezier(.2,.7,.3,1);
     will-change:opacity,transform;}
-.has-reveal .rv-up{transform:translateY(30px);}
-.has-reveal .rv-left{transform:translateX(-34px);}
-.has-reveal .rv-right{transform:translateX(34px);}
-.has-reveal .rv-zoom{transform:scale(.92);}
-.has-reveal .rv-fade{transform:none;}
 .has-reveal .reveal.is-in{opacity:1;transform:none;}
 @media(prefers-reduced-motion:reduce){
     .has-reveal .reveal{opacity:1 !important;transform:none !important;transition:none !important;}
     html{scroll-behavior:auto !important;}
-}
-/* sideways entrances would push past a phone viewport mid-transition */
-@media(max-width:991px){
-    .has-reveal .rv-left,.has-reveal .rv-right{transform:translateY(22px);}
 }
 
 /* ============================================================
@@ -976,25 +1050,9 @@ body.hero-hold .header-sticky #main-nav>ul.menu>li>a{font-size:14px;}
 /* ---------- staff rosters ---------- */
 .roster-page .migrate-content{max-width:none;}
 .people-grid{margin-top:8px;}
-.people-card{
-    display:flex;flex-direction:column;width:100%;
-    background:#fff;border:1px solid #eef1f5;border-radius:10px;overflow:hidden;margin-bottom:30px;
-    box-shadow:0 4px 22px rgba(24,50,81,.07);
-    transition:transform .3s cubic-bezier(.2,.7,.3,1),box-shadow .3s,border-color .3s;}
-.people-card .pg-body{flex:1;}
-.people-card:hover{
-    transform:translateY(-6px);box-shadow:0 20px 46px rgba(24,50,81,.16);border-color:#fde3e3;}
-.pg-photo{position:relative;overflow:hidden;background:#f2f5f9;}
-.pg-photo img{
-    width:100%;height:290px;object-fit:cover;object-position:center 18%;display:block;
-    transition:transform .55s cubic-bezier(.2,.7,.3,1);}
-.people-card:hover .pg-photo img{transform:scale(1.06);}
-.pg-photo .mig-noimg{height:290px;}
-.pg-body{padding:20px 20px 22px;text-align:center;}
-.pg-name{font-size:16.5px;font-weight:600;color:#183251;margin:0 0 6px;line-height:1.35;}
-.pg-name:after{content:none;}
-.pg-role{font-size:13.5px;color:#8a8a8a;margin:0;line-height:1.5;}
-.people-grid>div{display:flex;}
+/* The roster is a list of people, not a deck of cards — no panel, no shadow,
+   no hover lift. (The old .pg-* markup this block used to style is long gone.) */
+.people-card{display:flex;flex-direction:column;width:100%;}
 @media(max-width:767px){
     .pg-photo img,.pg-photo .mig-noimg{height:210px;}
     .pg-body{padding:14px 12px 16px;}
@@ -1089,7 +1147,7 @@ body.hero-hold .header-sticky #main-nav>ul.menu>li>a{font-size:14px;}
 .widget-toc .toc-wrap li.active{border-left-color:#ff5f60;}
 .widget-toc .toc-wrap li.active a{color:#183251;font-weight:500;}
 html{scroll-behavior:smooth;}
-[id]{scroll-margin-top:110px;}
+[id]{scroll-margin-top:calc(var(--ajn-bar-h,66px) + 74px);}
 
 /* ---------- responsive ---------- */
 @media(max-width:1500px){
@@ -1165,9 +1223,8 @@ html{scroll-behavior:smooth;}
     .flat-introduce .col-left,.flat-introduce .col-right{width:100%;float:none;}
     .flat-introduce .videobox{margin-bottom:36px;}
     .flat-introduce .videobox:before{display:none;}
-    .flat-benefit.style1 .col-benefit-left,.flat-benefit.style1 .col-benefit-right{
-        width:100%;float:none;padding-right:15px;}
-    .flat-benefit.style1 .col-benefit-right{margin-top:40px;}
+    
+    
     .flat-event .col-left,.flat-event .col-right{width:100%;float:none;}
     .flat-event .col-right{margin-top:36px;}
     .partner-clients .iconbox-style1 .apply-admission{transform:none !important;margin-top:34px;}
@@ -1244,19 +1301,6 @@ html.is-loaded #loading-overlay{
   pointer-events:none !important;
   transition:opacity .12s ease,visibility .12s ease !important;
 }
-/* Prefer reduced-motion: skip reveal transforms that can look like shift */
-@media (prefers-reduced-motion:reduce){
-  .has-reveal .reveal{opacity:1 !important;transform:none !important;transition:none !important;}
-  .has-reveal .rv-up,.has-reveal .rv-left,.has-reveal .rv-right,.has-reveal .rv-zoom{
-    transform:none !important;}
-}
-.has-reveal .reveal{
-  transition:opacity .35s cubic-bezier(.2,.7,.3,1),transform .35s cubic-bezier(.2,.7,.3,1) !important;
-}
-.has-reveal .rv-up{transform:translateY(16px) !important;}
-.has-reveal .rv-left{transform:translateX(-16px) !important;}
-.has-reveal .rv-right{transform:translateX(16px) !important;}
-.has-reveal .rv-zoom{transform:scale(.97) !important;}
 
 /* ============================================================
    Accessibility & Lighthouse fixes (contrast, touch, headings)
@@ -1404,7 +1448,7 @@ html.is-loaded #loading-overlay{
     position:absolute;top:14px;left:24px;}
 .ajas-quote-panel blockquote{
     position:relative;z-index:1;margin:0;color:#fff;font-size:19px;line-height:1.6;
-    font-family:'Source Serif 4',Georgia,serif;font-style:italic;text-align:center;}
+    font-family:var(--font-serif);font-style:italic;text-align:center;}
 
 /* ---------- What makes us different: media footages (single image carousel) ---------- */
 .ajas-media{padding:56px 0 64px;background:#f7f9fc;}
@@ -1466,6 +1510,157 @@ html.is-loaded #loading-overlay{
     .footages-carousel .owl-nav button.owl-next{width:38px;height:38px;font-size:17px;}
 }
 
+/* ---------- Departments: sliding carousel (was a static grid) ---------- */
+/* Controls sit above the row, not on top of the cards — floating them over
+   the tiles covered the artwork and made the first/last card unclickable. */
+.dept-carousel-box{position:relative;padding:44px 0 0;}
+.dept-carousel .owl-stage-outer{overflow:hidden;}
+ /* owl sets position:relative on .owl-carousel itself, so top:0 would anchor to
+   the cards; pull the controls up into the space reserved above the row */
+.dept-carousel .owl-nav{
+    position:absolute;top:-44px;right:0;left:auto;margin:0;display:flex;gap:8px;z-index:3;}
+.dept-carousel .owl-nav button.owl-prev,
+.dept-carousel .owl-nav button.owl-next{
+    position:static;width:38px;height:38px;line-height:38px;border-radius:50%;
+    background:#ffffff !important;color:#183251 !important;box-shadow:none !important;
+    display:flex !important;align-items:center;justify-content:center;
+    font-size:17px !important;border:1px solid #d9e1ec !important;outline:none !important;
+    transition:background .2s,border-color .2s,color .2s;cursor:pointer;}
+.dept-carousel .owl-nav button.owl-prev:hover,
+.dept-carousel .owl-nav button.owl-next:hover{
+    background:#ff5f60 !important;color:#ffffff !important;border-color:#ff5f60 !important;}
+.dept-carousel .owl-dots{
+    text-align:center;margin-top:26px;display:flex;align-items:center;justify-content:center;gap:7px;}
+.dept-carousel .owl-dots .owl-dot{
+    display:inline-block;padding:0 !important;background:none !important;border:0 !important;outline:none !important;}
+.dept-carousel .owl-dots .owl-dot span{
+    width:8px;height:8px;background:#cbd5e1 !important;border-radius:50% !important;
+    display:block;transition:all .3s cubic-bezier(.2,.7,.3,1);margin:0 !important;}
+.dept-carousel .owl-dots .owl-dot.active span{
+    background:#ff5f60 !important;width:24px;border-radius:10px !important;}
+@media(max-width:767px){
+    .dept-carousel-box{padding:40px 0 0;}
+}
+
+/* ---------- Leadership messages (chairman + principal) as one slider ---------- */
+.ajas-leadership{padding:64px 0 60px;background:#fff;}
+.leadership-box{position:relative;padding:0 46px;}
+.leadership-slide{display:grid;gap:34px;align-items:center;}
+@media(min-width:900px){.leadership-slide{grid-template-columns:380px 1fr;gap:48px;}}
+.leadership-photo{margin:0;border-radius:6px;overflow:hidden;background:#eef2f7;aspect-ratio:4/3;}
+.leadership-photo img{width:100%;height:100%;object-fit:cover;display:block;}
+.leadership-role{
+    font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:#7c8aa0;
+    font-weight:600;margin:0 0 8px;}
+.leadership-heading{font-size:30px;line-height:1.2;color:#183251;margin:0 0 16px;}
+.leadership-quote{font-size:17px;line-height:1.7;color:#2c3e50;margin:0 0 14px;}
+.leadership-text{font-size:15.5px;line-height:1.75;color:#4a5568;margin:0 0 12px;}
+.leadership-points{list-style:none;margin:0 0 16px;padding:0;}
+.leadership-points li{position:relative;padding-left:24px;margin:8px 0;color:#4a5568;font-size:15px;}
+.leadership-points li:before{
+    content:"\f00c";font-family:FontAwesome;position:absolute;left:0;top:2px;color:#7ecc88;font-size:12px;}
+.leadership-link{
+    display:inline-flex;align-items:center;gap:8px;color:#183251;font-weight:600;font-size:14.5px;
+    border-bottom:2px solid #ff5f60;padding-bottom:3px;}
+.leadership-link:hover{color:#ff5f60;}
+.leadership-carousel .owl-nav{position:absolute;top:50%;left:0;right:0;transform:translateY(-50%);margin:0;pointer-events:none;}
+.leadership-carousel .owl-nav button.owl-prev,
+.leadership-carousel .owl-nav button.owl-next{
+    pointer-events:auto;position:absolute;width:40px;height:40px;border-radius:50%;
+    background:#fff !important;color:#183251 !important;border:1px solid #e3e9f1 !important;
+    display:flex !important;align-items:center;justify-content:center;font-size:18px !important;}
+.leadership-carousel .owl-nav button.owl-prev{left:-46px;}
+.leadership-carousel .owl-nav button.owl-next{right:-46px;}
+.leadership-carousel .owl-nav button:hover{background:#ff5f60 !important;color:#fff !important;border-color:#ff5f60 !important;}
+.leadership-carousel .owl-dots{display:flex;justify-content:center;gap:7px;margin-top:26px;}
+.leadership-carousel .owl-dots .owl-dot{background:none !important;border:0 !important;padding:0 !important;}
+.leadership-carousel .owl-dots .owl-dot span{
+    width:8px;height:8px;border-radius:50% !important;background:#cbd5e1 !important;display:block;margin:0 !important;transition:.3s;}
+.leadership-carousel .owl-dots .owl-dot.active span{background:#ff5f60 !important;width:24px;border-radius:10px !important;}
+@media(max-width:767px){
+    .leadership-box{padding:0;}
+    .leadership-carousel .owl-nav{display:none;}
+    .leadership-heading{font-size:24px;}
+}
+
+/* ---------- Department tiles list courses, not prose ---------- */
+.dept-card-courses{list-style:none;margin:0 0 18px;padding:0;flex:1;}
+.dept-card-courses li{
+    position:relative;padding:6px 0 6px 22px;font-size:14px;color:#3b4a5f;line-height:1.5;
+    border-bottom:1px solid #f1f4f9;}
+.dept-card-courses li:last-child{border-bottom:0;}
+.dept-card-courses li:before{
+    content:"\f105";font-family:FontAwesome;position:absolute;left:4px;top:7px;color:#ff5f60;font-size:13px;}
+
+/* ---------- Testimonials: quotes, not cards ---------- */
+.ajas-testimonials-section{padding:64px 0 68px;background:#f7f9fc;}
+.testi-box{position:relative;}
+.testi-item{margin:0;padding:0 6px;}
+.testi-quote{
+    margin:0 0 20px;padding:0;border:0;background:none;
+    font-family:var(--font-serif);font-size:19px;line-height:1.65;color:#22364f;}
+.testi-quote:before{content:"\201C";color:#ff5f60;font-size:34px;line-height:0;vertical-align:-10px;margin-right:4px;}
+.testi-quote:after{content:"\201D";color:#ff5f60;font-size:34px;line-height:0;vertical-align:-14px;margin-left:2px;}
+.testi-by{display:flex;align-items:center;gap:14px;}
+.testi-by img{width:48px;height:48px;border-radius:50%;object-fit:cover;object-position:center top;display:block;}
+.testi-meta{display:flex;flex-direction:column;}
+.testi-name{font-weight:600;color:#183251;font-size:15px;}
+.testi-role{font-size:13px;color:#7c8aa0;}
+.testi-carousel .owl-dots{display:flex;justify-content:center;gap:7px;margin-top:30px;}
+.testi-carousel .owl-dots .owl-dot{background:none !important;border:0 !important;padding:0 !important;}
+.testi-carousel .owl-dots .owl-dot span{
+    width:8px;height:8px;border-radius:50% !important;background:#cbd5e1 !important;display:block;margin:0 !important;transition:.3s;}
+.testi-carousel .owl-dots .owl-dot.active span{background:#ff5f60 !important;width:24px;border-radius:10px !important;}
+
+/* ---------- Gallery lightbox (replaces fancyBox for .gal-item) ---------- */
+body.ajas-lb-open{overflow:hidden;}
+.ajas-lb{
+    position:fixed;inset:0;z-index:100000;display:none;
+    align-items:center;justify-content:center;padding:56px 24px 24px;
+    background:rgba(9,20,35,.94);opacity:0;transition:opacity .2s ease;}
+.ajas-lb.is-open{display:flex;opacity:1;}
+.ajas-lb.no-anim{transition:none;}
+.ajas-lb-stage{
+    margin:0;display:flex;flex-direction:column;align-items:center;gap:14px;
+    max-width:100%;max-height:100%;}
+.ajas-lb-img{
+    max-width:min(1200px,92vw);max-height:78vh;width:auto;height:auto;display:block;
+    border-radius:8px;box-shadow:0 30px 80px rgba(0,0,0,.55);background:#0c1e34;}
+.ajas-lb-cap{
+    display:flex;align-items:center;gap:14px;color:rgba(255,255,255,.82);
+    font-size:14px;text-align:center;min-height:20px;}
+.ajas-lb-count{color:rgba(255,255,255,.55);font-size:13px;font-variant-numeric:tabular-nums;}
+.ajas-lb-close{
+    position:absolute;top:16px;right:20px;width:44px;height:44px;border-radius:50%;
+    background:rgba(11,30,52,.72);border:1px solid rgba(255,255,255,.42);color:#fff;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;transition:background .2s ease,border-color .2s ease;}
+.ajas-lb-close:hover{background:#8f2934;border-color:#fff;}
+.ajas-lb-nav{
+    position:absolute;top:50%;transform:translateY(-50%);width:50px;height:50px;border-radius:50%;
+    background:rgba(11,30,52,.72);border:1px solid rgba(255,255,255,.42);color:#fff;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;transition:background .2s ease,border-color .2s ease;}
+.ajas-lb-nav:hover{background:#8f2934;border-color:#fff;}
+.ajas-lb-close svg,.ajas-lb-nav svg{display:none;}
+.ajas-lb-close::before,.ajas-lb-close::after{
+    content:"";position:absolute;width:18px;height:1.5px;background:#fff;border-radius:2px;}
+.ajas-lb-close::before{transform:rotate(45deg);}
+.ajas-lb-close::after{transform:rotate(-45deg);}
+.ajas-lb-nav::before{
+    color:#fff;font:300 34px/1 Georgia,serif;position:relative;top:-1px;}
+.ajas-lb-prev::before{content:"‹";margin-left:-2px;}
+.ajas-lb-next::before{content:"›";margin-right:-2px;}
+.ajas-lb-nav[hidden]{display:none;}
+.ajas-lb-prev{left:20px;}
+.ajas-lb-next{right:20px;}
+.ajas-lb :focus-visible{outline:2px solid #ffbe34;outline-offset:2px;}
+@media(max-width:767px){
+    .ajas-lb{padding:64px 12px 16px;}
+    .ajas-lb-img{max-height:70vh;}
+    .ajas-lb-nav{width:40px;height:40px;font-size:21px;}
+    .ajas-lb-prev{left:6px;}
+    .ajas-lb-next{right:6px;}
+}
+
 /* Footer Google Map — Fluid Edge-to-Edge */
 .footer-map-fluid{
     position:relative;width:100%;height:280px;background:#0c1e34;
@@ -1512,25 +1707,35 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
     padding:0 !important;border:0 !important;border-radius:0 !important;box-shadow:none !important;}
 
 /* Grid children default to min-width:auto, which lets a long CMS value or a
-   wide table silently stretch the whole SmartPage beyond the phone viewport. */
-body .smart-page .sp-default,
-body .smart-page .sp-admission,
-body .smart-page .sp-vision,
-.smart-page .sp-top,
-.smart-page .sp-sections,
+   wide table silently stretch the whole SmartPage beyond the phone viewport.
+   min-width:0 is the actual fix; a blanket max-width:100% here also used to
+   override the component's own measure (.sp-default's container width and
+   .sp-section's reading measure), so it is scoped to the pieces that can blow out. */
+.smart-page .sp-admission,
+.smart-page .sp-vision,
 .smart-page .sp-prog-grid,
-.smart-page .sp-tables,
-.smart-page .sp-section,
-.smart-page .sp-lead-card,
-.smart-page .sp-fact-sheet,
 .smart-page .sp-prog-card,
 .smart-page .sp-html,
+.smart-page .sp-main-col,
 .smart-page .dt-wrap{
     min-width:0;max-width:100%;}
-.smart-page .sp-top>*,.smart-page .sp-sections>*,.smart-page .sp-prog-grid>*{min-width:0;}
+.smart-page .sp-default,
+.smart-page .sp-section{min-width:0;}
+/* denser reading rhythm — the page was running very long for the amount of copy */
+.smart-page .ajas-prose{font-size:16.8px;line-height:1.78;}
+.smart-page .ajas-prose p{margin:0 0 1em;}
+.smart-page .ajas-prose ul,.smart-page .ajas-prose ol{margin:0 0 1em;}
+/* listing/roster/gallery sections share the same wide container as the doc */
+/* share the document container so a roster or gallery lines up with the
+   sections above it */
+.gallery-section,.people-grid-section,.menu-grid{
+    max-width:1440px !important;
+    padding-left:clamp(16px,3.4vw,56px) !important;
+    padding-right:clamp(16px,3.4vw,56px) !important;}
+.smart-page .sp-prog-grid>*{min-width:0;}
 .smart-page .sp-html *,.smart-page dd,.smart-page dt{overflow-wrap:anywhere;word-break:normal;}
-.smart-page .sp-section img,.smart-page .sp-hero-fig img{max-width:100% !important;}
-.smart-page .sp-section-head h2{min-width:0;overflow-wrap:anywhere;}
+.smart-page .sp-section img{max-width:100% !important;}
+.smart-page .sp-section h2{min-width:0;overflow-wrap:anywhere;}
 
 /* Interactive text at the bottom of cards should be easy to tap. */
 .btn-prog-cta,.dept-link-btn,.dept-more,.prog-card-link,
@@ -1540,7 +1745,7 @@ body .smart-page .sp-vision,
 /* Prevent hover-only movement on touchscreens. */
 @media(hover:none){
     .flat-course:hover,.team-box-layout-h1:hover,.ajas-prog-card:hover,.ajas-dept-card:hover,
-    .dept-card:hover,.ajas-card:hover,.prog-grid-card:hover,.menu-grid-card:hover,.people-card:hover{
+    .dept-card:hover,.ajas-card:hover,.prog-grid-card:hover,.menu-grid-card:hover{
         transform:none !important;}
 }
 
@@ -1596,9 +1801,7 @@ body .smart-page .sp-vision,
     main .listing-intro.listing-intro{margin-bottom:32px;font-size:16px;line-height:1.65;}
     .blog-single.content-blog{padding:48px 0 58px;}
     .smart-page{padding-bottom:52px;}
-    .sp-default,.sp-admission,.sp-vision{padding-left:20px;padding-right:20px;}
-    .sp-lead-card,.sp-fact-sheet,.sp-section{padding:24px 22px 26px;}
-    .flat-introduce-style1 .col-left,.flat-introduce-style1 .col-right{min-width:0;}
+        .flat-introduce-style1 .col-left,.flat-introduce-style1 .col-right{min-width:0;}
     .ajas-actions .row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));}
     .ajas-actions .row>div{width:100%;max-width:100%;padding-left:10px;padding-right:10px;}
     .ajas-actions .row>div:last-child{grid-column:1/-1;}
@@ -1653,11 +1856,7 @@ body .smart-page .sp-vision,
     .migrate-content blockquote,.ajas-prose blockquote{padding:16px 18px;}
     .migrate-content p>img,.migrate-content>img{margin:18px auto 22px;}
     .ajas-prose p:has(> img:only-child){padding:10px;}
-    .sp-default,.sp-admission,.sp-vision{padding-left:16px;padding-right:16px;}
-    .sp-lead-card,.sp-fact-sheet,.sp-section,.sp-lead,.sp-tail{padding:21px 18px 23px;}
-    .sp-fact-row{grid-template-columns:1fr;gap:3px;}
-    .sp-fact-row dd{text-align:left;}
-    .sp-section-head{align-items:flex-start;}
+        .sp-section-head{align-items:flex-start;}
     .sp-section-num{padding-top:4px;}
 
     /* Dense data stays legible inside its own horizontal viewport. */
@@ -1708,7 +1907,6 @@ body .smart-page .sp-vision,
     .menu-grid{grid-template-columns:1fr;gap:14px;}
     .menu-grid-card{min-height:0;padding:20px 19px 16px;}
     .people-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
-    .people-card{padding:16px 10px 17px;}
     .people-card-role,.people-card-phone{font-size:.86rem;}
 
     .footer-trust{padding:22px 0 18px;}
@@ -1760,8 +1958,8 @@ body .smart-page .sp-vision,
    cascade (loaded last) and is the single source of truth going
    forward: don't add new font-size rules for these classes elsewhere.
 
-   Scale (Rubik for UI/body, Source Serif 4 stays scoped to its existing
-   quote/message-block accents — no third font introduced):
+   Scale (see the type tokens at the top of this file: the text serif
+   carries display and card titles, the grotesque carries UI and body):
      Display   (flat-title.larger, heading-type3)              28–44px fluid
      Section   (flat-title.medium, heading-type1/2, h2)        24–36px fluid
      Subsection(flat-title.small, h3, prog-card-title)         18.5–24px fluid
@@ -1772,8 +1970,8 @@ body .smart-page .sp-vision,
    =================================================================== */
 .flat-title,
 .heading-type1,.heading-type2,.heading-type3{
-    font-family:'Rubik',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif !important;
-    font-weight:600;line-height:1.2;letter-spacing:-.01em;}
+    font-family:var(--font-serif) !important;
+    font-weight:600;line-height:1.2;letter-spacing:-.012em;}
 
 .flat-title.larger,.heading-type3{
     font-size:clamp(1.75rem,1.3rem + 2vw,2.75rem) !important;line-height:1.15;}
@@ -1795,15 +1993,1759 @@ body .smart-page .sp-vision,
 .prog-card-title,.dept-card-heading,.testi-name,.gal-title,
 .text-one,.text-two,.text-three,
 .ajas-card-body h2,.dept-card h2,.prog-title-text{
-    font-size:1.15rem !important;line-height:1.3;font-weight:600;
-    font-family:'Rubik',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif !important;}
+    font-size:1.15rem !important;line-height:1.3;font-weight:600;}
+/* card titles share the display serif; a person's name beside their portrait
+   stays in the UI grotesque, where it reads as a label not a headline */
+.prog-card-title,.dept-card-heading,.gal-title,
+.text-one,.text-two,.text-three,
+.ajas-card-body h2,.dept-card h2,.prog-title-text{
+    font-family:var(--font-serif) !important;}
+.testi-name{font-family:var(--font-sans) !important;}
 
 /* Eyebrow / kicker labels — one voice for every "small caps" label */
 .sub-title,.accred-label{
     font-size:.8125rem !important;font-weight:600;letter-spacing:.14em;
     text-transform:uppercase;}
 
-/* strong/b render at an unloaded 900 weight (Rubik only ships 400–700),
+/* strong/b render at an unloaded 900 weight (the UI grotesque ships 400–700),
    forcing a synthetic/faux-bold that looks off next to the rest of the
    system — pin every bold run to the loaded 700. */
 b,strong{font-weight:700 !important;}
+
+/* ============================================================
+   FLAT SURFACES — site-wide
+   Cards were doing too much work: nearly every listing tile, panel
+   and roster item was a white slab with a drop shadow and a hover
+   lift, so whole pages read as a deck of cards. Grouping is now
+   carried by a hairline border alone. Elevation is reserved for
+   things that genuinely float above the page: the nav dropdown,
+   the lightbox, the sticky header, the admissions CTA.
+   ============================================================ */
+.ajas-dept-card,
+.dept-card,
+.ajas-card,
+.prog-grid-card,
+.prog-card,
+.menu-grid-card,
+.flat-course,
+.team-box-layout-h1,
+.ajas-entity-card,
+.ajas-prog-card,
+.people-card,
+.ajas-faculty-card{
+    box-shadow:none !important;
+    border:1px solid #e6ebf2;
+    border-radius:6px;
+    background:#fff;
+    transition:border-color .2s ease,background .2s ease;}
+/* hover states: colour, not motion */
+.ajas-dept-card:hover,
+.dept-card:hover,
+.ajas-card:hover,
+.prog-grid-card:hover,
+.prog-card:hover,
+.menu-grid-card:hover,
+.flat-course:hover,
+.team-box-layout-h1:hover,
+.ajas-entity-card:hover,
+.ajas-prog-card:hover,
+.ajas-faculty-card:hover{
+    transform:none !important;
+    box-shadow:none !important;
+    border-color:#c9d4e3;}
+.ajas-dept-card:hover .dept-card-media img,
+.flat-course:hover img,
+.ajas-card:hover img{transform:none !important;}
+/* rosters carry no surface at all — they are lists of people */
+.people-card,
+.ajas-faculty-card{border:0;background:none;border-radius:0;}
+
+/* equal-height tiles inside the department slider: owl floats its items,
+   so the row never stretches on its own */
+.dept-carousel .owl-stage{display:flex;align-items:stretch;}
+.dept-carousel .owl-item{display:flex;height:auto;float:none;}
+.dept-carousel .dept-slide{display:flex;width:100%;}
+.dept-carousel .ajas-dept-card{height:100%;}
+
+/* ============================================================
+   SECTION RHYTHM — authoritative, must stay last in this file.
+   The theme ships its own (very large) section padding and a 100px
+   margin under every .title-section; earlier attempts to tame it in
+   the COMPACT RHYTHM block were themselves overridden by later
+   component blocks further down this file. One block, at the end,
+   is the only way this stays predictable.
+   ============================================================ */
+main .ajas-accred{padding:46px 0 42px;}
+main .ajas-about{padding:54px 0 6px;}
+main .ajas-metric-banner{margin-top:34px;padding:36px 0;}
+main .ajas-leadership{padding:54px 0 48px;}
+main .ajas-programmes{padding:54px 0 54px !important;}
+main .ajas-media{padding:46px 0 46px !important;}
+
+main .ajas-testimonials-section{padding:50px 0 52px;}
+
+main .ajas-actions{padding:22px 0 6px;}
+
+/* the heading block and its intro belong to the content below them, not to
+   the whitespace above it */
+main .title-section{margin-bottom:26px !important;}
+main .title-section.text-center .flat-title{padding-bottom:12px;}
+main .title-section .sub-title{margin-bottom:8px;}
+main .title-section.pd-top60,
+main .ajas-programmes .title-section.pd-top60{padding-top:0 !important;}
+main .ajas-programmes .pd-top60{padding-top:0;}
+main .ajas-programmes .pd-top30,main .ajas-media .pd-top30{padding-top:10px !important;}
+/* scoped to the home sections: on a document page the same class is a lede,
+   not a centred section standfirst */
+main .ajas-programmes .listing-intro,
+main .ajas-media .listing-intro,
+main .flat-benefit .listing-intro{margin:0 auto 28px !important;max-width:780px;}
+main .ajas-programmes .dept-carousel-box{padding-top:22px;}
+main .ajas-programmes .prog-columns{margin-bottom:0;}
+/* a second heading block inside one section starts a new movement — give it
+   a rule of its own rather than 100px of nothing */
+main .ajas-programmes .title-section + .ajas-prog-grid,
+main .ajas-programmes .listing-intro + .ajas-prog-grid{margin-top:0;}
+main .ajas-programmes .ajas-prog-grid + .title-section{
+    margin-top:52px !important;padding-top:44px !important;border-top:1px solid #e3e9f1;}
+
+@media(max-width:991px){
+    main .ajas-accred{padding:36px 0 32px;}
+    main .ajas-about{padding:40px 0 4px;}
+    main .ajas-metric-banner{margin-top:26px;padding:28px 0;}
+    main .ajas-leadership,
+    main .ajas-programmes,
+    main .ajas-media,
+    main .flat-benefit.style1,
+    main .ajas-testimonials-section,
+    main .quick-link.quick-link-style1{
+        padding-top:40px !important;padding-bottom:40px !important;}
+    main .title-section{margin-bottom:20px !important;}
+    main .ajas-programmes .ajas-prog-grid + .title-section{
+        margin-top:36px !important;padding-top:32px !important;}
+}
+@media(max-width:575px){
+    main .ajas-leadership,
+    main .ajas-programmes,
+    main .ajas-media,
+    main .flat-benefit.style1,
+    main .ajas-testimonials-section,
+    main .quick-link.quick-link-style1{
+        padding-top:34px !important;padding-bottom:34px !important;}
+    main .ajas-programmes .listing-intro,main .ajas-media .listing-intro{margin-bottom:22px !important;}
+}
+
+/* Owl clones its slides after the reveal observer has already run, so a
+   cloned .gal-item keeps `reveal` (opacity:0) and never receives `is-in` —
+   the Campus and Events carousels rendered as tall blank bands. Anything
+   inside a carousel is revealed by the carousel itself. */
+.has-reveal .owl-item .reveal,
+.has-reveal .owl-item .reveal.rv-up,
+.has-reveal .owl-item .reveal.rv-zoom,
+.has-reveal .owl-item .reveal.rv-left,
+.has-reveal .owl-item .reveal.rv-right{
+    opacity:1 !important;transform:none !important;}
+
+/* Metric band: a 2-up phone grid with "UG PROGRAMMES" letter-spaced at 12px
+   overflowed its cell. Grid tracks + a tighter label keep every figure whole. */
+@media(max-width:575px){
+    main .ajas-metric-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 10px;}
+    main .ajas-metric-row li{
+        flex:none;min-width:0;padding:0 6px;margin:0;border-left:0;}
+    main .ajas-metric-row strong{font-size:clamp(1.6rem,8vw,2.1rem);}
+    main .ajas-metric-row span{
+        margin-top:6px;font-size:10.5px;letter-spacing:.09em;line-height:1.35;overflow-wrap:anywhere;}
+}
+
+/* The theme ships `body{overflow:hidden}`. That makes <body> a scroll
+   container that cannot scroll, so every `position:sticky` descendant — the
+   nav bar, the page's section rail — silently behaved like `static`.
+   overflow-x:clip still contains the horizontal blowouts the original rule was
+   there for, without creating a scrollport. Scroll locks keep their hidden. */
+body:not(.ajn-locked):not(.ajas-lb-open):not(.mobile-nav-open){
+    overflow-x:clip;overflow-y:visible;}
+
+/* ============================================================
+   HOME — refreshed intro sequence (quick actions → accreditation → about)
+   and a second carousel that no longer mirrors the first.
+   Appended last so it wins over the original component blocks above.
+   ============================================================ */
+
+/* ---- quick actions: one glass card family that rides up over the hero ---- */
+/* an earlier rule zeroes this for the video hero; the glass cards are meant to
+   ride up over the footage, which is where the translucency actually reads */
+main .ajas-hero--video-only + .ajas-actions,
+main .ajas-actions{
+    padding:0 0 10px !important;
+    margin-top:clamp(-88px, -5vw, -48px) !important;
+    padding-top:0 !important;
+    position:relative;z-index:5;}
+main .ajas-actions .row{
+    display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:0;
+    align-items:stretch;}
+main .ajas-actions .row>div{width:100%;max-width:100%;padding:0;flex:none;display:flex;}
+main .action-tile{
+    width:100%;
+    display:flex;align-items:center;gap:15px;min-height:92px;
+    padding:18px 20px;border-radius:0;
+    background:rgba(255,255,255,.82);
+    -webkit-backdrop-filter:blur(18px) saturate(140%);
+    backdrop-filter:blur(18px) saturate(140%);
+    border:1px solid rgba(255,255,255,.55);
+    box-shadow:0 18px 44px rgba(9,24,42,.18);
+    color:#17304f !important;
+    transition:transform .28s cubic-bezier(.2,.7,.3,1),box-shadow .28s,background .28s;}
+main .action-tile:hover{
+    transform:translateY(-5px);
+    background:rgba(255,255,255,.93);
+    box-shadow:0 26px 60px rgba(9,24,42,.24);}
+/* the accent lives in the icon, not in three competing card fills */
+main .action-tile .tile-ico{
+    flex:0 0 52px;width:52px;height:52px;line-height:52px;border-radius:0;
+    display:flex;align-items:center;justify-content:center;
+    background:rgba(255,95,96,.12);color:#ff5f60;border:1px solid rgba(255,95,96,.24);}
+main .action-tile.tile-navy .tile-ico,
+main .action-tile:nth-child(1) .tile-ico{background:rgba(255,95,96,.12);color:#ff5f60;border-color:rgba(255,95,96,.24);}
+main .ajas-actions .row>div:nth-child(2) .tile-ico{
+    background:rgba(23,48,79,.10);color:#17304f;border-color:rgba(23,48,79,.18);}
+main .ajas-actions .row>div:nth-child(3) .tile-ico{
+    background:rgba(201,169,97,.16);color:#a9863c;border-color:rgba(201,169,97,.32);}
+main .action-tile .tile-ico i{font-size:21px;line-height:1;}
+main .action-tile .tile-head{
+    display:flex;align-items:center;gap:8px;margin-bottom:2px;}
+main .action-tile .tile-title{
+    font-size:15.5px;font-weight:600;color:#17304f;margin:0;
+    line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+main .action-tile .tile-badge{
+    display:inline-flex;align-items:center;padding:2px 7px;
+    font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;
+    border-radius:99px;background:rgba(255,95,96,.12);color:#ff4d4f;
+    border:1px solid rgba(255,95,96,.25);line-height:1;
+    animation:ajn-pulse-badge 2.4s cubic-bezier(.4,0,.6,1) infinite;}
+@keyframes ajn-pulse-badge{
+    0%,100%{box-shadow:0 0 0 0 rgba(255,95,96,.4);}
+    50%{box-shadow:0 0 0 4px rgba(255,95,96,0);}}
+main .action-tile .tile-sub{
+    font-size:13px;color:#5a6a80;opacity:1;line-height:1.4;}
+main .action-tile .tile-cta{
+    position:static;margin-left:auto;flex:0 0 auto;opacity:.92;
+    font-size:0;color:#ff5f60;align-self:center;
+    width:34px;height:34px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    background:rgba(255,95,96,.10);border:1px solid rgba(255,95,96,.22);
+    transition:background .22s,transform .22s,box-shadow .22s;}
+main .action-tile .tile-cta-label{display:none;}
+main .action-tile .tile-cta i{font-size:13px;margin:0;transition:transform .22s ease;}
+main .action-tile:hover .tile-cta{background:rgba(255,95,96,.2);transform:translateX(3px);box-shadow:0 2px 8px rgba(255,95,96,.25);}
+
+/* ---- accreditation: a quiet inline strip, not a section of its own ---- */
+main .ajas-accred{
+    padding:30px 0 26px;background:#fff;border-bottom:1px solid #eef2f7;}
+main .ajas-accred .container{
+    display:flex;align-items:center;gap:clamp(18px,3vw,48px);flex-wrap:wrap;
+    justify-content:center;}
+main .accred-head{display:flex;align-items:center;gap:14px;flex:0 0 auto;}
+main .accred-line{display:none;}
+main .accred-label{
+    margin:0;flex:0 0 auto;text-align:left;max-width:24ch;
+    font-size:10.5px;letter-spacing:.12em;line-height:1.55;color:#8a99ad;}
+main .accred-rail{flex:1 1 auto;}
+main .accred-row{
+    display:flex;align-items:center;justify-content:center;
+    gap:clamp(16px,2.6vw,38px);flex:1 1 auto;margin:0;flex-wrap:wrap;padding:0;list-style:none;}
+main .accred-card{display:flex;align-items:center;gap:10px;list-style:none;}
+main .accred-img-wrap{display:flex;align-items:center;justify-content:center;}
+main .accred-row img{height:60px;width:auto;filter:none;opacity:1;transition:transform .25s ease;}
+main .accred-card:hover img{transform:translateY(-3px);}
+main .accred-name,
+main .accred-row span{
+    font-size:11px;letter-spacing:.08em;color:#66748a;white-space:nowrap;font-weight:500;}
+
+/* ---- about: two columns, not a narrow centred stack ---- */
+main .ajas-about{padding:54px 0 46px;}
+main .ajas-about .container{
+    max-width:1400px;text-align:left;
+    display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);
+    column-gap:clamp(36px,5vw,90px);align-items:start;}
+main .ajas-about .flat-title{
+    margin:0;grid-column:1;font-size:clamp(1.9rem,3vw,2.7rem) !important;
+    line-height:1.12 !important;letter-spacing:-.02em;}
+main .ajas-about p{
+    grid-column:2;text-align:left;margin:0 0 1.05em;
+    font-size:1.06rem;line-height:1.72;color:#4a5a70;max-width:62ch;}
+main .ajas-about .btn-box-shadow{
+    grid-column:1;justify-self:start;margin-top:22px;}
+@media(max-width:899px){
+    main .ajas-about .container{grid-template-columns:minmax(0,1fr);row-gap:18px;}
+    main .ajas-about .flat-title,
+    main .ajas-about p,
+    main .ajas-about .btn-box-shadow{grid-column:1;}
+    main .ajas-about .btn-box-shadow{margin-top:8px;}
+}
+
+/* ---- campus vs events: two carousels that read differently ---- */
+main .ajas-media{background:#f6f8fb;}
+/* the single-slide campus carousel was capped at 980px inside a 1500px band */
+main .ajas-media .container{max-width:1500px;}
+main .ajas-media .footages-carousel{max-width:1240px;}
+main .ajas-media.ajas-media-events{background:#fff;border-top:1px solid #eef2f7;}
+main .ajas-media-events .footages-carousel{max-width:none;margin-top:20px;}
+main .events-carousel .gal-slide{padding:0;}
+main .events-carousel .gal-item{
+    aspect-ratio:4/3;border-radius:12px;
+    box-shadow:0 10px 26px rgba(24,50,81,.10);}
+main .events-carousel .gal-caption{padding:30px 18px 16px;}
+main .events-carousel .gal-title{font-size:15.5px;line-height:1.3;}
+main .events-carousel .gal-sub{font-size:12px;}
+/* controls above the row, like the departments carousel — floating arrows over
+   three small cards covered the artwork */
+main .ajas-media-events .flat-carousel-box{position:relative;padding-top:44px;}
+main .events-carousel .owl-nav{
+    position:absolute;top:-44px;right:0;left:auto;transform:none;
+    display:flex;gap:8px;padding:0;justify-content:flex-end;}
+main .events-carousel .owl-nav button.owl-prev,
+main .events-carousel .owl-nav button.owl-next{
+    width:38px;height:38px;font-size:16px !important;
+    box-shadow:none !important;border:1px solid #d9e1ec !important;}
+main .events-carousel .owl-dots{margin-top:20px;}
+@media(max-width:767px){
+    main .ajas-actions{
+        margin-top:-34px !important;
+        padding:0 !important;
+        position:relative;
+        z-index:5;
+    }
+    main .ajas-actions .container{
+        padding:0 14px;
+    }
+    main .ajas-actions .row{
+        display:flex !important;
+        flex-direction:column !important;
+        gap:9px !important;
+    }
+    main .ajas-actions .row>div{
+        width:100% !important;
+        max-width:100% !important;
+        padding:0 !important;
+        flex:none !important;
+    }
+    main .action-tile{
+        min-height:0 !important;
+        padding:12px 14px !important;
+        gap:12px !important;
+        border-radius:0 !important;
+        background:#ffffff !important;
+        backdrop-filter:none !important;
+        -webkit-backdrop-filter:none !important;
+        border:1px solid rgba(24,50,81,.09) !important;
+        box-shadow:0 3px 12px rgba(15,41,71,.05), 0 1px 3px rgba(15,41,71,.03) !important;
+        transition:transform .2s cubic-bezier(.2,.7,.3,1), box-shadow .2s, border-color .2s !important;
+        -webkit-tap-highlight-color:transparent;
+        margin-bottom:0 !important;
+        flex-wrap:nowrap !important;
+    }
+    main .action-tile:active{
+        transform:scale(0.985) !important;
+        background:#fbfcfe !important;
+        box-shadow:0 1px 4px rgba(15,41,71,.05) !important;
+    }
+    main .action-tile.action-tile--featured{
+        border-color:rgba(255,95,96,.30) !important;
+        box-shadow:0 4px 14px rgba(255,95,96,.09), 0 1px 3px rgba(15,41,71,.04) !important;
+        background:linear-gradient(180deg, #ffffff 0%, #fffbfb 100%) !important;
+    }
+    main .action-tile .tile-ico{
+        flex:0 0 42px !important;
+        width:42px !important;
+        height:42px !important;
+        line-height:42px !important;
+        border-radius:0 !important;
+        transition:transform .25s cubic-bezier(.2,.7,.3,1) !important;
+    }
+    main .action-tile:hover .tile-ico,
+    main .action-tile:active .tile-ico{
+        transform:scale(1.08) rotate(-2deg);
+    }
+    main .action-tile .tile-ico i{
+        font-size:19px !important;
+        line-height:42px !important;
+    }
+    main .action-tile .tile-body{
+        flex:1 1 auto !important;
+        min-width:0 !important;
+    }
+    main .action-tile .tile-head{
+        display:flex !important;
+        align-items:center !important;
+        gap:7px !important;
+        margin-bottom:2px !important;
+    }
+    main .action-tile .tile-title{
+        font-size:14.5px !important;
+        font-weight:700 !important;
+        color:#0f243e !important;
+        line-height:1.25 !important;
+        white-space:nowrap !important;
+        overflow:hidden !important;
+        text-overflow:ellipsis !important;
+        margin-bottom:0 !important;
+    }
+    main .action-tile .tile-badge{
+        display:inline-flex !important;
+        align-items:center !important;
+        padding:2px 7px !important;
+        font-size:9.5px !important;
+        font-weight:700 !important;
+        text-transform:uppercase !important;
+        letter-spacing:.06em !important;
+        border-radius:99px !important;
+        background:rgba(255,95,96,.12) !important;
+        color:#ff4d4f !important;
+        border:1px solid rgba(255,95,96,.25) !important;
+        line-height:1 !important;
+        animation:ajn-pulse-badge 2.4s cubic-bezier(.4,0,.6,1) infinite !important;
+    }
+    main .action-tile .tile-sub{
+        font-size:12.5px !important;
+        color:#5a6e85 !important;
+        line-height:1.35 !important;
+        white-space:nowrap !important;
+        overflow:hidden !important;
+        text-overflow:ellipsis !important;
+    }
+    main .action-tile .tile-cta{
+        display:flex !important;
+        position:static !important;
+        margin-left:auto !important;
+        flex:0 0 32px !important;
+        width:32px !important;
+        height:32px !important;
+        border-radius:50% !important;
+        background:#f3f6fa !important;
+        color:#17304f !important;
+        border:1px solid rgba(24,50,81,.08) !important;
+        align-items:center !important;
+        justify-content:center !important;
+        font-size:0 !important;
+        transition:transform .22s cubic-bezier(.2,.7,.3,1), background .22s, color .22s !important;
+    }
+    main .action-tile .tile-cta-label{
+        display:none !important;
+    }
+    main .action-tile .tile-cta i{
+        font-size:11.5px !important;
+        color:inherit !important;
+        margin:0 !important;
+        transition:transform .22s ease !important;
+    }
+    main .action-tile:hover .tile-cta i,
+    main .action-tile:active .tile-cta i{
+        transform:translateX(2.5px) !important;
+    }
+    main .action-tile.action-tile--featured .tile-cta{
+        background:rgba(255,95,96,.12) !important;
+        color:#ff5f60 !important;
+        border-color:rgba(255,95,96,.24) !important;
+    }
+
+    /* ---- Accreditations Mobile Trust Rail ---- */
+    main .ajas-accred{
+        padding:22px 0 20px !important;
+        background:#ffffff !important;
+        border-bottom:1px solid #edf1f7 !important;
+        overflow:hidden !important;
+    }
+    main .ajas-accred .container{
+        display:flex !important;
+        flex-direction:column !important;
+        align-items:center !important;
+        gap:12px !important;
+        padding:0 14px !important;
+    }
+    main .accred-head{
+        display:flex !important;
+        align-items:center !important;
+        justify-content:center !important;
+        gap:12px !important;
+        width:100% !important;
+    }
+    main .accred-line{
+        display:block !important;
+        flex:1 1 auto !important;
+        height:1px !important;
+        background:linear-gradient(90deg, transparent, rgba(24,50,81,.12), transparent) !important;
+    }
+    main .accred-label{
+        margin:0 !important;
+        flex:0 0 auto !important;
+        text-align:center !important;
+        font-size:10px !important;
+        font-weight:700 !important;
+        letter-spacing:.14em !important;
+        text-transform:uppercase !important;
+        color:#8292a4 !important;
+        line-height:1.3 !important;
+        max-width:none !important;
+    }
+    main .accred-rail{
+        width:calc(100% + 28px) !important;
+        margin:0 -14px !important;
+        overflow-x:auto !important;
+        scrollbar-width:none !important;
+        -ms-overflow-style:none !important;
+        -webkit-overflow-scrolling:touch !important;
+        padding:4px 14px 8px !important;
+        mask-image:linear-gradient(to right, transparent 0, black 16px, black calc(100% - 16px), transparent 100%);
+        -webkit-mask-image:linear-gradient(to right, transparent 0, black 16px, black calc(100% - 16px), transparent 100%);
+    }
+    main .accred-rail::-webkit-scrollbar{
+        display:none !important;
+    }
+    main .accred-row{
+        display:flex !important;
+        flex-wrap:wrap !important;
+        justify-content:center !important;
+        align-items:center !important;
+        gap:12px 18px !important;
+        margin:0 auto !important;
+        padding:4px 0 !important;
+        list-style:none !important;
+    }
+    main .accred-card{
+        flex:0 1 auto !important;
+        width:auto !important;
+        min-width:76px !important;
+        display:flex !important;
+        flex-direction:column !important;
+        align-items:center !important;
+        justify-content:center !important;
+        text-align:center !important;
+        gap:5px !important;
+        padding:4px 6px !important;
+        background:transparent !important;
+        border:none !important;
+        border-radius:0 !important;
+        box-shadow:none !important;
+        transition:opacity .2s ease !important;
+        -webkit-tap-highlight-color:transparent !important;
+    }
+    main .accred-card:active{
+        opacity:0.8 !important;
+        transform:none !important;
+        border-color:transparent !important;
+    }
+    main .accred-img-wrap{
+        height:40px !important;
+        width:auto !important;
+        display:flex !important;
+        align-items:center !important;
+        justify-content:center !important;
+    }
+    main .accred-row img{
+        height:auto !important;
+        max-height:36px !important;
+        max-width:76px !important;
+        width:auto !important;
+        object-fit:contain !important;
+        filter:none !important;
+        opacity:1 !important;
+        transition:transform .22s ease !important;
+    }
+    main .accred-card:hover img{
+        transform:none !important;
+    }
+    main .accred-row span.accred-name,
+    main .accred-card .accred-name{
+        display:block !important;
+        font-size:9.5px !important;
+        font-weight:700 !important;
+        letter-spacing:.05em !important;
+        color:#475569 !important;
+        line-height:1.2 !important;
+        text-align:center !important;
+        white-space:normal !important;
+        text-transform:uppercase !important;
+    }
+    main .ajas-about{padding:34px 0 30px;}
+    main .ajas-about p{font-size:1rem;}
+}
+
+/* ---- translucency pass: surfaces that sit over photography or scroll over
+   content get a glass treatment rather than a flat fill ---- */
+main .ajas-media .footages-carousel .gal-caption{
+    -webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);}
+main .dept-carousel .ajas-dept-card,
+main .ajas-prog-card{
+    background:rgba(255,255,255,.86);
+    -webkit-backdrop-filter:blur(12px) saturate(140%);
+    backdrop-filter:blur(12px) saturate(140%);}
+main .ajas-metric-banner{
+    background:linear-gradient(180deg,rgba(15,41,71,.94),rgba(10,28,49,.96)),
+               var(--ajas-campus-bg,none);
+    background-size:cover;background-position:center 35%;}
+
+.ajas-lb{-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);}
+
+/* ---- home: stop capping every band at the bootstrap 1170 ---- */
+main .ajas-actions .container,
+main .ajas-accred .container,
+main .ajas-metric-banner .container,
+main .ajas-leadership .container,
+main .ajas-programmes .container,
+main .ajas-media .container,
+main .ajas-testimonials-section .container,
+main .quick-link .container{
+    max-width:1500px;}
+main .leadership-box,
+main .ajas-testi-wrapper{max-width:1200px;margin-left:auto;margin-right:auto;}
+main .ajas-programmes .ajas-prog-grid{max-width:none;}
+
+/* ============================================================
+   HOME — programmes, departments carousel and the closing CTA.
+   ============================================================ */
+
+/* ---- Programmes offered: two independent panels, not two slabs
+   forced to the same height with the PG one half empty ---- */
+main .ajas-programmes .ajas-prog-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));
+    gap:clamp(20px,2.4vw,34px);align-items:start;margin:0;}
+main .ajas-programmes .ajas-prog-grid>[class*="col-"]{width:100%;max-width:100%;padding:0;flex:none;}
+main .ajas-prog-card{
+    background:#fff;border:1px solid #e4eaf1;border-radius:14px;overflow:hidden;
+    box-shadow:0 10px 30px rgba(17,48,79,.06);display:flex;flex-direction:column;height:auto;}
+main .ajas-prog-card .prog-card-header{
+    display:flex;align-items:flex-start;gap:14px;
+    background:none !important;color:inherit !important;
+    padding:22px 24px 16px;border-bottom:1px solid #eef2f7;border-top:3px solid #17304f;}
+main .ajas-prog-card.pg-card .prog-card-header{border-top-color:#9b3440;}
+main .ajas-prog-card .prog-icon-badge{
+    flex:0 0 46px;width:46px;height:46px;border-radius:12px;
+    display:flex;align-items:center;justify-content:center;font-size:19px;
+    background:rgba(23,48,79,.08);color:#17304f;border:1px solid rgba(23,48,79,.14);}
+main .ajas-prog-card.pg-card .prog-icon-badge{
+    background:rgba(155,52,64,.08);color:#9b3440;border-color:rgba(155,52,64,.16);}
+main .ajas-prog-card .prog-level-tag{
+    display:block;font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+    color:#93a1b5;margin-bottom:3px;}
+main .ajas-prog-card .prog-card-title{
+    font-family:var(--font-serif);font-size:1.5rem;font-weight:600;line-height:1.2;
+    color:#17304f !important;margin:0 0 3px;}
+main .ajas-prog-card.pg-card .prog-card-title{color:#9b3440 !important;}
+main .ajas-prog-card .prog-meta{font-size:13px;color:#7b8a9e;}
+main .ajas-prog-card .prog-card-body{padding:18px 24px 6px;}
+main .ajas-prog-card .prog-chips-grid{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
+    gap:8px;margin:0;padding:0;list-style:none;}
+main .ajas-prog-card .prog-chip{
+    display:flex;align-items:center;gap:9px;min-height:44px;padding:8px 13px;
+    background:#fff;border:1px solid #e4eaf1;border-radius:8px;
+    font-size:13.6px;font-weight:500;color:#3d4f67 !important;line-height:1.3;
+    transition:border-color .18s,background .18s,color .18s;}
+main .ajas-prog-card .prog-chip:hover{
+    border-color:#ff5f60;background:rgba(255,95,96,.05);color:#17304f !important;}
+main .ajas-prog-card .prog-chip i{color:#ff5f60;font-size:12px;}
+main .ajas-prog-card .pg-highlight-box{
+    margin:16px 24px 0;padding:14px 16px;border-radius:10px;
+    background:rgba(155,52,64,.05);border:1px solid rgba(155,52,64,.14);
+    font-size:13.4px;line-height:1.6;color:#5c6578;}
+main .ajas-prog-card .prog-card-footer{
+    margin-top:auto;display:flex;align-items:center;justify-content:space-between;
+    flex-wrap:wrap;gap:12px;padding:18px 24px 20px;border-top:1px solid #eef2f7;}
+main .btn-prog-cta{
+    font-size:13.6px;font-weight:700;color:#ff5f60 !important;display:inline-flex;
+    align-items:center;gap:8px;}
+main .btn-prog-alt{
+    font-size:13.4px;font-weight:600;color:#17304f !important;
+    border:1px solid #d9e1ec;border-radius:999px;padding:9px 18px;
+    transition:border-color .18s,background .18s;}
+main .btn-prog-alt:hover{border-color:#17304f;background:#f4f7fb;}
+@media(max-width:700px){
+    main .ajas-programmes .ajas-prog-grid{grid-template-columns:minmax(0,1fr);}
+    main .ajas-prog-card .prog-card-header{padding:18px 16px 14px;gap:12px;}
+    main .ajas-prog-card .prog-card-title{font-size:1.25rem;}
+    main .ajas-prog-card .prog-card-body{padding:14px 16px 4px;}
+    main .ajas-prog-card .prog-chips-grid{grid-template-columns:minmax(0,1fr);}
+    main .ajas-prog-card .pg-highlight-box{margin:12px 16px 0;}
+    main .ajas-prog-card .prog-card-footer{padding:14px 16px 16px;}
+}
+
+/* ---- Departments carousel: the photograph leads, same language as the
+   /departments/ index ---- */
+main .dept-carousel .ajas-dept-card{
+    background:#fff;border:1px solid #e4eaf1;border-radius:12px;overflow:hidden;
+    box-shadow:none;display:flex;flex-direction:column;height:100%;
+    backdrop-filter:none;-webkit-backdrop-filter:none;
+    transition:transform .25s cubic-bezier(.2,.7,.3,1),box-shadow .25s,border-color .25s;}
+main .dept-carousel .ajas-dept-card:hover{
+    transform:translateY(-4px);border-color:#cfd9e6;box-shadow:0 20px 44px rgba(17,48,79,.14);}
+main .dept-carousel .dept-card-media{
+    position:relative;aspect-ratio:16/10;overflow:hidden;background:#10263f;margin:0;border-radius:0;}
+main .dept-carousel .dept-card-media img{
+    width:100%;height:100%;object-fit:cover;display:block;
+    transition:transform .5s cubic-bezier(.2,.7,.3,1);}
+main .dept-carousel .ajas-dept-card:hover .dept-card-media img{transform:scale(1.05);}
+main .dept-carousel .dept-card-media:after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(to top,rgba(8,22,38,.92) 0%,rgba(8,22,38,.5) 45%,rgba(8,22,38,.06) 78%);}
+main .dept-carousel .dept-card-badge{
+    position:absolute;left:14px;top:14px;right:auto;bottom:auto;z-index:2;
+    display:inline-flex;align-items:center;width:auto;max-width:calc(100% - 28px);
+    background:rgba(255,255,255,.92);color:#17304f;border-radius:999px;
+    padding:5px 12px;font-size:11px;font-weight:700;letter-spacing:.04em;
+    -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);}
+main .dept-carousel .dept-card-badge i{color:#ff5f60;margin-right:5px;}
+main .dept-carousel .dept-card-content{
+    display:flex;flex-direction:column;flex:1;padding:15px 18px 14px;}
+/* lift the heading onto the photograph */
+main .dept-carousel .dept-card-media + .dept-card-content{position:relative;}
+main .dept-carousel .dept-card-heading{
+    position:absolute;left:18px;right:18px;bottom:calc(100% + 15px);z-index:2;
+    font-family:var(--font-serif);font-size:1.22rem;line-height:1.22;margin:0;
+    text-shadow:0 1px 12px rgba(0,0,0,.35);}
+main .dept-carousel .dept-card-heading a{color:#fff !important;}
+main .dept-carousel .dept-card-heading:before{
+    content:"";display:block;width:26px;height:2px;background:#ff5f60;margin-bottom:8px;}
+main .dept-carousel .dept-card-courses{
+    display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px;padding:0;list-style:none;}
+main .dept-carousel .dept-card-courses li{
+    font-size:11.5px;font-weight:600;line-height:1.3;padding:4px 9px;border-radius:5px;
+    background:#f2f6fb;border:1px solid #e3ebf4;color:#43556e;list-style:none;}
+main .dept-carousel .dept-card-courses li:before{content:none;}
+main .dept-carousel .dept-card-bottom{
+    margin-top:auto;padding-top:12px;border-top:1px solid #eef2f7;}
+
+@media(max-width:991px){
+    
+    
+}
+@media(max-width:575px){
+    
+    
+}
+
+/* Quick links: a hairline grid of boxes, matching the recognitions block.
+   Note the markup — the icon is a SIBLING of the <a>, not a child — so the
+   <li> has to be the flex row or the icon stacks above the label. */
+main .quick-link .info-quick-link{
+    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;
+    margin:0;padding:0;list-style:none;
+    background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.16);}
+
+@media(max-width:991px){
+    
+    
+}
+@media(max-width:575px){
+    
+}
+
+/* ============================================================
+   INSTITUTIONAL POLISH
+   The complaint was that the site read as a SaaS landing page.
+   Type carries most of that (see the tokens at the top of this file);
+   the rest is geometry: pill buttons with coloured glows, gradient
+   underlines and heavy shadows are product-UI signals. Universities
+   use rules, restrained radii and flat blocks.
+   ============================================================ */
+
+/* ---- headings in the text serif, at print-like weights ---- */
+main .flat-title,
+main .title-section .flat-title,
+main .leadership-heading,
+main .ajas-testimonials-section .flat-title{
+    font-family:var(--font-serif) !important;
+    font-weight:600 !important;
+    letter-spacing:-.012em !important;}
+main .title-section .sub-title{
+    font-family:var(--font-sans);font-weight:600;
+    font-size:11px !important;letter-spacing:.18em !important;text-transform:uppercase;
+    color:#8a99ad !important;}
+
+/* a rule, not a gradient highlighter */
+main .title-section.text-center .flat-title{padding-bottom:16px;}
+main .title-section.text-center .flat-title:after{
+    width:44px;height:2px;border-radius:0;background:#c9a961;}
+
+/* ---- buttons: square corners, flat, no glow ----
+   One shape for every control on the site: a hard 0px corner. The reference is
+   the admissions CTA — a solid accent rectangle, no rounding anywhere. */
+main .btn,
+main .btn-box-shadow,
+main .ajas-apply-btn,
+main .btn-apply,
+main .btn-request,
+main .ajas-apply-cta-btn,
+main .btn-prog-alt,
+main .btn-prog-cta,
+main .flat-button a,
+main a.flat-button,
+main .dl-btn,
+main .migrate-form .btn,
+main .migrate-form input,
+main .migrate-form textarea,
+main .flat-course .enroll a,
+main .dept-card-badge,
+main .dept-pill,
+main .enroll a,
+main button,
+main input[type="submit"],
+main input[type="button"],
+.ajn-cta,
+.ajn-drawer-cta,
+.gallery-more{
+    border-radius:0 !important;
+    box-shadow:none !important;
+    letter-spacing:.01em;}
+main .btn-box-shadow,
+main .ajas-apply-btn,
+main .btn-apply{
+    background:#ff5f60 !important;color:#fff !important;
+    padding:13px 26px !important;font-weight:600;font-size:14.5px;
+    transition:background .2s ease;}
+main .btn-box-shadow:hover,
+main .ajas-apply-btn:hover,
+main .btn-apply:hover{background:#e04a4b !important;}
+main .btn-request{
+    border:1px solid rgba(255,255,255,.45) !important;background:none !important;
+    color:#fff !important;padding:13px 26px !important;font-weight:600;font-size:14.5px;}
+main .btn-request:hover{border-color:#fff !important;background:rgba(255,255,255,.08) !important;}
+.ajn-cta{padding:0 20px;font-weight:600;}
+.ajn-cta:hover{transform:none;}
+
+/* ---- surfaces: modest radii, hairlines instead of drop shadows ---- */
+main .ajas-prog-card,
+main .dept-carousel .ajas-dept-card,
+main .action-tile,
+main .quick-link .info-quick-link li,
+.dx-card,
+.sp-prog-card,
+.sp-stat,
+.ajf-map{
+    border-radius:4px !important;}
+main .ajas-prog-card{box-shadow:none !important;}
+main .dept-carousel .dept-card-media,
+.dx-media{border-radius:0 !important;}
+main .action-tile{box-shadow:0 10px 30px rgba(9,24,42,.14) !important;}
+
+/* ---- Programmes: no coloured cap rule, equal heights ---- */
+main .ajas-programmes .ajas-prog-grid{align-items:stretch;}
+main .ajas-programmes .ajas-prog-grid>[class*="col-"]{display:flex;}
+main .ajas-prog-card{height:100%;width:100%;}
+main .ajas-prog-card .prog-card-header{border-top:0;}
+main .ajas-prog-card.pg-card .prog-card-header{border-top:0;}
+main .ajas-prog-card .prog-card-body{flex:1;}
+
+/* ---- Testimonials: one voice at a time, portrait sized to matter ---- */
+main .ajas-testi-wrapper,
+main .testi-box{max-width:920px;margin-left:auto;margin-right:auto;}
+main .testi-item{padding:0;text-align:center;}
+main .testi-quote{
+    font-family:var(--font-serif);
+    font-size:clamp(1.18rem,2vw,1.5rem) !important;
+    line-height:1.62 !important;color:#22364f !important;
+    font-style:normal;margin:0 auto 28px;max-width:46em;}
+main .testi-quote:before,main .testi-quote:after{color:#c9a961;}
+main .testi-by{justify-content:center;gap:18px;text-align:left;}
+main .testi-by img{
+    width:88px !important;height:88px !important;border-radius:50%;
+    border:1px solid #e0e7f0;padding:3px;background:#fff;}
+main .testi-name{font-size:17px !important;color:#17304f !important;}
+main .testi-role{font-size:13.5px !important;color:#77869c !important;}
+@media(max-width:575px){
+    main .testi-by{flex-direction:column;text-align:center;gap:12px;}
+    main .testi-by img{width:72px !important;height:72px !important;}
+}
+
+/* ---- About: the CTA belongs under its heading, not three rows down ---- */
+main .ajas-about .container{grid-auto-flow:dense;align-content:start;}
+main .ajas-about .flat-title{grid-column:1;grid-row:1;}
+main .ajas-about .btn-box-shadow{grid-column:1;grid-row:2;align-self:start;margin-top:20px;}
+
+/* ============================================================
+   BOXY HAIRLINE GRIDS
+   The recognitions block reads well because the cells share one
+   1px rule instead of floating as separate cards. Same pattern,
+   reused: gap:1px over a rule-coloured background, cells opaque.
+   ============================================================ */
+
+/* ---- metric band ---- */
+main .ajas-metric-row{
+    display:grid !important;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px !important;
+    background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.16);
+    max-width:1500px;margin:0 auto;padding:0;}
+main .ajas-metric-row li{
+    flex:none !important;margin:0 !important;padding:26px 18px !important;
+    border-left:0 !important;text-align:center;min-width:0;
+    /* translucent, not solid: the campus photograph behind the band should
+       read through the cells instead of stopping at their edges */
+    background:rgba(11,28,49,.62);
+    -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);}
+main .ajas-metric-row strong{
+    font-family:var(--font-serif);font-size:clamp(1.8rem,3vw,2.6rem);line-height:1;}
+main .ajas-metric-row span{
+    margin-top:9px;font-size:10.5px;letter-spacing:.14em;color:rgba(255,255,255,.55);}
+main .ajas-metric-banner{padding:0 !important;}
+main .ajas-metric-banner .container{max-width:1500px;padding-left:clamp(16px,3vw,40px);padding-right:clamp(16px,3vw,40px);}
+@media(max-width:700px){
+    main .ajas-metric-row{grid-template-columns:repeat(2,minmax(0,1fr));}
+    main .ajas-metric-row li{padding:18px 10px !important;}
+}
+
+/* ---- inner-page stat tiles ---- */
+.smart-page .sp-stats{
+    gap:1px !important;background:#dde4ed;border:1px solid #dde4ed;}
+.smart-page .sp-stat{
+    border:0 !important;border-radius:0 !important;background:#fff !important;
+    padding:18px 16px !important;text-align:left;}
+.smart-page .sp-stat-val{color:#17304f;}
+.smart-page .sp-stat-lbl{color:#8b99ac;}
+
+/* ---- departments index: the head stats share the same rule ---- */
+.dx-stats{border-left:1px solid #e4eaf1;padding-left:clamp(20px,2vw,34px);}
+
+/* A roster or gallery is part of the same document as the sections above it,
+   not a separate band — keep the vertical rhythm continuous. */
+.smart-page + .people-grid-section,
+.smart-page + .gallery-section,
+.smart-page + .menu-grid{padding-top:10px;}
+.people-grid{margin-top:0 !important;}
+
+/* ============================================================
+   HOME — departments grid + the paired campus/events band
+   ============================================================ */
+
+/* ---- departments: a dense static grid ---- */
+main .dept-tiles{
+    list-style:none;margin:0;padding:0;display:grid;gap:1px;
+    background:#dde4ed;border:1px solid #dde4ed;
+    grid-template-columns:repeat(4,minmax(0,1fr));}
+@media(min-width:1280px){main .dept-tiles{grid-template-columns:repeat(6,minmax(0,1fr));}}
+@media(max-width:767px){main .dept-tiles{grid-template-columns:repeat(2,minmax(0,1fr));}}
+main .dept-tile{
+    display:flex;flex-direction:column;height:100%;background:#fff;
+    text-decoration:none !important;color:inherit;transition:background .2s ease;}
+main .dept-tile:hover{background:#f4f7fb;}
+main .dept-tile-media{
+    position:relative;display:block;aspect-ratio:16/10;overflow:hidden;background:#10263f;}
+main .dept-tile-media img{
+    width:100%;height:100%;object-fit:cover;display:block;
+    transition:transform .5s cubic-bezier(.2,.7,.3,1);}
+main .dept-tile:hover .dept-tile-media img{transform:scale(1.06);}
+main .dept-tile-veil{
+    position:absolute;inset:0;
+    background:linear-gradient(to top,rgba(8,22,38,.35),rgba(8,22,38,0) 60%);}
+main .dept-tile-body{
+    display:flex;flex-direction:column;gap:4px;padding:12px 13px 13px;flex:1;}
+main .dept-tile-name{
+    font-family:var(--font-serif);font-size:.98rem;font-weight:600;line-height:1.25;
+    color:#17304f;letter-spacing:-.01em;}
+main .dept-tile:hover .dept-tile-name{color:#ff5f60;}
+main .dept-tile-meta{
+    margin-top:auto;font-size:11px;line-height:1.45;color:#8b99ac;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+main .dept-tiles-foot{margin-top:22px;}
+main .dept-tiles-all{
+    display:inline-flex;align-items:center;gap:9px;
+    padding-bottom:5px;border-bottom:1px solid #c3cedd;
+    font-size:14px;font-weight:700;color:#ff5f60 !important;}
+main .dept-tiles-all:hover{border-bottom-color:#ff5f60;}
+main .dept-tiles-all i{transition:transform .2s ease;}
+main .dept-tiles-all:hover i{transform:translateX(4px);}
+
+/* ---- campus + events, side by side ---- */
+main .gb{background:#f6f8fb;border-top:1px solid #e8edf4;padding:52px 0 54px;}
+main .gb-inner{max-width:1500px;margin:0 auto;padding:0 clamp(16px,3vw,40px);}
+main .gb-grid{display:grid;gap:clamp(26px,3vw,48px);grid-template-columns:repeat(2,minmax(0,1fr));}
+main .gb-col{min-width:0;}
+main .gb-head{
+    display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:baseline;
+    gap:4px 16px;padding-bottom:12px;margin-bottom:18px;border-bottom:2px solid #17304f;}
+main .gb-kicker{
+    grid-column:1;margin:0;font-size:10.5px;font-weight:700;letter-spacing:.16em;
+    text-transform:uppercase;color:#8a99ad;}
+main .gb-head h2{
+    grid-column:1;margin:0;font-family:var(--font-serif);font-size:1.5rem;font-weight:600;
+    line-height:1.15;letter-spacing:-.015em;color:#17304f;}
+main .gb-head a{
+    grid-column:2;grid-row:1/span 2;align-self:center;white-space:nowrap;
+    font-size:11.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+    color:#ff5f60 !important;}
+main .gb-head a:hover{color:#17304f !important;}
+/* the slide itself */
+main .gb-carousel{max-width:none;margin:0;border-radius:0;}
+main .gb-carousel .gal-slide{padding:0;}
+main .gb-carousel .gal-item{
+    aspect-ratio:16/10;border-radius:4px;box-shadow:none;border:1px solid #e0e7f0;}
+main .gb-carousel .gal-caption{padding:38px 20px 18px;}
+main .gb-carousel .gal-title{font-size:17px;line-height:1.28;}
+main .gb-carousel .gal-sub{font-size:12.5px;}
+main .gb-carousel .owl-nav{padding:0 12px;}
+main .gb-carousel .owl-nav button.owl-prev,
+main .gb-carousel .owl-nav button.owl-next{
+    width:38px;height:38px;font-size:17px !important;box-shadow:0 4px 14px rgba(0,0,0,.2);}
+main .gb-carousel .owl-dots{margin-top:16px;}
+@media(max-width:899px){
+    main .gb-grid{grid-template-columns:minmax(0,1fr);}
+    main .gb{padding:34px 0 36px;}
+}
+
+/* ============================================================
+   LEADERSHIP — given the weight it deserves.
+   The Chairman's and Principal's messages are the institution
+   speaking in the first person; they were set smaller than the
+   surrounding body copy on a plain white band.
+   ============================================================ */
+main .ajas-leadership{
+    padding:64px 0 66px !important;
+    background:linear-gradient(180deg,#f6f8fb 0%,#f1f5fa 100%);
+    border-top:1px solid #e8edf4;border-bottom:1px solid #e8edf4;}
+main .ajas-leadership .container{max-width:1500px;}
+main .leadership-box{max-width:1320px;padding:0 54px;}
+@media(min-width:900px){
+    main .leadership-slide{grid-template-columns:minmax(300px,440px) minmax(0,1fr);
+        gap:clamp(40px,4.5vw,72px);align-items:center;}
+}
+main .leadership-photo{aspect-ratio:4/5;border-radius:4px;}
+/* The small line now carries the section label, which reads as a phrase
+   rather than a tracked-out eyebrow, so it keeps its sentence case. */
+main .leadership-role{
+    font-size:13px;letter-spacing:.02em;text-transform:none;color:#8a99ad;
+    font-weight:500;margin:0 0 6px;}
+/* The name is the headline. Names run longer than "Chairman's message", so
+   this sits a step smaller than the label it replaced. */
+main .leadership-heading{
+    font-family:var(--font-serif);font-size:clamp(1.6rem,2.4vw,2.2rem) !important;
+    line-height:1.15;letter-spacing:-.015em;color:#17304f;margin:0 0 20px;
+    padding-bottom:18px;border-bottom:2px solid #17304f;}
+/* the opening paragraph reads as a statement, not a caption */
+main .leadership-quote,
+main .leadership-body .leadership-text:first-of-type{
+    font-family:var(--font-serif);font-size:clamp(1.12rem,1.5vw,1.38rem) !important;
+    line-height:1.62 !important;color:#22364f !important;margin:0 0 18px;}
+main .leadership-text{font-size:1.02rem;line-height:1.78;color:#4f5f76;margin:0 0 14px;}
+main .leadership-points li{font-size:1rem;color:#4f5f76;}
+main .leadership-points li:before{color:#c9a961;}
+main .leadership-link{
+    margin-top:8px;font-size:14.5px;border-bottom-width:1px;}
+main .leadership-carousel .owl-nav button.owl-prev{left:-54px;}
+main .leadership-carousel .owl-nav button.owl-next{right:-54px;}
+main .leadership-carousel .owl-dots{margin-top:26px;}
+@media(max-width:991px){
+    main .leadership-box{padding:0;}
+    main .leadership-carousel .owl-nav{display:none;}
+}
+@media(max-width:767px){
+    main .ajas-leadership{padding:38px 0 40px !important;}
+    main .leadership-photo{aspect-ratio:4/3;}
+    main .leadership-heading{margin-bottom:16px;padding-bottom:14px;}
+}
+
+/* ---- inline CTA pair inside page content (used from markdown) ---- */
+.ajas-cta-row{display:flex;flex-wrap:wrap;gap:12px;margin:1.6em 0 0.4em;}
+.ajas-cta-row a{
+    display:inline-flex;align-items:center;min-height:44px;padding:0 22px;
+    border-radius:3px;font-size:14.5px;font-weight:600;text-decoration:none !important;
+    border:1px solid transparent;transition:background .2s ease,border-color .2s ease;}
+.ajas-cta-primary{background:#ff5f60;color:#fff !important;}
+.ajas-cta-primary:hover{background:#e04a4b;color:#fff !important;}
+.ajas-cta-secondary{border-color:#d9e1ec;color:#17304f !important;}
+.ajas-cta-secondary:hover{background:#f4f7fb;border-color:#17304f;color:#17304f !important;}
+
+/* ============================================================
+   HOME — programmes as two ledgers
+   Replaces the two chip-filled panels. A prospective student wants
+   to read the list of degrees, not scan two dozen bordered pills.
+   ============================================================ */
+main .pl{
+    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:clamp(28px,3.5vw,60px);align-items:start;}
+main .pl-col{min-width:0;}
+main .pl-head{
+    display:flex;align-items:flex-end;justify-content:space-between;gap:20px;
+    padding-bottom:14px;border-bottom:2px solid #17304f;}
+main .pl-col[data-tone="pg"] .pl-head{border-bottom-color:#9b3440;}
+main .pl-level{
+    margin:0 0 6px;font-size:10.5px;font-weight:700;letter-spacing:.16em;
+    text-transform:uppercase;color:#8a99ad;}
+main .pl-head h3{
+    margin:0;font-family:var(--font-serif);font-size:clamp(1.35rem,2vw,1.8rem);
+    font-weight:600;line-height:1.14;letter-spacing:-.015em;color:#17304f;}
+main .pl-col[data-tone="pg"] .pl-head h3{color:#9b3440;}
+main .pl-count{flex:none;text-align:right;line-height:1;}
+main .pl-count strong{
+    display:block;font-family:var(--font-serif);font-size:2rem;font-weight:600;color:#17304f;}
+main .pl-col[data-tone="pg"] .pl-count strong{color:#9b3440;}
+main .pl-count span{
+    display:block;margin-top:4px;font-size:9.5px;font-weight:700;letter-spacing:.14em;
+    text-transform:uppercase;color:#91a0b4;}
+main .pl-meta{margin:12px 0 4px;font-size:.92rem;color:#7b8a9e;}
+
+main .pl-list{list-style:none;margin:0;padding:0;}
+main .pl-list li{border-bottom:1px solid #e9eef4;}
+main .pl-list a{
+    display:flex;align-items:center;gap:14px;padding:14px 0;
+    text-decoration:none !important;color:inherit;transition:padding .18s ease;}
+main .pl-list a:hover{padding-left:8px;}
+main .pl-name{
+    flex:1;min-width:0;font-size:1.02rem;font-weight:500;line-height:1.35;color:#2b3d55;}
+main .pl-list a:hover .pl-name{color:#ff5f60;}
+main .pl-dur{
+    flex:none;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    color:#91a0b4;white-space:nowrap;}
+main .pl-arrow{
+    flex:none;width:16px;height:16px;fill:none;stroke:#c3cedd;stroke-width:1.8;
+    stroke-linecap:round;stroke-linejoin:round;transition:stroke .18s ease,transform .18s ease;}
+main .pl-list a:hover .pl-arrow{stroke:#ff5f60;transform:translateX(3px);}
+
+main .pl-note{
+    margin:18px 0 0;padding:14px 16px;border-left:2px solid #c9a961;background:#faf8f3;
+    font-size:.92rem;line-height:1.6;color:#5c6578;}
+main .pl-foot{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px;}
+main .pl-cta{
+    display:inline-flex;align-items:center;min-height:44px;padding:0 22px;border-radius:3px;
+    background:#ff5f60;color:#fff !important;font-size:14px;font-weight:600;
+    border:1px solid transparent;transition:background .2s ease;}
+main .pl-cta:hover{background:#e04a4b;}
+main .pl-cta-alt{
+    background:none;border-color:#d9e1ec;color:#17304f !important;}
+main .pl-cta-alt:hover{background:#f4f7fb;border-color:#17304f;}
+@media(max-width:860px){
+    main .pl{grid-template-columns:minmax(0,1fr);gap:34px;}
+}
+
+/* ---- leadership: the heading rule was running into the carousel's clip
+   edge, which read as a line cut off mid-stroke ---- */
+main .leadership-box{overflow:visible;}
+main .leadership-carousel .owl-stage-outer{padding:6px 0 10px;margin:-6px 0 -10px;}
+main .leadership-body{padding-right:clamp(8px,2vw,40px);}
+main .leadership-heading{max-width:26ch;}
+/* No drop shadow: the neighbouring slide's photo sits flush against this
+   one's clip edge, so a 34px shadow bled leftwards into the visible slide and
+   read as the heading rule being cut off. A hairline suits the flat language
+   used everywhere else on the page. */
+main .leadership-photo{box-shadow:none;border:1px solid #e0e7f0;border-top:3px solid #c9a961;}
+/* Owl promotes every .owl-item to its own compositing layer
+   (translate3d + backface-visibility:hidden). Against this band's gradient the
+   layer edge renders as a faint vertical seam down the right of the slide.
+   The stage is what moves, so the items do not need their own layer. */
+main .leadership-carousel .owl-item{
+    transform:none !important;-webkit-backface-visibility:visible !important;
+    backface-visibility:visible !important;}
+
+/* ============================================================
+   HOME — departments as a numbered index
+   Replaces the centred title + plain tile grid. The editorial
+   header (kicker, serif title, count, link) matches the notice
+   board, gallery band and programme ledgers.
+   ============================================================ */
+main .dx2-head{
+    display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:18px 40px;
+    padding:0 0 16px;margin:clamp(44px,5vw,72px) 0 0;border-bottom:2px solid #17304f;}
+main .dx2-kicker{
+    margin:0 0 8px;font-size:10.5px;font-weight:700;letter-spacing:.16em;
+    text-transform:uppercase;color:#8a99ad;}
+main .dx2-head h2{
+    margin:0;font-family:var(--font-serif);font-size:clamp(1.7rem,2.6vw,2.4rem) !important;
+    font-weight:600;line-height:1.12;letter-spacing:-.02em;color:#17304f;}
+main .dx2-head h2:after{content:none;}
+main .dx2-head-right{display:flex;align-items:flex-end;gap:clamp(20px,3vw,44px);}
+main .dx2-count{text-align:right;line-height:1;}
+main .dx2-count strong{
+    display:block;font-family:var(--font-serif);font-size:2rem;font-weight:600;color:#17304f;}
+main .dx2-count>span{
+    display:block;margin-top:4px;font-size:9.5px;font-weight:700;letter-spacing:.14em;
+    text-transform:uppercase;color:#91a0b4;}
+main .dx2-all{
+    display:inline-flex;align-items:center;gap:9px;padding-bottom:4px;
+    border-bottom:1px solid #c3cedd;white-space:nowrap;
+    font-size:12px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
+    color:#ff5f60 !important;}
+main .dx2-all:hover{border-bottom-color:#ff5f60;}
+main .dx2-all svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.9;
+    stroke-linecap:round;stroke-linejoin:round;transition:transform .2s ease;}
+main .dx2-all:hover svg{transform:translateX(4px);}
+
+main .dx2-grid{
+    list-style:none;margin:26px 0 0;padding:0;
+    display:grid;gap:1px;background:#dde4ed;border:1px solid #dde4ed;
+    grid-template-columns:repeat(4,minmax(0,1fr));counter-reset:dx2;}
+@media(max-width:1099px){main .dx2-grid{grid-template-columns:repeat(3,minmax(0,1fr));}}
+@media(max-width:767px){main .dx2-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
+main .dx2-grid li{list-style:none;display:flex;}
+main .dx2-tile{
+    display:flex;flex-direction:column;width:100%;background:#fff;
+    text-decoration:none !important;color:inherit;transition:background .22s ease;}
+main .dx2-tile:hover{background:#f7f9fc;}
+main .dx2-media{
+    position:relative;display:block;aspect-ratio:16/10;overflow:hidden;background:#10263f;}
+main .dx2-media img{
+    width:100%;height:100%;object-fit:cover;display:block;
+    transition:transform .55s cubic-bezier(.2,.7,.3,1);}
+main .dx2-tile:hover .dx2-media img{transform:scale(1.06);}
+main .dx2-veil{
+    position:absolute;inset:0;
+    background:linear-gradient(to top,rgba(8,22,38,.5),rgba(8,22,38,0) 55%);}
+/* the index number is the prospectus cue */
+main .dx2-num{
+    position:absolute;left:0;bottom:0;z-index:2;
+    min-width:38px;padding:6px 10px 5px;text-align:center;
+    background:#17304f;color:#c9a961;
+    font-family:var(--font-serif);font-size:13px;font-weight:600;letter-spacing:.06em;}
+main .dx2-tile:hover .dx2-num{background:#9b3440;color:#fff;}
+
+main .dx2-body{display:flex;flex-direction:column;flex:1;gap:9px;padding:15px 16px 14px;}
+main .dx2-name{
+    font-family:var(--font-serif);font-size:1.06rem;font-weight:600;line-height:1.24;
+    letter-spacing:-.01em;color:#17304f;transition:color .18s ease;}
+main .dx2-tile:hover .dx2-name{color:#9b3440;}
+/* programmes read as a small list, not one grey run-on line */
+main .dx2-progs{display:flex;flex-direction:column;gap:3px;}
+main .dx2-progs span{
+    position:relative;padding-left:12px;
+    font-size:11.8px;line-height:1.45;color:#7b8a9e;}
+main .dx2-progs span:before{
+    content:"";position:absolute;left:0;top:.62em;width:5px;height:1px;background:#c3cedd;}
+main .dx2-go{
+    margin-top:auto;padding-top:11px;border-top:1px solid #eef2f7;
+    display:flex;align-items:center;gap:7px;
+    font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;
+    color:#a9b5c5;transition:color .18s ease;}
+main .dx2-tile:hover .dx2-go{color:#ff5f60;}
+main .dx2-go svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;
+    stroke-linecap:round;stroke-linejoin:round;transition:transform .2s ease;}
+main .dx2-tile:hover .dx2-go svg{transform:translateX(3px);}
+
+@media(max-width:767px){
+    main .dx2-head{grid-template-columns:minmax(0,1fr);align-items:start;padding-bottom:14px;}
+    /* the uppercase link is wider than the remaining row at phone widths and
+       was being clipped by the page's overflow guard */
+    main .dx2-head-right{
+        justify-content:space-between;width:100%;align-items:center;
+        flex-wrap:wrap;gap:12px 18px;}
+    main .dx2-all{white-space:normal;font-size:11px;letter-spacing:.07em;}
+    main .dx2-count{text-align:left;}
+    main .dx2-count strong{font-size:1.6rem;}
+    main .dx2-grid{margin-top:18px;}
+    main .dx2-body{padding:12px 13px 12px;gap:7px;}
+    main .dx2-name{font-size:.97rem;}
+}
+
+/* ============================================================
+   INSTITUTIONAL POLISH — accessibility, print and affordances
+   ============================================================ */
+
+/* ---- skip link: first tab stop on every page ---- */
+.ajas-skip{
+    position:absolute;left:12px;top:-60px;z-index:1000;
+    display:inline-flex;align-items:center;min-height:44px;padding:0 18px;
+    background:#17304f;color:#fff !important;border-radius:0 0 3px 3px;
+    font-size:14px;font-weight:600;text-decoration:none;
+    transition:top .18s ease;}
+.ajas-skip:focus{top:0;outline:2px solid #c9a961;outline-offset:2px;}
+
+/* ---- one visible focus ring, brand-coloured, everywhere ---- */
+a:focus-visible,button:focus-visible,[tabindex]:focus-visible,
+input:focus-visible,select:focus-visible,textarea:focus-visible,
+summary:focus-visible{
+    outline:2px solid #c9a961 !important;outline-offset:2px !important;
+    border-radius:2px;}
+/* the theme paints a thick amber ring on some controls — one rule wins */
+a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none !important;}
+
+/* ---- selection in brand navy ---- */
+::selection{background:rgba(23,48,79,.14);color:#0d2039;}
+
+/* ---- link affordances in page content: say where a link goes ---- */
+main .ajas-prose a[href^="http"]:not([href*="ajascollege"]):after,
+main .sp-body a[href^="http"]:not([href*="ajascollege"]):after,
+main .hd-notices a[target="_blank"]:not([href$=".pdf"]):after{
+    content:"\2197";margin-left:3px;font-size:.78em;vertical-align:.1em;opacity:.65;}
+main .ajas-prose a[href$=".pdf"]:after,
+main .sp-body a[href$=".pdf"]:after,
+main .dt-table a[href$=".pdf"]:after{
+    content:"PDF";margin-left:6px;padding:1px 4px;border:1px solid currentColor;
+    border-radius:2px;font-size:.62em;font-weight:700;letter-spacing:.06em;
+    vertical-align:.18em;opacity:.75;}
+
+/* ---- a wide table that scrolls should say so ---- */
+@media(max-width:767px){
+    .dt-wrap,.ajas-prose table:not(.dt-table){position:relative;}
+    .dt-wrap:after{
+        content:"Scroll to see the full table \2192";
+        display:block;padding:8px 0 0;font-size:11px;letter-spacing:.06em;
+        text-transform:uppercase;color:#a9b5c5;}
+}
+
+/* ---- back-to-top: squared and quiet, not a coral bubble ---- */
+#scroll-top{
+    width:42px !important;height:42px !important;line-height:42px !important;
+    border-radius:3px !important;background:#17304f !important;color:#fff !important;
+    border:0 !important;box-shadow:0 6px 20px rgba(9,24,42,.24) !important;
+    opacity:0;visibility:hidden;transition:opacity .2s ease,visibility .2s ease,background .2s ease;}
+#scroll-top.show{opacity:.92;visibility:visible;}
+#scroll-top:hover{background:#0a1c31 !important;opacity:1;}
+
+/* ---- print: a page someone actually files ---- */
+@media print{
+    .ajn-rail,.ajn-bar,.ajn-drawer,.ajn-scrim,.ajas-admit-strip,
+    #scroll-top,.ajas-search-trigger,.sp-subnav,#loading-overlay,
+    .ajf-trust,.ajf-bottom,.ajf-map,.gallery-more,.owl-nav,.owl-dots,
+    .ajas-skip,.hero-media,.ajas-hero{display:none !important;}
+    html,body{background:#fff !important;color:#000 !important;font-size:11pt;}
+    main{padding:0 !important;}
+    .ajas-pagehead{background:none !important;color:#000 !important;
+        border-bottom:2pt solid #000;padding:0 0 8pt;}
+    .ajas-pagehead-title,.ajas-crumbs,.ajas-crumbs a,.ajas-crumbs li:last-child span{
+        color:#000 !important;}
+    .sp-default,.ajas-page-body,.dx-inner,.px-inner{max-width:none !important;padding:0 !important;}
+    .sp-section{display:block !important;page-break-inside:avoid;}
+    .sp-section-head{position:static !important;}
+    h1,h2,h3{page-break-after:avoid;}
+    table,figure,img{page-break-inside:avoid;}
+    img{max-width:100% !important;}
+    /* a printed link is useless without its address */
+    main a[href^="http"]:after{content:" (" attr(href) ")";font-size:9pt;word-break:break-all;}
+    main a[href^="/"]:after{content:" (ajascollege.ac.in" attr(href) ")";font-size:9pt;}
+    main .ajas-prose a[href$=".pdf"]:after{border:0;padding:0;font-weight:400;}
+    #footer{background:none !important;color:#000 !important;border-top:1pt solid #000;}
+    #footer a,.ajf-contact,.ajf-col a,.ajf-copy{color:#000 !important;}
+}
+
+/* ---- mobile: the wordmark was shrunk to fit three controls beside it ---- */
+@media(max-width:480px){
+    .ajn-bar-inner{gap:6px;padding:0 8px 0 12px;}
+    /* the wordmark is an 11:1 lockup, so WIDTH is what makes it legible here —
+       the standalone search icon moves into the drawer to free that width */
+    .ajn-bar .ajn-icon-btn{display:none;}
+    .ajn-brand img{max-height:42px !important;max-width:64vw !important;}
+    .ajn-cta{height:34px;padding:0 13px;font-size:12px;}
+    .ajn-burger{width:40px;}
+}
+@media(max-width:359px){
+    .ajn-cta{display:none;}
+    .ajn-brand img{max-width:74vw !important;}
+}
+
+/* visually hidden, still read by assistive tech and crawlers */
+.ajas-sr-only{
+    position:absolute !important;width:1px;height:1px;padding:0;margin:-1px;
+    overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0;}
+
+/* ============================================================
+   MOTION POLISH
+   One vocabulary for every moving thing: 180ms for a hover, 420ms for
+   an entrance, one easing curve. Everything here is a gap-filler —
+   component-scoped rules carry higher specificity and still win, so this
+   only reaches the controls that never had a transition at all.
+   ============================================================ */
+:root{
+    --mo-fast:.16s;
+    --mo-mid:.28s;
+    --mo-slow:.48s;
+    --mo-cinematic:.72s;
+    --mo-ease:cubic-bezier(.16,1,.3,1);
+    --mo-ease-out:cubic-bezier(.2,.8,.2,1);
+    --mo-shadow-card:0 12px 28px -4px rgba(15,41,71,.11),0 4px 10px -2px rgba(15,41,71,.05);
+    --mo-shadow-card-hover:0 16px 36px -6px rgba(15,41,71,.16),0 6px 14px -2px rgba(15,41,71,.08);
+}
+
+/* ============================================================
+   ENTRANCES & SCROLL REVEAL (SUBTLE, SCHOLARLY, GPU-ACCELERATED)
+   ============================================================ */
+.has-reveal .reveal{
+    opacity:0;
+    transition:opacity var(--mo-slow) var(--mo-ease),transform var(--mo-slow) var(--mo-ease) !important;
+    will-change:opacity,transform;
+}
+.has-reveal .rv-up{transform:translateY(16px) !important;}
+.has-reveal .rv-fade{transform:none !important;}
+.has-reveal .rv-scale,.has-reveal .rv-zoom{transform:scale(.975) !important;}
+.has-reveal .rv-left{transform:translateX(-16px) !important;}
+.has-reveal .rv-right{transform:translateX(16px) !important;}
+.has-reveal .reveal.is-in{
+    opacity:1 !important;
+    transform:none !important;
+    will-change:auto;
+}
+
+@media(max-width:991px){
+    .has-reveal .rv-left,.has-reveal .rv-right{transform:translateY(14px) !important;}
+}
+
+/* anchor jumps glide instead of teleporting */
+html{scroll-behavior:smooth;}
+
+/* ============================================================
+   READING PROGRESS BAR (ATTACHED UNDER STICKY NAV)
+   ============================================================ */
+.ajn-progress{
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    height:2.5px;
+    background:rgba(255,255,255,.07);
+    pointer-events:none;
+    overflow:hidden;
+    z-index:99;
+}
+.ajn-progress-bar{
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,#8f2934,#ff5f60 55%,#e2b442 100%);
+    transform-origin:left center;
+    transition:width .06s linear;
+}
+
+/* ============================================================
+   BASE LINK & CONTROL TRANSITIONS
+   ============================================================ */
+a,button,summary,
+.nt-chip,.cl-chips a,.si-jump a,.pros-chip,.pros-jump-row a,
+.dx-pill,.px-badge,.ajf-col a,.ajf-social a,.ajf-map-chip,
+.sp-subnav .toc-wrap li a,.sp-body-resources a,.editorial-action{
+    transition:color var(--mo-fast) var(--mo-ease),
+               background-color var(--mo-fast) var(--mo-ease),
+               border-color var(--mo-fast) var(--mo-ease),
+               opacity var(--mo-fast) var(--mo-ease),
+               transform var(--mo-fast) var(--mo-ease);
+}
+
+/* ============================================================
+   CARDS & INSTITUTIONAL TILES ELEVATION
+   ============================================================ */
+.action-tile,
+.dx2-tile,
+.people-card,
+a.hc-item,
+.dept-card,
+.dx-card,
+.px-card,
+.menu-grid-card,
+.pros-prog-card,
+.pros-infra-card,
+.ajas-card,
+.pl-col{
+    transition:transform var(--mo-mid) var(--mo-ease),
+               box-shadow var(--mo-mid) var(--mo-ease),
+               border-color var(--mo-mid) var(--mo-ease),
+               background-color var(--mo-fast) var(--mo-ease);
+}
+.action-tile:hover,
+.dx2-tile:hover,
+.people-card:hover,
+a.hc-item:hover,
+.dept-card:hover,
+.menu-grid-card:hover,
+.pros-prog-card:hover,
+.pros-infra-card:hover{
+    transform:translateY(-3px);
+    box-shadow:var(--mo-shadow-card);
+}
+
+/* ============================================================
+   CARD MEDIA CINEMATIC ZOOM
+   ============================================================ */
+.gal-item img,
+.dx2-media img,
+.pros-member img,
+.menu-grid-card img,
+.people-card-photo img,
+.editorial-row-media img,
+.editorial-thumb img,
+.leadership-photo img{
+    transition:transform var(--mo-cinematic) var(--mo-ease) !important;
+}
+.gal-item:hover img,
+.dx2-tile:hover img,
+.pros-member:hover img,
+a.menu-grid-card:hover img,
+.editorial-row:hover .editorial-row-media img,
+.editorial-row:hover .editorial-thumb img,
+.leadership-photo:hover img{
+    transform:scale(1.035) !important;
+}
+
+/* ============================================================
+   ARROWS & CHEVRONS GLIDE MICRO-INTERACTIONS
+   ============================================================ */
+.action-tile .tile-cta i,
+.pl-list .pl-arrow,
+.dx2-go svg,
+.st-links svg,
+.hd-notice-icon,
+.editorial-action span,
+.hc-cta svg,
+.dx2-all svg,
+.leadership-link i,
+.editorial-row-action svg,
+.dept-more svg,
+.ajas-card-more svg{
+    display:inline-block;
+    transition:transform var(--mo-fast) var(--mo-ease) !important;
+}
+.action-tile:hover .tile-cta i,
+.pl-list li a:hover .pl-arrow,
+.dx2-tile:hover .dx2-go svg,
+.st-links a:hover svg,
+.hd-notices li a:hover .hd-notice-icon,
+.editorial-action:hover span,
+.hc-cta:hover svg,
+.dx2-all:hover svg,
+.leadership-link:hover i,
+.editorial-row:hover .editorial-row-action svg,
+.dept-more:hover svg,
+.ajas-card:hover .ajas-card-more svg{
+    transform:translateX(4px) !important;
+}
+
+/* ============================================================
+   BUTTONS: TACTILE HOVER & PRESS FEEDBACK
+   ============================================================ */
+main .btn,
+main .btn-box-shadow,
+.st-btn,
+.wy-cta-btn,
+.px-btn,
+.pd-btn,
+.pros-btn,
+.pl-cta,
+.ajn-cta,
+.ajn-drawer-cta,
+.gallery-more{
+    transition:transform var(--mo-fast) var(--mo-ease),
+               box-shadow var(--mo-fast) var(--mo-ease),
+               background-color var(--mo-fast) var(--mo-ease),
+               border-color var(--mo-fast) var(--mo-ease),
+               color var(--mo-fast) var(--mo-ease);
+}
+main .btn:hover,
+main .btn-box-shadow:hover,
+.st-btn:hover,
+.wy-cta-btn:hover,
+.px-btn:hover,
+.pd-btn:hover,
+.pros-btn:hover,
+.pl-cta:hover,
+.ajn-cta:hover,
+.gallery-more:hover{
+    transform:translateY(-1.5px);
+}
+main .btn:active,
+main .btn-box-shadow:active,
+.st-btn:active,
+.wy-cta-btn:active,
+.px-btn:active,
+.pd-btn:active,
+.pros-btn:active,
+.pl-cta:active,
+.ajn-cta:active,
+.ajn-drawer-cta:active,
+.gallery-more:active{
+    transform:translateY(1px) scale(0.99) !important;
+}
+
+/* hairline links rule transition */
+.hc-cta,.editorial-action,.pd-link,.fp-link,.dept-more,.ajas-card-more,
+.menu-grid-card-cta,.ajas-entity-more a,.wy-cta-link{
+    transition:color var(--mo-fast) var(--mo-ease),
+               border-color var(--mo-mid) var(--mo-ease);
+}
+
+/* ============================================================
+   LIST & TABLE ROW HOVERS
+   ============================================================ */
+.pl-list li a,
+.hd-notices li a,
+.editorial-row,
+.ajas-notice-table tbody tr,
+.mig-roster tbody tr,
+.dt-table tbody tr,
+.sp-fact-row{
+    transition:background-color var(--mo-fast) var(--mo-ease),
+               padding-left var(--mo-fast) var(--mo-ease);
+}
+.pl-list li a:hover{
+    background-color:rgba(24,50,81,.04);
+    padding-left:10px;
+}
+.hd-notices li a:hover{
+    background-color:#f7f9fc;
+    padding-left:8px;
+}
+.editorial-row:hover{
+    background-color:#fafbfd;
+}
+.ajas-notice-table tbody tr:hover,
+.mig-roster tbody tr:hover,
+.dt-table tbody tr:hover{
+    background-color:#f6f8fb;
+}
+
+/* ============================================================
+   CHIPS, PILLS & BADGES
+   ============================================================ */
+.cl-chips a,
+.nt-chip,
+.page-chip,
+.dx-pill,
+.px-badge,
+.pros-chip{
+    transition:transform var(--mo-fast) var(--mo-ease),
+               background-color var(--mo-fast) var(--mo-ease),
+               border-color var(--mo-fast) var(--mo-ease),
+               color var(--mo-fast) var(--mo-ease),
+               box-shadow var(--mo-fast) var(--mo-ease);
+}
+.cl-chips a:hover,
+.nt-chip:hover,
+.page-chip:hover,
+.pros-chip:hover{
+    transform:translateY(-1.5px);
+    box-shadow:0 4px 10px rgba(15,41,71,.08);
+}
+
+/* ============================================================
+   DOWNLOADS & ATTACHMENTS
+   ============================================================ */
+.ajas-attachments a{
+    transition:transform var(--mo-fast) var(--mo-ease),
+               background-color var(--mo-fast) var(--mo-ease),
+               color var(--mo-fast) var(--mo-ease),
+               border-color var(--mo-fast) var(--mo-ease),
+               box-shadow var(--mo-fast) var(--mo-ease);
+}
+.ajas-attachments a:hover{
+    transform:translateY(-1.5px);
+    box-shadow:0 6px 16px rgba(15,41,71,.06);
+}
+.ajas-attachments a i{
+    transition:transform var(--mo-fast) var(--mo-ease);
+}
+.ajas-attachments a:hover i{
+    transform:translateY(-1px) scale(1.08);
+}
+
+/* ============================================================
+   ACCREDITATIONS & METRICS
+   ============================================================ */
+.accred-row li,
+.ajas-metric-row li{
+    transition:transform var(--mo-fast) var(--mo-ease),
+               box-shadow var(--mo-fast) var(--mo-ease);
+}
+.accred-row li:hover,
+.ajas-metric-row li:hover{
+    transform:translateY(-2px);
+}
+.accred-row li:hover{
+    box-shadow:0 6px 16px rgba(15,41,71,.08);
+}
+
+/* ============================================================
+   CHROME & MODALS (SCROLL-TOP, LIGHTBOX)
+   ============================================================ */
+#scroll-top{
+    transition:opacity var(--mo-mid) var(--mo-ease),
+               transform var(--mo-mid) var(--mo-ease),
+               background-color var(--mo-fast) var(--mo-ease) !important;
+}
+#scroll-top:hover{
+    transform:translateY(-2px);
+}
+
+.ajas-lb{
+    opacity:0;
+    transition:opacity .25s var(--mo-ease);
+}
+.ajas-lb.is-open{
+    opacity:1;
+}
+.ajas-lb-stage img{
+    transform:scale(.96);
+    transition:transform .28s var(--mo-ease);
+}
+.ajas-lb.is-open .ajas-lb-stage img{
+    transform:scale(1);
+}
+
+/* focus stays instant — a fading focus ring is a usability bug */
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,
+textarea:focus-visible,[tabindex]:focus-visible{
+    transition:none;
+    outline:2px solid #ff5f60;
+    outline-offset:2px;
+}
+
+/* ============================================================
+   STRICT REDUCED MOTION OVERRIDES
+   ============================================================ */
+@media(prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto !important;}
+    .has-reveal .reveal{
+        opacity:1 !important;
+        transform:none !important;
+        transition:none !important;
+    }
+    .action-tile,.dx2-tile,.people-card,a.hc-item,.dept-card,
+    .menu-grid-card,.pros-prog-card,.pros-infra-card,.gal-item img,
+    .dx2-media img,.people-card-photo img,.leadership-photo img,
+    main .btn,.st-btn,.wy-cta-btn,.cl-chips a,.ajas-attachments a,
+    .action-tile .tile-cta i,.pl-list .pl-arrow,.dx2-go svg,
+    .st-links svg,.hd-notice-icon,#scroll-top,.ajn-progress-bar{
+        transform:none !important;
+        transition:none !important;
+    }
+}
+
+/* ============================================================
+   ARCHITECTURAL SHARP CORNERS — INSTITUTIONAL EDITORIAL SYSTEM
+   Crisp 90-degree corners for all cards, tiles, boxes, and strips.
+   ============================================================ */
+.action-tile,
+.action-tile .tile-ico,
+.accred-card,
+.ajas-card,
+.ajas-dept-card,
+.ajas-prog-card,
+.ajas-testi-card,
+.dept-card,
+.dx-card,
+.dx2-tile,
+.editorial-row,
+.editorial-thumb,
+.form-band,
+.gal-item,
+.menu-grid-card,
+.people-card,
+.people-card-photo,
+.prog-card,
+.prog-chip,
+.prog-icon-badge,
+.pros-glance,
+.pros-infra-card,
+.pros-member,
+.pros-prog-card,
+.pros-section-alt,
+.pros-vm-card,
+.px-card,
+.quick-action-card,
+.sp-banner,
+.sp-prog-card,
+.sp-stat,
+.video-item,
+.box-event,
+.box-testimonial,
+.box-teacher,
+.box-partner,
+.hp-cta-primary,
+.hp-stat-card,
+.hp-partner-tile,
+.hp-partner-short,
+.hp-pillar-card,
+.card,
+[class*="-card"],
+[class*="-tile"] {
+    border-radius: 0 !important;
+}
+

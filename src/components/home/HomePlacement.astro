@@ -1,0 +1,321 @@
+---
+/**
+ * Corporate Placement & Industry Linkages Showcase
+ * Demonstrates career readiness, placement metrics, and corporate partners.
+ */
+const stats = [
+  { value: "100+", label: "Students Placed", note: "Across tech, commerce, science & media" },
+  { value: "₹4.8 LPA", label: "Highest Package", note: "Competitive entry-level packages" },
+  { value: "25+", label: "Corporate Partners", note: "Active campus recruiters & MoUs" },
+  { value: "100%", label: "Placement Training", note: "Structured training from Semester 1" },
+];
+
+const recruiters = [
+  { name: "Tata Consultancy Services", short: "TCS", sector: "IT & Digital Services", icon: "laptop" },
+  { name: "Infosys Springboard", short: "Infosys", sector: "Enterprise Technology", icon: "code" },
+  { name: "Sutherland Global", short: "Sutherland", sector: "Business Operations", icon: "globe" },
+  { name: "Wipro Technologies", short: "Wipro", sector: "Consulting & Software", icon: "cogs" },
+  { name: "ASAP Kerala", short: "ASAP", sector: "Govt. of Kerala Skilling MoU", icon: "certificate" },
+  { name: "Keltron", short: "Keltron", sector: "Electronics & Embedded Systems", icon: "microchip" },
+  { name: "G-Tec Computer Education", short: "G-Tec", sector: "Certified Technical Training", icon: "terminal" },
+  { name: "Bharat Skill Development", short: "BSDC", sector: "Vocational & Professional Skills", icon: "briefcase" },
+];
+
+const pillars = [
+  {
+    title: "Aptitude & Technical Coding",
+    desc: "Rigorous logical reasoning, quantitative analysis, and programming rounds conducted throughout the academic year.",
+  },
+  {
+    title: "Corporate Communication & GDs",
+    desc: "Mock group discussions, corporate etiquette, and multi-round personal interview simulations by industry trainers.",
+  },
+  {
+    title: "Public Sector & Competitive Exams",
+    desc: "Orientation and preparatory support for UPSC, Kerala PSC, SSC, Banking (IBPS), and UGC-NET examinations.",
+  },
+  {
+    title: "Higher Education Progression",
+    desc: "Dedicated guidance for CUET-PG and international university admissions across the UK, Europe, and GCC regions.",
+  },
+];
+---
+
+<section class="hp" aria-labelledby="hp-heading">
+  <div class="hp-inner">
+    <header class="hp-head">
+      <p class="hp-kicker">Career Readiness &amp; Corporate Connect</p>
+      <h2 id="hp-heading">Training, Placements &amp; Industry Linkages</h2>
+      <p class="hp-lede">
+        Our active Placement Cell bridges academia and enterprise — equipping graduates with corporate-ready skills and connecting them to leading multinationals and government initiatives.
+      </p>
+      <div class="hp-head-actions">
+        <a class="hp-cta-primary" href="/placement-cell/">
+          Visit Placement Cell Portal
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+        </a>
+      </div>
+    </header>
+
+    {/* Metric Counters */}
+    <div class="hp-stats-grid">
+      {stats.map((s) => (
+        <div class="hp-stat-card">
+          <strong class="hp-stat-val">{s.value}</strong>
+          <span class="hp-stat-label">{s.label}</span>
+          <span class="hp-stat-note">{s.note}</span>
+        </div>
+      ))}
+    </div>
+
+    {/* Recruitment Partners */}
+    <div class="hp-partners-wrap">
+      <div class="hp-partners-head">
+        <h3>Prominent Recruitment &amp; Training Partners</h3>
+        <span class="hp-partners-line" aria-hidden="true"></span>
+      </div>
+      <div class="hp-partners-grid">
+        {recruiters.map((r) => (
+          <div class="hp-partner-tile">
+            <span class="hp-partner-short">{r.short}</span>
+            <div class="hp-partner-info">
+              <span class="hp-partner-name">{r.name}</span>
+              <span class="hp-partner-sector">{r.sector}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    {/* 4 Pillars of Career Readiness */}
+    <div class="hp-pillars-grid">
+      {pillars.map((p, idx) => (
+        <div class="hp-pillar-card">
+          <span class="hp-pillar-num">0{idx + 1}</span>
+          <h4>{p.title}</h4>
+          <p>{p.desc}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .hp {
+    background: #0a1b2e;
+    color: #fff;
+    padding: clamp(52px, 6vw, 84px) 0;
+    position: relative;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    overflow-x: clip;
+  }
+  .hp-inner {
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 0 clamp(16px, 3vw, 40px);
+    min-width: 0;
+  }
+  .hp-head {
+    max-width: 72ch;
+    margin-bottom: 38px;
+  }
+  .hp-kicker {
+    margin: 0 0 10px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #c9a961;
+  }
+  .hp-head h2 {
+    margin: 0 0 14px;
+    font-family: var(--font-serif);
+    font-size: clamp(1.8rem, 2.8vw, 2.6rem);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: #fff;
+  }
+  .hp-lede {
+    margin: 0 0 22px;
+    font-size: 1.05rem;
+    line-height: 1.65;
+    color: rgba(255, 255, 255, 0.72);
+  }
+  .hp-cta-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: #c9a961;
+    color: #0a1b2e !important;
+    font-weight: 700;
+    font-size: 13.5px;
+    text-decoration: none;
+    border-radius: 0;
+    transition: background 0.18s ease, transform 0.18s ease;
+  }
+  .hp-cta-primary:hover {
+    background: #e2c37e;
+    transform: translateY(-2px);
+    color: #0a1b2e !important;
+  }
+  .hp-cta-primary svg {
+    width: 14px;
+    height: 14px;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    fill: none;
+  }
+
+  /* Stats Grid */
+  .hp-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 0;
+    margin-bottom: 48px;
+  }
+  .hp-stat-card {
+    background: #0d2238;
+    padding: 24px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    border-radius: 0;
+  }
+  .hp-stat-val {
+    font-family: var(--font-serif);
+    font-size: clamp(1.8rem, 2.6vw, 2.4rem);
+    font-weight: 600;
+    color: #ffc24a;
+    line-height: 1.1;
+  }
+  .hp-stat-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    margin-top: 4px;
+  }
+  .hp-stat-note {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.58);
+    line-height: 1.4;
+  }
+
+  /* Partners Wrap */
+  .hp-partners-wrap {
+    margin-bottom: 48px;
+    min-width: 0;
+  }
+  .hp-partners-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+    min-width: 0;
+  }
+  .hp-partners-head h3 {
+    margin: 0;
+    font-size: clamp(11.5px, 2.4vw, 13px);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.65);
+    white-space: normal;
+    line-height: 1.35;
+    flex-shrink: 1;
+    min-width: 0;
+  }
+  .hp-partners-line {
+    flex: 1;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.14);
+    min-width: 16px;
+  }
+  .hp-partners-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 12px;
+  }
+  .hp-partner-tile {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0;
+    transition: background 0.18s ease, border-color 0.18s ease;
+  }
+  .hp-partner-tile:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(201, 169, 97, 0.4);
+  }
+  .hp-partner-short {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: #ffc24a;
+    background: rgba(255, 194, 74, 0.1);
+    padding: 6px 10px;
+    border-radius: 0;
+    flex-shrink: 0;
+  }
+  .hp-partner-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    flex: 1;
+  }
+  .hp-partner-name {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #fff;
+    white-space: normal;
+    line-height: 1.3;
+  }
+  .hp-partner-sector {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.5);
+    margin-top: 3px;
+    white-space: normal;
+    line-height: 1.35;
+  }
+
+  /* Pillars Grid */
+  .hp-pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+  }
+  .hp-pillar-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    padding: 24px;
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .hp-pillar-num {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: #c9a961;
+    margin-bottom: 10px;
+  }
+  .hp-pillar-card h4 {
+    margin: 0 0 8px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #fff;
+  }
+  .hp-pillar-card p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.65);
+  }
+</style>

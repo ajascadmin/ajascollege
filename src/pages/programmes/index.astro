@@ -1,32 +1,77 @@
 ---
+/**
+ * Programmes index — same image-led language as /departments/.
+ *
+ * Programme entries carry no artwork of their own, but every programme is
+ * taught by a department that does. Matching the two on a keyword gives each
+ * card a real photograph instead of fourteen identical gradient icons, and
+ * doubles as a useful cross-link into the department.
+ */
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import CmsImage from "../../components/CmsImage.astro";
+import { getChildPages } from "../../lib/pageListing";
 import { getListings } from "../../lib/site";
 
 const programmes = (await getCollection("programmes", ({ data }) => !data.draft)).sort(
   (a, b) => a.data.order - b.data.order || a.data.title.localeCompare(b.data.title),
 );
-const ug = programmes.filter((p) => p.data.level === "ug");
-const pg = programmes.filter((p) => p.data.level === "pg");
-const other = programmes.filter((p) => !["ug", "pg"].includes(p.data.level));
+const departments = await getChildPages("/departments/");
 
-const iconFor = (title: string) => {
-  const t = title.toLowerCase();
-  if (t.includes("commerce") || t.includes("b.com")) return "fa-briefcase";
-  if (t.includes("bba")) return "fa-line-chart";
-  if (t.includes("bca") || t.includes("computer application")) return "fa-laptop";
-  if (t.includes("artificial intelligence") || t.includes("ai")) return "fa-microchip";
-  if (t.includes("computer science")) return "fa-desktop";
-  if (t.includes("food technology")) return "fa-cutlery";
-  if (t.includes("microbiology")) return "fa-flask";
-  if (t.includes("psychology")) return "fa-lightbulb-o";
-  if (t.includes("geography")) return "fa-globe";
-  if (t.includes("islamic studies")) return "fa-moon-o";
-  if (t.includes("english")) return "fa-book";
-  if (t.includes("islamic finance")) return "fa-university";
-  if (t.includes("arabic")) return "fa-language";
-  return "fa-graduation-cap";
-};
+/** programme keyword → the slug fragment of the department that teaches it */
+const DEPT_FOR: [RegExp, string][] = [
+  [/islamic finance/i, "islamic-finance"],
+  [/islamic studies/i, "islamic-studies"],
+  [/arabic/i, "arabic"],
+  [/english/i, "english"],
+  [/psychology/i, "psychology"],
+  [/geography/i, "geography"],
+  [/food tech/i, "food-technology"],
+  [/micro ?biology/i, "micro-biology"],
+  [/artificial intelligence|computer science/i, "computer-science"],
+  [/bca|computer application/i, "computer-application"],
+  [/b\.?\s?com|bba|commerce|management/i, "commerce"],
+  [/economics/i, "economics"],
+  [/physical education/i, "physical-education"],
+];
+
+function departmentFor(title: string) {
+  for (const [re, slug] of DEPT_FOR) {
+    if (!re.test(title)) continue;
+    const hit = departments.find((d) => d.permalink.includes(slug));
+    if (hit) return hit;
+  }
+  return undefined;
+}
+
+const shortDept = (t: string) =>
+  t.replace(/^(pg\s+)?department\s+of\s+/i, "").replace(/^non[-\s]core\s+departments?\s*[-–]?\s*/i, "");
+
+type Row = (typeof programmes)[number] & { _dept?: ReturnType<typeof departmentFor> };
+const decorate = (list: typeof programmes) =>
+  list.map((p) => ({ entry: p, dept: departmentFor(p.data.title) }));
+
+const ug = decorate(programmes.filter((p) => p.data.level === "ug"));
+const pg = decorate(programmes.filter((p) => p.data.level === "pg"));
+const other = decorate(programmes.filter((p) => !["ug", "pg"].includes(p.data.level)));
+
+const groups = [
+  {
+    id: "ug",
+    badge: "Undergraduate",
+    title: "UG (Honours) Programmes",
+    note: "Four-year Honours degrees under FYUGP, University of Calicut",
+    rows: ug,
+  },
+  {
+    id: "pg",
+    badge: "Postgraduate",
+    title: "PG Programmes",
+    note: "Two-year Master's degrees with research supervision",
+    rows: pg,
+  },
+  { id: "other", badge: "Other", title: "Other Programmes", note: "", rows: other },
+].filter((g) => g.rows.length > 0);
 
 const L = (await getListings())?.programmes ?? {
   title: "Programmes Offered",
@@ -34,292 +79,420 @@ const L = (await getListings())?.programmes ?? {
   intro:
     "Al Jamia Arts and Science College offers university-affiliated Four-Year Undergraduate (Honours) programmes under FYUGP and specialised Postgraduate degrees with dedicated faculty and state-of-the-art labs.",
 };
+
+const itemListLd = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Programmes offered — Al Jamia Arts & Science College",
+  numberOfItems: programmes.length,
+  itemListElement: programmes.map((p, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    name: p.data.title,
+    url: new URL(p.data.permalink, "https://ajascollege.ac.in").href,
+  })),
+};
 ---
 
-<BaseLayout title={L.title} description={L.description} pageTitle={L.title}>
-  <div class="ajas-prog-listing-page" data-pagefind-body>
-    <div class="container">
-      <div class="prog-page-intro">
-        <p class="listing-intro">{L.intro}</p>
-        <div class="prog-quick-ctas">
-          <a class="prog-btn-primary" href="/admission/">Apply for Admission <i class="fa fa-arrow-right"></i></a>
-          <a class="prog-btn-secondary" href="/fees/">Fees &amp; Prospectus</a>
+<BaseLayout title={L.title} description={L.description} pageTitle={L.title} jsonLd={itemListLd}>
+  <div class="px" data-pagefind-body>
+    <div class="px-inner">
+      <header class="px-head">
+        <div>
+          <p class="px-intro">{L.intro}</p>
+          <div class="px-ctas">
+            <a class="px-btn" href="/admission/">Apply for admission</a>
+            <a class="px-btn px-btn-alt" href="/fees/">Fees &amp; prospectus</a>
+          </div>
         </div>
-      </div>
-
-      <div class="prog-section-block">
-        <div class="prog-section-header">
-          <div class="prog-section-badge ug-badge">Undergraduate</div>
-          <h2 class="prog-section-title">UG (Honours) Programmes</h2>
-          <span class="prog-section-subtitle">4-Year Honours Degree Programmes under FYUGP &middot; University of Calicut</span>
-        </div>
-        <div class="prog-cards-grid">
-          {
-            ug.map((p) => (
-              <a href={p.data.permalink} class="prog-grid-card">
-                <div class="prog-card-top">
-                  <div class="prog-card-ico"><i class={`fa ${iconFor(p.data.title)}`}></i></div>
-                  <span class="prog-badge-tag">UG Honours</span>
-                </div>
-                <h3 class="prog-title-text">{p.data.title}</h3>
-                {p.data.duration && <span class="prog-card-duration"><i class="fa fa-clock-o"></i> {p.data.duration}</span>}
-                <div class="prog-card-link">
-                  <span>View Details</span> <i class="fa fa-long-arrow-right"></i>
-                </div>
-              </a>
-            ))
-          }
-        </div>
-      </div>
-
-      <div class="prog-section-block">
-        <div class="prog-section-header">
-          <div class="prog-section-badge pg-badge">Postgraduate</div>
-          <h2 class="prog-section-title">PG Programmes</h2>
-          <span class="prog-section-subtitle">2-Year Master's Degrees with Advanced Research Supervision</span>
-        </div>
-        <div class="prog-cards-grid">
-          {
-            pg.map((p) => (
-              <a href={p.data.permalink} class="prog-grid-card pg-style">
-                <div class="prog-card-top">
-                  <div class="prog-card-ico pg-ico"><i class={`fa ${iconFor(p.data.title)}`}></i></div>
-                  <span class="prog-badge-tag pg-tag">Postgraduate</span>
-                </div>
-                <h3 class="prog-title-text">{p.data.title}</h3>
-                {p.data.duration && <span class="prog-card-duration"><i class="fa fa-clock-o"></i> {p.data.duration}</span>}
-                <div class="prog-card-link">
-                  <span>View Details</span> <i class="fa fa-long-arrow-right"></i>
-                </div>
-              </a>
-            ))
-          }
-        </div>
-      </div>
+        <dl class="px-stats">
+          <div>
+            <dt>Programmes</dt>
+            <dd>{programmes.length}</dd>
+          </div>
+          <div>
+            <dt>UG Honours</dt>
+            <dd>{ug.length}</dd>
+          </div>
+          <div>
+            <dt>Postgraduate</dt>
+            <dd>{pg.length}</dd>
+          </div>
+        </dl>
+      </header>
 
       {
-        other.length > 0 && (
-          <div class="prog-section-block">
-            <div class="prog-section-header">
-              <h2 class="prog-section-title">Other Programmes</h2>
-            </div>
-            <div class="prog-cards-grid">
-              {other.map((p) => (
-                <a href={p.data.permalink} class="prog-grid-card">
-                  <div class="prog-card-top">
-                    <div class="prog-card-ico"><i class="fa fa-graduation-cap"></i></div>
-                  </div>
-                  <h3 class="prog-title-text">{p.data.title}</h3>
-                  <div class="prog-card-link">
-                    <span>View Details</span> <i class="fa fa-long-arrow-right"></i>
-                  </div>
-                </a>
+        groups.map((g) => (
+          <section class="px-group" id={g.id}>
+            <header class="px-group-head">
+              <span class={`px-badge px-badge-${g.id}`}>{g.badge}</span>
+              <h2>{g.title}</h2>
+              {g.note && <p>{g.note}</p>}
+            </header>
+
+            <ul class="px-grid">
+              {g.rows.map(({ entry: p, dept }) => (
+                <li>
+                  <a class="px-card" href={p.data.permalink}>
+                    <span class="px-media">
+                      {dept?.image ? (
+                        <CmsImage src={dept.image} alt="" preset="card" fit="cover" loading="lazy" />
+                      ) : (
+                        <span class="px-media-fallback" aria-hidden="true" />
+                      )}
+                      <span class="px-veil" aria-hidden="true" />
+                      <span class="px-title">{p.data.title}</span>
+                    </span>
+                    <span class="px-body">
+                      <span class="px-facts">
+                        {p.data.duration && (
+                          <span class="px-fact">
+                            <span>Duration</span>
+                            <strong>{p.data.duration}</strong>
+                          </span>
+                        )}
+                        {dept && (
+                          <span class="px-fact">
+                            <span>Department</span>
+                            <strong>{shortDept(dept.title)}</strong>
+                          </span>
+                        )}
+                        {p.data.seats && (
+                          <span class="px-fact">
+                            <span>Intake</span>
+                            <strong>{p.data.seats}</strong>
+                          </span>
+                        )}
+                      </span>
+                      <span class="px-more">
+                        View details
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                      </span>
+                    </span>
+                  </a>
+                </li>
               ))}
-            </div>
-          </div>
-        )
+            </ul>
+          </section>
+        ))
       }
     </div>
   </div>
 </BaseLayout>
 
 <style>
-  .ajas-prog-listing-page {
-    padding: 48px 0 72px;
-    background: #f8fafc;
-    min-height: 50vh;
-  }
-  .prog-page-intro {
-    max-width: 800px;
-    margin: 0 auto 48px;
-    text-align: center;
-  }
-  .prog-page-intro .listing-intro {
-    font-size: 1.1rem;
-    line-height: 1.7;
-    color: #475569;
-    margin-bottom: 24px;
-  }
-  .prog-quick-ctas {
-    display: flex;
-    justify-content: center;
-    gap: 14px;
-    flex-wrap: wrap;
-  }
-  .prog-btn-primary {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: #ff5f60;
-    color: #fff !important;
-    font-weight: 600;
-    padding: 10px 24px;
-    border-radius: 24px;
-    text-decoration: none !important;
-    box-shadow: 0 4px 14px rgba(255, 95, 96, 0.3);
-    transition: all 0.25s ease;
-  }
-  .prog-btn-primary:hover {
-    background: #e04a4b;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(255, 95, 96, 0.4);
-  }
-  .prog-btn-secondary {
-    display: inline-flex;
-    align-items: center;
+  .px {
     background: #fff;
-    color: #183251 !important;
-    font-weight: 600;
-    padding: 10px 22px;
-    border-radius: 24px;
-    border: 1.5px solid #183251;
-    text-decoration: none !important;
-    transition: all 0.25s ease;
+    padding: 30px 0 56px;
   }
-  .prog-btn-secondary:hover {
-    background: #183251;
-    color: #fff !important;
+  .px-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 clamp(16px, 3.4vw, 56px);
   }
 
-  .prog-section-block {
-    margin-bottom: 56px;
-  }
-  .prog-section-header {
-    margin-bottom: 24px;
-  }
-  .prog-section-badge {
-    display: inline-block;
-    font-size: 12px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    padding: 4px 12px;
-    border-radius: 14px;
-    margin-bottom: 8px;
-  }
-  .ug-badge {
-    background: #eff6ff;
-    color: #1d4ed8;
-    border: 1px solid #bfdbfe;
-  }
-  .pg-badge {
-    background: #fff1f2;
-    color: #be123c;
-    border: 1px solid #fecdd3;
-  }
-  .prog-section-title {
-    font-size: 1.65rem;
-    font-weight: 700;
-    color: #183251;
-    margin: 0 0 6px;
-  }
-  .prog-section-subtitle {
-    font-size: 0.95rem;
-    color: #64748b;
-    display: block;
-  }
-
-  .prog-cards-grid {
+  /* ---- head ---- */
+  .px-head {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 26px clamp(32px, 5vw, 80px);
+    align-items: end;
+    padding-bottom: 26px;
+    margin-bottom: 38px;
+    border-bottom: 2px solid #17304f;
   }
-  @media (min-width: 640px) {
-    .prog-cards-grid {
-      grid-template-columns: repeat(2, 1fr);
+  @media (min-width: 900px) {
+    .px-head {
+      grid-template-columns: minmax(0, 1fr) auto;
     }
   }
-  @media (min-width: 1000px) {
-    .prog-cards-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
+  .px-intro {
+    margin: 0;
+    max-width: 62ch;
+    font-size: 1.12rem;
+    line-height: 1.7;
+    color: #47586f;
+  }
+  .px-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  .px-btn {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 22px;
+    border-radius: 0;
+    background: #ff5f60;
+    color: #fff;
+    font-size: 14.5px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s ease;
+  }
+  .px-btn:hover {
+    background: #e04a4b;
+    color: #fff;
+  }
+  .px-btn-alt {
+    background: none;
+    color: #17304f;
+    border: 1px solid #d9e1ec;
+  }
+  .px-btn-alt:hover {
+    background: #f4f7fb;
+    color: #17304f;
+    border-color: #17304f;
+  }
+  /* same hairline grid as the recognitions block */
+  .px-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1px;
+    margin: 0;
+    background: #e4eaf1;
+    border: 1px solid #e4eaf1;
+  }
+  .px-stats div {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 3px;
+    padding: 14px 20px;
+    background: #fff;
+  }
+  .px-stats dt {
+    margin: 0;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: #91a0b4;
+  }
+  .px-stats dd {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: 1.75rem;
+    font-weight: 600;
+    line-height: 1;
+    color: #17304f;
   }
 
-  .prog-grid-card {
-    background: #ffffff;
-    border-radius: 16px;
-    padding: 24px 22px 20px;
-    border: 1px solid #e2e8f0;
-    box-shadow: 0 8px 24px rgba(24, 50, 81, 0.05);
-    text-decoration: none !important;
+  /* ---- groups ---- */
+  .px-group + .px-group {
+    margin-top: 48px;
+  }
+  .px-group-head {
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e4eaf1;
+  }
+  .px-badge {
+    display: inline-block;
+    margin-bottom: 8px;
+    padding: 3px 10px;
+    border-radius: 0;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: #17304f;
+    background: #eef3f9;
+    border: 1px solid #dce5f0;
+  }
+  .px-badge-pg {
+    color: #9b3440;
+    background: #fbf1f2;
+    border-color: #f0dcde;
+  }
+  .px-group-head h2 {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: clamp(1.4rem, 2vw, 1.9rem);
+    font-weight: 600;
+    line-height: 1.16;
+    letter-spacing: -0.015em;
+    color: #17304f;
+  }
+  .px-group-head p {
+    margin: 6px 0 0;
+    font-size: 0.95rem;
+    color: #6b7a90;
+  }
+
+  /* ---- cards ---- */
+  .px-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: clamp(18px, 2vw, 28px);
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  }
+  .px-card {
+    height: 100%;
     display: flex;
     flex-direction: column;
-    transition: all 0.3s cubic-bezier(0.2, 0.7, 0.3, 1);
+    text-decoration: none !important;
+    color: inherit;
+    border: 1px solid #e4eaf1;
+    border-radius: 0;
+    overflow: hidden;
+    background: #fff;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
   }
-  .prog-grid-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 18px 40px rgba(24, 50, 81, 0.12);
-    border-color: #cbd5e1;
+  .px-card:hover {
+    transform: translateY(-4px);
+    border-color: #cfd9e6;
+    box-shadow: 0 20px 44px rgba(17, 48, 79, 0.14);
   }
-
-  .prog-card-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 16px;
+  .px-media {
+    position: relative;
+    display: block;
+    aspect-ratio: 21 / 9;
+    background: #10263f;
+    overflow: hidden;
   }
-  .prog-card-ico {
-    width: 46px;
-    height: 46px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #183251, #24436c);
-    color: #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 19px;
+  .px-media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.3, 1);
   }
-  .prog-card-ico.pg-ico {
-    background: linear-gradient(135deg, #801b2a, #ab283b);
+  .px-card:hover .px-media :global(img) {
+    transform: scale(1.05);
   }
-  .prog-badge-tag {
-    font-size: 12px;
+  .px-media-fallback {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(140deg, #17304f, #0d1f36);
+  }
+  .px-veil {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(8, 22, 38, 0.92) 0%,
+      rgba(8, 22, 38, 0.52) 44%,
+      rgba(8, 22, 38, 0.1) 78%
+    );
+  }
+  .px-title {
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    bottom: 13px;
+    font-family: var(--font-serif);
+    font-size: 1.24rem;
     font-weight: 600;
-    background: #f1f5f9;
-    color: #475569;
-    padding: 3px 10px;
-    border-radius: 12px;
+    line-height: 1.2;
+    color: #fff;
+    text-shadow: 0 1px 12px rgba(0, 0, 0, 0.35);
   }
-  .prog-badge-tag.pg-tag {
-    background: #fff1f2;
-    color: #be123c;
+  .px-title::before {
+    content: "";
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: #ff5f60;
+    margin-bottom: 8px;
   }
 
-  .prog-title-text {
-    font-size: 1.12rem;
-    font-weight: 700;
-    color: #183251;
-    margin: 0 0 10px;
-    line-height: 1.35;
+  .px-body {
+    display: flex;
+    flex-direction: column;
     flex: 1;
+    padding: 0;
   }
-  .prog-grid-card:hover .prog-title-text {
-    color: #ff5f60;
+  /* facts as a hairline row, matching the boxy language used elsewhere */
+  .px-facts {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+    gap: 1px;
+    background: #eef2f7;
+    border-bottom: 1px solid #eef2f7;
   }
-
-  .prog-card-duration {
-    font-size: 0.85rem;
-    color: #64748b;
-    margin-bottom: 16px;
+  .px-fact {
     display: flex;
-    align-items: center;
-    gap: 6px;
+    flex-direction: column;
+    gap: 2px;
+    padding: 11px 14px;
+    background: #fff;
+    min-width: 0;
   }
-
-  .prog-card-link {
-    padding-top: 12px;
-    border-top: 1px solid #f1f5f9;
-    font-size: 0.85rem;
+  .px-fact span {
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: #97a5b8;
+  }
+  .px-fact strong {
+    font-size: 0.86rem;
     font-weight: 600;
-    color: #ff5f60;
+    line-height: 1.35;
+    color: #2b3d55;
+  }
+  .px-more {
+    margin-top: auto;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 8px;
+    padding: 12px 14px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #ff5f60;
   }
-  .prog-card-link i {
-    transition: transform 0.2s ease;
+  .px-more svg {
+    width: 15px;
+    height: 15px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.9;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: transform 0.22s ease;
   }
-  .prog-grid-card:hover .prog-card-link i {
+  .px-card:hover .px-more svg {
     transform: translateX(4px);
+  }
+
+  @media (max-width: 767px) {
+    .px {
+      padding: 20px 0 36px;
+    }
+    .px-head {
+      margin-bottom: 26px;
+      padding-bottom: 20px;
+    }
+    .px-intro {
+      font-size: 1rem;
+    }
+    .px-stats dd {
+      font-size: 1.4rem;
+    }
+    .px-stats div {
+      padding: 11px 12px;
+    }
+    /* "POSTGRADUATE" broke across two lines in a narrow cell */
+    .px-stats dt {
+      font-size: 9px;
+      letter-spacing: 0.06em;
+    }
+    .px-grid {
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    .px-media {
+      aspect-ratio: 16 / 9;
+    }
+    .px-title {
+      font-size: 1.12rem;
+    }
+    .px-group + .px-group {
+      margin-top: 34px;
+    }
   }
 </style>

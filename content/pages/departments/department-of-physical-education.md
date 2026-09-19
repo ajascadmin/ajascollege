@@ -20,11 +20,3 @@ Our mission is to provide high-quality physical education programs that promote 
 
 We are committed to delivering engaging, student-centered physical education experiences that foster physical, social, and emotional growth, and prepare students for a lifetime of wellness and success.
 
-
-## Head Of Department
-
-No data was found
-
-## Faculty
-
-No data was found

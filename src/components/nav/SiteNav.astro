@@ -1,0 +1,2136 @@
+---
+/**
+ * Site navigation — rebuilt from scratch.
+ *
+ * Desktop: a slim utility rail, then a sticky brand bar whose sections open
+ * full-width mega panels (columns derived from the CMS nav tree) or a compact
+ * dropdown when a section only has a handful of leaf links.
+ * Mobile: a full-height drawer with an accordion, contact block and CTA.
+ *
+ * None of the legacy Edukin nav classes (#main-nav, .mobile-button,
+ * .menu-bar, #mainnav-mobi) appear here on purpose — main.js hijacks those
+ * ids to build its own off-canvas menu, and migrate.css carries ~120 lines of
+ * overrides for them. A clean namespace (ajn-) means neither can reach in.
+ */
+import { getSiteSettings } from "../../lib/site";
+import navigation from "../../../content/settings/navigation.json";
+import NavAccordion, { type NavItem } from "./NavAccordion.astro";
+import NavPanelLinks from "./NavPanelLinks.astro";
+import CmsImage from "../CmsImage.astro";
+
+interface Props {
+  variant?: "home" | "inner";
+}
+
+const { variant = "inner" } = Astro.props;
+const site = await getSiteSettings();
+
+const menu = (navigation as { main: NavItem[] }).main;
+const utility = (navigation as { utility?: { label: string; href: string }[] }).utility ?? [];
+
+const current = Astro.url.pathname;
+const phoneDisplay = site.phone_display || site.phone;
+const phoneHref = `tel:${String(site.phone).replace(/\s/g, "")}`;
+const logo = site.logo || "/assets/uploads/2024/01/AJAS-Website-Heading-Last.svg";
+const logoIsRaster = /\.(jpe?g|png|webp|gif|avif)$/i.test(logo);
+/* The rail sits on navy, so it needs the same lockup with the type knocked
+   out to white — the black-type original would vanish against it. */
+const logoLight = "/assets/uploads/2024/01/AJAS-Website-Heading-Last-light.svg";
+
+/* The compact lockups need the college's name on two lines, so the
+   distinctive half leads and the descriptive half sits under it:
+   "Al Jamia Arts & Science College" → "Al Jamia" / "Arts & Science College".
+   Driven from content/settings/site.json, never hardcoded. */
+const collegeName = site.college_name || "Al Jamia Arts & Science College";
+const nameSplit = collegeName.match(/^(.*?)\s+((?:Arts|Science|College|Institute|Academy)\b.*)$/i);
+const nameLead = nameSplit ? nameSplit[1] : collegeName;
+const nameTail = nameSplit ? nameSplit[2] : "";
+
+const isExternal = (href: string) =>
+  href.startsWith("http") || href.endsWith(".pdf") || href.includes("/assets/uploads/");
+const isReal = (href?: string) => !!href && href !== "#" && href !== "/";
+
+function containsCurrent(item: NavItem): boolean {
+  if (item.href && item.href !== "/" && current.startsWith(item.href)) return true;
+  return (item.children || []).some(containsCurrent);
+}
+
+/** A titled group of links inside a mega panel. */
+type Group = { title: string; href?: string; links: NavItem[] };
+/** A panel column is a vertical stack of groups. */
+type Column = { groups: Group[] };
+
+/**
+ * Turn a nav branch into titled groups. Children that have children of their
+ * own become their own group; runs of plain leaf links are bucketed together
+ * so a section like "Academics" reads as grouped topics rather than one
+ * 16-item wall.
+ */
+function toGroups(item: NavItem): Group[] {
+  const groups: Group[] = [];
+  const leaves: NavItem[] = [];
+  let leafSlot = -1;
+  for (const child of item.children || []) {
+    if (child.children && child.children.length) {
+      groups.push({ title: child.label, href: child.href, links: child.children });
+    } else {
+      // every plain link in the section belongs to one group, wherever the
+      // branches happen to sit between them — two "More in …" headings in one
+      // panel is noise, not structure
+      if (leafSlot === -1) leafSlot = groups.length;
+      leaves.push(child);
+    }
+  }
+  if (leaves.length) {
+    groups.splice(leafSlot, 0, { title: item.label, href: item.href, links: leaves });
+  }
+  return groups;
+}
+
+/** Split one long group across `n` columns; only the first keeps the heading. */
+function splitGroup(group: Group, n: number): Column[] {
+  const per = Math.ceil(group.links.length / n);
+  const cols: Column[] = [];
+  for (let i = 0; i < group.links.length; i += per) {
+    cols.push({
+      groups: [
+        {
+          // a blank head keeps the continuation column's first link on the
+          // same baseline as its neighbour's
+          title: i === 0 ? group.title : "\u00a0",
+          href: i === 0 ? group.href : undefined,
+          links: group.links.slice(i, i + per),
+        },
+      ],
+    });
+  }
+  return cols;
+}
+
+/**
+ * Pack groups into balanced columns. Greedy shortest-column-first: the panel
+ * ends up rectangular instead of the ragged auto-flow wrap the first cut
+ * produced, where a 9-link bucket spilled into a second row beside three
+ * half-empty columns.
+ */
+function packColumns(groups: Group[]): Column[] {
+  if (groups.length === 1) {
+    const only = groups[0];
+    if (only.links.length > 6) return splitGroup(only, only.links.length > 10 ? 3 : 2);
+    return [{ groups: [only] }];
+  }
+  const n = Math.min(4, Math.max(1, groups.length));
+  const cols: Column[] = Array.from({ length: n }, () => ({ groups: [] }));
+  // count nested descendants too: an "Infrastructure" group of 2 links that
+  // expands to 12 rows is not the same height as a flat 2-link group
+  const rows = (items: NavItem[]): number =>
+    items.reduce((a, i) => a + 1 + rows(i.children || []), 0);
+  const cost = (g: Group) => rows(g.links) + 1.6;
+  const total = groups.reduce((a, g) => a + cost(g), 0);
+  // Fill in document order, advancing once a column has taken its share.
+  // Sorting by size instead (the first cut) put "Mandatory Disclosure" — a
+  // pile of PDFs — in the reader's first column ahead of "About".
+  let ci = 0;
+  let filled = 0;
+  groups.forEach((g, i) => {
+    const remainingGroups = groups.length - i;
+    const remainingCols = n - ci;
+    if (
+      ci < n - 1 &&
+      cols[ci].groups.length > 0 &&
+      (filled + cost(g) > (total / n) * 1.35 || remainingGroups <= remainingCols - 1)
+    ) {
+      ci++;
+      filled = 0;
+    }
+    cols[ci].groups.push(g);
+    filled += cost(g);
+  });
+  return cols.filter((c) => c.groups.length > 0);
+}
+
+/** Editorial one-liners for the panel spotlight — keyed by top-level label. */
+const blurbs: Record<string, { text: string; cta: string; href: string }> = {
+  "about us": {
+    text: "A minority institution affiliated to the University of Calicut, recognised under UGC 2(f), approved by AICTE and accredited NAAC B++.",
+    cta: "College overview",
+    href: "/overview/",
+  },
+  academic: {
+    text: "Thirteen departments, FYUGP and PG programmes, research output and the academic calendar.",
+    cta: "Browse departments",
+    href: "/departments/",
+  },
+  "students corner": {
+    text: "Clubs and cells, scholarships, placements, counselling and the portals students use day to day.",
+    cta: "Students corner",
+    href: "/student-life/",
+  },
+  iqac: {
+    text: "Internal Quality Assurance Cell — composition, minutes, reports and the institutional quality record.",
+    cta: "About IQAC",
+    href: "/iqac/",
+  },
+  facilities: {
+    text: "A 50-acre campus: laboratories, library, hostels, sports grounds, amphitheatre and the product development zone.",
+    cta: "Campus tour 360",
+    href: "/campus-tour-360/",
+  },
+  "news & events": {
+    text: "Seminars, skill programmes, outreach drives, circulars and everything happening across the campus calendar.",
+    cta: "All events",
+    href: "/event/",
+  },
+};
+
+type Prepared = {
+  item: NavItem;
+  kind: "link" | "dropdown" | "mega";
+  columns: Column[];
+  active: boolean;
+  blurb?: { text: string; cta: string; href: string };
+};
+
+const prepared: Prepared[] = menu.map((item) => {
+  const kids = item.children || [];
+  const active = containsCurrent(item);
+  if (!kids.length) return { item, kind: "link", columns: [], active };
+  const hasGrandKids = kids.some((k) => k.children && k.children.length);
+  if (!hasGrandKids && kids.length <= 7) {
+    return { item, kind: "dropdown", columns: [{ groups: [{ title: "", links: kids }] }], active };
+  }
+  return {
+    item,
+    kind: "mega",
+    columns: packColumns(toGroups(item)),
+    active,
+    blurb: blurbs[item.label.toLowerCase()],
+  };
+});
+---
+
+<div class="ajn" data-variant={variant}>
+  {/* ——— institutional top bar & admission alert ——— */}
+  <aside class="ajn-topbar" aria-label="Institutional announcements and regulatory standing">
+    <div class="ajn-topbar-inner">
+      <div class="ajn-topbar-left">
+        <span class="ajn-live-dot" aria-hidden="true"></span>
+        <span class="ajn-topbar-badge">Admissions 2026–27</span>
+        <span class="ajn-topbar-msg">
+          Calicut University CAP &amp; Management Quota open for <strong>11 UG Honours (FYUGP)</strong> &amp; <strong>3 PG Degrees</strong>
+        </span>
+        <a class="ajn-topbar-link" href={site.admission_url || "/admission/"}>
+          Apply Now <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+        </a>
+      </div>
+      <div class="ajn-topbar-right">
+        <span class="ajn-statutory-pill" title="All India Survey on Higher Education Code">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          AISHE: <strong>C-8103</strong>
+        </span>
+        <span class="ajn-statutory-pill" title="Affiliated to the University of Calicut">
+          Affiliated to <strong>Univ. of Calicut</strong>
+        </span>
+        <span class="ajn-statutory-pill" title="Accredited by NAAC with B++ Grade">
+          NAAC <strong>B++</strong>
+        </span>
+      </div>
+    </div>
+  </aside>
+
+  {/* ——— masthead: the college's own mark, on paper ——— */}
+  <div class="ajn-mast">
+    <div class="ajn-mast-inner">
+      <a class="ajn-brand" href="/" aria-label={`${site.college_name || "AJAS College"} — home`}>
+        {logoIsRaster ? (
+          <CmsImage
+            src={logo}
+            alt={site.college_name || "AJAS College"}
+            preset="logo"
+            fit="contain"
+            loading="eager"
+            fetchpriority="high"
+          />
+        ) : (
+          <img
+            src={logo}
+            alt={site.college_name || "AJAS College"}
+            width="431"
+            height="38"
+            loading="eager"
+            decoding="async"
+            fetchpriority="high"
+          />
+        )}
+      </a>
+
+      <div class="ajn-mast-right">
+        {site.admission_open && (
+          <a class="ajn-admit" href={site.admission_url || "/admission/"}>
+            <span class="ajn-admit-label">{site.admission_label || "Admissions open"}</span>
+            {site.admission_note && <span class="ajn-admit-note">{site.admission_note}</span>}
+          </a>
+        )}
+
+        <ul class="ajn-mast-contact">
+          <li>
+            <a href={phoneHref} aria-label={`Call ${phoneDisplay}`} title={phoneDisplay}>
+              <svg viewBox="0 0 24 24" aria-hidden="true"
+                ><path
+                  d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"
+                /></svg
+              >
+              <span class="ajn-mast-contact-text">{phoneDisplay}</span>
+            </a>
+          </li>
+          <li>
+            <a href={`mailto:${site.email}`} aria-label={`Email ${site.email}`} title={site.email}>
+              <svg viewBox="0 0 24 24" aria-hidden="true"
+                ><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" /><path
+                  d="m22 6-10 7L2 6"
+                /></svg
+              >
+              <span class="ajn-mast-contact-text">{site.email}</span>
+            </a>
+          </li>
+        </ul>
+
+        <a class="ajn-cta" href={site.admission_url || "/admission/"}>Apply</a>
+
+        <button class="ajn-icon-btn ajn-search ajn-search-mob" type="button" aria-label="Search the site" data-ajn-search>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
+        </button>
+        <button
+          class="ajn-burger"
+          type="button"
+          aria-label="Open menu"
+          aria-expanded="false"
+          aria-controls="ajn-drawer"
+        >
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  {site.admission_open && (
+    <a class="ajn-admit-strip" href={site.admission_url || "/admission/"}>
+      <span>{site.admission_label || "Admissions open"}</span>
+      {site.admission_note && <em>{site.admission_note}</em>}
+    </a>
+  )}
+
+  {/* ——— brand + navigation bar ——— */}
+  <div class="ajn-bar" id="ajn-bar">
+    <div class="ajn-bar-inner">
+      {/* Only shown once the masthead has scrolled away, so the mark is
+          never lost while the rail is stuck to the top. */}
+      <a class="ajn-railmark" href="/" aria-label={`${site.college_name || "AJAS College"} — home`} tabindex="-1">
+        {/* Same lockup as the masthead — emblem, name and affiliation line —
+            in its white-type variant. Below ~1380px it would push the nav row
+            off centre, so the emblem alone carries the mark from there down. */}
+        <img
+          class="ajn-railmark-full"
+          src={logoLight}
+          alt=""
+          width="431"
+          height="38"
+          loading="lazy"
+          decoding="async"
+        />
+        <CmsImage
+          class="ajn-railmark-mark"
+          src="/assets/uploads/2024/01/ajas-emblem-crimson.png"
+          alt=""
+          preset="logo"
+          fit="contain"
+          loading="lazy"
+        />
+      </a>
+
+
+      <nav class="ajn-nav" aria-label="Main navigation">
+        <ul class="ajn-list">
+          {
+            prepared.map((p) => {
+              const href = p.item.href || "#";
+              if (p.kind === "link") {
+                return (
+                  <li class="ajn-item">
+                    <a
+                      class:list={[
+                        "ajn-top",
+                        (current === href || (href === "/" && current === "/")) && "is-current",
+                      ]}
+                      href={href}
+                      aria-current={current === href ? "page" : undefined}
+                    >
+                      {p.item.label}
+                    </a>
+                  </li>
+                );
+              }
+              return (
+                <li class:list={["ajn-item", "has-panel", p.active && "is-current"]}>
+                  <button class="ajn-top" type="button" aria-expanded="false">
+                    {p.item.label}
+                    <svg class="ajn-caret" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M6 9l6 6 6-6" />
+                    </svg>
+                  </button>
+
+                  <div class:list={["ajn-panel", `is-${p.kind}`]} hidden>
+                    <div class="ajn-panel-inner">
+                      <div class="ajn-cols" data-count={p.columns.length}>
+                        {p.columns.map((col) => (
+                          <div class="ajn-col">
+                            {col.groups.map((group) => (
+                              <div class="ajn-group">
+                                {group.title && (
+                                  <p class="ajn-col-head">
+                                    {isReal(group.href) ? (
+                                      <a href={group.href}>{group.title}</a>
+                                    ) : (
+                                      group.title
+                                    )}
+                                  </p>
+                                )}
+                                <NavPanelLinks items={group.links} current={current} />
+                              </div>
+                            ))}
+                          </div>
+                        ))}
+                      </div>
+
+                      {p.blurb && (
+                        <aside class="ajn-spot">
+                          <span class="ajn-spot-kicker">{p.item.label}</span>
+                          <p>{p.blurb.text}</p>
+                          <a class="ajn-spot-cta" href={p.blurb.href}>
+                            {p.blurb.cta}
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                          </a>
+                        </aside>
+                      )}
+                    </div>
+                  </div>
+                </li>
+              );
+            })
+          }
+        </ul>
+      </nav>
+
+      <div class="ajn-actions">
+        <button class="ajn-icon-btn ajn-search" type="button" aria-label="Search the site" data-ajn-search>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
+        </button>
+        <a class="ajn-cta ajn-cta-rail" href={site.admission_url || "/admission/"} tabindex="-1">Apply</a>
+      </div>
+    </div>
+    <div class="ajn-progress" aria-hidden="true">
+      <div class="ajn-progress-bar"></div>
+    </div>
+  </div>
+
+  {/* backdrop for both mega panels and the drawer */}
+  <div class="ajn-scrim" hidden></div>
+
+  {/* ——— mobile drawer ——— */}
+  <div class="ajn-drawer" id="ajn-drawer" hidden>
+    <div class="ajn-drawer-head">
+      <a class="ajn-drawer-brand" href="/">
+        <CmsImage
+          src="/assets/uploads/2024/01/cropped-Frame-300x300.png"
+          alt=""
+          preset="logo"
+          fit="contain"
+          loading="lazy"
+        />
+        <span>
+          <strong>{nameLead}</strong>
+          {nameTail && <em>{nameTail}</em>}
+        </span>
+      </a>
+      <button class="ajn-drawer-close" type="button" aria-label="Close menu">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
+      </button>
+    </div>
+    <div class="ajn-drawer-body">
+      {/* search lives here too, so the header can drop its icon on small
+          phones and give the wordmark the room it needs */}
+      <button class="ajn-drawer-search" type="button" data-ajn-search>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
+        Search the site
+      </button>
+      <a class="ajn-drawer-cta" href={site.admission_url || "/admission/"}>
+        Apply for admission
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+      </a>
+      <NavAccordion items={menu} current={current} />
+      {utility.length > 0 && (
+        <div class="ajn-drawer-utility">
+          {utility.map((u) => (
+            <a href={u.href}>{u.label}</a>
+          ))}
+        </div>
+      )}
+      <div class="ajn-drawer-contact">
+        <a href={phoneHref}>{phoneDisplay}</a>
+        <a href={`mailto:${site.email}`}>{site.email}</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style is:global>
+  /* ============================================================
+     AJN — site navigation. Self-contained namespace: nothing here
+     depends on (or is reachable by) the legacy Edukin nav CSS/JS.
+     ============================================================ */
+  /* Tokens live on :root, not on .ajn — the page's own sticky sub-navigation
+     needs --ajn-bar-h too, and it is not a descendant of the nav. */
+  :root {
+    --ajn-deep: #0a1c31;
+    --ajn-navy: #0f2947;
+    --ajn-line: rgba(255, 255, 255, 0.13);
+    --ajn-accent: #ff5f60;
+    --ajn-gold: #c9a961;
+    --ajn-ink: #17304f;
+    --ajn-slate: #55647c;
+    /* The masthead ground. Near-white with a trace of warmth so the paper
+       reads as stock rather than as a UI surface. */
+    --ajn-paper: #fbfaf7;
+    --ajn-paper-line: #e7e2d9;
+    /* Sampled from the emblem in the college's own wordmark, which the old
+       header knocked out to a white silhouette. */
+    --ajn-crimson: #b91047;
+    --ajn-bar-h: 52px;
+  }
+  /* display:contents removes the wrapper's box. Without it the sticky bar is
+     contained by .ajn — about 100px tall — so it unstuck and scrolled away
+     immediately. With no box, containment falls through to <body> and the bar
+     stays pinned for the whole page. */
+  .ajn {
+    display: contents;
+    font-family: var(--font-sans);
+  }
+  .ajn-bar,
+  .ajn-drawer {
+    font-family: var(--font-sans);
+  }
+  .ajn svg {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    flex: none;
+    display: block;
+  }
+  .ajn a {
+    text-decoration: none;
+  }
+  /* the legacy theme sets text-transform/letter-spacing/min-width on bare
+     <button>; none of that belongs on nav controls */
+  .ajn button,
+  .ajn button:hover,
+  .ajn button:focus,
+  .ajn button:active {
+    text-transform: none;
+    letter-spacing: normal;
+    min-width: 0;
+    border-radius: 0;
+    box-shadow: none;
+    line-height: normal;
+    background-image: none;
+  }
+  /* the theme paints <button> amber on hover/active via several selectors —
+     none of them should reach a nav control */
+  .ajn .ajn-top,
+  .ajn .ajn-acc-toggle,
+  .ajn .ajn-top:hover,
+  .ajn .ajn-acc-toggle:hover,
+  .ajn .ajn-top:focus,
+  .ajn .ajn-acc-toggle:focus,
+  .ajn .ajn-acc-toggle[aria-expanded="true"] {
+    background-color: transparent;
+  }
+  /* …and the same selectors force color:#fff, which turned an expanded
+     accordion label into white-on-white */
+  .ajn .ajn-acc[data-depth="0"] > li > .ajn-acc-toggle,
+  .ajn .ajn-acc[data-depth="0"] > li > .ajn-acc-toggle:hover,
+  .ajn .ajn-acc[data-depth="0"] > li > .ajn-acc-toggle:focus,
+  .ajn .ajn-acc[data-depth="0"] > li > .ajn-acc-toggle[aria-expanded="true"] {
+    color: var(--ajn-ink);
+  }
+  .ajn .ajn-acc[data-depth="1"] > li > .ajn-acc-toggle,
+  .ajn .ajn-acc[data-depth="1"] > li > .ajn-acc-toggle:hover,
+  .ajn .ajn-acc[data-depth="1"] > li > .ajn-acc-toggle:focus,
+  .ajn .ajn-acc[data-depth="1"] > li > .ajn-acc-toggle[aria-expanded="true"] {
+    color: var(--ajn-slate);
+  }
+  .ajn .ajn-acc[data-depth="2"] > li > .ajn-acc-toggle,
+  .ajn .ajn-acc[data-depth="3"] > li > .ajn-acc-toggle {
+    color: #6b7a90;
+  }
+  /* ---------- institutional top announcement ribbon ---------- */
+  .ajn-topbar {
+    background: #081728;
+    color: rgba(255, 255, 255, 0.88);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 12px;
+    line-height: 1.4;
+    position: relative;
+    z-index: 960;
+  }
+  .ajn-topbar-inner {
+    max-width: 1560px;
+    margin: 0 auto;
+    padding: 7px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .ajn-topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    flex-wrap: wrap;
+  }
+  .ajn-live-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #ff3b30;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.7);
+    animation: ajn-pulse 1.8s infinite;
+    flex-shrink: 0;
+  }
+  @keyframes ajn-pulse {
+    0% {
+      transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.7);
+    }
+    70% {
+      transform: scale(1);
+      box-shadow: 0 0 0 7px rgba(255, 59, 48, 0);
+    }
+    100% {
+      transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba(255, 59, 48, 0);
+    }
+  }
+  .ajn-topbar-badge {
+    background: #b91047;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 0;
+    white-space: nowrap;
+  }
+  .ajn-topbar-msg {
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 12.5px;
+  }
+  .ajn-topbar-msg strong {
+    color: #ffc24a;
+    font-weight: 600;
+  }
+  .ajn-topbar-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: #ffc24a;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 1px 6px;
+    border-radius: 0;
+    transition: background 0.15s ease, color 0.15s ease;
+    white-space: nowrap;
+  }
+  .ajn-topbar-link:hover {
+    background: rgba(255, 194, 74, 0.15);
+    color: #fff;
+  }
+  .ajn-topbar-link svg {
+    width: 12px;
+    height: 12px;
+  }
+  .ajn-topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  .ajn-statutory-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 0;
+    white-space: nowrap;
+  }
+  .ajn-statutory-pill svg {
+    width: 12px;
+    height: 12px;
+    stroke: #c9a961;
+  }
+  .ajn-statutory-pill strong {
+    color: #fff;
+    font-weight: 600;
+  }
+  @media (max-width: 991px) {
+    .ajn-topbar-right {
+      display: none;
+    }
+    .ajn-topbar-inner {
+      padding: 6px 16px;
+      justify-content: center;
+      text-align: center;
+    }
+    .ajn-topbar-left {
+      justify-content: center;
+    }
+  }
+
+  /* ---------- masthead ----------
+     The institution's mark, printed on paper. This is the one place the
+     header is allowed to be loud; the navigation rail beneath it stays
+     quiet. Replaces the old utility rail, whose links (ERP, OPAC, Payments,
+     Site index) all duplicated entries that now live in the nav itself. */
+  .ajn-mast {
+    background: var(--ajn-paper);
+    border-bottom: 1px solid var(--ajn-paper-line);
+  }
+  .ajn-mast-inner {
+    max-width: 1560px;
+    margin: 0 auto;
+    padding: 0 32px;
+    min-height: 84px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+  }
+  .ajn-brand {
+    flex: 0 1 auto;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    padding: 14px 0;
+  }
+  /* No invert filter: on paper the wordmark keeps its black setting and the
+     emblem keeps its crimson, which is the whole point of the light ground. */
+  .ajn-brand img {
+    display: block;
+    height: auto;
+    width: auto;
+    max-height: 46px;
+    max-width: min(100%, 470px);
+  }
+  .ajn-brand-compact {
+    display: none;
+    align-items: center;
+    gap: 9px;
+    min-width: 0;
+  }
+  .ajn-brand-compact img {
+    width: 30px;
+    height: 30px;
+    max-height: none;
+    flex: none;
+  }
+  .ajn-brand-compact-text {
+    display: grid;
+    min-width: 0;
+  }
+  .ajn-brand-compact-text strong {
+    font-family: var(--font-serif);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.1;
+    color: var(--ajn-ink);
+  }
+  .ajn-brand-compact-text em {
+    font-style: normal;
+    font-size: 10.2px;
+    line-height: 1.25;
+    color: var(--ajn-slate);
+    white-space: nowrap;
+  }
+  .ajn-mast-right {
+    flex: none;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+  }
+
+  /* the admissions line, folded up out of its own full-width bar */
+  .ajn-admit {
+    display: grid;
+    gap: 1px;
+    padding-right: 22px;
+    border-right: 1px solid var(--ajn-paper-line);
+    text-align: right;
+  }
+  .ajn-admit-label {
+    font-family: var(--font-serif);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--ajn-crimson);
+    letter-spacing: -0.005em;
+  }
+  .ajn-admit-note {
+    font-size: 12.2px;
+    line-height: 1.3;
+    color: var(--ajn-slate);
+  }
+  .ajn-admit:hover .ajn-admit-label {
+    color: #8d0c36;
+  }
+
+  .ajn-mast-contact {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .ajn-mast-contact a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 36px;
+    padding: 0 12px;
+    border-radius: 0;
+    color: var(--ajn-slate);
+    font-size: 13px;
+    transition: background 0.16s ease, color 0.16s ease;
+  }
+  .ajn-mast-contact svg {
+    width: 15px;
+    height: 15px;
+    color: var(--ajn-crimson);
+  }
+  .ajn-mast-contact a:hover {
+    background: rgba(185, 16, 71, 0.07);
+    color: var(--ajn-ink);
+  }
+
+  /* One-line admissions notice for phones, where the masthead has no room
+     for it. Crimson rule, not a fourth navy bar. */
+  .ajn-admit-strip {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: #fff5f7;
+    border-bottom: 1px solid rgba(185, 16, 71, 0.18);
+    font-size: 12.8px;
+    line-height: 1.3;
+    text-align: center;
+  }
+  .ajn-admit-strip span {
+    font-family: var(--font-serif);
+    font-weight: 600;
+    color: var(--ajn-crimson);
+  }
+  .ajn-admit-strip em {
+    font-style: normal;
+    color: var(--ajn-slate);
+  }
+
+  /* ---------- navigation rail ---------- */
+  .ajn-bar {
+    position: sticky;
+    top: 0;
+    z-index: 950;
+    background: var(--ajn-deep);
+    border-bottom: 1px solid transparent;
+    transition: box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                border-bottom-color 0.25s ease;
+  }
+  .ajn-bar.is-stuck {
+    box-shadow: 0 12px 34px rgba(6, 18, 33, 0.34);
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+  }
+  .ajn-bar-inner {
+    max-width: 1560px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    min-height: var(--ajn-bar-h);
+  }
+
+  /* the mark that takes over when the masthead has scrolled away */
+  .ajn-railmark {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    /* min-width on a flex item defaults to min-content and would outrank
+       max-width:0, leaving the mark visible before the rail is stuck */
+    min-width: 0;
+    max-width: 0;
+    opacity: 0;
+    overflow: hidden;
+    pointer-events: none;
+    transition: max-width 0.28s ease, opacity 0.2s ease, margin 0.28s ease;
+  }
+  .ajn-railmark-full {
+    height: 28px;
+    width: auto;
+    display: block;
+  }
+  .ajn-railmark .ajn-railmark-mark {
+    width: 26px;
+    height: 26px;
+    display: none;
+  }
+  .ajn-bar.is-stuck .ajn-railmark {
+    max-width: 340px;
+    opacity: 1;
+    pointer-events: auto;
+    margin-right: 4px;
+  }
+
+  .ajn-nav {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    justify-content: center;
+  }
+  .ajn-list {
+    display: flex;
+    align-items: stretch;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .ajn-item {
+    display: flex;
+    align-items: stretch;
+  }
+  /* compact dropdowns anchor to their own item; mega panels span the bar */
+  .ajn-item:has(> .ajn-panel.is-dropdown) {
+    position: relative;
+  }
+  .ajn-top {
+    appearance: none;
+    background: none;
+    border: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0 12px;
+    min-height: var(--ajn-bar-h);
+    font: inherit;
+    font-size: 13.5px;
+    font-weight: 500;
+    letter-spacing: 0.005em;
+    white-space: nowrap;
+    color: rgba(255, 255, 255, 0.86);
+    cursor: pointer;
+    position: relative;
+    transition: color 0.18s ease;
+  }
+  .ajn-top::after {
+    content: "";
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 0;
+    height: 2px;
+    background: var(--ajn-gold);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.26s cubic-bezier(0.2, 0.7, 0.3, 1);
+  }
+  .ajn .ajn-top:hover,
+  .ajn .ajn-top:focus,
+  .ajn .ajn-item.is-open > .ajn-top {
+    background: none;
+    box-shadow: none;
+  }
+  .ajn-top:hover,
+  .ajn-item.is-open > .ajn-top,
+  .ajn-top.is-current,
+  .ajn-item.is-current > .ajn-top {
+    color: #fff;
+  }
+  .ajn-top:hover::after,
+  .ajn-item.is-open > .ajn-top::after,
+  .ajn-top.is-current::after,
+  .ajn-item.is-current > .ajn-top::after {
+    transform: scaleX(1);
+  }
+  .ajn-top:focus-visible {
+    outline: 2px solid var(--ajn-gold);
+    outline-offset: -4px;
+    border-radius: 0;
+  }
+  .ajn-caret {
+    width: 12px;
+    height: 12px;
+    opacity: 0.6;
+    transition: transform 0.22s ease;
+  }
+  .ajn-item.is-open .ajn-caret {
+    transform: rotate(180deg);
+  }
+
+  /* ---------- panels ---------- */
+  .ajn-panel {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.94);
+    -webkit-backdrop-filter: blur(22px) saturate(180%);
+    backdrop-filter: blur(22px) saturate(180%);
+    border-top: 1px solid rgba(23, 48, 79, 0.1);
+    box-shadow: 0 26px 54px rgba(9, 24, 44, 0.24);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.22s ease;
+  }
+  .ajn-panel[hidden] {
+    display: none;
+  }
+  .ajn-item.is-open > .ajn-panel {
+    opacity: 1;
+    visibility: visible;
+  }
+  .ajn-panel-inner {
+    max-width: 1560px;
+    margin: 0 auto;
+    padding: 30px 32px 32px;
+    display: grid;
+    gap: 34px;
+    transform: translateY(-6px);
+    transition: transform 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .ajn-item.is-open > .ajn-panel .ajn-panel-inner {
+    transform: translateY(0);
+  }
+  .ajn-panel.is-mega:has(.ajn-spot) .ajn-panel-inner {
+    grid-template-columns: minmax(0, 1fr) 272px;
+  }
+  .ajn-cols {
+    display: grid;
+    gap: 26px 34px;
+    /* a capped track keeps a 2-column panel from stretching two link lists
+       across 1200px of empty space */
+    grid-template-columns: repeat(auto-fit, minmax(0, 258px));
+    justify-content: start;
+    align-content: start;
+  }
+  .ajn-cols[data-count="4"] {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .ajn-col {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    min-width: 0;
+  }
+  .ajn-group {
+    min-width: 0;
+  }
+  .ajn-col-head {
+    margin: 0 0 11px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #e7ecf3;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ajn-ink);
+  }
+  .ajn-col-head a {
+    color: inherit;
+  }
+  .ajn-col-head a:hover {
+    color: var(--ajn-accent);
+  }
+  .ajn-col-links,
+  .ajn-sublinks {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .ajn-link {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    padding: 5px 8px 5px 10px;
+    margin-left: -10px;
+    border-radius: 0;
+    font-size: 13.4px;
+    line-height: 1.42;
+    color: var(--ajn-slate);
+    position: relative;
+    transition: color 0.14s ease, background 0.14s ease;
+  }
+  .ajn-link::before {
+    content: "";
+    position: absolute;
+    left: 1px;
+    top: 50%;
+    width: 0;
+    height: 1px;
+    background: var(--ajn-accent);
+    transform: translateY(-50%);
+    transition: width 0.18s cubic-bezier(0.2, 0.7, 0.3, 1);
+  }
+  .ajn-link:hover {
+    color: var(--ajn-ink);
+  }
+  .ajn-link:hover::before {
+    width: 6px;
+  }
+  /* the page you are on: stated in the type, not boxed in a grey chip */
+  .ajn-link.is-current {
+    color: var(--ajn-ink);
+    font-weight: 600;
+    background: none;
+  }
+  .ajn-link.is-current::before {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    left: 0;
+    background: var(--ajn-accent);
+  }
+  .ajn-link.is-current > span {
+    box-shadow: inset 0 -1px 0 rgba(255, 95, 96, 0.5);
+  }
+  .ajn-ext {
+    font-style: normal;
+    font-size: 10px;
+    opacity: 0.5;
+  }
+  .ajn-sublinks {
+    margin: 1px 0 5px 12px;
+    padding-left: 10px;
+    border-left: 1px solid #e7ecf3;
+  }
+  .ajn-sublinks .ajn-link {
+    font-size: 12.8px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    color: #6b7a90;
+  }
+  /* a grouping label with no page of its own */
+  .ajn-link-label {
+    color: var(--ajn-ink);
+    font-weight: 600;
+    cursor: default;
+  }
+  .ajn-link-label:hover {
+    background: none;
+  }
+  .ajn-link-label::before {
+    content: none;
+  }
+
+  /* spotlight */
+  .ajn-spot {
+    background: linear-gradient(155deg, #123152 0%, #0a1c31 100%);
+    color: #fff;
+    border-radius: 0;
+    padding: 22px 22px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+  .ajn-spot::after {
+    content: "";
+    position: absolute;
+    right: -38px;
+    top: -38px;
+    width: 120px;
+    height: 120px;
+    border: 1px solid rgba(201, 169, 97, 0.35);
+    border-radius: 50%;
+  }
+  .ajn-spot-kicker {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ajn-gold);
+  }
+  .ajn-spot p {
+    margin: 0;
+    font-size: 13.2px;
+    line-height: 1.62;
+    color: rgba(255, 255, 255, 0.82);
+  }
+  .ajn-spot-cta {
+    margin-top: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+  }
+  .ajn-spot-cta svg {
+    width: 15px;
+    height: 15px;
+    transition: transform 0.2s ease;
+  }
+  .ajn-spot-cta:hover svg {
+    transform: translateX(4px);
+  }
+
+  .ajn-panel.is-dropdown {
+    /* a small menu over a photographic hero reads milky through the mega
+       panel's frosted glass — keep this one opaque */
+    background: #fff;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    left: 0;
+    right: auto;
+    transform: none;
+    min-width: 224px;
+    width: max-content;
+    max-width: 320px;
+    border: 1px solid rgba(23, 48, 79, 0.1);
+    border-top: 0;
+    border-radius: 0;
+    box-shadow: 0 16px 34px rgba(9, 24, 44, 0.17);
+  }
+  .ajn-panel.is-dropdown .ajn-panel-inner {
+    padding: 7px;
+    display: block;
+  }
+  /* a compact menu reads as rows, not as an indented link list */
+  .ajn-panel.is-dropdown .ajn-link {
+    padding: 8px 11px;
+    margin-left: 0;
+    border-radius: 0;
+    font-size: 13.1px;
+    line-height: 1.35;
+  }
+  .ajn-panel.is-dropdown .ajn-link::before {
+    display: none;
+  }
+  .ajn-panel.is-dropdown .ajn-link:hover {
+    background: rgba(23, 48, 79, 0.055);
+    color: var(--ajn-ink);
+  }
+  .ajn-panel.is-dropdown .ajn-link.is-current {
+    background: rgba(255, 95, 96, 0.08);
+  }
+  .ajn-panel.is-dropdown .ajn-link.is-current > span {
+    box-shadow: none;
+  }
+  /* Only the final pair would run past the rail's right edge. With the row
+     centred, flipping earlier items threw their panel far left of the
+     trigger that opened it. */
+  .ajn-list > .ajn-item:nth-last-child(-n + 2) .ajn-panel.is-dropdown {
+    left: auto;
+    right: 0;
+    transform: none;
+  }
+
+  /* ---------- actions ---------- */
+  .ajn-actions {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .ajn-icon-btn {
+    appearance: none;
+    flex: 0 0 38px;
+    padding: 0;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    color: rgba(255, 255, 255, 0.85);
+    /* the masthead copy sits on paper, so it inverts */
+    width: 38px;
+    height: 38px;
+    border-radius: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.18s ease, color 0.18s ease;
+  }
+  .ajn-icon-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+  .ajn-icon-btn:hover {
+    background: rgba(255, 255, 255, 0.16);
+    color: #fff;
+  }
+  .ajn-mast .ajn-icon-btn {
+    background: none;
+    border-color: var(--ajn-paper-line);
+    color: var(--ajn-ink);
+  }
+  .ajn-mast .ajn-icon-btn:hover {
+    background: rgba(185, 16, 71, 0.07);
+    border-color: rgba(185, 16, 71, 0.25);
+    color: var(--ajn-crimson);
+  }
+  /* search sits in the rail on desktop and in the masthead on phones */
+  .ajn-search-mob {
+    display: none;
+  }
+
+  /* Apply repeats in the rail, revealed only once the masthead is gone */
+  .ajn-cta-rail {
+    max-width: 0;
+    padding: 0;
+    opacity: 0;
+    overflow: hidden;
+    pointer-events: none;
+    box-shadow: none;
+    transition: max-width 0.28s ease, opacity 0.2s ease, padding 0.28s ease;
+  }
+  .ajn-bar.is-stuck .ajn-cta-rail {
+    max-width: 120px;
+    padding: 0 18px;
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .ajn-cta {
+    display: inline-flex;
+    align-items: center;
+    height: 38px;
+    padding: 0 20px;
+    border-radius: 0;
+    background: var(--ajn-accent);
+    color: #fff;
+    font-size: 13.5px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    box-shadow: 0 6px 18px rgba(255, 95, 96, 0.3);
+    transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+  }
+  .ajn-cta:hover {
+    background: #ff4a4b;
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 10px 24px rgba(255, 95, 96, 0.38);
+  }
+
+  .ajn-burger {
+    display: none;
+    appearance: none;
+    background: none;
+    border: 0;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    cursor: pointer;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+  }
+  .ajn-burger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--ajn-ink);
+    transition: transform 0.24s ease, opacity 0.18s ease;
+  }
+  .ajn-burger[aria-expanded="true"] span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  .ajn-burger[aria-expanded="true"] span:nth-child(2) {
+    opacity: 0;
+  }
+  .ajn-burger[aria-expanded="true"] span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  /* ---------- scrim ---------- */
+  .ajn-scrim {
+    position: fixed;
+    inset: 0;
+    background: rgba(8, 20, 36, 0.45);
+    backdrop-filter: blur(2px);
+    opacity: 0;
+    transition: opacity 0.22s ease;
+    z-index: 940;
+  }
+  .ajn-scrim[hidden] {
+    display: none;
+  }
+  .ajn-scrim.is-on {
+    opacity: 1;
+  }
+
+  /* ---------- mobile drawer ---------- */
+  .ajn-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(430px, 100%);
+    background: rgba(255, 255, 255, 0.96);
+    -webkit-backdrop-filter: blur(22px) saturate(180%);
+    backdrop-filter: blur(22px) saturate(180%);
+    z-index: 960;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.22, 0.75, 0.3, 1);
+    box-shadow: -18px 0 46px rgba(8, 20, 36, 0.22);
+  }
+  .ajn-drawer[hidden] {
+    display: none;
+  }
+  .ajn-drawer.is-open {
+    transform: translateX(0);
+  }
+  .ajn-drawer-head {
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: calc(env(safe-area-inset-top, 0px) + 12px) 16px 12px;
+    background: var(--ajn-paper);
+    border-bottom: 1px solid var(--ajn-paper-line);
+    color: var(--ajn-ink);
+  }
+  .ajn-drawer-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+  }
+  .ajn-drawer-brand img {
+    width: 30px;
+    height: 30px;
+    flex: none;
+  }
+  .ajn-drawer-brand span {
+    display: grid;
+    min-width: 0;
+  }
+  .ajn-drawer-brand strong {
+    font-family: var(--font-serif);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.1;
+    color: var(--ajn-ink);
+  }
+  .ajn-drawer-brand em {
+    font-style: normal;
+    font-size: 10.2px;
+    line-height: 1.25;
+    color: var(--ajn-slate);
+  }
+  .ajn .ajn-drawer-close {
+    appearance: none;
+    background-color: rgba(23, 48, 79, 0.07);
+    border: 0;
+    flex: 0 0 40px;
+    padding: 0;
+    color: var(--ajn-ink);
+    width: 40px;
+    height: 40px;
+    border-radius: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .ajn-drawer-close svg {
+    width: 18px;
+    height: 18px;
+    stroke: #fff;
+    stroke-width: 2;
+  }
+  .ajn-drawer-body {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    padding: 16px 16px calc(env(safe-area-inset-bottom, 0px) + 28px);
+  }
+  .ajn-drawer-search {
+    width: 100%;
+    appearance: none;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    min-height: 46px;
+    padding: 0 16px;
+    margin-bottom: 10px;
+    border: 1px solid #dfe6ef;
+    border-radius: 0;
+    background: #f7f9fc;
+    font: inherit;
+    font-size: 14.5px;
+    font-weight: 500;
+    color: var(--ajn-slate);
+    cursor: pointer;
+    text-align: left;
+  }
+  .ajn-drawer-search svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    stroke-width: 1.8;
+  }
+  .ajn-drawer-cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    min-height: 50px;
+    padding: 0 18px;
+    margin-bottom: 14px;
+    border-radius: 0;
+    background: var(--ajn-accent);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .ajn-drawer-cta svg {
+    width: 17px;
+    height: 17px;
+  }
+  .ajn-drawer-utility {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid #e9eef4;
+  }
+  .ajn-drawer-utility a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 38px;
+    padding: 0 14px;
+    border: 1px solid #dfe6ef;
+    border-radius: 0;
+    font-size: 13px;
+    color: var(--ajn-slate);
+  }
+  .ajn-drawer-contact {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid #e9eef4;
+    font-size: 14px;
+  }
+  .ajn-drawer-contact a {
+    color: var(--ajn-ink);
+    font-weight: 600;
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  /* accordion */
+  .ajn-acc {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .ajn-acc[data-depth="0"] > li + li {
+    border-top: 1px solid #edf1f6;
+  }
+  .ajn-acc-link,
+  .ajn-acc-toggle {
+    width: 100%;
+    appearance: none;
+    background: none;
+    border: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    text-align: left;
+    min-height: 46px;
+    padding: 5px 4px;
+    font: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ajn-ink);
+    cursor: pointer;
+  }
+  .ajn-acc[data-depth="1"] .ajn-acc-link,
+  .ajn-acc[data-depth="1"] .ajn-acc-toggle {
+    font-size: 14.5px;
+    font-weight: 500;
+    min-height: 46px;
+    color: var(--ajn-slate);
+  }
+  .ajn-acc[data-depth="2"] .ajn-acc-link,
+  .ajn-acc[data-depth="2"] .ajn-acc-toggle,
+  .ajn-acc[data-depth="3"] .ajn-acc-link,
+  .ajn-acc[data-depth="3"] .ajn-acc-toggle {
+    font-size: 14px;
+    font-weight: 400;
+    min-height: 44px;
+    color: #6b7a90;
+  }
+  .ajn-acc-link.is-current {
+    color: var(--ajn-accent);
+  }
+  .ajn-acc-ext {
+    font-style: normal;
+    font-size: 11px;
+    opacity: 0.55;
+  }
+  .ajn-acc-chev {
+    width: 17px;
+    height: 17px;
+    flex: none;
+    color: #9aa8bb;
+    transition: transform 0.22s ease;
+  }
+  .ajn-acc-toggle[aria-expanded="true"] .ajn-acc-chev {
+    transform: rotate(180deg);
+    color: var(--ajn-accent);
+  }
+  .ajn-acc-panel {
+    padding-left: 14px;
+    margin-left: 2px;
+    border-left: 2px solid #eef2f7;
+  }
+  .ajn-acc-panel[hidden] {
+    display: none;
+  }
+  .ajn-acc-overview {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ajn-accent);
+  }
+
+  /* ---------- breakpoints ---------- */
+  /* Eleven sections still need tightening before the drawer takes over. */
+  @media (max-width: 1499px) {
+    .ajn-bar-inner,
+    .ajn-panel-inner {
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+    .ajn-top {
+      font-size: 13px;
+      padding: 0 9px;
+    }
+    .ajn-top::after {
+      left: 9px;
+      right: 9px;
+    }
+  }
+  @media (max-width: 1379px) {
+    /* the name would start pushing the nav row off centre — the emblem
+       carries the mark on its own from here down */
+    .ajn-railmark-full {
+      display: none;
+    }
+    .ajn-railmark .ajn-railmark-mark {
+      display: block;
+    }
+    .ajn-bar.is-stuck .ajn-railmark {
+      max-width: 40px;
+    }
+  }
+  @media (max-width: 1279px) {
+    .ajn-top {
+      font-size: 12.3px;
+      padding: 0 6px;
+    }
+    .ajn-top::after {
+      left: 6px;
+      right: 6px;
+    }
+    .ajn-bar-inner {
+      gap: 12px;
+    }
+  }
+  /* hand over to the drawer while the bar can still hold its row */
+  /* the phone/email pills shed their labels before they crowd the CTA */
+  @media (max-width: 1439px) {
+    .ajn-mast-contact-text {
+      display: none;
+    }
+    .ajn-mast-contact a {
+      width: 36px;
+      padding: 0;
+      justify-content: center;
+    }
+    .ajn-mast-right {
+      gap: 16px;
+    }
+  }
+  @media (max-width: 1259px) {
+    .ajn-mast-inner {
+      min-height: 76px;
+      padding: 0 24px;
+    }
+    .ajn-brand img {
+      max-height: 40px;
+    }
+    .ajn-admit-label {
+      font-size: 15px;
+    }
+  }
+
+  /* ---- drawer takes over ---- */
+  @media (max-width: 1159px) {
+    :root {
+      --ajn-bar-h: 56px;
+    }
+    /* the whole navy rail goes with it — on a phone the drawer IS the nav */
+    .ajn-bar {
+      display: none;
+    }
+    .ajn-burger,
+    .ajn-search-mob {
+      display: inline-flex;
+    }
+    .ajn-admit,
+    .ajn-mast-contact {
+      display: none;
+    }
+    .ajn-admit-strip {
+      display: flex;
+    }
+    .ajn-mast {
+      position: sticky;
+      top: 0;
+      z-index: 950;
+    }
+    .ajn-mast-inner {
+      min-height: 64px;
+      gap: 12px;
+    }
+    .ajn-mast-right {
+      gap: 8px;
+    }
+    .ajn-brand {
+      margin-right: auto;
+      padding: 10px 0;
+    }
+    .ajn-brand img {
+      max-height: 42px;
+    }
+  }
+  @media (max-width: 767px) {
+    :root {
+      --ajn-bar-h: 70px;
+    }
+    .ajn-mast-inner {
+      padding: 0 16px;
+      min-height: 70px;
+      gap: 12px;
+    }
+    .ajn-brand {
+      flex: 1 1 auto;
+      min-width: 0;
+      max-width: calc(100% - 130px);
+      padding: 8px 0;
+      display: flex;
+      align-items: center;
+    }
+    .ajn-brand > img,
+    .ajn-brand > picture {
+      display: block !important;
+      height: auto;
+      width: auto;
+      max-height: 44px;
+      max-width: 100%;
+      object-fit: contain;
+      object-position: left center;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    .ajn-brand-compact {
+      display: none !important;
+    }
+    .ajn-mast-right {
+      gap: 8px;
+    }
+    .ajn-cta {
+      height: 38px;
+      padding: 0 16px;
+      font-size: 13.5px;
+      font-weight: 700;
+      border-radius: 0 !important;
+      letter-spacing: 0.01em;
+    }
+    .ajn-actions {
+      gap: 6px;
+    }
+    .ajn-icon-btn {
+      width: 40px;
+      height: 40px;
+      flex-basis: 40px;
+      border-radius: 0 !important;
+    }
+  }
+  @media (max-width: 559px) {
+    .ajn-search-mob {
+      display: none;
+    }
+  }
+  @media (max-width: 430px) {
+    :root {
+      --ajn-bar-h: 66px;
+    }
+    .ajn-mast-inner {
+      padding: 0 14px;
+      min-height: 66px;
+      gap: 10px;
+    }
+    .ajn-brand {
+      max-width: calc(100% - 120px);
+      padding: 6px 0;
+    }
+    .ajn-brand > img,
+    .ajn-brand > picture {
+      max-height: 40px;
+    }
+    .ajn-mast-right {
+      gap: 8px;
+    }
+    .ajn-cta {
+      height: 36px;
+      padding: 0 14px;
+      font-size: 13px;
+      font-weight: 700;
+      border-radius: 0 !important;
+      box-shadow: none;
+    }
+    .ajn-burger {
+      width: 38px;
+      height: 38px;
+      flex-basis: 38px;
+      border-radius: 0 !important;
+    }
+  }
+  @media (max-width: 360px) {
+    :root {
+      --ajn-bar-h: 62px;
+    }
+    .ajn-mast-inner {
+      padding: 0 10px;
+      min-height: 62px;
+      gap: 8px;
+    }
+    .ajn-brand {
+      max-width: calc(100% - 110px);
+    }
+    .ajn-brand > img,
+    .ajn-brand > picture {
+      max-height: 36px;
+    }
+    .ajn-cta {
+      height: 34px;
+      padding: 0 10px;
+      font-size: 12px;
+      font-weight: 700;
+      border-radius: 0 !important;
+    }
+    .ajn-burger {
+      width: 36px;
+      height: 36px;
+      flex-basis: 36px;
+      border-radius: 0 !important;
+    }
+  }
+  @media (max-width: 419px) {
+    /* one clean line beats a two-line wrap in a 34px strip */
+    .ajn-admit-strip em {
+      display: none;
+    }
+  }
+  body.ajn-locked {
+    overflow: hidden;
+  }
+  /* the floating scroll-top / search widgets must never sit above the drawer */
+  body.ajn-locked #scroll-top,
+  body.ajn-locked .ajas-search-trigger {
+    display: none !important;
+  }
+  #scroll-top {
+    z-index: 930 !important;
+  }
+  /* the nav now owns search; keep the Pagefind trigger in the DOM (the modal
+     machinery binds to it) but out of the way */
+  .ajas-search-trigger {
+    position: fixed !important;
+    left: -9999px !important;
+    bottom: 0 !important;
+    width: 1px !important;
+    height: 1px !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ajn *,
+    .ajn-drawer {
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var root = document.querySelector(".ajn");
+    if (!root) return;
+
+    var bar = root.querySelector(".ajn-bar");
+    var scrim = root.querySelector(".ajn-scrim");
+    var drawer = root.querySelector(".ajn-drawer");
+    var burger = root.querySelector(".ajn-burger");
+    var closeBtn = root.querySelector(".ajn-drawer-close");
+    var desktop = window.matchMedia("(min-width: 1160px)");
+
+    /* ---- sticky bar shadow ---- */
+    var onScroll = function () {
+      if (!bar) return;
+      bar.classList.toggle("is-stuck", window.pageYOffset > 24);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+
+    /* ---- scrim is shared by panels and the drawer ----
+       Derived from state, never counted. The counter this replaced was
+       incremented on every panel open but only decremented on an *unsilenced*
+       close, so moving the pointer across the top-level items left it above
+       zero and the page stayed blurred after the drawer closed. */
+    var drawerOpen = false;
+    function syncScrim() {
+      if (!scrim) return;
+      var want = drawerOpen || !!openItem;
+      if (want) {
+        scrim.hidden = false;
+        requestAnimationFrame(function () {
+          if (drawerOpen || openItem) scrim.classList.add("is-on");
+        });
+      } else {
+        scrim.classList.remove("is-on");
+        setTimeout(function () {
+          if (!drawerOpen && !openItem) scrim.hidden = true;
+        }, 240);
+      }
+    }
+
+    /* ---- desktop mega panels ---- */
+    var items = Array.prototype.slice.call(root.querySelectorAll(".ajn-item.has-panel"));
+    var openItem = null;
+    var openTimer = null;
+    var closeTimer = null;
+
+    function panelOf(li) {
+      return li.querySelector(":scope > .ajn-panel");
+    }
+
+    function openPanel(li) {
+      if (openItem === li) return;
+      if (openItem) closePanel(openItem, true);
+      var panel = panelOf(li);
+      if (!panel) return;
+      panel.hidden = false;
+      // let the browser register the un-hidden element before transitioning
+      requestAnimationFrame(function () {
+        li.classList.add("is-open");
+      });
+      var btn = li.querySelector(":scope > .ajn-top");
+      if (btn) btn.setAttribute("aria-expanded", "true");
+      openItem = li;
+      syncScrim();
+    }
+
+    function closePanel(li, silent) {
+      if (!li) return;
+      var panel = panelOf(li);
+      li.classList.remove("is-open");
+      var btn = li.querySelector(":scope > .ajn-top");
+      if (btn) btn.setAttribute("aria-expanded", "false");
+      setTimeout(function () {
+        if (panel && !li.classList.contains("is-open")) panel.hidden = true;
+      }, 220);
+      if (openItem === li) openItem = null;
+      if (!silent) syncScrim();
+    }
+
+    function closeAll() {
+      if (openItem) closePanel(openItem);
+    }
+
+    items.forEach(function (li) {
+      var btn = li.querySelector(":scope > .ajn-top");
+
+      li.addEventListener("pointerenter", function (e) {
+        if (!desktop.matches || e.pointerType === "touch") return;
+        clearTimeout(closeTimer);
+        clearTimeout(openTimer);
+        openTimer = setTimeout(function () {
+          openPanel(li);
+        }, 70);
+      });
+      li.addEventListener("pointerleave", function (e) {
+        if (!desktop.matches || e.pointerType === "touch") return;
+        clearTimeout(openTimer);
+        clearTimeout(closeTimer);
+        closeTimer = setTimeout(function () {
+          closePanel(li);
+        }, 180);
+      });
+      if (btn) {
+        btn.addEventListener("click", function (e) {
+          if (!desktop.matches) return;
+          e.preventDefault();
+          if (li.classList.contains("is-open")) closePanel(li);
+          else openPanel(li);
+        });
+      }
+      li.addEventListener("focusin", function () {
+        if (desktop.matches) openPanel(li);
+      });
+    });
+
+    root.addEventListener("focusout", function (e) {
+      if (!openItem || !desktop.matches) return;
+      if (!openItem.contains(e.relatedTarget)) closePanel(openItem);
+    });
+
+    /* ---- mobile drawer ---- */
+    function openDrawer() {
+      if (!drawer) return;
+      closeAll();
+      drawer.hidden = false;
+      requestAnimationFrame(function () {
+        drawer.classList.add("is-open");
+      });
+      if (burger) {
+        burger.setAttribute("aria-expanded", "true");
+        burger.setAttribute("aria-label", "Close menu");
+      }
+      document.body.classList.add("ajn-locked");
+      drawerOpen = true;
+      syncScrim();
+      if (closeBtn) closeBtn.focus();
+    }
+
+    function closeDrawer() {
+      if (!drawer || drawer.hidden) return;
+      drawer.classList.remove("is-open");
+      if (burger) {
+        burger.setAttribute("aria-expanded", "false");
+        burger.setAttribute("aria-label", "Open menu");
+      }
+      document.body.classList.remove("ajn-locked");
+      drawerOpen = false;
+      syncScrim();
+      setTimeout(function () {
+        if (!drawer.classList.contains("is-open")) drawer.hidden = true;
+      }, 320);
+    }
+
+    if (burger) {
+      burger.addEventListener("click", function () {
+        if (drawer && drawer.classList.contains("is-open")) closeDrawer();
+        else openDrawer();
+      });
+    }
+    if (closeBtn) closeBtn.addEventListener("click", closeDrawer);
+    if (scrim) {
+      scrim.addEventListener("click", function () {
+        closeDrawer();
+        closeAll();
+      });
+    }
+
+    /* accordion */
+    root.querySelectorAll(".ajn-acc-toggle").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var panel = btn.nextElementSibling;
+        if (!panel) return;
+        var open = btn.getAttribute("aria-expanded") === "true";
+        btn.setAttribute("aria-expanded", open ? "false" : "true");
+        panel.hidden = open;
+      });
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key !== "Escape") return;
+      if (drawer && drawer.classList.contains("is-open")) {
+        closeDrawer();
+        if (burger) burger.focus();
+      } else if (openItem) {
+        var btn = openItem.querySelector(":scope > .ajn-top");
+        closePanel(openItem);
+        if (btn) btn.focus();
+      }
+    });
+
+    desktop.addEventListener("change", function () {
+      closeDrawer();
+      closeAll();
+      drawerOpen = false;
+      openItem = null;
+      syncScrim();
+    });
+
+    // last-resort guard: anything that leaves the scrim on with nothing open
+    // (a bfcache restore, a stray class) must not blur the page
+    window.addEventListener("pageshow", function () {
+      drawerOpen = false;
+      openItem = null;
+      document.body.classList.remove("ajn-locked");
+      if (scrim) {
+        scrim.classList.remove("is-on");
+        scrim.hidden = true;
+      }
+    });
+
+    /* ---- search button hands off to the Pagefind modal ---- */
+    root.querySelectorAll("[data-ajn-search]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        closeDrawer();
+        var modal = document.querySelector("pagefind-modal");
+        if (modal && typeof modal.open === "function") {
+          modal.open();
+          return;
+        }
+        var trigger = document.querySelector("pagefind-modal-trigger");
+        if (trigger) {
+          var inner = trigger.shadowRoot && trigger.shadowRoot.querySelector("button");
+          (inner || trigger).click();
+        }
+      });
+    });
+  })();
+</script>

@@ -1,0 +1,255 @@
+---
+/**
+ * A human-readable index of the whole site.
+ *
+ * The mega menu is good at browsing and bad at "I know it exists, where is
+ * it" — which is how most staff and applicants arrive at a policy document.
+ * Built from the collections, so it can never fall out of date.
+ */
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { normalizePermalink } from "../lib/content";
+
+const [pages, programmes, faculty, news, events, notices] = await Promise.all([
+  getCollection("pages", ({ data }) => !data.draft),
+  getCollection("programmes", ({ data }) => !data.draft),
+  getCollection("faculty", ({ data }) => !data.draft),
+  getCollection("news", ({ data }) => !data.draft),
+  getCollection("events", ({ data }) => !data.draft),
+  getCollection("notices", ({ data }) => !data.draft),
+]);
+
+type Row = { title: string; href: string };
+const row = (e: { data: { title: string; permalink: string } }): Row => ({
+  title: e.data.title,
+  href: normalizePermalink(e.data.permalink),
+});
+const byTitle = (a: Row, b: Row) => a.title.localeCompare(b.title);
+
+const under = (prefix: string) =>
+  pages
+    .filter((p) => {
+      const l = normalizePermalink(p.data.permalink);
+      return l.startsWith(prefix) && l !== prefix;
+    })
+    .map(row)
+    .sort(byTitle);
+
+const sectionPrefixes = ["/departments/", "/labs/", "/clubs--cells/"];
+const general = pages
+  .filter((p) => {
+    const l = normalizePermalink(p.data.permalink);
+    return l !== "/" && !sectionPrefixes.some((s) => l.startsWith(s) && l !== s);
+  })
+  .map(row)
+  .sort(byTitle);
+
+const groups = [
+  { title: "Pages", rows: general },
+  { title: "Departments", rows: under("/departments/") },
+  { title: "Programmes", rows: programmes.map(row).sort(byTitle) },
+  { title: "Laboratories", rows: under("/labs/") },
+  { title: "Clubs & cells", rows: under("/clubs--cells/") },
+  { title: "Faculty", rows: faculty.map(row).sort(byTitle) },
+  { title: "News", rows: news.map(row).sort(byTitle) },
+  { title: "Events", rows: events.map(row).sort(byTitle) },
+  {
+    title: "Notices & downloads",
+    // Notices have no detail page — each one *is* its PDF, so link the file.
+    rows: notices
+      .map((e) => ({ title: e.data.title, href: e.data.file }))
+      .sort(byTitle),
+  },
+].filter((g) => g.rows.length > 0);
+
+const total = groups.reduce((a, g) => a + g.rows.length, 0);
+---
+
+<BaseLayout
+  title="Site index"
+  description="Every page on the Al Jamia Arts & Science College website, listed by section."
+  pageTitle="Site index"
+  breadcrumbs={[{ label: "Home", href: "/" }, { label: "Site index" }]}
+>
+  <div class="si">
+    <div class="si-inner">
+      <header class="si-head">
+        <p class="si-lede">
+          Every page published on this site, grouped by section. Use your browser’s find
+          (<kbd>Ctrl</kbd>/<kbd>⌘</kbd>&nbsp;+&nbsp;<kbd>F</kbd>) to jump straight to a document.
+        </p>
+        <span class="si-count">
+          <strong>{total}</strong>
+          <span>pages</span>
+        </span>
+      </header>
+
+      <nav class="si-jump" aria-label="Jump to a section">
+        {groups.map((g) => <a href={`#${g.title.toLowerCase().replace(/[^a-z]+/g, "-")}`}>{g.title}</a>)}
+      </nav>
+
+      {
+        groups.map((g) => (
+          <section class="si-group" id={g.title.toLowerCase().replace(/[^a-z]+/g, "-")}>
+            <h2>
+              {g.title}
+              <span>{g.rows.length}</span>
+            </h2>
+            <ul>
+              {g.rows.map((r) => (
+                <li>
+                  <a href={r.href}>{r.title}</a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))
+      }
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .si {
+    background: #fff;
+    padding: 30px 0 56px;
+  }
+  .si-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 clamp(16px, 3.4vw, 56px);
+  }
+  .si-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    padding-bottom: 22px;
+    border-bottom: 2px solid #17304f;
+  }
+  .si-lede {
+    margin: 0;
+    max-width: 62ch;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: #56677e;
+  }
+  .si-lede kbd {
+    font: inherit;
+    font-size: 0.86em;
+    padding: 1px 5px;
+    border: 1px solid #dfe6ef;
+    border-bottom-width: 2px;
+    border-radius: 3px;
+    background: #f7f9fc;
+    color: #17304f;
+  }
+  .si-count {
+    flex: none;
+    text-align: right;
+    line-height: 1;
+  }
+  .si-count strong {
+    display: block;
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    font-weight: 600;
+    color: #17304f;
+  }
+  .si-count > span {
+    display: block;
+    margin-top: 4px;
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #91a0b4;
+  }
+
+  .si-jump {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 22px 0 8px;
+  }
+  .si-jump a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 34px;
+    padding: 0 13px;
+    border: 1px solid #dfe6ef;
+    border-radius: 0;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #55647c;
+    text-decoration: none;
+  }
+  .si-jump a:hover {
+    border-color: #17304f;
+    background: #17304f;
+    color: #fff;
+  }
+
+  .si-group {
+    margin-top: 40px;
+  }
+  .si-group h2 {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin: 0 0 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e4eaf1;
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: #17304f;
+  }
+  .si-group h2 span {
+    font-family: var(--font-sans);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: #a0adbe;
+  }
+  .si-group ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    columns: 4;
+    column-gap: clamp(20px, 3vw, 44px);
+  }
+  @media (max-width: 1099px) {
+    .si-group ul {
+      columns: 2;
+    }
+  }
+  @media (max-width: 639px) {
+    .si-group ul {
+      columns: 1;
+    }
+    .si-head {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .si-count {
+      text-align: left;
+    }
+  }
+  .si-group li {
+    break-inside: avoid;
+    margin: 0 0 2px;
+  }
+  .si-group li a {
+    display: block;
+    padding: 5px 0;
+    font-size: 0.94rem;
+    line-height: 1.45;
+    color: #46566d;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+  }
+  .si-group li a:hover {
+    color: #ff5f60;
+  }
+</style>

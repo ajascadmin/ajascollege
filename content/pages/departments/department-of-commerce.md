@@ -3,7 +3,30 @@ title: "Department of Commerce & Management Studies"
 description: "Al Jamia Arts & Science College, Perinthalmanna — affiliated to the University of Calicut."
 permalink: /departments/department-of-commerce/
 type: page
+people:
+  - name: "Dr. Farisa Abdul Azees"
+    role: "M.Com, UGC-NET (JRF), Ph.D. — Head of Department"
+  - name: "Safarudheen M"
+    role: "M.Com, NET, B.Ed."
+  - name: "Asoora K"
+    role: "M.Phil, MBA, M.Com, NET, B.Ed."
+  - name: "Aiswarya K R"
+    role: "M.Com, NET, SET, B.Ed."
+  - name: "Anitha P"
+    role: "M.Com (Marketing, Finance)"
+  - name: "Amjed P"
+    role: "M.Com, NET, B.Ed."
+  - name: "Yaswanth Viswam T"
+    role: "M.Com, NET, SET"
+  - name: "Asif Zuhail P S"
+    role: "M.Com, NET"
+  - name: "Rameem P A"
+    role: "MBA"
+image: /assets/uploads/2026/09/commerce/Tile-Image.jpg
 gallery:
+  - /assets/uploads/2026/09/commerce/Tile-Image.jpg
+  - /assets/uploads/2026/09/commerce/8G8A3808.JPG.jpeg
+  - /assets/uploads/2026/09/commerce/8G8A4486.JPG.jpeg
   - /assets/uploads/2024/05/Departmentofcommerce-scaled.jpg
   - /assets/uploads/2025/07/WhatsApp-Image-2025-10-17-at-4.32.51-PM.jpeg
   - /assets/uploads/2026/05/WhatsApp-Image-2026-05-15-at-11.35.46-AM.jpeg
@@ -102,37 +125,65 @@ gallery:
 
 ## About
 
-The Department of Commerce and Management Studies at Al Jamia Arts and Science College, Perinthalmanna, is a vibrant centre of learning that integrates excellence in commerce and management education. Established in 2013, the department has grown steadily, and in 2024, the AICTE-approved BBA (Honours) program was introduced under the Four-Year Undergraduate Programme (FYUGP) of the University of Calicut. With a dedicated team of experienced faculty and a dynamic student community, the department offers quality undergraduate programs in B.Com and BBA (Honours). It focuses on academic rigor, practical exposure, leadership, and ethical values, while also encouraging participation in arts, sports, and community activities. The department remains committed to nurturing competent, confident, and socially responsible professionals ready to lead in the global business arena.
+Established in 2013, the Department of Commerce & Management Studies has grown steadily; in 2024 the AICTE-approved BBA (Honours) programme was introduced under the Four-Year Undergraduate Programme (FYUGP) of the University of Calicut. The department is dedicated to developing future-ready business professionals through academic excellence, innovation, entrepreneurship and ethical leadership. The department offers a dynamic learning environment where classroom instruction is complemented by experiential learning, industry interaction, internships, research, outreach programmes and technology-enabled education. Students are equipped with the knowledge, practical skills and professional values required to excel in the corporate sector, entrepreneurship, higher education and public service.
 
 ## Vision
 
-To be a centre of excellence in commerce and management education that nurtures competent, innovative, and ethically responsible professionals.
-The Department envisions empowering students with knowledge, skills, and values that foster critical thinking, entrepreneurship, and leadership — enabling them to contribute meaningfully to business, society, and the global economy with integrity and sustainability.
+To be a centre of excellence in Commerce and Management education by nurturing innovative, ethical and socially responsible professionals capable of leading organisations and transforming society.
 
 ## Mission
 
-1. **To impart quality education** in commerce and management through innovative teaching methods, practical exposure, and continuous learning.
-2. **To cultivate entrepreneurial spirit and professional competence** by integrating academic knowledge with real-world business practices.
-3. **To instill ethical values, social responsibility, and environmental consciousness** in future business leaders.
-4. **To encourage research, creativity, and critical thinking** that promote innovation and problem-solving skills among students.
-5. **To prepare globally competent graduates** capable of adapting to dynamic business environments and contributing to national and global development.
+- Deliver quality, outcome-based education through student-centric pedagogy.
+- Promote innovation, entrepreneurship, research and lifelong learning.
+- Strengthen industry-academia collaboration through internships and expert interactions.
+- Develop leadership, communication and digital competencies.
+- Instil ethics, sustainability and social responsibility.
 
+## Courses Offered
 
-## Head Of Department
+- Bachelor of Business Administration (BBA) in Finance
+- Bachelor of Commerce (B.Com) in Computer Application
 
-## Farisa Abdul Azees
+## Department Distinctiveness
 
-## PhD , Mcom, NET
+- Outcome-Based Education with experiential learning.
+- Strong focus on entrepreneurship through IIC, ED Club and innovation activities.
+- Skill development in communication, finance, accounting, marketing and digital business.
+- Mentoring system supporting academic, career and personal growth.
+- Regular seminars, workshops, industrial visits and extension activities.
+- Technology-enabled teaching and continuous assessment.
 
-Head of Department
+## Why Choose the Department?
 
-|  |  |
-| --- | --- |
-| Faculty | Safarudheen M |
-| Mcom, NET, SET, B.Ed | Amjed P |
-| Mcom, NET | Asoora K |
-| M.Phil , M. Com, MBA, NET | Aiswarya K R |
-| MCom Finance, B.Ed. , SET, NET | Asif Zuhail P S |
-| Mcom, NET | Farisa Abdul Azees |
-| PhD , Mcom, NET | Rahees C |
-| Mcom | Anitha P |
+- Experienced and qualified faculty.
+- Industry-oriented curriculum with practical exposure.
+- Entrepreneurship and innovation ecosystem.
+- Career guidance, placement support and higher education mentoring.
+- Student clubs, competitions and leadership opportunities.
+- Inclusive and value-based learning environment.
+
+## Student Achievements
+
+- Outstanding academic performance in university examinations.
+- Participation and prizes in management fests, business plan competitions and quizzes.
+- Internships, certification programmes and entrepreneurship initiatives.
+- Leadership in extension, community engagement and innovation activities.
+- Successful progression to higher education and employment.
+
+## Department Facilities
+
+- ICT-enabled classrooms
+- LCD projector and smart teaching facilities
+- Computer and internet access
+- Department library/reference resources
+- Career guidance and mentoring support
+- Seminars, workshops and innovation activities
+
+## Our Strengths
+
+- Academic Excellence
+- Innovation & Entrepreneurship
+- Research Orientation
+- Industry Connect
+- Student-Centric Learning
+- Social Responsibility

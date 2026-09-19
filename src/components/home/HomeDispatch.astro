@@ -1,0 +1,246 @@
+---
+/**
+ * Homepage notice board — the latest circulars and mandatory disclosures,
+ * read straight from the notices collection so it stays current without
+ * anyone editing the homepage.
+ *
+ * News and events deliberately do NOT appear here: they have their own
+ * sections at /college-news/ and /event/, and duplicating them on the home
+ * page was removed at the college's request.
+ */
+import fs from "node:fs";
+import path from "node:path";
+import { getCollection } from "astro:content";
+
+const byDateDesc = (a: { data: { date?: Date } }, b: { data: { date?: Date } }) =>
+  (b.data.date ? +new Date(b.data.date) : 0) - (a.data.date ? +new Date(a.data.date) : 0);
+
+const notices = (await getCollection("notices", ({ data }) => !data.draft)).sort(byDateDesc).slice(0, 8);
+
+function getFileSize(filePath?: string): string {
+  if (!filePath) return "";
+  try {
+    const clean = filePath.startsWith("/") ? filePath.slice(1) : filePath;
+    const full = path.join(process.cwd(), "public", clean);
+    if (fs.existsSync(full)) {
+      const bytes = fs.statSync(full).size;
+      if (bytes < 1024) return `${bytes} B`;
+      if (bytes < 1024 * 1024) return `${Math.round(bytes / 1024)} KB`;
+      return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+    }
+  } catch (e) {}
+  return "";
+}
+
+const fmt = (d?: Date) =>
+  d
+    ? new Date(d).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" })
+    : "";
+
+const noticeLabels: Record<string, string> = {
+  admission: "Admission",
+  academic: "Academic",
+  compliance: "Compliance",
+  iqac: "IQAC & NAAC",
+  mandatory: "Mandatory disclosure",
+  admin: "Administration",
+  general: "General",
+};
+---
+
+<section class="hd">
+  <div class="hd-inner">
+    <div class="hd-grid">
+      {/* ——— notices ——— */}
+      <div class="hd-col hd-col-notices hd-col-only">
+        <div class="hd-head">
+          <h2>Notice board &amp; Circulars</h2>
+          <a href="/notices/">All statutory documents &amp; notices ➔</a>
+        </div>
+        <ul class="hd-notices">
+          {
+            notices.map((n) => {
+              const size = getFileSize(n.data.file);
+              return (
+                <li>
+                  <a href={n.data.file || n.data.permalink} {...(n.data.file ? { target: "_blank", rel: "noopener" } : {})}>
+                    <span class="hd-notice-main">
+                      <span class="hd-notice-title">{n.data.title}</span>
+                      <span class="hd-notice-meta">
+                        <span class="hd-cat-badge">{noticeLabels[n.data.category || "general"] || "General"}</span>
+                        {n.data.date && <> · {fmt(n.data.date)}</>}
+                        {size && <span class="hd-size-pill">PDF · {size}</span>}
+                      </span>
+                    </span>
+                    <span class="hd-notice-icon" aria-hidden="true">
+                      {n.data.file ? "DOWNLOAD" : "VIEW"}
+                    </span>
+                  </a>
+                </li>
+              );
+            })
+          }
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .hd {
+    background: #fff;
+    border-top: 1px solid #eef2f7;
+    padding: 52px 0 54px;
+  }
+  .hd-inner {
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 0 clamp(16px, 3vw, 40px);
+  }
+  .hd-grid {
+    display: grid;
+    gap: clamp(28px, 3vw, 54px);
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .hd-col {
+    min-width: 0;
+  }
+
+  .hd-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 12px;
+    margin-bottom: 6px;
+    border-bottom: 2px solid #17304f;
+  }
+  .hd-head h2 {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: 1.32rem;
+    font-weight: 600;
+    color: #17304f;
+    letter-spacing: -0.01em;
+  }
+  .hd-head a {
+    flex: none;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #ff5f60;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .hd-head a:hover {
+    color: #17304f;
+  }
+
+  /* ---- notices: title + category/date + file cue ---- */
+  .hd-notices {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    column-gap: clamp(28px, 4vw, 64px);
+  }
+  .hd-notices li {
+    border-bottom: 1px solid #eef2f7;
+    break-inside: avoid;
+  }
+  @media (min-width: 900px) {
+    .hd-notices {
+      columns: 2;
+    }
+  }
+  .hd-notices a {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 10px;
+    text-decoration: none;
+    color: inherit;
+    border-radius: 0;
+    transition: background-color 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                padding-left 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .hd-notices a:hover {
+    background-color: #f7f9fc;
+    padding-left: 14px;
+  }
+  .hd-notice-main {
+    min-width: 0;
+    flex: 1;
+  }
+  .hd-notice-title {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.4;
+    color: #2b3d55;
+    transition: color 0.18s ease;
+  }
+  .hd-notices a:hover .hd-notice-title {
+    color: #ff5f60;
+  }
+  .hd-notice-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 5px;
+    font-size: 11.5px;
+    letter-spacing: 0.02em;
+    color: #8b99ac;
+    flex-wrap: wrap;
+  }
+  .hd-cat-badge {
+    font-size: 9.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 1px 6px;
+    border-radius: 0;
+    background: #eef3f9;
+    color: #17304f;
+  }
+  .hd-size-pill {
+    font-size: 9.5px;
+    font-weight: 600;
+    padding: 1px 5px;
+    border-radius: 0;
+    background: #fdf2f2;
+    color: #c92a2a;
+    border: 1px solid #f8d7da;
+  }
+  .hd-notice-icon {
+    flex: none;
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: #9b3440;
+    border: 1px solid #e6d3d6;
+    border-radius: 0;
+    padding: 3px 5px;
+    background: #fdf6f6;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                background-color 0.2s ease,
+                color 0.2s ease,
+                border-color 0.2s ease;
+  }
+  .hd-notices a:hover .hd-notice-icon {
+    transform: translateX(3px);
+    background: #9b3440;
+    color: #fff;
+    border-color: #9b3440;
+  }
+
+  @media (max-width: 639px) {
+    .hd {
+      padding: 34px 0 32px;
+    }
+    .hd-head h2 {
+      font-size: 1.18rem;
+    }
+  }
+</style>
