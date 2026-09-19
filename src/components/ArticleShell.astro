@@ -183,7 +183,8 @@ const { wide = false, variant = "default" } = Astro.props;
   .ajas-prose p:has(> img:only-child) + p:has(> img:only-child) img {
     width: 100%;
     height: 160px;
-    object-fit: cover;
+    object-fit: contain;
+    background: #f4f6fa;
     margin: 0;
   }
   @media (max-width: 640px) {

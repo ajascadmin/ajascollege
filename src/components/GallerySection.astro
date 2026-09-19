@@ -68,16 +68,105 @@ const hiddenCount = Math.max(0, galleryImages.length - preview);
 }
 
 <script is:inline>
-  document.querySelectorAll(".gallery-more").forEach(function (btn) {
-    btn.addEventListener("click", function () {
-      var section = document.getElementById(btn.getAttribute("data-target"));
-      if (!section) return;
-      section.querySelectorAll(".gal-extra").forEach(function (el) {
-        el.hidden = false;
+  (function () {
+    /* Justified-row layout (Flickr/Google Photos style): pack items into a
+       row by their real aspect ratio until the row is full, then scale that
+       row's height so its items exactly span the container width — zero
+       leftover space, by construction, on every row including the last. */
+    function aspectOf(item) {
+      var img = item.querySelector("img");
+      if (!img) return 1;
+      var w = parseFloat(img.getAttribute("width"));
+      var h = parseFloat(img.getAttribute("height"));
+      if (!w || !h) {
+        w = img.naturalWidth || 1;
+        h = img.naturalHeight || 1;
+      }
+      return w / h || 1;
+    }
+
+    function layout(section) {
+      var grid = section.querySelector(".gallery-grid");
+      if (!grid) return;
+      if (!grid.__items) {
+        grid.__items = Array.prototype.slice.call(grid.querySelectorAll(".gal-item"));
+      }
+      var items = grid.__items.filter(function (el) {
+        return !el.hidden;
       });
-      btn.remove();
+      var containerWidth = grid.clientWidth;
+      if (!items.length || !containerWidth) return;
+
+      var mobile = containerWidth < 640;
+      var gap = mobile ? 8 : 14;
+      var targetH = mobile ? 130 : 240;
+
+      var rows = [];
+      var row = [];
+      var rowWidth = 0;
+      items.forEach(function (el) {
+        var w = targetH * aspectOf(el);
+        row.push({ el: el, w: w });
+        rowWidth += w;
+        if (rowWidth + (row.length - 1) * gap >= containerWidth) {
+          rows.push(row);
+          row = [];
+          rowWidth = 0;
+        }
+      });
+      if (row.length) rows.push(row);
+
+      grid.innerHTML = "";
+      rows.forEach(function (r) {
+        var gaps = (r.length - 1) * gap;
+        var sumW = r.reduce(function (s, x) {
+          return s + x.w;
+        }, 0);
+        var scale = (containerWidth - gaps) / sumW;
+        var rowEl = document.createElement("div");
+        rowEl.className = "gal-row";
+        rowEl.style.gap = gap + "px";
+        rowEl.style.marginBottom = gap + "px";
+        var used = 0;
+        r.forEach(function (x, i) {
+          var w = i === r.length - 1 ? Math.round(containerWidth - used - gaps) : Math.round(x.w * scale);
+          used += w;
+          x.el.style.width = w + "px";
+          x.el.style.height = Math.round(targetH * scale) + "px";
+          x.el.style.flex = "0 0 " + w + "px";
+          rowEl.appendChild(x.el);
+        });
+        grid.appendChild(rowEl);
+      });
+    }
+    function layoutAll() {
+      document.querySelectorAll(".gallery-section").forEach(layout);
+    }
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", layoutAll);
+    } else {
+      layoutAll();
+    }
+    var resizeTimer;
+    window.addEventListener("resize", function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(layoutAll, 150);
     });
-  });
+    document.querySelectorAll(".gallery-more").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var section = document.getElementById(btn.getAttribute("data-target"));
+        if (!section) return;
+        var grid = section.querySelector(".gallery-grid");
+        if (grid && grid.__items) {
+          grid.__items.forEach(function (el) {
+            if (el.classList.contains("gal-extra")) el.hidden = false;
+          });
+        }
+        btn.remove();
+        layout(section);
+      });
+    });
+  })();
 </script>
 
 <style>
@@ -132,20 +221,29 @@ const hiddenCount = Math.max(0, galleryImages.length - preview);
   .gal-item:hover::after {
     opacity: 1;
   }
+  /* Justified rows: the script above sets each .gal-item's exact px width
+     and height so every row fills the container edge-to-edge — no gaps,
+     no letterboxing, whatever the mix of portrait/landscape/square source
+     images. The grid itself stays a plain block; each .gal-row it builds
+     is its own full-width flex row. */
   .gallery-grid {
+    display: block;
+  }
+  .gallery-grid :global(.gal-row) {
+    display: flex;
+  }
+  /* No-JS fallback: items never get wrapped into .gal-row, so lay them out
+     as a simple wrapping grid instead of one unstyled column. */
+  .gallery-grid:not(:has(.gal-row)) {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 14px;
   }
   @media (min-width: 640px) {
-    .gallery-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
+    .gallery-grid:not(:has(.gal-row)) { grid-template-columns: repeat(3, 1fr); }
   }
   @media (min-width: 900px) {
-    .gallery-grid {
-      grid-template-columns: repeat(4, 1fr);
-    }
+    .gallery-grid:not(:has(.gal-row)) { grid-template-columns: repeat(4, 1fr); }
   }
   .gal-item {
     display: block;

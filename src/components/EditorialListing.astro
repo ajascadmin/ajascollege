@@ -97,7 +97,7 @@ const formatDate = (value?: Date | string) => {
   .editorial-lead { background:#112b49; color:#fff; }
   .editorial-lead-grid { display:grid; height:460px; padding-top:0; padding-bottom:0; }
   .editorial-lead-media { display:block; min-height:280px; overflow:hidden; background:#0c1e34; }
-  .editorial-lead-media :global(img), .editorial-placeholder { width:100%; height:100%; min-height:inherit; display:block; object-fit:cover; }
+  .editorial-lead-media :global(img), .editorial-placeholder { width:100%; height:100%; min-height:inherit; display:block; object-fit:contain; }
   .editorial-placeholder { background:linear-gradient(135deg,#244261,#7a1f2b); }
   .editorial-lead-copy { padding:42px 30px 46px; align-self:center; }
   .editorial-type { display:block; color:#dbc27d; font-size:.82rem; font-weight:650; margin-bottom:16px; }
@@ -131,7 +131,7 @@ const formatDate = (value?: Date | string) => {
   .editorial-thumb :global(img) {
     width:100%;
     height:100%;
-    object-fit:cover;
+    object-fit:contain;
     display:block;
     transition:transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
   }
