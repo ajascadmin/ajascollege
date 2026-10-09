@@ -19,7 +19,6 @@ gallery:
   - /assets/uploads/2026/09/computer-science/P1877300.JPG.jpeg
   - /assets/uploads/2026/09/computer-science/P1877315.JPG.jpeg
   - /assets/uploads/2026/09/computer-science/P1877329.JPG.jpeg
-  - /assets/uploads/2024/06/12064780_4884421.jpg
   - /assets/uploads/2024/05/WhatsApp-Image-2025-01-20-at-9.58.09-AM-1.jpeg
   - /assets/uploads/2025/10/WhatsApp-Image-2025-10-28-at-9.39.28-AM.jpeg
   - /assets/uploads/2025/10/WhatsApp-Image-2025-10-27-at-2.53.55-PM.jpeg
