@@ -37,3 +37,7 @@
 /2024/06/01/ /college-news/ 301
 /2026/04/08/ /college-news/graduation-ceremony-2026/ 301
 /2026/06/15/ /notices/ 301
+
+# Legacy hero video redirect
+/assets/uploads/hero/rameemka.mp4 /assets/uploads/hero/al-jamia.mp4 301
+
