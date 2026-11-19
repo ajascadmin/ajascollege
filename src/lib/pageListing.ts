@@ -1,4 +1,4 @@
-import { getCollection } from "astro:content";
+import { getPages } from "./content";
 
 export interface ChildPageSummary {
   title: string;
@@ -35,7 +35,7 @@ function extractBlurb(body: string, maxLen = 150): string {
 
 /** All non-draft "pages" entries whose permalink sits directly under `prefix` (e.g. "/labs/"). */
 export async function getChildPages(prefix: string): Promise<ChildPageSummary[]> {
-  const allPages = await getCollection("pages", ({ data }) => !data.draft);
+  const allPages = await getPages();
   return allPages
     .filter((p) => p.data.permalink.startsWith(prefix) && p.data.permalink !== prefix)
     .map((p) => {

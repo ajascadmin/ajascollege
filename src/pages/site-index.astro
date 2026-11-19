@@ -8,10 +8,10 @@
  */
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { normalizePermalink } from "../lib/content";
+import { normalizePermalink, getPages } from "../lib/content";
 
 const [pages, programmes, faculty, news, events, notices] = await Promise.all([
-  getCollection("pages", ({ data }) => !data.draft),
+  getPages(),
   getCollection("programmes", ({ data }) => !data.draft),
   getCollection("faculty", ({ data }) => !data.draft),
   getCollection("news", ({ data }) => !data.draft),

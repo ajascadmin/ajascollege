@@ -156,10 +156,10 @@ const eventHrefs = await Promise.all(
 
 {/* dated notices and circulars — the page's evidence that the
     institution is active, not a brochure */}
-<HomeDispatch />
+<HomeDispatch data={data.notice_strip} />
 
 {/* formal standing, each claim linked to its certificate */}
-<HomeCredentials />
+<HomeCredentials data={data.credentials} />
 
 <section class="ajas-leadership">
   <div class="container">
@@ -246,9 +246,7 @@ const eventHrefs = await Promise.all(
               ))}
             </ul>
 
-            {key === "pg" && programmes.pg.highlight_text && (
-              <p class="pl-note">{programmes.pg.highlight_text}</p>
-            )}
+            {data.highlight_text && <p class="pl-note">{data.highlight_text}</p>}
 
             <div class="pl-foot">
               <a class="pl-cta" href={data.cta_primary_url}>{data.cta_primary_label}</a>
@@ -390,7 +388,7 @@ const eventHrefs = await Promise.all(
 
 <HomeCampusLife />
 
-<HomePlacement />
+<HomePlacement data={data.placement} />
 
 <HomeWhy data={benefits} />
 

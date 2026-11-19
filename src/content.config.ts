@@ -49,9 +49,12 @@ const entrySchema = z.object({
     .optional(),
 });
 
+/* Pages may leave permalink blank — the URL then comes from the file path
+   (content/pages/labs/physics-lab.md → /labs/physics-lab/). See
+   fillPermalink() in src/lib/content.ts. */
 const pages = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./content/pages" }),
-  schema: entrySchema,
+  schema: entrySchema.extend({ permalink: z.string().optional() }),
 });
 
 const news = defineCollection({
@@ -95,7 +98,7 @@ const notices = defineCollection({
       .enum(["general", "academic", "compliance", "iqac", "mandatory", "admin", "admission"])
       .default("general"),
     file: z.string(),
-    permalink: z.string(),
+    permalink: z.string().optional(),
     draft: z.boolean().default(false),
     description: z.string().optional(),
   }),
@@ -108,7 +111,7 @@ const fees = defineCollection({
     title: z.string(),
     date: z.coerce.date().optional(),
     file: z.string(),
-    permalink: z.string(),
+    permalink: z.string().optional(),
     draft: z.boolean().default(false),
     description: z.string().optional(),
   }),
@@ -247,24 +250,25 @@ const home = defineCollection({
       heading: z.string(),
       intro: z.string(),
       ug: z.object({
-        icon: z.string(),
+        icon: z.string().optional(),
         level_tag: z.string(),
         title: z.string(),
         meta: z.string(),
         items: z.array(z.object({ icon: z.string().optional(), label: z.string(), url: z.string() })),
+        highlight_text: z.string().optional(),
         cta_primary_label: z.string(),
         cta_primary_url: z.string(),
         cta_secondary_label: z.string(),
         cta_secondary_url: z.string(),
       }),
       pg: z.object({
-        icon: z.string(),
+        icon: z.string().optional(),
         level_tag: z.string(),
         title: z.string(),
         meta: z.string(),
         items: z.array(z.object({ icon: z.string().optional(), label: z.string(), url: z.string() })),
         highlight_icon: z.string().optional(),
-        highlight_text: z.string(),
+        highlight_text: z.string().optional(),
         cta_primary_label: z.string(),
         cta_primary_url: z.string(),
         cta_secondary_label: z.string(),
@@ -274,8 +278,8 @@ const home = defineCollection({
       departments_heading: z.string(),
       departments: z.array(
         z.object({
-          icon: z.string(),
-          badge_label: z.string(),
+          icon: z.string().optional(),
+          badge_label: z.string().optional(),
           image: z.string(),
           title: z.string(),
           url: z.string(),
@@ -302,6 +306,47 @@ const home = defineCollection({
       events_cta_label: z.string().optional(),
       events_cta_url: z.string().optional(),
     }),
+    notice_strip: z
+      .object({
+        kicker: z.string(),
+        title: z.string(),
+        link_label: z.string(),
+        url: z.string(),
+      })
+      .optional(),
+    credentials: z
+      .object({
+        kicker: z.string(),
+        heading: z.string(),
+        intro: z.string(),
+        cta_label: z.string(),
+        cta_url: z.string(),
+        items: z.array(
+          z.object({
+            label: z.string(),
+            value: z.string(),
+            note: z.string().optional(),
+            document: z.string().optional(),
+            link: z.string().optional(),
+          }),
+        ),
+      })
+      .optional(),
+    placement: z
+      .object({
+        kicker: z.string(),
+        heading: z.string(),
+        intro: z.string(),
+        cta_label: z.string(),
+        cta_url: z.string(),
+        stats: z.array(z.object({ value: z.string(), label: z.string(), note: z.string().optional() })),
+        partners_heading: z.string(),
+        partners: z.array(
+          z.object({ short: z.string(), name: z.string(), sector: z.string().optional() }),
+        ),
+        pillars: z.array(z.object({ title: z.string(), text: z.string() })),
+      })
+      .optional(),
     benefits: z.object({
       heading: z.string(),
       items: z.array(
@@ -407,7 +452,30 @@ const prospectus = defineCollection({
   }),
 });
 
+/**
+ * Site popups (the image modal shown when a visitor arrives, like the old
+ * WordPress site's admission posters). Each file in content/popups is one
+ * popup; the dates are checked in the visitor's browser, so a popup appears
+ * and disappears on schedule without a rebuild.
+ */
+const popups = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./content/popups" }),
+  schema: z.object({
+    title: z.string(),
+    enabled: z.boolean().default(true),
+    image: z.string(),
+    link: z.string().optional(),
+    button_label: z.string().optional(),
+    start: z.coerce.date().optional(),
+    end: z.coerce.date().optional(),
+    pages: z.enum(["home", "all"]).default("home"),
+    frequency: z.enum(["session", "day", "always"]).default("session"),
+    order: z.number().default(0),
+  }),
+});
+
 export const collections = {
+  popups,
   pages,
   news,
   events,

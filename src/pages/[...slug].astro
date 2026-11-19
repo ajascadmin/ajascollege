@@ -347,6 +347,14 @@ if (isNews) {
   jsonLd={jsonLd}
   publishedTime={date ? new Date(date).toISOString() : undefined}
   bandTitleIsLabel={isProfile}
+  edit={{
+    label:
+      collection === "news" ? "Edit this news post"
+      : collection === "events" ? "Edit this event"
+      : collection === "faculty" ? "Edit this profile"
+      : "Edit this page",
+    route: `collections/${collection}/entries/${entry.id}`,
+  }}
   variant="inner"
   pageTitle={isNews ? "News" : isEvent ? "Events" : entry.data.title}
   breadcrumbs={crumbs}
@@ -414,7 +422,7 @@ if (isNews) {
                 </div>
               </dl>
 
-              {bodyHtml && <div class="fp-bio ajas-prose" set:html={bodyHtml} />}
+              {bodyHtml && <div class="fp-bio ajas-prose" data-cms-body set:html={bodyHtml} />}
 
               <div class="fp-foot">
                 <a class="fp-link" href="/faculties/">← All faculty</a>
@@ -467,6 +475,12 @@ if (isNews) {
   {
     !isEntity && !isProfile && !isVisionPage && gallery && gallery.length > 0 && (
       <GallerySection images={gallery} title="Gallery" />
+    )
+  }
+  {
+    /* News and event photo galleries (the lead photo is already at the top). */
+    isEntity && gallery && gallery.filter((g) => g !== image).length > 0 && (
+      <GallerySection images={gallery.filter((g) => g !== image)} title="Photos" />
     )
   }
   {

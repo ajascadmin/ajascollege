@@ -57,7 +57,7 @@ const optimizedBody = withoutLeadHeading
         {dateLabel && <time datetime={dateObj!.toISOString()}>{dateLabel}</time>}
       </div>
       <h1 class="ajas-entity-title">{title}</h1>
-      <div class="ajas-entity-body ajas-prose">
+      <div class="ajas-entity-body ajas-prose" data-cms-body>
         {optimizedBody ? <Fragment set:html={optimizedBody} /> : <slot />}
       </div>
       {videos && videos.length > 0 && <VideoSection videos={videos} />}

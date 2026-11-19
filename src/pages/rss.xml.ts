@@ -26,7 +26,8 @@ export const GET: APIRoute = async ({ site }) => {
   const items = [
     ...news.map((e) => ({ ...e.data, kind: "News" })),
     ...events.map((e) => ({ ...e.data, kind: "Event" })),
-    ...notices.map((e) => ({ ...e.data, kind: "Notice" })),
+    // A notice has no page of its own — the document is the notice.
+    ...notices.map((e) => ({ ...e.data, permalink: e.data.file, kind: "Notice" })),
   ]
     .filter((e) => e.permalink)
     .sort((a, b) => (b.date ? +new Date(b.date) : 0) - (a.date ? +new Date(a.date) : 0))

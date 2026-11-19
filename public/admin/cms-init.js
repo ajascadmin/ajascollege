@@ -1,6 +1,28 @@
 /**
- * AJAS branding + WYSIWYG preview for Sveltia CMS.
- * Runs after sveltia-cms.js exposes window.CMS / starts the app.
+ * AJAS branding + LIVE PAGE PREVIEW for Sveltia CMS.
+ * Runs after sveltia-cms.js exposes window.CMS.
+ *
+ * ─── How the live preview works ───────────────────────────────────────────
+ * The preview pane shows the REAL page the entry produces: it fetches the
+ * published HTML of that page (same origin) together with its stylesheets, and
+ * then, on every keystroke, swaps the editor's current text and photos into it.
+ *
+ * Nothing here copies the site's markup, so it can never drift from the real
+ * design (the previous hand-built homepage preview did exactly that).
+ *
+ *  1. On load, every text and image value of the entry is looked up on the
+ *     page. Each match is tagged with data-key-path="<field path>", which
+ *     Sveltia uses for click-to-highlight: clicking anything on the page jumps
+ *     to the field that controls it.
+ *  2. On every edit, tagged text is replaced and tagged images get the new
+ *     file. Changed spots are tinted yellow so the editor sees what moved.
+ *  3. The body (Markdown) is updated line by line; if the structure changes
+ *     too much it is re-rendered with `marked` inside the page's own content
+ *     container, so it still picks up the site's typography.
+ *  4. Anything that can't be shown live (new list items, switches, links) is
+ *     counted in the banner: "N changes will appear after you save".
+ *  5. A new entry has no page yet, so it borrows a sibling's page
+ *     (/admin/preview-samples.json) and fills its fields in.
  */
 (function () {
   var COLLEGE = "Al Jamia Arts & Science College";
@@ -13,568 +35,895 @@
       document.title = TITLE;
     }
   }
-
-  // Sveltia overwrites <title> after boot — keep reclaiming it
   forceTitle();
   var titleEl = document.querySelector("title");
   if (titleEl && window.MutationObserver) {
-    new MutationObserver(forceTitle).observe(titleEl, {
-      childList: true,
-      characterData: true,
-      subtree: true,
-    });
+    new MutationObserver(forceTitle).observe(titleEl, { childList: true, characterData: true, subtree: true });
   }
   setInterval(forceTitle, 1500);
 
+  // Lets the live site know this browser belongs to an editor, so pages show
+  // the "Edit this page" bar (src/components/EditorBar.astro). Not a security
+  // boundary — the bar only links back here, and the CMS still needs a login.
+  try {
+    localStorage.setItem("ajas-cms-editor", "1");
+  } catch (e) {
+    /* private mode — the bar can still be opened with ?edit */
+  }
+
   function whenCMS(cb) {
-    if (window.CMS && typeof window.CMS.registerPreviewStyle === "function") {
+    if (window.CMS && typeof window.CMS.registerPreviewTemplate === "function" && window.createClass) {
       cb(window.CMS);
       return;
     }
     var n = 0;
     var id = setInterval(function () {
       n += 1;
-      if (window.CMS && typeof window.CMS.registerPreviewStyle === "function") {
+      if (window.CMS && typeof window.CMS.registerPreviewTemplate === "function" && window.createClass) {
         clearInterval(id);
         cb(window.CMS);
-      } else if (n > 100) {
+      } else if (n > 150) {
         clearInterval(id);
       }
     }, 100);
   }
 
-  // ——— HTML helpers ———————————————————————————————————————————————
+  // ─── small helpers ──────────────────────────────────────────────────────
 
   function esc(s) {
     return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
     });
   }
+  function toJS(v) {
+    return v && typeof v.toJS === "function" ? v.toJS() : v;
+  }
+  function norm(s) {
+    return String(s == null ? "" : s).replace(/\s+/g, " ").trim();
+  }
+  function getPath(obj, path) {
+    var parts = path.split(".");
+    var cur = obj;
+    for (var i = 0; i < parts.length; i++) {
+      if (cur == null) return undefined;
+      cur = cur[parts[i]];
+    }
+    return cur;
+  }
+  /** Every leaf value of an object as [path, value] pairs: "items.0.title". */
+  function leaves(obj, prefix, out) {
+    out = out || [];
+    if (obj == null) return out;
+    if (Array.isArray(obj)) {
+      obj.forEach(function (v, i) {
+        leaves(v, prefix ? prefix + "." + i : String(i), out);
+      });
+    } else if (typeof obj === "object" && !(obj instanceof Date)) {
+      Object.keys(obj).forEach(function (k) {
+        leaves(obj[k], prefix ? prefix + "." + k : k, out);
+      });
+    } else {
+      out.push([prefix, obj]);
+    }
+    return out;
+  }
+  /** Ways the site shortens text before showing it (see shortDept() in HomeSections.astro). */
+  var DISPLAY_FORMS = [
+    function (v) {
+      return String(v).replace(/^(pg\s+)?department\s+of\s+/i, "").replace(/\s*&\s*/g, " & ");
+    },
+  ];
+  var IMG_RE = /\.(jpe?g|png|webp|gif|avif|svg)$/i;
+  var VIDEO_RE = /\.(mp4|webm|mov)$/i;
+  function isLinkish(path, v) {
+    var key = path.split(".").pop();
+    return (
+      /(^|_)(url|href|link|permalink|file|video|document|pdf|icon|style|type|level|category|frequency|pages)$/.test(key) ||
+      /^(\/|https?:|mailto:|tel:|#|blob:)/.test(String(v))
+    );
+  }
+  function stem(path) {
+    var base = String(path).split("?")[0].split("/").pop() || "";
+    return base.replace(/\.[a-z0-9]+$/i, "");
+  }
 
-  /** Resolve a CMS media path (draft-local or already-public) to a usable <img> src. */
+  /** Markdown line → the plain text it renders to, roughly. */
+  function mdPlain(line) {
+    return norm(
+      String(line)
+        .replace(/!\[[^\]]*\]\([^)]*\)/g, "")
+        .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1")
+        .replace(/<[^>]+>/g, "")
+        .replace(/^\s{0,3}(#{1,6}\s+|>\s?|[-*+]\s+|\d+[.)]\s+)/, "")
+        .replace(/(\*\*|__|~~|`)/g, "")
+        .replace(/(^|\W)[*_](\S[^*_]*?)[*_](?=\W|$)/g, "$1$2")
+        .replace(/\\([\\`*_{}\[\]()#+\-.!|>])/g, "$1"),
+    );
+  }
+  function mdUnits(md) {
+    return String(md || "")
+      .split(/\n/)
+      .filter(function (l) {
+        return !/^\s*\|/.test(l);
+      })
+      .map(function (raw) {
+        return { raw: raw, plain: mdPlain(raw) };
+      })
+      .filter(function (u) {
+        return u.plain.length >= 3;
+      });
+  }
+
+  // ─── fetching ───────────────────────────────────────────────────────────
+
+  var pageCache = {};
+  function fetchPage(url) {
+    if (!pageCache[url]) {
+      pageCache[url] = fetch(url, { credentials: "same-origin", cache: "no-cache" })
+        .then(function (r) {
+          return r.ok ? r.text() : null;
+        })
+        .catch(function () {
+          return null;
+        });
+    }
+    return pageCache[url];
+  }
+  var samplesPromise;
+  function samples() {
+    if (!samplesPromise) {
+      samplesPromise = fetch("/admin/preview-samples.json", { cache: "no-cache" })
+        .then(function (r) {
+          return r.ok ? r.json() : {};
+        })
+        .catch(function () {
+          return {};
+        });
+    }
+    return samplesPromise;
+  }
+
+  // ─── which page does an entry live on? ──────────────────────────────────
+
+  var NOT_CHROME = "#footer, .ajn, [data-eb]";
+  var ROUTES = {
+    news: { prefix: "/college-news/", sample: "news" },
+    events: { prefix: "/event/", sample: "events" },
+    faculty: { prefix: "/faculties/", sample: "faculty" },
+    programmes: { prefix: "/programmes/", sample: "programmes" },
+    pages: { pages: true, sample: "pages" },
+    homepage: { url: "/", scope: "main" },
+    prospectus: { url: "/prospectus-2026-27/", scope: "main" },
+    footer: { url: "/", scope: "#footer", only: true },
+    main_menu: { url: "/", scope: ".ajn", only: true },
+    site: { url: "/", scope: "body", only: true },
+    listings: { url: "/college-news/", scope: "main" },
+  };
+
+  function pageUrlFor(key, entry, data) {
+    var r = ROUTES[key];
+    if (r.url) return r.url;
+    var slug = entry.get("slug");
+    if (r.pages) {
+      var p = data.permalink && String(data.permalink).trim();
+      if (p) return p.charAt(0) === "/" ? p : "/" + p;
+      return slug ? "/" + slug + "/" : null;
+    }
+    return slug ? r.prefix + slug + "/" : null;
+  }
+
+  // ─── the preview iframe's own <head> ────────────────────────────────────
+
+  var PREVIEW_CSS =
+    // Carousels and sliders are started by scripts that don't run here — lay
+    // their slides out side by side so they are still visible and clickable.
+    ".owl-carousel{display:flex!important;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory}" +
+    ".owl-carousel>*{flex:0 0 min(86%,560px);scroll-snap-align:start}" +
+    ".flexslider .slides>li{display:block!important}" +
+    "#loading-overlay,[data-eb],[data-sp-root],.ajn-scrim,.ajn-drawer{display:none!important}" +
+    "a[data-href]{cursor:pointer}" +
+    "[data-key-path]{cursor:pointer;transition:outline-color .15s}" +
+    "[data-key-path]:hover{outline:2px dashed rgba(179,36,43,.75);outline-offset:3px}" +
+    "cms-t{display:inline;font:inherit;color:inherit;letter-spacing:inherit;text-transform:inherit}" +
+    "[data-cms-changed]{background:rgba(255,214,0,.35)!important;box-shadow:0 0 0 3px rgba(255,214,0,.35)}" +
+    "img[data-cms-changed]{outline:4px solid #ffd600;outline-offset:-4px}" +
+    "[data-cms-placeholder]{opacity:.35}" +
+    ".ajas-live-banner{position:sticky;top:0;z-index:2147483000;display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center;" +
+    "background:#0d2039;color:#fff;font:500 13px/1.45 system-ui,sans-serif;padding:9px 14px;box-shadow:0 2px 10px rgba(0,0,0,.25)}" +
+    ".ajas-live-banner b{color:#ffd27a;font-weight:600}" +
+    ".ajas-live-banner .warn{color:#ffd27a}" +
+    ".ajas-live-msg{font:15px/1.5 system-ui,sans-serif;color:#334155;padding:40px 24px;text-align:center}";
+
+  function injectHead(previewDoc, srcDoc) {
+    var head = previewDoc.head;
+    if (!head || head.querySelector("style[data-ajas-live-base]")) {
+      // stylesheets already injected for an earlier page — add only new ones below
+    }
+    Array.prototype.forEach.call(srcDoc.head.querySelectorAll('link[rel="stylesheet"], style'), function (el) {
+      var id = el.tagName === "LINK" ? el.getAttribute("href") : "s:" + el.textContent.length + ":" + el.textContent.slice(0, 80);
+      if (!id) return;
+      var exists = Array.prototype.some.call(head.querySelectorAll("[data-ajas-live]"), function (x) {
+        return x.getAttribute("data-ajas-live") === id;
+      });
+      if (exists) return;
+      var copy = previewDoc.createElement(el.tagName.toLowerCase());
+      if (el.tagName === "LINK") {
+        copy.rel = "stylesheet";
+        copy.href = new URL(el.getAttribute("href"), location.origin).href;
+        // Deferred stylesheets use media="print" + onload; load them normally.
+      } else {
+        copy.textContent = el.textContent;
+      }
+      copy.setAttribute("data-ajas-live", id);
+      head.appendChild(copy);
+    });
+    if (!head.querySelector("style[data-ajas-live-base]")) {
+      var s = previewDoc.createElement("style");
+      s.setAttribute("data-ajas-live-base", "");
+      s.textContent = PREVIEW_CSS;
+      head.appendChild(s);
+    }
+  }
+
+  // ─── tagging the page ───────────────────────────────────────────────────
+
+  function textNodes(root, skipSel) {
+    var out = [];
+    var w = root.ownerDocument.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode: function (n) {
+        var p = n.parentElement;
+        if (!p || !n.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+        if (/^(SCRIPT|STYLE|NOSCRIPT|TEMPLATE|svg|path)$/i.test(p.tagName)) return NodeFilter.FILTER_REJECT;
+        if (p.closest("[data-cms-t]")) return NodeFilter.FILTER_REJECT;
+        if (skipSel && p.closest(skipSel)) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      },
+    });
+    var n;
+    while ((n = w.nextNode())) out.push(n);
+    return out;
+  }
+
+  /** Wrap occurrences of `value` inside `root` in tagged spans. */
+  function tagText(root, skipSel, path, value, wholeOnly) {
+    var found = [];
+    var v = String(value);
+    var nv = norm(v);
+    if (nv.length < 2) return found;
+    // Short values only claim a whole piece of text, never part of a longer
+    // one ("Food Technology" must not grab half of "B.Sc. Food Technology").
+    if (nv.length < 20) wholeOnly = true;
+    textNodes(root, skipSel).forEach(function (node) {
+      var doc = node.ownerDocument;
+      var text = node.nodeValue;
+      var idx = wholeOnly ? -1 : text.indexOf(v);
+      if (idx === -1 && norm(text) === nv) {
+        // same words, different spacing/line breaks — take the whole node
+        var whole = doc.createElement("cms-t");
+        whole.setAttribute("data-cms-t", "");
+        whole.setAttribute("data-key-path", path);
+        whole.textContent = text;
+        node.parentNode.replaceChild(whole, node);
+        found.push(whole);
+        return;
+      }
+      while (idx !== -1) {
+        var after = node.splitText(idx);
+        node = after.splitText(v.length);
+        var span = doc.createElement("cms-t");
+        span.setAttribute("data-cms-t", "");
+        span.setAttribute("data-key-path", path);
+        after.parentNode.replaceChild(span, after);
+        span.textContent = v;
+        found.push(span);
+        idx = node.nodeValue.indexOf(v);
+      }
+    });
+    return found;
+  }
+
+  function tagImages(root, path, value) {
+    var s = stem(value);
+    if (s.length < 3) return [];
+    var found = [];
+    Array.prototype.forEach.call(root.querySelectorAll("img, video source, video"), function (el) {
+      var hay = (el.getAttribute("src") || "") + " " + (el.getAttribute("srcset") || "") + " " + (el.getAttribute("data-src") || "");
+      if (hay.indexOf(s) === -1) {
+        try {
+          if (decodeURIComponent(hay).indexOf(s) === -1) return;
+        } catch (e) {
+          return;
+        }
+      }
+      found.push({
+        el: el,
+        // exact original path, when the page still uses it (videos, PDFs thumbs)
+        full: (el.getAttribute("src") || "").replace(location.origin, ""),
+        src: el.getAttribute("src"),
+        srcset: el.getAttribute("srcset"),
+        sizes: el.getAttribute("sizes"),
+      });
+    });
+    return found;
+  }
+
+  /** Find the element holding the body text and tag its lines. */
+  function tagBody(root, skipSel, body) {
+    // Templates mark where the body goes with data-cms-body
+    // (EntityArticle, ArticleShell, SmartPage, faculty bio).
+    var marked = root.querySelector("[data-cms-body]");
+    if (marked) root = marked;
+    var units = mdUnits(body);
+    var spans = [];
+    if (!units.length) {
+      if (!marked) return null;
+      marked.setAttribute("data-key-path", "body");
+      return { box: marked, units: units, spans: spans, html: marked.innerHTML, rerendered: false };
+    }
+    var nodes = textNodes(root, skipSel);
+    units.forEach(function (u, i) {
+      for (var k = 0; k < nodes.length; k++) {
+        var n = nodes[k];
+        if (n.parentNode && norm(n.nodeValue) === u.plain) {
+          var span = n.ownerDocument.createElement("cms-t");
+          span.setAttribute("data-cms-t", "");
+          span.setAttribute("data-cms-line", String(i));
+          n.parentNode.replaceChild(span, n);
+          span.textContent = n.nodeValue;
+          spans[i] = span;
+          nodes.splice(k, 1);
+          return;
+        }
+      }
+    });
+    var hits = spans.filter(Boolean);
+    if (marked) {
+      marked.setAttribute("data-key-path", "body");
+      return { box: marked, units: units, spans: spans, html: marked.innerHTML, rerendered: false };
+    }
+    if (!hits.length) return null;
+    // container = nearest ancestor holding every matched line
+    var box = hits[0].parentElement;
+    while (box && box !== root && !hits.every(function (h) { return box.contains(h); })) box = box.parentElement;
+    if (!box) return null;
+    // prefer a real content wrapper over a single paragraph
+    while (box !== root && /^(P|LI|SPAN|STRONG|EM|A|H[1-6]|UL|OL|TD|TR|TBODY|TABLE)$/.test(box.tagName)) {
+      box = box.parentElement;
+    }
+    box.setAttribute("data-key-path", "body");
+    return { box: box, units: units, spans: spans, html: box.innerHTML, rerendered: false };
+  }
+
+  // ─── the template ───────────────────────────────────────────────────────
+
+  function makeLivePreview(key) {
+    var route = ROUTES[key];
+    return createClass({
+      getInitialState: function () {
+        return { status: "loading", message: "" };
+      },
+      componentDidMount: function () {
+        this.load();
+      },
+      componentDidUpdate: function () {
+        if (this.state.status === "ready") this.apply();
+      },
+      load: function () {
+        var self = this;
+        var entry = this.props.entry;
+        var data = toJS(entry.get("data")) || {};
+        var url = pageUrlFor(key, entry, data);
+        var first = url ? fetchPage(url) : Promise.resolve(null);
+        first
+          .then(function (html) {
+            if (html) return { html: html, url: url, original: data, borrowed: false };
+            if (!route.sample) return null;
+            return samples().then(function (all) {
+              var s = all && all[route.sample];
+              if (!s) return null;
+              return fetchPage(s.url).then(function (h) {
+                return h ? { html: h, url: s.url, original: s.data, borrowed: true } : null;
+              });
+            });
+          })
+          .then(function (res) {
+            if (!self.host) return;
+            if (!res) {
+              self.setState({
+                status: "error",
+                message:
+                  "This page isn't on the website yet, so there's nothing to preview. Save it, wait about 2 minutes for the site to update, then reopen it.",
+              });
+              return;
+            }
+            self.build(res);
+            self.setState({ status: "ready" });
+          });
+      },
+      build: function (res) {
+        var previewDoc = this.props.document || this.host.ownerDocument;
+        var src = new DOMParser().parseFromString(res.html, "text/html");
+        injectHead(previewDoc, src);
+        Array.prototype.forEach.call(
+          src.body.querySelectorAll("script, noscript, [data-eb], [data-sp-root], #loading-overlay, dialog"),
+          function (el) {
+            el.remove();
+          },
+        );
+        // Links must not navigate the preview away; clicks go to the editor.
+        Array.prototype.forEach.call(src.body.querySelectorAll("a[href]"), function (a) {
+          a.setAttribute("data-href", a.getAttribute("href"));
+          a.removeAttribute("href");
+          a.removeAttribute("target");
+        });
+        Array.prototype.forEach.call(src.body.querySelectorAll("form"), function (f) {
+          f.removeAttribute("action");
+          f.setAttribute("onsubmit", "return false");
+        });
+        Array.prototype.forEach.call(src.body.querySelectorAll('img[loading="lazy"]'), function (img) {
+          img.removeAttribute("loading");
+        });
+        // relative URLs → absolute, the preview iframe may have another base
+        Array.prototype.forEach.call(src.body.querySelectorAll("[src],[srcset]"), function (el) {
+          var s = el.getAttribute("src");
+          if (s && s.charAt(0) === "/") el.setAttribute("src", location.origin + s);
+          var ss = el.getAttribute("srcset");
+          if (ss) el.setAttribute("srcset", ss.replace(/(^|,\s*)\//g, "$1" + location.origin + "/"));
+        });
+
+        var host = this.host;
+        host.innerHTML =
+          '<div class="ajas-live-banner" data-ajas-banner></div>' + '<div data-ajas-page class="' + esc(src.body.className) + '"></div>';
+        var pageEl = host.querySelector("[data-ajas-page]");
+        pageEl.innerHTML = src.body.innerHTML;
+
+        var root = route.scope ? pageEl.querySelector(route.scope) || pageEl : pageEl;
+        if (route.scope === "body") root = pageEl;
+        var skip = route.only ? null : NOT_CHROME;
+
+        var original = res.original || {};
+        var texts = {};
+        var images = {};
+        var pairs = leaves(original).filter(function (p) {
+          return p[0] !== "body" && typeof p[1] === "string" && p[1].trim();
+        });
+        // Longest first, so a short value never claims part of a longer one.
+        pairs.sort(function (a, b) {
+          return String(b[1]).length - String(a[1]).length;
+        });
+        // Group fields that hold the same text ("Read full message" twice):
+        // the page's copies are handed out to them in order.
+        var groups = [];
+        var byValue = {};
+        pairs.forEach(function (p) {
+          var path = p[0];
+          var v = p[1];
+          if (IMG_RE.test(v) || VIDEO_RE.test(v)) {
+            // Several files can share a name (every department's
+            // "Tile-Image.jpg"), so each photo field takes the next unclaimed
+            // matching image on the page, in page order.
+            var imgs = tagImages(root, path, v).filter(function (rec) {
+              return !rec.el.hasAttribute("data-cms-img");
+            });
+            if (imgs.length) {
+              var same = imgs.filter(function (rec) {
+                return rec.full === v;
+              });
+              var mine = same.length ? same : [imgs[0]];
+              mine.forEach(function (rec) {
+                rec.el.setAttribute("data-cms-img", "");
+                (rec.el.tagName === "SOURCE" ? rec.el.parentElement : rec.el).setAttribute("data-key-path", path);
+              });
+              images[path] = mine;
+            }
+            return;
+          }
+          if (isLinkish(path, v)) return;
+          if (!byValue[v]) {
+            byValue[v] = { value: v, paths: [] };
+            groups.push(byValue[v]);
+          }
+          byValue[v].paths.push(path);
+        });
+        groups.forEach(function (g) {
+          var spans = tagText(root, skip, g.paths[0], g.value);
+          var x = -1;
+          if (!spans.length) {
+            // the site shows some text shortened — try those forms too
+            for (var t = 0; t < DISPLAY_FORMS.length && !spans.length; t++) {
+              var shown = DISPLAY_FORMS[t](g.value);
+              if (shown !== g.value) {
+                spans = tagText(root, skip, g.paths[0], shown, true);
+                x = t;
+              }
+            }
+          }
+          if (!spans.length) return;
+          spans.forEach(function (span, i) {
+            var path = g.paths[Math.min(i, g.paths.length - 1)];
+            span.setAttribute("data-key-path", path);
+            if (x >= 0) span.setAttribute("data-cms-form", String(x));
+            (texts[path] = texts[path] || []).push(span);
+          });
+          // a field whose copy wasn't found still counts as shown via its twin
+          g.paths.forEach(function (path) {
+            if (!texts[path]) texts[path] = [];
+          });
+        });
+        this.live = {
+          original: original,
+          borrowed: res.borrowed,
+          url: res.url,
+          texts: texts,
+          images: images,
+          body: typeof original.body === "string" ? tagBody(root, skip, original.body) : null,
+          banner: host.querySelector("[data-ajas-banner]"),
+        };
+        this.apply();
+      },
+      apply: function () {
+        var L = this.live;
+        if (!L) return;
+        var getAsset = this.props.getAsset;
+        var data = toJS(this.props.entry.get("data")) || {};
+        var pending = 0;
+
+        Object.keys(L.texts).forEach(function (path) {
+          var orig = getPath(L.original, path);
+          var cur = getPath(data, path);
+          cur = cur == null ? "" : String(cur);
+          L.texts[path].forEach(function (span) {
+            var showPlaceholder = L.borrowed && !cur.trim();
+            var form = span.getAttribute("data-cms-form");
+            var shown = form != null ? DISPLAY_FORMS[+form] : function (v) { return v; };
+            var next = shown(showPlaceholder ? String(orig) : cur);
+            if (span.textContent !== next) span.textContent = next;
+            toggle(span, "data-cms-placeholder", showPlaceholder);
+            toggle(span, "data-cms-changed", !showPlaceholder && cur !== String(orig));
+          });
+        });
+
+        Object.keys(L.images).forEach(function (path) {
+          var orig = getPath(L.original, path);
+          var cur = getPath(data, path);
+          L.images[path].forEach(function (rec) {
+            var el = rec.el;
+            if (cur && cur !== orig) {
+              var url = assetUrl(getAsset, cur);
+              if (el.getAttribute("src") !== url) {
+                el.setAttribute("src", url);
+                el.removeAttribute("srcset");
+                el.removeAttribute("sizes");
+                if (el.parentElement && el.parentElement.tagName === "PICTURE") {
+                  Array.prototype.forEach.call(el.parentElement.querySelectorAll("source"), function (s) {
+                    s.remove();
+                  });
+                }
+                if (el.tagName === "SOURCE" && el.parentElement.load) el.parentElement.load();
+              }
+              toggle(el, "data-cms-changed", true);
+            } else {
+              if (rec.src != null && el.getAttribute("src") !== rec.src) {
+                el.setAttribute("src", rec.src);
+                if (rec.srcset) el.setAttribute("srcset", rec.srcset);
+                if (rec.sizes) el.setAttribute("sizes", rec.sizes);
+              }
+              toggle(el, "data-cms-changed", false);
+            }
+          });
+        });
+
+        // Body (Markdown)
+        var B = L.body;
+        var curBody = typeof data.body === "string" ? data.body : "";
+        var origBody = typeof L.original.body === "string" ? L.original.body : "";
+        if (B) {
+          if (curBody === origBody && !L.borrowed) {
+            if (B.rerendered) {
+              B.box.innerHTML = B.html;
+              B.rerendered = false;
+              B.spans = Array.prototype.slice.call(B.box.querySelectorAll("[data-cms-line]")).reduce(function (a, s) {
+                a[+s.getAttribute("data-cms-line")] = s;
+                return a;
+              }, []);
+            }
+            B.spans.forEach(function (s, i) {
+              if (s && s.textContent !== B.units[i].plain) s.textContent = B.units[i].plain;
+              if (s) toggle(s, "data-cms-changed", false);
+            });
+          } else {
+            var next = mdUnits(curBody);
+            var lineByLine =
+              !B.rerendered &&
+              next.length === B.units.length &&
+              next.every(function (u, i) {
+                if (u.raw === B.units[i].raw) return true;
+                // the line changed: OK only if it was tagged and only its words changed
+                return !!B.spans[i] && u.plain !== B.units[i].plain && stripWords(u.raw) === stripWords(B.units[i].raw);
+              });
+            if (lineByLine) {
+              next.forEach(function (u, i) {
+                var s = B.spans[i];
+                if (!s) return;
+                if (s.textContent !== u.plain) s.textContent = u.plain;
+                toggle(s, "data-cms-changed", u.raw !== B.units[i].raw);
+              });
+            } else if (window.marked && typeof window.marked.parse === "function") {
+              B.box.innerHTML = window.marked.parse(curBody || "");
+              Array.prototype.forEach.call(B.box.querySelectorAll("a[href]"), function (a) {
+                a.setAttribute("data-href", a.getAttribute("href"));
+                a.removeAttribute("href");
+              });
+              Array.prototype.forEach.call(B.box.querySelectorAll("img[src]"), function (im) {
+                im.setAttribute("src", assetUrl(getAsset, im.getAttribute("src")));
+              });
+              B.rerendered = true;
+            } else {
+              pending++;
+            }
+          }
+        } else if (curBody !== origBody) {
+          pending++;
+        }
+
+        // Everything else that changed but has no spot on the page
+        var seen = {};
+        Object.keys(L.texts).concat(Object.keys(L.images)).forEach(function (p) {
+          seen[p] = 1;
+        });
+        leaves(data).forEach(function (p) {
+          var path = p[0];
+          if (path === "body" || seen[path]) return;
+          var o = getPath(L.original, path);
+          if (L.borrowed && (o == null || o === "")) return;
+          if (String(p[1] == null ? "" : p[1]) !== String(o == null ? "" : o)) {
+            if (L.borrowed && isLinkish(path, p[1])) return;
+            pending++;
+          }
+        });
+        leaves(L.original).forEach(function (p) {
+          if (!L.borrowed && getPath(data, p[0]) === undefined && p[0] !== "body") pending++;
+        });
+
+        var msg =
+          "<span>👁 <b>Live preview</b> of " +
+          (L.borrowed ? "how this new entry will look (using a similar page as a template)" : "<b>" + esc(L.url) + "</b>") +
+          "</span><span>Click anything to jump to its field · yellow = changed, not saved yet</span>";
+        if (pending > 0) {
+          msg +=
+            '<span class="warn">⏳ ' +
+            pending +
+            " change" +
+            (pending === 1 ? "" : "s") +
+            " (new items, links, switches) will appear on the page after you save.</span>";
+        }
+        if (L.banner.innerHTML !== msg) L.banner.innerHTML = msg;
+      },
+      render: function () {
+        var self = this;
+        var status = this.state.status;
+        return h(
+          "div",
+          null,
+          status !== "ready"
+            ? h(
+                "div",
+                { className: "ajas-live-msg", style: { font: "15px/1.5 system-ui,sans-serif", color: "#334155", padding: "40px 24px", textAlign: "center" } },
+                status === "loading" ? "Loading the real page…" : this.state.message,
+              )
+            : null,
+          h("div", {
+            ref: function (el) {
+              self.host = el;
+            },
+          }),
+        );
+      },
+    });
+  }
+
+  function stripWords(raw) {
+    // the markdown "shape" of a line, without its words: "## ", "- **x** y" → "-****"
+    return String(raw).replace(/[\p{L}\p{N}\s.,;:'"’“”!?()\-–—&/]+/gu, "");
+  }
+  function toggle(el, attr, on) {
+    if (on) {
+      if (!el.hasAttribute(attr)) el.setAttribute(attr, "");
+    } else if (el.hasAttribute(attr)) el.removeAttribute(attr);
+  }
   function assetUrl(getAsset, path) {
     if (!path) return "";
     try {
-      var asset = getAsset(path);
-      if (asset && asset.url) return asset.url;
-      if (asset && typeof asset.toString === "function" && String(asset) !== "[object Object]") {
-        return String(asset);
-      }
+      var a = getAsset && getAsset(path);
+      if (a && a.url) return a.url;
+      if (a && String(a) !== "[object Object]") return String(a);
     } catch (e) {
-      // fall through to raw path
+      /* fall through */
     }
-    return path;
+    return path.charAt(0) === "/" ? location.origin + path : path;
   }
 
-  function img(getAsset, src, alt, extraAttrs) {
-    if (!src) return "";
-    return (
-      '<img src="' + esc(assetUrl(getAsset, src)) + '" alt="' + esc(alt) + '" ' + (extraAttrs || "") + " />"
-    );
+  // ─── simple previews for things that have no page of their own ─────────
+
+  var CARD =
+    "font-family:'Libre Franklin',system-ui,sans-serif;color:#0d2039;max-width:760px;margin:24px auto;padding:0 18px";
+
+  function fmtDate(v) {
+    if (!v) return "";
+    var d = new Date(v);
+    return isNaN(d) ? String(v) : d.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
   }
 
-  function fa(icon) {
-    return '<i class="fa fa-' + esc(icon || "circle") + '" aria-hidden="true"></i>';
+  function makePopupPreview() {
+  return createClass({
+    render: function () {
+      var d = toJS(this.props.entry.get("data")) || {};
+      var src = assetUrl(this.props.getAsset, d.image);
+      var today = new Date().toISOString().slice(0, 10);
+      var start = d.start ? String(d.start).slice(0, 10) : "";
+      var end = d.end ? String(d.end).slice(0, 10) : "";
+      var state = !d.enabled
+        ? ["#64748b", "Switched off — visitors don't see it."]
+        : start && today < start
+          ? ["#b45309", "Scheduled — starts showing on " + fmtDate(start) + "."]
+          : end && today > end
+            ? ["#64748b", "Finished — stopped showing after " + fmtDate(end) + "."]
+            : ["#15803d", "Showing now" + (end ? " until " + fmtDate(end) : "") + "."];
+      var where = d.pages === "all" ? "on every page" : "on the homepage";
+      var often =
+        d.frequency === "always" ? "every time a page loads" : d.frequency === "day" ? "once a day per visitor" : "once per visit";
+      return h(
+        "div",
+        { style: { minHeight: "100vh", background: "rgba(8,20,38,.78)", padding: "28px 16px", boxSizing: "border-box" } },
+        h(
+          "p",
+          {
+            style: {
+              margin: "0 auto 18px",
+              maxWidth: "720px",
+              background: "#fff",
+              borderLeft: "5px solid " + state[0],
+              padding: "10px 14px",
+              font: "500 14px/1.45 system-ui,sans-serif",
+              color: "#0d2039",
+            },
+          },
+          h("b", { style: { color: state[0] } }, state[1]),
+          " Appears " + where + ", " + often + ".",
+        ),
+        h(
+          "div",
+          { style: { display: "flex", flexDirection: "column", alignItems: "center", gap: "12px" } },
+          src
+            ? h("img", {
+                src: src,
+                alt: d.title || "",
+                "data-key-path": "image",
+                style: { maxWidth: "min(100%,720px)", maxHeight: "78vh", boxShadow: "0 24px 60px rgba(0,0,0,.45)", cursor: "pointer" },
+              })
+            : h(
+                "div",
+                {
+                  "data-key-path": "image",
+                  style: {
+                    width: "min(100%,420px)",
+                    aspectRatio: "1",
+                    border: "2px dashed #94a3b8",
+                    color: "#e2e8f0",
+                    display: "grid",
+                    placeItems: "center",
+                    font: "15px system-ui",
+                    cursor: "pointer",
+                  },
+                },
+                "Upload a poster image",
+              ),
+          d.link && d.button_label
+            ? h(
+                "span",
+                {
+                  "data-key-path": "button_label",
+                  style: {
+                    background: "#b3242b",
+                    color: "#fff",
+                    padding: "12px 26px",
+                    borderRadius: "999px",
+                    font: "600 15px system-ui",
+                    cursor: "pointer",
+                  },
+                },
+                d.button_label + " →",
+              )
+            : null,
+        ),
+      );
+    },
+  });
   }
 
-  var EVENT_COLORS = ["7ecc88", "3f4c99", "ff5f60"];
-  var NUMBER_WORDS = ["one", "two", "three", "four", "five"];
-
-  /**
-   * Renders the homepage exactly like src/components/home/HomeSections.astro
-   * (same markup/classes) so the preview reuses the real public CSS
-   * (registered below) — a true WYSIWYG preview, not a generic field dump.
-   * Kept in sync by hand with that component; if you change one, change both.
-   */
-  function renderHomePreview(data, getAsset) {
-    data = data || {};
-    var hero = data.hero || {};
-    var quick_actions = data.quick_actions || [];
-    var accreditation = data.accreditation || { items: [] };
-    var about = data.about || { paragraphs: [] };
-    var metrics = data.metrics || [];
-    var chairman = data.chairman_message || {};
-    var principal = data.principal_message || {};
-    var programmes = data.programmes || {};
-    var ug = programmes.ug || { items: [] };
-    var pg = programmes.pg || { items: [] };
-    var departments = programmes.departments || [];
-    var gallery = data.gallery || { slides: [] };
-    var services = data.services || { items: [] };
-    var benefits = data.benefits || { items: [] };
-    var events = data.events || { items: [] };
-    var testimonials = data.testimonials || { items: [] };
-    var qlc = data.quick_link_cta || { quicklinks: [] };
-
-    var html = "";
-
-    // 1 — Hero
-    html +=
-      '<section class="ajas-hero ajas-hero--video-only" aria-label="Campus video"><div class="hero-media">' +
-      (hero.video
-        ? '<video class="hero-video" autoplay muted loop playsinline preload="metadata"><source src="' +
-          esc(assetUrl(getAsset, hero.video)) +
-          '" type="video/mp4"></video>'
-        : '<div style="aspect-ratio:16/9;background:#e2e8f0;display:flex;align-items:center;justify-content:center;color:#64748b">No hero video set</div>') +
-      "</div></section>";
-
-    // 2 — Quick actions
-    html += '<section class="ajas-actions"><div class="container"><div class="row">';
-    quick_actions.forEach(function (tile) {
-      html +=
-        '<div class="col-lg-4 col-md-4 col-sm-12"><a class="action-tile tile-' +
-        esc(tile.style || "primary") +
-        '" href="' +
-        esc(tile.url) +
-        '"><span class="tile-ico">' +
-        fa(tile.icon) +
-        '</span><span class="tile-body"><span class="tile-title">' +
-        esc(tile.title) +
-        '</span><span class="tile-sub">' +
-        esc(tile.subtitle) +
-        '</span></span><span class="tile-cta">' +
-        esc(tile.cta_label) +
-        ' <i class="fa fa-long-arrow-right" aria-hidden="true"></i></span></a></div>';
+  function makeDocPreview(listUrl, listLabel) {
+    return createClass({
+      render: function () {
+        var d = toJS(this.props.entry.get("data")) || {};
+        var file = d.file ? assetUrl(this.props.getAsset, d.file) : "";
+        var isPdf = /\.pdf($|\?)/i.test(String(d.file || "")) || (file.indexOf("blob:") === 0 && /pdf/i.test(String(d.file || "")));
+        return h(
+          "div",
+          { style: { cssText: CARD } },
+          h(
+            "p",
+            { style: { font: "500 13px system-ui", color: "#64748b", margin: "0 0 10px" } },
+            "Shows as one row in the list on " + listUrl + " (" + listLabel + ")",
+          ),
+          h(
+            "div",
+            {
+              style: {
+                display: "flex",
+                gap: "16px",
+                alignItems: "center",
+                justifyContent: "space-between",
+                border: "1px solid #e2e8f0",
+                padding: "16px 18px",
+                background: "#fff",
+              },
+            },
+            h(
+              "div",
+              null,
+              h("div", { "data-key-path": "title", style: { font: "600 18px 'Source Serif 4',Georgia,serif", cursor: "pointer" } }, d.title || "Title"),
+              h(
+                "div",
+                { style: { font: "13px system-ui", color: "#64748b", marginTop: "4px" } },
+                h("span", { "data-key-path": "date" }, fmtDate(d.date)),
+                d.category ? h("span", { "data-key-path": "category" }, "  ·  " + d.category) : null,
+                d.description ? h("div", { "data-key-path": "description", style: { marginTop: "4px" } }, d.description) : null,
+              ),
+            ),
+            h(
+              "span",
+              {
+                "data-key-path": "file",
+                style: { background: "#0d2039", color: "#fff", padding: "9px 16px", font: "600 13px system-ui", whiteSpace: "nowrap", cursor: "pointer" },
+              },
+              file ? "Download ↓" : "No file yet",
+            ),
+          ),
+          file && isPdf
+            ? h(
+                "div",
+                null,
+                h("p", { style: { font: "500 13px system-ui", color: "#64748b", margin: "22px 0 8px" } }, "The document visitors will open:"),
+                h("iframe", { src: file, title: "PDF", style: { width: "100%", height: "75vh", border: "1px solid #e2e8f0", background: "#f8fafc" } }),
+              )
+            : file
+              ? h("p", { style: { font: "14px system-ui", margin: "18px 0" } }, "File attached: " + String(d.file).split("/").pop())
+              : h(
+                  "p",
+                  { style: { font: "14px system-ui", color: "#b45309", margin: "18px 0" } },
+                  "Upload the PDF in the “PDF or document” field — it will appear here.",
+                ),
+        );
+      },
     });
-    html += "</div></div></section>";
-
-    // 3 — Accreditation
-    html +=
-      '<section class="partner-clients ajas-accred"><div class="container"><p class="accred-label">' +
-      esc(accreditation.label) +
-      '</p><ul class="accred-row">';
-    (accreditation.items || []).forEach(function (item) {
-      html += "<li>" + img(getAsset, item.image, item.name) + "<span>" + esc(item.name) + "</span></li>";
-    });
-    html += "</ul></div></section>";
-
-    // 4 — About
-    html += '<section class="ajas-about"><div class="container"><h2 class="flat-title medium">' + esc(about.heading) + "</h2>";
-    (about.paragraphs || []).forEach(function (p) {
-      html += "<p>" + esc(p) + "</p>";
-    });
-    html += '<a href="' + esc(about.cta_url) + '" class="btn-box-shadow">' + esc(about.cta_label) + "</a></div></section>";
-
-    // 5 — Metrics
-    html += '<section class="ajas-metric-banner"><div class="container"><ul class="ajas-metric-row">';
-    metrics.forEach(function (m) {
-      html += "<li><strong>" + esc(m.value) + "</strong><span>" + esc(m.label) + "</span></li>";
-    });
-    html += "</ul></div></section>";
-
-    // 6/7 — Chairman + Principal message (same layout)
-    function messageBlock(m, isPrincipal) {
-      var out =
-        '<section class="flat-introduce flat-introduce-style1 clearfix"><div class="container"><div class="col-left"><div class="videobox"><a href="' +
-        esc(m.photo_url) +
-        '">' +
-        img(getAsset, m.photo, m.kicker) +
-        '</a></div></div><div class="col-right"><div class="content-introduce content-introduce-style1"><div class="title-section"><p class="sub-title lt-sp25">' +
-        esc(m.kicker) +
-        '</p><div class="flat-title larger heading-type1">' +
-        esc(m.heading) +
-        '</div></div><div class="content-introduce-inner">';
-      if (isPrincipal) {
-        out += "<p>" + esc(m.quote) + "</p>";
-        if (m.bullet_points && m.bullet_points.length) {
-          out += '<div class="content-list"><ul>';
-          m.bullet_points.forEach(function (b) {
-            out += '<li><span class="text">' + esc(b) + "</span></li>";
-          });
-          out += "</ul></div>";
-        }
-      } else {
-        (m.paragraphs || []).forEach(function (p) {
-          out += "<p>" + esc(p) + "</p>";
-        });
-      }
-      out +=
-        '<div class="btn-about"><a href="' +
-        esc(m.cta_url) +
-        '" class="btn-box-shadow">' +
-        esc(m.cta_label) +
-        "</a></div></div></div></div></div></section>";
-      return out;
-    }
-    html += messageBlock(chairman, false);
-    html += messageBlock(principal, true);
-
-    // 8 — Programmes + departments
-    function progCard(card, defaultIcon) {
-      var out =
-        '<div class="col-lg-6 col-md-12"><div class="ajas-prog-card"><div class="prog-card-header"><div class="prog-icon-badge">' +
-        fa(card.icon) +
-        '</div><div class="prog-header-text"><span class="prog-level-tag">' +
-        esc(card.level_tag) +
-        '</span><h3 class="prog-card-title">' +
-        esc(card.title) +
-        '</h3><span class="prog-meta">' +
-        esc(card.meta) +
-        '</span></div></div><div class="prog-card-body"><ul class="prog-chips-grid">';
-      (card.items || []).forEach(function (it) {
-        out +=
-          '<li><a href="' +
-          esc(it.url) +
-          '" class="prog-chip">' +
-          fa(it.icon || defaultIcon) +
-          " " +
-          esc(it.label) +
-          "</a></li>";
-      });
-      out += "</ul>";
-      if (card.highlight_text) {
-        out +=
-          '<div class="pg-highlight-box"><div class="pg-hl-icon">' +
-          fa(card.highlight_icon || "lightbulb-o") +
-          "</div><p>" +
-          esc(card.highlight_text) +
-          "</p></div>";
-      }
-      out +=
-        '</div><div class="prog-card-footer"><a href="' +
-        esc(card.cta_primary_url) +
-        '" class="btn-prog-cta">' +
-        esc(card.cta_primary_label) +
-        ' <i class="fa fa-arrow-right"></i></a><a href="' +
-        esc(card.cta_secondary_url) +
-        '" class="btn-prog-alt">' +
-        esc(card.cta_secondary_label) +
-        "</a></div></div></div>";
-      return out;
-    }
-
-    html +=
-      '<section class="online-courses online-courses-style1 ajas-programmes"><div class="container"><div class="title-section text-center"><p class="sub-title lt-sp17">' +
-      esc(programmes.kicker) +
-      '</p><h2 class="flat-title medium">' +
-      esc(programmes.heading) +
-      '</h2></div><p class="listing-intro">' +
-      esc(programmes.intro) +
-      '</p><div class="row ajas-prog-grid">' +
-      progCard(ug, "check-circle") +
-      progCard(pg, "star") +
-      '</div><div class="title-section text-center pd-top60"><p class="sub-title lt-sp17">' +
-      esc(programmes.departments_kicker) +
-      '</p><h2 class="flat-title medium">' +
-      esc(programmes.departments_heading) +
-      '</h2></div><div class="flat-courses clearfix"><div class="row">';
-
-    departments.forEach(function (dept) {
-      html +=
-        '<div class="col-lg-4 col-md-6 col-sm-12 course-col"><div class="ajas-dept-card"><div class="dept-card-media">' +
-        img(getAsset, dept.image, dept.title) +
-        '<span class="dept-card-badge">' +
-        fa(dept.icon) +
-        " " +
-        esc(dept.badge_label) +
-        '</span></div><div class="dept-card-content"><h3 class="dept-card-heading"><a href="' +
-        esc(dept.url) +
-        '">' +
-        esc(dept.title) +
-        '</a></h3><p class="dept-card-text">' +
-        esc(dept.description) +
-        '</p><div class="dept-card-pills">';
-      (dept.pills || []).forEach(function (pill) {
-        html += '<span class="dept-pill">' + esc(pill) + "</span>";
-      });
-      html +=
-        '</div><div class="dept-card-bottom"><a href="' +
-        esc(dept.url) +
-        '" class="dept-link-btn">Explore Department <i class="fa fa-arrow-right"></i></a></div></div></div></div>';
-    });
-
-    html +=
-      '</div><div class="text-center pd-top30"><a href="' +
-      esc(programmes.view_all_url) +
-      '" class="btn bg-clff5f60 ajas-apply-btn">' +
-      esc(programmes.view_all_label) +
-      "</a></div></div></div></section>";
-
-    // 9 — Gallery
-    html +=
-      '<section class="ajas-media"><div class="container"><div class="title-section text-center"><p class="sub-title lt-sp17">' +
-      esc(gallery.kicker) +
-      '</p><h2 class="flat-title medium">' +
-      esc(gallery.heading) +
-      '</h2></div><div class="flat-carousel-box clearfix"><div class="owl-carousel footages-carousel" style="display:flex;overflow-x:auto;gap:0">';
-    (gallery.slides || []).forEach(function (slide) {
-      html +=
-        '<div class="gal-slide"><a class="gal-item" href="' +
-        esc(assetUrl(getAsset, slide.image)) +
-        '" title="' +
-        esc(slide.title) +
-        '">' +
-        img(getAsset, slide.image, slide.title) +
-        '<div class="gal-caption"><h3 class="gal-title">' +
-        esc(slide.title) +
-        '</h3><span class="gal-sub">' +
-        esc(slide.caption) +
-        "</span></div></a></div>";
-    });
-    html +=
-      '</div></div><div class="text-center pd-top30"><a href="' +
-      esc(gallery.cta_url) +
-      '" class="btn bg-clff5f60 ajas-apply-btn">' +
-      esc(gallery.cta_label) +
-      "</a></div></div></section>";
-
-    // 10 — Services
-    html += '<section class="flat-services style1 parallax parallax1 clearfix ajas-services"><div class="section-overlay"></div><div class="container-fluid"><div class="row">';
-    var textWords = ["one", "two", "three"];
-    (services.items || []).forEach(function (svc, i) {
-      html +=
-        '<div class="col-lg-4"><div class="services-content-box themesflat-content-box"><div class="flat-imagebox imagebox-services style1"><div class="imagebox-content"><span class="ajas-icon">' +
-        fa(svc.icon) +
-        '</span><h5 class="text-' +
-        (textWords[i] || "one") +
-        ' text-white">' +
-        esc(svc.title) +
-        '</h5><p class="text-white">' +
-        esc(svc.text) +
-        '</p><div class="read-more"><a href="' +
-        esc(svc.cta_url) +
-        '">' +
-        esc(svc.cta_label) +
-        "</a></div></div></div></div></div>";
-    });
-    html += "</div></div></section>";
-
-    // 11 — Benefits + apply CTA
-    var imgWords = ["one", "two", "three", "four"];
-    html +=
-      '<section class="flat-benefit style1 clearfix ajas-benefit"><div class="container-fluid"><div class="col-benefit-left"><div class="wrap-inconbox-benefit"><div class="title-section"><div class="flat-title small heading-type2 text-white">' +
-      esc(benefits.heading) +
-      '</div></div><div class="iconbox-benefit iconbox-benefit-style1"><div class="row">';
-    (benefits.items || []).forEach(function (b, i) {
-      html +=
-        '<div class="col-lg-6 col-md-6 col-sm-6 col-sx-12"><div class="themesflat-content-box"><div class="iconbox"><div class="iconbox-icon"><span class="ajas-icon">' +
-        fa(b.icon) +
-        '</span></div><div class="iconbox-content img-' +
-        (imgWords[i] || "one") +
-        '"><h3><a href="' +
-        esc(b.url) +
-        '">' +
-        esc(b.title) +
-        '</a></h3><p>' +
-        esc(b.text) +
-        "</p></div></div></div></div>";
-    });
-    html +=
-      '</div></div></div><div class="col-benefit-right"><div class="ajas-apply-cta"><h2>' +
-      esc(benefits.cta_heading) +
-      "</h2><p>" +
-      esc(benefits.cta_text) +
-      '</p><a href="' +
-      esc(benefits.cta_primary_url) +
-      '" class="ajas-apply-cta-btn">' +
-      esc(benefits.cta_primary_label) +
-      ' <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a><a href="' +
-      esc(benefits.cta_secondary_url) +
-      '" class="ajas-apply-cta-link">' +
-      esc(benefits.cta_secondary_label) +
-      "</a></div></div></div></section>";
-
-    // 12 — Upcoming events
-    var evItems = events.items || [];
-    html +=
-      '<section class="flat-event flat-event-style1 clearfix ajas-events"><div class="container-fluid"><div class="col-left"><div class="content-event-style1 themesflat-content-box"><div class="title-section"><div class="flat-title larger heading-type3">' +
-      esc(events.heading) +
-      '</div></div><div class="content-event-list">';
-    evItems.forEach(function (ev, i) {
-      var color = EVENT_COLORS[i % EVENT_COLORS.length];
-      html +=
-        '<div class="content-event"><div class="entry-info clearfix"><div class="entry-title"><a href="' +
-        esc(ev.url) +
-        '" class="cl-' +
-        color +
-        '">' +
-        esc(ev.title) +
-        '</a></div><div class="entry-meta"><ul><li class="date clearfix"><span class="icon-event icon-icons8-planner-100"></span><span class="detail-event">' +
-        esc(ev.date) +
-        '</span></li><li class="location clearfix"><span class="icon-event icon-icons8-marker-100"></span><span class="detail-event">' +
-        esc(ev.location) +
-        '</span></li></ul></div></div><div class="entry-number number-' +
-        (NUMBER_WORDS[i] || "one") +
-        '"><span class="cl-' +
-        color +
-        '">' +
-        (i + 1) +
-        "</span></div></div>";
-    });
-    html +=
-      '</div><div class="btn-about pd-top15"><a href="' +
-      esc(events.cta_url) +
-      '" class="btn-box-shadow">' +
-      esc(events.cta_label) +
-      '</a></div></div></div><div class="col-right"><div class="images-list themesflat-content-box"><div class="images-list-1">';
-    evItems.slice(0, 2).forEach(function (ev, i) {
-      html +=
-        '<div class="img-event">' +
-        (ev.image ? img(getAsset, ev.image, ev.title) : "") +
-        '<span class="number bg-cl' +
-        EVENT_COLORS[i % EVENT_COLORS.length] +
-        '">' +
-        (i + 1) +
-        "</span></div>";
-    });
-    html += "</div>";
-    if (evItems[2]) {
-      html +=
-        '<div class="images-list-2"><div class="img-event">' +
-        (evItems[2].image ? img(getAsset, evItems[2].image, evItems[2].title) : "") +
-        '<span class="number bg-cl' +
-        EVENT_COLORS[2 % EVENT_COLORS.length] +
-        '">3</span></div></div>';
-    }
-    html += "</div></div></div></section>";
-
-    // 13 — Testimonials
-    html +=
-      '<section class="ajas-testimonials-section"><div class="container"><div class="title-section text-center"><p class="sub-title lt-sp17">' +
-      esc(testimonials.kicker) +
-      '</p><h2 class="flat-title medium">' +
-      esc(testimonials.heading) +
-      '</h2></div><div class="ajas-testi-wrapper"><div class="flexslider ajas-testi-slider" style="overflow:visible"><ul class="slides" style="display:flex;flex-wrap:wrap;gap:20px;list-style:none;padding:0">';
-    (testimonials.items || []).forEach(function (t) {
-      html +=
-        '<li style="flex:1 1 320px"><div class="ajas-testi-card"><div class="testi-photo-col"><div class="testi-avatar-frame">' +
-        img(getAsset, t.photo, t.name) +
-        '</div></div><div class="testi-content-col"><div class="testi-quote-mark"><i class="fa fa-quote-left" aria-hidden="true"></i></div><p class="testi-speech">&ldquo; ' +
-        esc(t.quote) +
-        ' &rdquo;</p><div class="testi-author-info"><h4 class="testi-name">' +
-        esc(t.name) +
-        '</h4><span class="testi-role-badge">' +
-        esc(t.role) +
-        "</span></div></div></div></li>";
-    });
-    html += "</ul></div></div></div></section>";
-
-    // 14 — Closing CTA
-    html +=
-      '<section class="quick-link quick-link-style1 parallax parallax2 ajas-quicklink"><div class="section-overlay"></div><div class="container"><div class="row"><div class="col-lg-7"><div class="wrap-link-left"><div class="caption lt-sp275">' +
-      esc(qlc.kicker) +
-      '</div><div class="heading-lf lt-sp03">' +
-      esc(qlc.heading) +
-      "</div><p>" +
-      esc(qlc.text) +
-      '</p><div class="btn-apply-link"><ul><li><a href="' +
-      esc(qlc.primary_url) +
-      '" class="btn btn-apply bg-clff5f60">' +
-      esc(qlc.primary_label) +
-      '</a></li><li><a href="' +
-      esc(qlc.secondary_url) +
-      '" class="btn btn-request lt-sp06">' +
-      esc(qlc.secondary_label) +
-      '</a></li></ul></div></div></div><div class="col-lg-5"><div class="wrap-link-right"><div class="heading-rg"><span>' +
-      esc(qlc.quicklinks_heading) +
-      '</span></div><ul class="info-quick-link">';
-    (qlc.quicklinks || []).forEach(function (link) {
-      html +=
-        "<li>" +
-        fa(link.icon) +
-        '<a href="' +
-        esc(link.url) +
-        '"' +
-        (link.external ? ' target="_blank"' : "") +
-        ">" +
-        esc(link.label) +
-        "</a></li>";
-    });
-    html += "</ul></div></div></div></div></section>";
-
-    return html;
   }
+
+  // ─── register ───────────────────────────────────────────────────────────
 
   whenCMS(function (CMS) {
-    // Real site stylesheets, in the same order BaseLayout.astro loads them —
-    // makes every preview (not just the homepage) use the actual public CSS
-    // instead of a generic approximation.
-    [
-      "/stylesheet/bootstrap.css",
-      "/stylesheet/font-awesome.css",
-      "/stylesheet/themify-icons.css",
-      "/stylesheet/style.css",
-      "/stylesheet/shortcodes.css",
-      "/stylesheet/responsive.css",
-      "/stylesheet/flexslider.css",
-      "/stylesheet/owl.theme.default.min.css",
-      "/stylesheet/owl.carousel.min.css",
-      "/assets/migrate.css",
-      "/stylesheet/animate.css",
-      "/admin/preview-vars.css",
-    ].forEach(function (href) {
+    Object.keys(ROUTES).forEach(function (key) {
       try {
-        CMS.registerPreviewStyle(href);
+        CMS.registerPreviewTemplate(key, makeLivePreview(key));
       } catch (e) {
-        console.warn("[AJAS CMS] registerPreviewStyle failed for " + href, e);
+        console.warn("[AJAS CMS] preview template failed for " + key, e);
       }
     });
-    // Fonts (Google Fonts stylesheet, not a same-origin file — register by URL same way)
     try {
-      CMS.registerPreviewStyle(
-        "https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap"
-      );
+      CMS.registerPreviewTemplate("popups", makePopupPreview());
+      CMS.registerPreviewTemplate("notices", makeDocPreview("/notices/", "Notices & downloads"));
+      CMS.registerPreviewTemplate("fees", makeDocPreview("/fees/", "Fees & prospectus"));
     } catch (e) {
-      console.warn("[AJAS CMS] Google Fonts preview style failed", e);
-    }
-    // Original hand-tuned pane styling (spacing, headings for markdown body
-    // preview) — loaded last so it can fine-tune, not fight, the real CSS.
-    try {
-      CMS.registerPreviewStyle("/admin/preview.css");
-    } catch (e) {
-      console.warn("[AJAS CMS] registerPreviewStyle failed", e);
-    }
-
-    // WYSIWYG homepage preview — see renderHomePreview() above.
-    //
-    // DIAGNOSTIC BANNER: every render is prefixed with a green
-    // "AJAS custom preview active" strip. That's deliberate and temporary —
-    // it tells us, from a screenshot alone, whether this registered at all:
-    //   - Banner + real homepage layout below it → working, remove the banner.
-    //   - Banner + red error text → registration worked, rendering threw
-    //     (check the error text, or open devtools console for the stack).
-    //   - No banner, still the plain field list → registration itself isn't
-    //     taking effect (wrong collection/file key, or createClass/h aren't
-    //     what we think) — needs a different approach, not a render fix.
-    try {
-      if (typeof window.createClass === "function" && window.h) {
-        var HomePreview = window.createClass({
-          render: function () {
-            var entry = this.props.entry;
-            var getAsset = this.props.getAsset;
-            var data = {};
-            try {
-              data = entry.getIn(["data"]).toJS();
-            } catch (e) {
-              console.error("[AJAS CMS] could not read homepage entry data", e);
-            }
-            var banner =
-              '<div style="background:#059669;color:#fff;padding:8px 16px;font:600 13px/1.4 sans-serif">✓ AJAS custom preview active (v2)</div>';
-            var html = "";
-            try {
-              html = renderHomePreview(data, getAsset);
-            } catch (e) {
-              console.error("[AJAS CMS] home preview render failed", e);
-              html =
-                "<pre style='padding:20px;color:#b91c1c;white-space:pre-wrap'>Preview failed to render:\n" +
-                esc(e && e.stack ? e.stack : String(e)) +
-                "</pre>";
-            }
-            return window.h("div", { dangerouslySetInnerHTML: { __html: banner + html } });
-          },
-        });
-        // Registration key for a `files:`-based collection is ambiguous in
-        // Sveltia's own docs ("the collection or collection file" — doesn't
-        // say which string). Register under both the collection name
-        // ("home") and the file name ("homepage") so whichever one Sveltia
-        // actually checks is covered.
-        CMS.registerPreviewTemplate("home", HomePreview);
-        CMS.registerPreviewTemplate("homepage", HomePreview);
-      } else {
-        console.warn("[AJAS CMS] window.createClass/h not available — homepage preview not registered");
-      }
-    } catch (e) {
-      console.error("[AJAS CMS] registerPreviewTemplate('home', ...) failed", e);
+      console.warn("[AJAS CMS] preview template registration failed", e);
     }
   });
 })();

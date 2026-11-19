@@ -1,10 +1,25 @@
 # yaml-language-server: $schema=https://unpkg.com/@sveltia/cms/schema/sveltia-cms.json
 #
-# Sveltia CMS — production (GitHub: aathif394/ajascollege)
-# Local: run `pnpm run cms` (decap-server is only a local file bridge).
-# Production: Sign in with GitHub → Cloudflare Worker (NO Netlify).
-
-local_backend: true
+# Sveltia CMS — Al Jamia Arts & Science College
+#
+# How this file is organised (same order the editors see in the sidebar):
+#   DAILY UPDATES   popups, news, events, notices & PDFs, fees & prospectus
+#   PAGES           homepage, every other page, programmes, faculty
+#   SITE-WIDE       menu, footer, list-page intros, prospectus page, contact
+#
+# Every collection says WHERE on the website it shows up, and has a
+# preview_path so the editor gets a "View on site" link for each entry.
+# The preview pane next to the form shows the REAL page, updating as you type
+# (public/admin/cms-init.js) — click anything in it to jump to its field.
+# On the live site, staff also get an "Edit this page" button
+# (src/components/EditorBar.astro) that jumps straight back here.
+#
+# MEDIA — two folders, both published at /assets/uploads/…:
+#   src/assets/uploads     images (Astro resizes them to webp at build time)
+#   public/assets/uploads  PDFs, Word/Excel files, videos (served as-is)
+# Every File field below saves to the second one. Field-level media_folder
+# MUST start with "/" — without it Sveltia treats the path as relative to the
+# collection folder, which is why uploaded PDFs used to go missing.
 
 backend:
   name: github
@@ -13,17 +28,29 @@ backend:
   # Custom auth Worker — password form, then GitHub token (never api.netlify.com)
   base_url: https://ajas-cms-auth.ajascadmin.workers.dev
   auth_endpoint: auth
+  commit_messages:
+    create: "Add {{collection}} “{{slug}}”"
+    update: "Update {{collection}} “{{slug}}”"
+    delete: "Delete {{collection}} “{{slug}}”"
+    uploadMedia: "Upload “{{path}}”"
+    deleteMedia: "Delete “{{path}}”"
 
-# Images live under src/ so Astro can optimize (Sharp → webp/srcset) at build time.
-# public_folder is still the path stored in content (/assets/uploads/...).
+# Images (global media library)
 media_folder: src/assets/uploads
 public_folder: /assets/uploads
 
+# PDFs, documents and videos get their own library in the Assets screen.
+asset_collections:
+  - name: documents
+    label: "Documents, PDFs & videos"
+    icon: picture_as_pdf
+    media_folder: /public/assets/uploads
+    public_folder: /assets/uploads
+
 site_url: https://ajascollege.pages.dev
 display_url: https://ajascollege.pages.dev
-# UI logo (header) — official AJAS wordmark (height capped in brand.css)
-logo_url: https://ajascollege.pages.dev/assets/uploads/2024/01/AJAS-Website-Heading-Last.svg
-logo_link: https://ajascollege.pages.dev/
+logo:
+  src: https://ajascollege.pages.dev/assets/uploads/2024/01/AJAS-Website-Heading-Last.svg
 
 slug:
   encoding: ascii
@@ -31,184 +58,720 @@ slug:
   sanitize_replacement: "-"
 
 collections:
-  - name: news
-    label: "1 · News"
+  # ════════════════════════════ DAILY UPDATES ════════════════════════════
+
+  - name: popups
+    label: "Popup announcements"
+    label_singular: Popup
     icon: campaign
-    label_singular: News item
-    description: Campus news posts (homepage + /college-news/).
+    description: >-
+      The poster that pops up when someone opens the website (admissions,
+      new programmes, events). Upload the poster, choose dates, done — it
+      appears on the start date and disappears after the end date by itself.
+      To try one before switching it on, open the site with ?popup=preview at
+      the end of the address.
+    folder: content/popups
+    create: true
+    delete: true
+    extension: md
+    format: frontmatter
+    slug: "{{slug}}"
+    summary: "{{title}}  ·  {{enabled | ternary('● ON', '○ off')}}  ·  {{start}} → {{end}}"
+    thumbnail: image
+    sortable_fields:
+      fields: [title, start, order]
+      default: { field: order, direction: ascending }
+    fields:
+      - { label: "Name (for you — visitors don't see this)", name: title, widget: string, hint: "e.g. “B.Sc Microbiology admission poster”. Also used as the image description for screen readers." }
+      - { label: "Switched on?", name: enabled, widget: boolean, default: true, hint: "Turn off to hide the popup without deleting it." }
+      - { label: "Poster image", name: image, widget: image, hint: "A square or portrait poster works best (e.g. 1080×1080 or 1080×1350). JPG or PNG." }
+      - { label: "When clicked, go to (optional)", name: link, widget: string, required: false, hint: "A page like /admission/, a PDF, or a full https:// address. Leave empty if the poster isn't clickable." }
+      - { label: "Button under the poster (optional)", name: button_label, widget: string, required: false, hint: "e.g. “Apply now”. Only shows when a link is set." }
+      - { label: "Start showing on", name: start, widget: datetime, required: false, format: YYYY-MM-DD, time_format: false, hint: "Leave empty to start straight away." }
+      - { label: "Stop showing after", name: end, widget: datetime, required: false, format: YYYY-MM-DD, time_format: false, hint: "Leave empty to keep showing until you switch it off." }
+      - label: "Show on"
+        name: pages
+        widget: select
+        default: home
+        options:
+          - { label: "Homepage only", value: home }
+          - { label: "Every page", value: all }
+      - label: "How often each visitor sees it"
+        name: frequency
+        widget: select
+        default: session
+        options:
+          - { label: "Once per visit (recommended)", value: session }
+          - { label: "Once per day", value: day }
+          - { label: "Every time a page loads", value: always }
+      - { label: "Order (if several are on at once)", name: order, widget: number, value_type: int, default: 0, hint: "Lower numbers show first. Visitors see them one after another." }
+
+  - name: news
+    label: "News"
+    label_singular: News post
+    icon: newspaper
+    description: "News posts. Show on /college-news/ (newest first) and in the site search. The URL is created automatically from the title."
     folder: content/news
     create: true
     delete: true
     extension: md
     format: frontmatter
     slug: "{{slug}}"
-    summary: "{{title}}"
+    preview_path: "/college-news/{{slug}}/"
+    permalink_field: true
+    summary: "{{title}}  ·  {{date | date('DD MMM YYYY')}}"
+    thumbnail: image
     sortable_fields:
       fields: [title, date]
       default: { field: date, direction: descending }
-    fields:
-      - { label: Title, name: title, widget: string }
-      - { label: Featured image, name: image, widget: image, required: false, choose_url: true }
-      - { label: Description (SEO), name: description, widget: text, required: false }
-      - { label: Permalink, name: permalink, widget: string, hint: "/college-news/your-slug/", pattern: ["^/college-news/.+/$", "Must be /college-news/slug/"] }
-      - { label: Type, name: type, widget: hidden, default: article }
-      - { label: Draft, name: draft, widget: boolean, default: false }
-      - { label: Date, name: date, widget: datetime, required: false }
-      - { label: "Page content (visual editor)", name: body, widget: markdown, hint: "Edit like Word — headings, bold, lists, images. Never paste HTML code." }
+    fields: &article_fields
+      - { label: Headline, name: title, widget: string }
+      - { label: Date, name: date, widget: datetime, format: YYYY-MM-DD, time_format: false, default: "{{now}}" }
+      - { label: "Main photo", name: image, widget: image, required: false, choose_url: true, hint: "Shown at the top of the post and on the list page." }
+      - { label: "Story", name: body, widget: markdown, hint: "Write it like a Word document — headings, bold, lists. Please don't paste HTML code or photo dumps here; use the Photo gallery below." }
+      - label: "Photo gallery (optional)"
+        name: gallery
+        widget: list
+        required: false
+        hint: "Extra photos, shown as a grid under the story. Click a photo on the site to enlarge it."
+        field: { label: Photo, name: image, widget: image }
       - label: "Video (optional)"
         name: videos
         widget: list
         required: false
         summary: "{{fields.caption}}"
-        hint: "Add a video clip for this news item — upload a file OR paste a YouTube/Vimeo link, not both."
+        hint: "Upload an MP4 OR paste a YouTube/Vimeo link — not both."
         fields:
-          - { label: "Video file (mp4, upload)", name: file, widget: file, required: false, media_folder: src/assets/uploads, public_folder: /assets/uploads, hint: "Keep under 20MB." }
+          - { label: "Video file (MP4)", name: file, widget: file, required: false, media_folder: /public/assets/uploads, public_folder: /assets/uploads, hint: "Keep it under 20 MB." }
           - { label: "OR YouTube / Vimeo link", name: url, widget: string, required: false }
           - { label: Caption, name: caption, widget: string, required: false }
+      - { label: "Short summary for Google & WhatsApp shares (optional)", name: description, widget: text, required: false, hint: "One or two sentences. If empty, the start of the story is used." }
+      - { label: "Hide from the website (draft)", name: draft, widget: boolean, default: false, required: false }
+      - { label: Type, name: type, widget: hidden, default: article }
 
   - name: events
-    label: "2 · Events"
-    icon: event
+    label: "Events"
     label_singular: Event
-    description: Upcoming and past events (/event/).
+    icon: event
+    description: "Upcoming and past events. Show on /event/ (newest first). The URL is created automatically from the title."
     folder: content/events
     create: true
     delete: true
     extension: md
     format: frontmatter
     slug: "{{slug}}"
-    summary: "{{title}}"
+    preview_path: "/event/{{slug}}/"
+    permalink_field: true
+    summary: "{{title}}  ·  {{date | date('DD MMM YYYY')}}"
+    thumbnail: image
     sortable_fields:
       fields: [title, date]
       default: { field: date, direction: descending }
-    fields:
-      - { label: Title, name: title, widget: string }
-      - { label: Featured image, name: image, widget: image, required: false, choose_url: true }
-      - { label: Description (SEO), name: description, widget: text, required: false }
-      - { label: Permalink, name: permalink, widget: string, hint: "/event/your-slug/", pattern: ["^/event/.+/$", "Must be /event/slug/"] }
-      - { label: Type, name: type, widget: hidden, default: article }
-      - { label: Draft, name: draft, widget: boolean, default: false }
-      - { label: Date, name: date, widget: datetime, required: false }
-      - { label: "Page content (visual editor)", name: body, widget: markdown, hint: "Edit like Word — headings, bold, lists, images. Never paste HTML code." }
-      - label: "Video (optional)"
-        name: videos
-        widget: list
-        required: false
-        summary: "{{fields.caption}}"
-        hint: "Add a video clip for this event — upload a file OR paste a YouTube/Vimeo link, not both."
-        fields:
-          - { label: "Video file (mp4, upload)", name: file, widget: file, required: false, media_folder: src/assets/uploads, public_folder: /assets/uploads, hint: "Keep under 20MB." }
-          - { label: "OR YouTube / Vimeo link", name: url, widget: string, required: false }
-          - { label: Caption, name: caption, widget: string, required: false }
+    fields: *article_fields
 
   - name: notices
-    label: "3 · Notices & downloads"
-    icon: description
+    label: "Notices & PDFs"
     label_singular: Notice
-    description: Circulars, NIRF, AISHE, RTI, IQAC PDFs — day-to-day uploads.
+    icon: description
+    description: >-
+      Circulars, NIRF, AISHE, AICTE, RTI, IQAC and other documents. Each one
+      shows on /notices/ under its category. Upload the PDF, give it a title,
+      pick a category — that's it.
     folder: content/notices
     create: true
     delete: true
     extension: md
     format: frontmatter
     slug: "{{slug}}"
-    summary: "{{title}} ({{category}})"
+    preview_path: "/notices/"
+    summary: "{{title}}  ·  {{category}}  ·  {{date | date('DD MMM YYYY')}}"
     sortable_fields:
       fields: [title, date, category]
       default: { field: date, direction: descending }
+    view_groups:
+      - { label: Category, field: category }
     fields:
-      - { label: Title, name: title, widget: string }
-      - { label: Description, name: description, widget: text, required: false }
-      - { label: Permalink, name: permalink, widget: string, hint: "/notices/your-slug/" }
+      - { label: Title, name: title, widget: string, hint: "e.g. “AISHE 2024–25” — this is the link text visitors click." }
+      - label: "PDF or document"
+        name: file
+        widget: file
+        media_folder: /public/assets/uploads
+        public_folder: /assets/uploads
+        hint: "Drag the PDF here, or click Browse to reuse one already uploaded."
       - label: Category
         name: category
         widget: select
+        default: general
         options:
           - { label: General, value: general }
           - { label: Admission, value: admission }
           - { label: Academic, value: academic }
-          - { label: Compliance (NIRF/AISHE/AICTE), value: compliance }
+          - { label: "Compliance (NIRF / AISHE / AICTE)", value: compliance }
           - { label: IQAC, value: iqac }
           - { label: Mandatory disclosure, value: mandatory }
           - { label: Administration, value: admin }
-        default: general
-      - { label: Date, name: date, widget: datetime, required: false }
-      - label: PDF / file
-        name: file
-        widget: file
-        media_folder: src/assets/uploads
-        public_folder: /assets/uploads
-      - { label: Draft, name: draft, widget: boolean, default: false }
-      - { label: "Notes (optional)", name: body, widget: markdown, required: false, hint: "Optional. Prefer title + PDF fields for notices." }
+      - { label: Date, name: date, widget: datetime, format: YYYY-MM-DD, time_format: false, default: "{{now}}" }
+      - { label: "One-line description (optional)", name: description, widget: text, required: false }
+      - { label: "Hide from the website (draft)", name: draft, widget: boolean, default: false, required: false }
 
   - name: fees
-    label: "4 · Fees & prospectus"
-    icon: payments
+    label: "Fees & prospectus PDFs"
     label_singular: Fee document
-    description: Fee structure and prospectus PDFs (replace each year).
+    icon: payments
+    description: "Fee structure and prospectus PDFs, listed on /fees/. To change the fee PDF linked from the header and footer, use “Contact, phone & admission button” instead."
     folder: content/fees
     create: true
     delete: true
     extension: md
     format: frontmatter
     slug: "{{slug}}"
-    summary: "{{title}}"
+    preview_path: "/fees/"
+    summary: "{{title}}  ·  {{date | date('DD MMM YYYY')}}"
     fields:
-      - { label: Title, name: title, widget: string }
-      - { label: Description, name: description, widget: text, required: false }
-      - { label: Permalink, name: permalink, widget: string, hint: "/fees/your-slug/" }
-      - { label: Date, name: date, widget: datetime, required: false }
-      - label: PDF file
+      - { label: Title, name: title, widget: string, hint: "e.g. “Fee structure 2026–27”." }
+      - label: "PDF file"
         name: file
         widget: file
-        media_folder: src/assets/uploads
+        media_folder: /public/assets/uploads
         public_folder: /assets/uploads
-      - { label: Draft, name: draft, widget: boolean, default: false }
+      - { label: Date, name: date, widget: datetime, format: YYYY-MM-DD, time_format: false, default: "{{now}}" }
+      - { label: "One-line description (optional)", name: description, widget: text, required: false }
+      - { label: "Hide from the website (draft)", name: draft, widget: boolean, default: false, required: false }
       - { label: "Notes (optional)", name: body, widget: markdown, required: false }
 
-  - name: settings
-    label: "5 · Site settings"
-    icon: settings
-    description: Phone, email, admission open flag, default fee PDF.
-    files:
-      - name: site
-        label: College contact & admission
-        file: content/settings/site.json
-        fields:
-          - { label: College name, name: college_name, widget: string }
-          - { label: Short name, name: short_name, widget: string, required: false }
-          - { label: Tagline, name: tagline, widget: string, required: false }
-          - { label: "Phone (tel: link)", name: phone, widget: string }
-          - { label: Phone (display), name: phone_display, widget: string, required: false }
-          - { label: Email, name: email, widget: string }
-          - { label: Address, name: address, widget: text }
-          - { label: Logo, name: logo, widget: image, required: false, choose_url: true }
-          - { label: "Admissions open?", name: admission_open, widget: boolean, default: true }
-          - { label: Admission button label, name: admission_label, widget: string, required: false }
-          - { label: Admission URL, name: admission_url, widget: string, required: false }
-          - { label: Admission note, name: admission_note, widget: string, required: false }
-          - label: Default fee PDF
-            name: fee_pdf
-            widget: file
-            required: false
-            media_folder: src/assets/uploads
-            public_folder: /assets/uploads
-          - label: Prospectus PDF
-            name: prospectus_pdf
-            widget: file
-            required: false
-            media_folder: src/assets/uploads
-            public_folder: /assets/uploads
+  # ═══════════════════════════════ PAGES ═════════════════════════════════
+  - divider: true
 
+  - name: home
+    label: "Homepage"
+    icon: home
+    description: "Every block on the homepage, listed top to bottom in the same order visitors see them. Open a block to edit it."
+    files:
+      - name: homepage
+        label: "Homepage (top → bottom)"
+        file: content/home/homepage.json
+        preview_path: "/"
+        fields:
+          - label: "① Video at the very top"
+            name: hero
+            widget: object
+            collapsed: true
+            summary: "Full-width background video"
+            fields:
+              - label: Background video
+                name: video
+                widget: file
+                media_folder: /public/assets/uploads
+                public_folder: /assets/uploads
+                hint: "MP4, plays muted on a loop. Keep it under ~15 MB — every visitor downloads it."
+
+          - label: "② Three big buttons under the video"
+            name: quick_actions
+            widget: list
+            collapsed: true
+            summary: "{{fields.title}}"
+            hint: "Admissions / Programmes / Prospectus tiles. The first tile is highlighted with an “Open” badge."
+            fields:
+              - { label: Title, name: title, widget: string }
+              - { label: "Small text under the title", name: subtitle, widget: string }
+              - { label: "Arrow text", name: cta_label, widget: string }
+              - { label: "Goes to", name: url, widget: string, hint: "A page like /admission/ or a PDF address." }
+              - { label: "Icon name", name: icon, widget: string, hint: "Font Awesome 4 name, e.g. pencil-square-o, graduation-cap, book. See fontawesome.com/v4/icons" }
+              - label: Colour
+                name: style
+                widget: select
+                default: primary
+                options:
+                  - { label: "Red", value: primary }
+                  - { label: "Navy", value: navy }
+                  - { label: "Light", value: light }
+
+          - label: "③ Accreditation logos strip"
+            name: accreditation
+            widget: object
+            collapsed: true
+            summary: "{{fields.label}}"
+            fields:
+              - { label: "Small heading", name: label, widget: string }
+              - label: Logos
+                name: items
+                widget: list
+                collapsed: true
+                summary: "{{fields.name}}"
+                fields:
+                  - { label: Logo, name: image, widget: image }
+                  - { label: Name, name: name, widget: string }
+
+          - label: "④ About the college (short intro)"
+            name: about
+            widget: object
+            collapsed: true
+            summary: "{{fields.heading}}"
+            fields:
+              - { label: Heading, name: heading, widget: string }
+              - label: Paragraphs
+                name: paragraphs
+                widget: list
+                field: { label: Paragraph, name: value, widget: text }
+              - { label: Button text, name: cta_label, widget: string }
+              - { label: Button goes to, name: cta_url, widget: string }
+
+          - label: "⑤ Numbers band (4000+ students …)"
+            name: metrics
+            widget: list
+            collapsed: true
+            summary: "{{fields.value}} {{fields.label}}"
+            fields:
+              - { label: Number, name: value, widget: string }
+              - { label: Label, name: label, widget: string }
+
+          - label: "⑥ Notice board strip"
+            name: notice_strip
+            widget: object
+            collapsed: true
+            summary: "{{fields.title}}"
+            hint: "The single link bar to the notice board. To add a notice itself, use “Notices & PDFs” in the sidebar."
+            fields:
+              - { label: "Small label", name: kicker, widget: string }
+              - { label: Title, name: title, widget: string }
+              - { label: "Link text", name: link_label, widget: string }
+              - { label: "Goes to", name: url, widget: string, default: /notices/ }
+
+          - label: "⑦ Recognitions on record (dark band)"
+            name: credentials
+            widget: object
+            collapsed: true
+            summary: "{{fields.heading}}"
+            fields:
+              - { label: "Small label", name: kicker, widget: string }
+              - { label: Heading, name: heading, widget: string }
+              - { label: Intro, name: intro, widget: text }
+              - { label: Button text, name: cta_label, widget: string }
+              - { label: Button goes to, name: cta_url, widget: string }
+              - label: "Recognitions"
+                name: items
+                widget: list
+                collapsed: true
+                summary: "{{fields.label}}: {{fields.value}}"
+                fields:
+                  - { label: "Label (e.g. NAAC)", name: label, widget: string }
+                  - { label: "Big value (e.g. B++)", name: value, widget: string }
+                  - { label: "Small note", name: note, widget: string, required: false }
+                  - label: "Certificate PDF (optional)"
+                    name: document
+                    widget: file
+                    required: false
+                    media_folder: /public/assets/uploads
+                    public_folder: /assets/uploads
+                    hint: "Adds a “View certificate ↗” link."
+                  - { label: "OR website link (optional)", name: link, widget: string, required: false, hint: "Adds a “Visit site ↗” link. Use only when there's no PDF." }
+
+          - label: "⑧ Chairman's message"
+            name: chairman_message
+            widget: object
+            collapsed: true
+            summary: "{{fields.kicker}}"
+            hint: "Slide 1 of the leadership carousel."
+            fields:
+              - { label: "Name (big heading)", name: kicker, widget: string }
+              - { label: "Role label (small text above the name)", name: heading, widget: string }
+              - { label: Photo, name: photo, widget: image }
+              - { label: "Photo links to", name: photo_url, widget: string }
+              - label: Paragraphs
+                name: paragraphs
+                widget: list
+                field: { label: Paragraph, name: value, widget: text }
+              - { label: Link text, name: cta_label, widget: string }
+              - { label: Link goes to, name: cta_url, widget: string }
+
+          - label: "⑨ Principal's message"
+            name: principal_message
+            widget: object
+            collapsed: true
+            summary: "{{fields.kicker}}"
+            hint: "Slide 2 of the leadership carousel."
+            fields:
+              - { label: "Name (big heading)", name: kicker, widget: string }
+              - { label: "Role label (small text above the name)", name: heading, widget: string }
+              - { label: Photo, name: photo, widget: image }
+              - { label: "Photo links to", name: photo_url, widget: string }
+              - { label: Quote, name: quote, widget: text }
+              - label: Bullet points
+                name: bullet_points
+                widget: list
+                field: { label: Point, name: value, widget: string }
+              - { label: Link text, name: cta_label, widget: string }
+              - { label: Link goes to, name: cta_url, widget: string }
+
+          - label: "⑩ Programmes lists + department tiles"
+            name: programmes
+            widget: object
+            collapsed: true
+            summary: "{{fields.heading}}"
+            hint: "The course durations shown next to each programme come from the “Programmes” collection automatically."
+            fields:
+              - { label: "Small label", name: kicker, widget: string }
+              - { label: Heading, name: heading, widget: string }
+              - { label: Intro sentence, name: intro, widget: text }
+              - label: "UG (Honours) list"
+                name: ug
+                widget: object
+                collapsed: true
+                fields: &prog_list_fields
+                  - { label: "Small label", name: level_tag, widget: string }
+                  - { label: Title, name: title, widget: string }
+                  - { label: "Line under the title", name: meta, widget: string }
+                  - label: Programmes
+                    name: items
+                    widget: list
+                    collapsed: true
+                    summary: "{{fields.label}}"
+                    fields:
+                      - { label: Name, name: label, widget: string }
+                      - { label: "Goes to", name: url, widget: string, hint: "The programme's page, e.g. /programmes/bsc-microbiology/" }
+                  - { label: "Note under the list (optional)", name: highlight_text, widget: text, required: false }
+                  - { label: "Main button text", name: cta_primary_label, widget: string }
+                  - { label: "Main button goes to", name: cta_primary_url, widget: string }
+                  - { label: "Second button text", name: cta_secondary_label, widget: string }
+                  - { label: "Second button goes to", name: cta_secondary_url, widget: string }
+              - label: "PG list"
+                name: pg
+                widget: object
+                collapsed: true
+                fields: *prog_list_fields
+              - { label: "Departments — small label", name: departments_kicker, widget: string }
+              - { label: "Departments — heading", name: departments_heading, widget: string }
+              - label: "Department tiles"
+                name: departments
+                widget: list
+                collapsed: true
+                summary: "{{fields.title}}"
+                hint: "Drag to reorder. Tiles are numbered 01, 02 … automatically."
+                fields:
+                  - { label: Department name, name: title, widget: string }
+                  - { label: Photo, name: image, widget: image }
+                  - { label: "Goes to", name: url, widget: string }
+                  - label: "Programmes offered (small tags)"
+                    name: pills
+                    widget: list
+                    required: false
+                    field: { label: Programme, name: value, widget: string }
+              - { label: "“View all” text", name: view_all_label, widget: string }
+              - { label: "“View all” goes to", name: view_all_url, widget: string }
+
+          - label: "⑪ Photo carousels (Campus + Events)"
+            name: gallery
+            widget: object
+            collapsed: true
+            summary: "{{fields.heading}}"
+            hint: "Two sliding photo boxes side by side."
+            fields:
+              - { label: "LEFT box — small label", name: kicker, widget: string }
+              - { label: "LEFT box — heading", name: heading, widget: string }
+              - { label: "LEFT box — link text", name: cta_label, widget: string }
+              - { label: "LEFT box — link goes to", name: cta_url, widget: string }
+              - label: "LEFT box — photos"
+                name: slides
+                widget: list
+                collapsed: true
+                summary: "{{fields.title}}"
+                fields: &slide_fields
+                  - { label: Photo, name: image, widget: image }
+                  - { label: Title, name: title, widget: string }
+                  - { label: Caption, name: caption, widget: string }
+              - { label: "RIGHT box — small label", name: events_kicker, widget: string, required: false }
+              - { label: "RIGHT box — heading", name: events_heading, widget: string, required: false }
+              - { label: "RIGHT box — link text", name: events_cta_label, widget: string, required: false }
+              - { label: "RIGHT box — link goes to", name: events_cta_url, widget: string, required: false }
+              - label: "RIGHT box — photos"
+                name: events_slides
+                widget: list
+                required: false
+                collapsed: true
+                summary: "{{fields.title}}"
+                hint: "Leave empty to hide the right box."
+                fields: *slide_fields
+
+          - label: "⑫ Placements & partners"
+            name: placement
+            widget: object
+            collapsed: true
+            summary: "{{fields.heading}}"
+            hint: "The clubs & cells band just above this fills itself in from the Clubs & Cells pages — nothing to edit here."
+            fields:
+              - { label: "Small label", name: kicker, widget: string }
+              - { label: Heading, name: heading, widget: string }
+              - { label: Intro, name: intro, widget: text }
+              - { label: Button text, name: cta_label, widget: string }
+              - { label: Button goes to, name: cta_url, widget: string }
+              - label: "Number cards"
+                name: stats
+                widget: list
+                collapsed: true
+                summary: "{{fields.value}} {{fields.label}}"
+                fields:
+                  - { label: "Number (e.g. 100+)", name: value, widget: string }
+                  - { label: Label, name: label, widget: string }
+                  - { label: Small note, name: note, widget: string, required: false }
+              - { label: "Partners heading", name: partners_heading, widget: string }
+              - label: "Partners"
+                name: partners
+                widget: list
+                collapsed: true
+                summary: "{{fields.name}}"
+                fields:
+                  - { label: "Short name (big text, e.g. TCS)", name: short, widget: string }
+                  - { label: Full name, name: name, widget: string }
+                  - { label: "Sector", name: sector, widget: string, required: false }
+              - label: "Training pillars"
+                name: pillars
+                widget: list
+                collapsed: true
+                summary: "{{fields.title}}"
+                hint: "Numbered 01–04 automatically."
+                fields:
+                  - { label: Title, name: title, widget: string }
+                  - { label: Text, name: text, widget: text }
+
+          - label: "⑬ Why choose AJAS + Apply box"
+            name: benefits
+            widget: object
+            collapsed: true
+            summary: "{{fields.heading}}"
+            fields:
+              - { label: Heading, name: heading, widget: string }
+              - label: Reasons
+                name: items
+                widget: list
+                collapsed: true
+                summary: "{{fields.title}}"
+                hint: "Usually 4 — they sit in a 2×2 grid."
+                fields:
+                  - { label: Title, name: title, widget: string }
+                  - { label: Text, name: text, widget: text }
+                  - { label: "Goes to", name: url, widget: string }
+              - { label: "Apply box — heading", name: cta_heading, widget: string }
+              - { label: "Apply box — text", name: cta_text, widget: text }
+              - { label: "Apply box — main button text", name: cta_primary_label, widget: string }
+              - { label: "Apply box — main button goes to", name: cta_primary_url, widget: string }
+              - { label: "Apply box — second link text", name: cta_secondary_label, widget: string }
+              - { label: "Apply box — second link goes to", name: cta_secondary_url, widget: string }
+
+          - label: "⑭ Student testimonials"
+            name: testimonials
+            widget: object
+            collapsed: true
+            summary: "{{fields.heading}}"
+            fields:
+              - { label: "Small label", name: kicker, widget: string }
+              - { label: Heading, name: heading, widget: string }
+              - label: Testimonials
+                name: items
+                widget: list
+                collapsed: true
+                summary: "{{fields.name}}"
+                fields:
+                  - { label: Quote, name: quote, widget: text }
+                  - { label: Name, name: name, widget: string }
+                  - { label: "Course / batch", name: role, widget: string }
+                  - { label: Photo, name: photo, widget: image }
+
+          - label: "⑮ “Ready to get started?” + quick links (bottom)"
+            name: quick_link_cta
+            widget: object
+            collapsed: true
+            summary: "{{fields.heading}}"
+            fields:
+              - { label: "Small label", name: kicker, widget: string }
+              - { label: Heading, name: heading, widget: string }
+              - { label: Text, name: text, widget: text }
+              - { label: "Main button text", name: primary_label, widget: string }
+              - { label: "Main button goes to", name: primary_url, widget: string }
+              - { label: "Second button text", name: secondary_label, widget: string }
+              - { label: "Second button goes to", name: secondary_url, widget: string }
+              - { label: "Quick links — heading", name: quicklinks_heading, widget: string }
+              - label: Quick links
+                name: quicklinks
+                widget: list
+                collapsed: true
+                summary: "{{fields.label}}"
+                fields:
+                  - { label: Text, name: label, widget: string }
+                  - { label: "Goes to (page or PDF)", name: url, widget: string }
+                  - { label: "Open in a new tab (tick for PDFs)", name: external, widget: boolean, default: false }
+
+          - { label: "Browser tab title", name: title, widget: string, hint: "Shown in the browser tab and Google results as “<this> | Al Jamia Arts & Science College”." }
+          - { label: "Google description", name: description, widget: text, hint: "The grey text under the link in Google results. About 150 characters." }
+
+  - name: pages
+    label: "All other pages"
+    label_singular: Page
+    icon: article
+    description: >-
+      About, IQAC, admission, hostel, labs, clubs & cells, departments,
+      policies… every other page. Folders on the left match the website's
+      sections. Tip: on the live site, the “Edit this page” button opens the
+      right one for you.
+    folder: content/pages
+    create: true
+    delete: true
+    extension: md
+    format: frontmatter
+    slug: "{{slug}}"
+    path: "{{slug}}"
+    preview_path: "/{{slug}}/"
+    nested:
+      depth: 4
+      summary: "{{title}}"
+    summary: "{{title}}"
+    thumbnail: image
+    fields:
+      - { label: Page title, name: title, widget: string }
+      - { label: "Page content", name: body, widget: markdown, required: false, hint: "Write it like a Word document — headings, bold, lists, tables. Don't paste HTML, photo dumps or staff lists here; use the sections below so they show as proper grids." }
+      - { label: "Banner / main photo (optional)", name: image, widget: image, required: false, choose_url: true }
+      - label: "Downloads — PDFs, forms, brochures (optional)"
+        name: attachments
+        widget: list
+        required: false
+        summary: "{{fields.label}}"
+        hint: "Shows as a download list at the bottom of the page."
+        fields:
+          - { label: "Link text", name: label, widget: string, hint: "e.g. “Hostel application form”." }
+          - label: File
+            name: file
+            widget: file
+            media_folder: /public/assets/uploads
+            public_folder: /assets/uploads
+      - label: "People — staff / committee members (optional)"
+        name: people
+        widget: list
+        required: false
+        summary: "{{fields.name}} — {{fields.role}}"
+        hint: "Shows as a grid of photo cards."
+        fields:
+          - { label: Name, name: name, widget: string }
+          - { label: "Role / designation", name: role, widget: string, required: false }
+          - { label: Photo, name: photo, widget: image, required: false }
+          - { label: "Phone (optional)", name: phone, widget: string, required: false }
+      - label: "Photo gallery (optional)"
+        name: gallery
+        widget: list
+        required: false
+        hint: "Shows as a photo grid at the bottom of the page; click to enlarge."
+        field: { label: Photo, name: image, widget: image }
+      - label: "Videos (optional)"
+        name: videos
+        widget: list
+        required: false
+        summary: "{{fields.caption}}"
+        hint: "Upload an MP4 OR paste a YouTube/Vimeo link — not both."
+        fields:
+          - { label: "Video file (MP4)", name: file, widget: file, required: false, media_folder: /public/assets/uploads, public_folder: /assets/uploads, hint: "Keep it under 20 MB." }
+          - { label: "OR YouTube / Vimeo link", name: url, widget: string, required: false }
+          - { label: Caption, name: caption, widget: string, required: false }
+      - label: "Link cards (optional)"
+        name: menu_items
+        widget: list
+        required: false
+        summary: "{{fields.title}}"
+        hint: "For a page that is mostly a list of links to other pages — shows as a grid of cards."
+        fields:
+          - { label: Title, name: title, widget: string }
+          - { label: "Goes to", name: href, widget: string, required: false }
+          - { label: Description, name: description, widget: text, required: false }
+      - { label: "Google description (optional)", name: description, widget: text, required: false, hint: "One or two sentences for Google and WhatsApp previews." }
+      - { label: "Web address (leave empty)", name: permalink, widget: string, required: false, hint: "Leave empty — the address is made from the file name automatically. Only fill it to force a different address, e.g. /admission/." }
+      - label: "Layout"
+        name: type
+        widget: select
+        default: page
+        options:
+          - { label: "Normal page", value: page }
+          - { label: "Person profile (photo + name + role)", value: profile }
+          - { label: "Index of links (uses Link cards)", value: listing }
+          - { label: "Article", value: article }
+          - { label: "Home (don't use)", value: home }
+      - { label: "Person's name (profile layout only)", name: name, widget: string, required: false }
+      - { label: "Person's role (profile layout only)", name: role, widget: string, required: false }
+      - { label: "Qualifications (profile layout only)", name: credentials, widget: string, required: false }
+      - { label: "Hide from the website (draft)", name: draft, widget: boolean, default: false, required: false }
+
+  - name: programmes
+    label: "Programmes (courses)"
+    label_singular: Programme
+    icon: school
+    description: "UG / PG courses. Each has its own page and is listed on /programmes/. The URL is created automatically."
+    folder: content/programmes
+    create: true
+    delete: true
+    extension: md
+    format: frontmatter
+    slug: "{{slug}}"
+    preview_path: "/programmes/{{slug}}/"
+    permalink_field: true
+    summary: "{{title}}  ·  {{level | upper}}"
+    sortable_fields:
+      fields: [title, level, order]
+      default: { field: order, direction: ascending }
+    view_groups:
+      - { label: Level, field: level }
+    fields:
+      - { label: Programme name, name: title, widget: string, hint: "e.g. B.Sc Microbiology (Honours)" }
+      - label: Level
+        name: level
+        widget: select
+        default: ug
+        options:
+          - { label: "UG (Honours)", value: ug }
+          - { label: PG, value: pg }
+          - { label: Certificate, value: certificate }
+          - { label: Other, value: other }
+      - { label: Duration, name: duration, widget: string, required: false, hint: "e.g. “4 Years (FYUGP)” — also shown on the homepage list." }
+      - { label: "Programme details", name: body, widget: markdown, hint: "Write it like a Word document. No HTML." }
+      - { label: "Department (optional)", name: department, widget: string, required: false }
+      - { label: "Seats (optional)", name: seats, widget: string, required: false }
+      - { label: "Google description (optional)", name: description, widget: text, required: false }
+      - { label: "Position in lists", name: order, widget: number, default: 0, value_type: int, hint: "Lower numbers come first." }
+      - { label: "Hide from the website (draft)", name: draft, widget: boolean, default: false, required: false }
+
+  - name: faculty
+    label: "Faculty"
+    label_singular: Faculty member
+    icon: badge
+    description: "Teacher profiles. Each has its own page and appears on /faculties/ and on their department page. The URL is created automatically."
+    folder: content/faculty
+    create: true
+    delete: true
+    extension: md
+    format: frontmatter
+    slug: "{{slug}}"
+    preview_path: "/faculties/{{slug}}/"
+    permalink_field: true
+    summary: "{{title}}  ·  {{role}}"
+    thumbnail: image
+    fields:
+      - { label: Full name, name: title, widget: string }
+      - { label: Photo, name: image, widget: image, required: false, choose_url: true, hint: "A head-and-shoulders photo, portrait orientation." }
+      - { label: "Role (e.g. Assistant Professor, HoD)", name: role, widget: string, required: false }
+      - { label: "Qualifications (e.g. M.Sc, NET, Ph.D.)", name: credentials, widget: string, required: false }
+      - { label: "Biography", name: body, widget: markdown, hint: "Write it like a Word document. No HTML." }
+      - { label: "Name as displayed (optional)", name: name, widget: string, required: false, hint: "Only if it should differ from the full name." }
+      - { label: "Google description (optional)", name: description, widget: text, required: false }
+      - { label: "Hide from the website (draft)", name: draft, widget: boolean, default: false, required: false }
+      - { label: Type, name: type, widget: hidden, default: profile }
+
+  # ══════════════════════════════ SITE-WIDE ══════════════════════════════
+  - divider: true
 
   - name: navigation
-    label: "5b · Main menu"
+    label: "Main menu"
     icon: menu
-    description: "Edit menu labels and links (pages or PDFs). Remove a link by deleting the item. Nested children = dropdown."
+    description: "The menu at the top of every page. Drag items to reorder; add Sub-items to make a dropdown. A link can be a page (/admission/) or a PDF."
     files:
       - name: main_menu
         label: Main navigation
         file: content/settings/navigation.json
+        preview_path: "/"
         fields:
           - label: "Top utility bar (small links above the logo)"
             name: utility
@@ -251,13 +814,14 @@ collections:
                           - { label: Link, name: href, widget: string, required: false }
 
   - name: footer
-    label: "5c · Footer"
+    label: "Footer"
     icon: dock_to_bottom
-    description: "Address, phone/email, footer link columns, social links, map, copyright, bottom links. Shown on every page."
+    description: "The dark area at the bottom of every page — logos, link columns, social media, map. (Address, phone and email come from “Contact, phone & admission button”.)"
     files:
       - name: footer
         label: Site footer
         file: content/settings/footer.json
+        preview_path: "/"
         fields:
           - { label: "Accreditation line (small text above the logos)", name: trust_line, widget: string, required: false }
           - label: Accreditation logos
@@ -305,13 +869,14 @@ collections:
               - { label: Link, name: href, widget: string }
 
   - name: listings
-    label: "5d · Section intros"
+    label: "List page intros"
     icon: view_list
-    description: "Heading, search-engine description, and intro paragraph at the top of each list page (News, Events, Notices, Fees, Programmes, Faculty, Departments, Labs, Clubs & Cells)."
+    description: "The heading and intro paragraph at the top of each list page: /college-news/, /event/, /notices/, /fees/, /programmes/, /faculties/, /departments/, /labs/, /clubs--cells/."
     files:
       - name: listings
         label: Section intros
         file: content/settings/listings.json
+        preview_path: "/college-news/"
         fields:
           - label: News
             name: news
@@ -363,13 +928,14 @@ collections:
             fields: *section_fields
 
   - name: prospectus
-    label: "5e · Prospectus page"
+    label: "Prospectus page"
     icon: menu_book
-    description: "Every section of the /prospectus-2026-27/ page — hero, about, committee, programme fees, admission steps."
+    description: "Every section of the /prospectus-2026-27/ page, top to bottom. To replace the downloadable prospectus PDF, use “Contact, phone & admission button”."
     files:
       - name: prospectus
         label: Prospectus page
         file: content/settings/prospectus.json
+        preview_path: "/prospectus-2026-27/"
         fields:
           - label: "1 · Hero"
             name: hero
@@ -504,467 +1070,37 @@ collections:
               - { label: Text, name: text, widget: text }
               - { label: Button label, name: button_label, widget: string }
 
-  - name: home
-    label: "6 · Homepage"
-    icon: home
-    description: "Every section of the homepage — hero, cards, gallery, testimonials, CTA."
+  - name: settings
+    label: "Contact, phone & admission button"
+    icon: call
+    description: "College name, phone, email and address (header, footer, contact page), the red admission button in the header, and the fee / prospectus PDFs linked across the site."
     files:
-      - name: homepage
-        label: Homepage
-        file: content/home/homepage.json
+      - name: site
+        label: "Contact & admission"
+        file: content/settings/site.json
+        preview_path: "/"
         fields:
-          - { label: "Browser tab title", name: title, widget: string, hint: "Shown as \"<this> | Al Jamia Arts & Science College\" in the browser tab and search results." }
-          - { label: "Search-engine description", name: description, widget: text }
-
-          - label: "1 · Hero video"
-            name: hero
-            widget: object
-            collapsed: true
-            summary: "Full-bleed video at the very top of the page"
-            fields:
-              - label: Background video
-                name: video
-                widget: file
-                media_folder: src/assets/uploads
-                public_folder: /assets/uploads
-                hint: "MP4, muted & looping. Keep it well under 15MB — it autoplays for every visitor."
-
-          - label: "2 · Quick-action tiles"
-            name: quick_actions
-            widget: list
-            collapsed: true
-            summary: "{{fields.title}}"
-            hint: "The 3 tiles directly under the hero video (Admissions / Programmes / Prospectus by default)."
-            fields:
-              - { label: "Icon (Font Awesome name, no \"fa-\" prefix)", name: icon, widget: string, hint: "e.g. pencil-square-o — browse names at fontawesome.com/v4/icons" }
-              - { label: Title, name: title, widget: string }
-              - { label: Subtitle, name: subtitle, widget: string }
-              - { label: Button text, name: cta_label, widget: string }
-              - { label: Link, name: url, widget: string }
-              - label: Colour style
-                name: style
-                widget: select
-                options: [primary, navy, light]
-                default: primary
-
-          - label: "3 · Accreditation strip"
-            name: accreditation
-            widget: object
-            collapsed: true
-            summary: "\"Affiliated, recognised & accredited by...\" logo row"
-            fields:
-              - { label: Label text, name: label, widget: string }
-              - label: Logos
-                name: items
-                widget: list
-                collapsed: true
-                summary: "{{fields.name}}"
-                fields:
-                  - { label: Logo image, name: image, widget: image }
-                  - { label: Name, name: name, widget: string }
-
-          - label: "4 · About blurb"
-            name: about
-            widget: object
-            collapsed: true
-            summary: "Short \"Al Jamia Arts and Science College (AJASC)\" intro paragraph"
-            fields:
-              - { label: Heading, name: heading, widget: string }
-              - label: Paragraphs
-                name: paragraphs
-                widget: list
-                field: { label: Paragraph, name: value, widget: text }
-              - { label: Button text, name: cta_label, widget: string }
-              - { label: Button link, name: cta_url, widget: string }
-
-          - label: "5 · Stats banner"
-            name: metrics
-            widget: list
-            collapsed: true
-            summary: "{{fields.value}} — {{fields.label}}"
-            hint: "The 4000+ Students / 11 UG / 3 PG / 14 Total row."
-            fields:
-              - { label: Number, name: value, widget: string }
-              - { label: Label, name: label, widget: string }
-
-          - label: "6 · Chairman's message"
-            name: chairman_message
-            widget: object
-            collapsed: true
-            fields:
-              - { label: "Name (shown above the heading)", name: kicker, widget: string }
-              - { label: Heading, name: heading, widget: string }
-              - { label: Photo, name: photo, widget: image }
-              - { label: "Photo links to", name: photo_url, widget: string }
-              - label: Paragraphs
-                name: paragraphs
-                widget: list
-                field: { label: Paragraph, name: value, widget: text }
-              - { label: Button text, name: cta_label, widget: string }
-              - { label: Button link, name: cta_url, widget: string }
-
-          - label: "7 · Principal's message"
-            name: principal_message
-            widget: object
-            collapsed: true
-            fields:
-              - { label: "Name (shown above the heading)", name: kicker, widget: string }
-              - { label: Heading, name: heading, widget: string }
-              - { label: Photo, name: photo, widget: image }
-              - { label: "Photo links to", name: photo_url, widget: string }
-              - { label: Pull-quote, name: quote, widget: text }
-              - label: Bullet points
-                name: bullet_points
-                widget: list
-                field: { label: Point, name: value, widget: string }
-              - { label: Button text, name: cta_label, widget: string }
-              - { label: Button link, name: cta_url, widget: string }
-
-          - label: "8 · Programmes & departments"
-            name: programmes
-            widget: object
-            collapsed: true
-            summary: "UG/PG programme cards + the 11 department cards"
-            fields:
-              - { label: "Section eyebrow", name: kicker, widget: string }
-              - { label: "Section heading", name: heading, widget: string }
-              - { label: "Section intro sentence", name: intro, widget: text }
-              - label: "UG (Honours) card"
-                name: ug
-                widget: object
-                collapsed: true
-                fields:
-                  - { label: "Icon (Font Awesome name)", name: icon, widget: string }
-                  - { label: "Level tag", name: level_tag, widget: string }
-                  - { label: Card title, name: title, widget: string }
-                  - { label: "Meta line", name: meta, widget: string }
-                  - label: Programme chips
-                    name: items
-                    widget: list
-                    collapsed: true
-                    summary: "{{fields.label}}"
-                    hint: "Keep in sync with the Programmes collection below — this list is just the homepage chips, editing here does not create/remove a programme page."
-                    fields:
-                      - { label: "Icon (Font Awesome name)", name: icon, widget: string, required: false, default: check-circle }
-                      - { label: Label, name: label, widget: string }
-                      - { label: Link, name: url, widget: string }
-                  - { label: "Primary button text", name: cta_primary_label, widget: string }
-                  - { label: "Primary button link", name: cta_primary_url, widget: string }
-                  - { label: "Secondary button text", name: cta_secondary_label, widget: string }
-                  - { label: "Secondary button link", name: cta_secondary_url, widget: string }
-              - label: "PG card"
-                name: pg
-                widget: object
-                collapsed: true
-                fields:
-                  - { label: "Icon (Font Awesome name)", name: icon, widget: string }
-                  - { label: "Level tag", name: level_tag, widget: string }
-                  - { label: Card title, name: title, widget: string }
-                  - { label: "Meta line", name: meta, widget: string }
-                  - label: Programme chips
-                    name: items
-                    widget: list
-                    collapsed: true
-                    summary: "{{fields.label}}"
-                    fields:
-                      - { label: "Icon (Font Awesome name)", name: icon, widget: string, required: false, default: star }
-                      - { label: Label, name: label, widget: string }
-                      - { label: Link, name: url, widget: string }
-                  - { label: "Highlight icon (Font Awesome name)", name: highlight_icon, widget: string, required: false }
-                  - { label: "Highlight box text", name: highlight_text, widget: text }
-                  - { label: "Primary button text", name: cta_primary_label, widget: string }
-                  - { label: "Primary button link", name: cta_primary_url, widget: string }
-                  - { label: "Secondary button text", name: cta_secondary_label, widget: string }
-                  - { label: "Secondary button link", name: cta_secondary_url, widget: string }
-              - { label: "Departments eyebrow", name: departments_kicker, widget: string }
-              - { label: "Departments heading", name: departments_heading, widget: string }
-              - label: "Department cards"
-                name: departments
-                widget: list
-                collapsed: true
-                summary: "{{fields.title}}"
-                hint: "One card per department shown on the homepage grid. Add/remove/reorder freely."
-                fields:
-                  - { label: "Badge icon (Font Awesome name)", name: icon, widget: string }
-                  - { label: "Badge text", name: badge_label, widget: string }
-                  - { label: Photo, name: image, widget: image }
-                  - { label: Title, name: title, widget: string }
-                  - { label: "Links to", name: url, widget: string }
-                  - { label: Description, name: description, widget: text }
-                  - label: Pills
-                    name: pills
-                    widget: list
-                    required: false
-                    field: { label: Pill, name: value, widget: string }
-              - { label: "\"View all\" button text", name: view_all_label, widget: string }
-              - { label: "\"View all\" button link", name: view_all_url, widget: string }
-
-          - label: "9 · Campus gallery carousel"
-            name: gallery
-            widget: object
-            collapsed: true
-            summary: "\"Campus & event footages\" carousel"
-            fields:
-              - { label: "Section eyebrow", name: kicker, widget: string }
-              - { label: "Section heading", name: heading, widget: string }
-              - label: Slides
-                name: slides
-                widget: list
-                collapsed: true
-                summary: "{{fields.title}}"
-                fields:
-                  - { label: Photo, name: image, widget: image }
-                  - { label: Title, name: title, widget: string }
-                  - { label: Caption, name: caption, widget: string }
-              - { label: Button text, name: cta_label, widget: string }
-              - { label: Button link, name: cta_url, widget: string }
-
-          - label: "10 · Services band"
-            name: services
-            widget: object
-            collapsed: true
-            summary: "Library / Laboratories / Seminar Hall band"
-            fields:
-              - label: Items
-                name: items
-                widget: list
-                collapsed: true
-                summary: "{{fields.title}}"
-                hint: "Usually exactly 3 items — the layout is a 3-column band."
-                fields:
-                  - { label: "Icon (Font Awesome name)", name: icon, widget: string }
-                  - { label: Title, name: title, widget: string }
-                  - { label: Text, name: text, widget: text }
-                  - { label: Button text, name: cta_label, widget: string }
-                  - { label: Button link, name: cta_url, widget: string }
-
-          - label: "11 · Why choose AJAS + apply CTA"
-            name: benefits
-            widget: object
-            collapsed: true
-            fields:
-              - { label: Heading, name: heading, widget: string }
-              - label: Reasons
-                name: items
-                widget: list
-                collapsed: true
-                summary: "{{fields.title}}"
-                hint: "Usually exactly 4 items — the layout is a 2×2 grid."
-                fields:
-                  - { label: "Icon (Font Awesome name)", name: icon, widget: string }
-                  - { label: Title, name: title, widget: string }
-                  - { label: Text, name: text, widget: text }
-                  - { label: "Links to", name: url, widget: string }
-              - { label: "\"Apply for admission\" heading", name: cta_heading, widget: string }
-              - { label: "\"Apply for admission\" text", name: cta_text, widget: text }
-              - { label: "Primary button text", name: cta_primary_label, widget: string }
-              - { label: "Primary button link", name: cta_primary_url, widget: string }
-              - { label: "Secondary button text", name: cta_secondary_label, widget: string }
-              - { label: "Secondary button link", name: cta_secondary_url, widget: string }
-
-          - label: "12 · Upcoming events"
-            name: events
-            widget: object
-            collapsed: true
-            hint: "A hand-picked homepage preview — this does not read from the Events collection automatically, so update both when an event changes."
-            fields:
-              - { label: Heading, name: heading, widget: string }
-              - label: Events
-                name: items
-                widget: list
-                collapsed: true
-                summary: "{{fields.title}}"
-                hint: "Up to 3 — the layout is numbered 1/2/3 with 2 photos on the right."
-                fields:
-                  - { label: Title, name: title, widget: string }
-                  - { label: "Links to", name: url, widget: string }
-                  - { label: "Date (as displayed)", name: date, widget: string }
-                  - { label: Location, name: location, widget: string }
-                  - { label: Photo, name: image, widget: image, required: false }
-              - { label: "\"All events\" button text", name: cta_label, widget: string }
-              - { label: "\"All events\" button link", name: cta_url, widget: string }
-
-          - label: "13 · Student testimonials"
-            name: testimonials
-            widget: object
-            collapsed: true
-            fields:
-              - { label: "Section eyebrow", name: kicker, widget: string }
-              - { label: "Section heading", name: heading, widget: string }
-              - label: Testimonials
-                name: items
-                widget: list
-                collapsed: true
-                summary: "{{fields.name}}"
-                fields:
-                  - { label: Photo, name: photo, widget: image }
-                  - { label: Quote, name: quote, widget: text }
-                  - { label: Name, name: name, widget: string }
-                  - { label: "Role / batch", name: role, widget: string }
-
-          - label: "14 · Closing call-to-action"
-            name: quick_link_cta
-            widget: object
-            collapsed: true
-            summary: "\"Ready to get started?\" band + Quick Link list"
-            fields:
-              - { label: "Small caption above the heading", name: kicker, widget: string }
-              - { label: Heading, name: heading, widget: string }
-              - { label: Body text, name: text, widget: text }
-              - { label: "Primary button text", name: primary_label, widget: string }
-              - { label: "Primary button link", name: primary_url, widget: string }
-              - { label: "Secondary button text", name: secondary_label, widget: string }
-              - { label: "Secondary button link", name: secondary_url, widget: string }
-              - { label: "\"Quick Link\" box heading", name: quicklinks_heading, widget: string }
-              - label: Quick links
-                name: quicklinks
-                widget: list
-                collapsed: true
-                summary: "{{fields.label}}"
-                fields:
-                  - { label: "Icon (Font Awesome name)", name: icon, widget: string }
-                  - { label: Label, name: label, widget: string }
-                  - { label: Link (page path, or a PDF), name: url, widget: string }
-                  - { label: "Open in a new tab? (use for PDFs)", name: external, widget: boolean, default: false }
-
-  - name: programmes
-    label: "7 · Programmes"
-    icon: school
-    label_singular: Programme
-    description: UG/PG courses listed on /programmes/.
-    folder: content/programmes
-    create: true
-    delete: true
-    extension: md
-    format: frontmatter
-    slug: "{{slug}}"
-    summary: "{{title}} ({{level}})"
-    sortable_fields:
-      fields: [title, level, order]
-      default: { field: order, direction: ascending }
-    fields:
-      - { label: Programme name, name: title, widget: string }
-      - label: Level
-        name: level
-        widget: select
-        options:
-          - { label: UG (Honours), value: ug }
-          - { label: PG, value: pg }
-          - { label: Certificate, value: certificate }
-          - { label: Other, value: other }
-        default: ug
-      - { label: Sort order, name: order, widget: number, default: 0, value_type: int }
-      - { label: Permalink, name: permalink, widget: string, hint: "/programmes/your-slug/" }
-      - { label: Department, name: department, widget: string, required: false }
-      - { label: Duration, name: duration, widget: string, required: false }
-      - { label: Seats, name: seats, widget: string, required: false }
-      - { label: Description (SEO), name: description, widget: text, required: false }
-      - { label: Draft, name: draft, widget: boolean, default: false }
-      - { label: "Programme details (visual editor)", name: body, widget: markdown, hint: "Edit like Word. No HTML." }
-
-  - name: faculty
-    label: "8 · Faculty"
-    icon: badge
-    label_singular: Faculty member
-    description: Faculty profiles (/faculties/…).
-    folder: content/faculty
-    create: true
-    delete: true
-    extension: md
-    format: frontmatter
-    slug: "{{slug}}"
-    summary: "{{title}} — {{role}}"
-    fields:
-      - { label: Full name (title), name: title, widget: string }
-      - { label: Photo, name: image, widget: image, required: false, choose_url: true }
-      - { label: Display name, name: name, widget: string, required: false }
-      - { label: Role, name: role, widget: string, required: false }
-      - { label: Credentials, name: credentials, widget: string, required: false }
-      - { label: Description (SEO), name: description, widget: text, required: false }
-      - { label: Permalink, name: permalink, widget: string, hint: "/faculties/your-slug/" }
-      - { label: Type, name: type, widget: hidden, default: profile }
-      - { label: Draft, name: draft, widget: boolean, default: false }
-      - { label: "Biography (visual editor)", name: body, widget: markdown, hint: "Write the bio like Word. No HTML." }
-
-  - name: pages
-    label: "9 · Other pages"
-    icon: article
-    label_singular: Page
-    description: About, IQAC, labs, clubs, static info pages.
-    folder: content/pages
-    create: true
-    delete: true
-    extension: md
-    format: frontmatter
-    slug: "{{slug}}"
-    path: "{{slug}}"
-    nested:
-      depth: 4
-      summary: "{{title}}"
-    summary: "{{title}} — {{permalink}}"
-    fields:
-      - { label: Title, name: title, widget: string }
-      - { label: Description (SEO), name: description, widget: text, required: false }
-      - { label: Permalink, name: permalink, widget: string }
-      - label: Page type
-        name: type
-        widget: select
-        options: [home, page, listing, profile, article]
-        default: page
-        hint: "Templates for new pages — pick a type, then fill only the matching block below (leave the others empty): Page = prose in the content editor below (headings/lists/tables all get styled automatically); Listing = index page, use Menu / index cards; a Staff / committee directory or Photo gallery can be added to ANY page type."
-      - { label: Draft, name: draft, widget: boolean, default: false }
-      - { label: Featured image, name: image, widget: image, required: false, choose_url: true }
-      - { label: Name (profiles), name: name, widget: string, required: false }
-      - { label: Role (profiles), name: role, widget: string, required: false }
-      - { label: Credentials, name: credentials, widget: string, required: false }
-      - { label: "Page content (visual editor)", name: body, widget: markdown, required: false, hint: "Edit like Word — headings, bold, lists, tables. Never paste HTML code, and never paste photos or a staff list here — use the dedicated fields below instead, they render as proper grids." }
-      - label: "Staff / committee directory (optional)"
-        name: people
-        widget: list
-        required: false
-        summary: "{{fields.name}} — {{fields.role}}"
-        hint: "Use for any page that's a list of people (staff, committee, wardens). Renders as a photo-card grid — don't list people in the content editor above."
-        fields:
-          - { label: Photo, name: photo, widget: image, required: false }
-          - { label: Name, name: name, widget: string }
-          - { label: Role / designation, name: role, widget: string, required: false }
-          - { label: Phone (optional), name: phone, widget: string, required: false }
-      - label: "Menu / index cards (optional)"
-        name: menu_items
-        widget: list
-        required: false
-        summary: "{{fields.title}}"
-        hint: "Use for a page that's just a menu of links to other pages (e.g. an index/listing page). Renders as a card grid — don't list links in the content editor above."
-        fields:
-          - { label: Title, name: title, widget: string }
-          - { label: Link (page path or URL), name: href, widget: string, required: false }
-          - { label: Description, name: description, widget: text, required: false }
-      - label: "Photo gallery (optional)"
-        name: gallery
-        widget: list
-        required: false
-        hint: "Shows as a proper photo grid (with lightbox) at the bottom of the page — don't paste photo dumps into the content editor above."
-        field: { label: Image, name: image, widget: image }
-      - label: "Video (optional)"
-        name: videos
-        widget: list
-        required: false
-        summary: "{{fields.caption}}"
-        hint: "Add a video to this page — upload a file OR paste a YouTube/Vimeo link, not both. Shows near the bottom of the page."
-        fields:
-          - { label: "Video file (mp4, upload)", name: file, widget: file, required: false, media_folder: src/assets/uploads, public_folder: /assets/uploads, hint: "Keep under 20MB." }
-          - { label: "OR YouTube / Vimeo link", name: url, widget: string, required: false }
-          - { label: Caption, name: caption, widget: string, required: false }
-      - label: "Downloads / attachments (optional)"
-        name: attachments
-        widget: list
-        required: false
-        summary: "{{fields.label}}"
-        hint: "Shows as a download list at the bottom of the page. Use for PDFs, forms, brochures — anything besides the main content."
-        fields:
-          - { label: Link text, name: label, widget: string }
-          - label: File
-            name: file
+          - { label: College name, name: college_name, widget: string }
+          - { label: "Short name", name: short_name, widget: string, required: false }
+          - { label: Tagline, name: tagline, widget: string, required: false }
+          - { label: "Phone (digits for the call link, e.g. +917994188918)", name: phone, widget: string }
+          - { label: "Phone as displayed (e.g. +91 7994 188918)", name: phone_display, widget: string, required: false }
+          - { label: Email, name: email, widget: string }
+          - { label: Address, name: address, widget: text }
+          - { label: Logo, name: logo, widget: image, required: false, choose_url: true }
+          - { label: "Admissions open? (shows the admission button)", name: admission_open, widget: boolean, default: true }
+          - { label: "Admission button text", name: admission_label, widget: string, required: false }
+          - { label: "Admission button goes to", name: admission_url, widget: string, required: false }
+          - { label: "Admission note", name: admission_note, widget: string, required: false }
+          - label: "Fee structure PDF (linked site-wide)"
+            name: fee_pdf
             widget: file
-            media_folder: src/assets/uploads
+            required: false
+            media_folder: /public/assets/uploads
+            public_folder: /assets/uploads
+          - label: "Prospectus PDF (linked site-wide)"
+            name: prospectus_pdf
+            widget: file
+            required: false
+            media_folder: /public/assets/uploads
             public_folder: /assets/uploads

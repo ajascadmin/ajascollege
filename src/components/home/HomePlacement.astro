@@ -3,55 +3,35 @@
  * Corporate Placement & Industry Linkages Showcase
  * Demonstrates career readiness, placement metrics, and corporate partners.
  */
-const stats = [
-  { value: "100+", label: "Students Placed", note: "Across tech, commerce, science & media" },
-  { value: "₹4.8 LPA", label: "Highest Package", note: "Competitive entry-level packages" },
-  { value: "25+", label: "Corporate Partners", note: "Active campus recruiters & MoUs" },
-  { value: "100%", label: "Placement Training", note: "Structured training from Semester 1" },
-];
-
-const recruiters = [
-  { name: "Tata Consultancy Services", short: "TCS", sector: "IT & Digital Services", icon: "laptop" },
-  { name: "Infosys Springboard", short: "Infosys", sector: "Enterprise Technology", icon: "code" },
-  { name: "Sutherland Global", short: "Sutherland", sector: "Business Operations", icon: "globe" },
-  { name: "Wipro Technologies", short: "Wipro", sector: "Consulting & Software", icon: "cogs" },
-  { name: "ASAP Kerala", short: "ASAP", sector: "Govt. of Kerala Skilling MoU", icon: "certificate" },
-  { name: "Keltron", short: "Keltron", sector: "Electronics & Embedded Systems", icon: "microchip" },
-  { name: "G-Tec Computer Education", short: "G-Tec", sector: "Certified Technical Training", icon: "terminal" },
-  { name: "Bharat Skill Development", short: "BSDC", sector: "Vocational & Professional Skills", icon: "briefcase" },
-];
-
-const pillars = [
-  {
-    title: "Aptitude & Technical Coding",
-    desc: "Rigorous logical reasoning, quantitative analysis, and programming rounds conducted throughout the academic year.",
-  },
-  {
-    title: "Corporate Communication & GDs",
-    desc: "Mock group discussions, corporate etiquette, and multi-round personal interview simulations by industry trainers.",
-  },
-  {
-    title: "Public Sector & Competitive Exams",
-    desc: "Orientation and preparatory support for UPSC, Kerala PSC, SSC, Banking (IBPS), and UGC-NET examinations.",
-  },
-  {
-    title: "Higher Education Progression",
-    desc: "Dedicated guidance for CUET-PG and international university admissions across the UK, Europe, and GCC regions.",
-  },
-];
+interface Props {
+  data?: {
+    kicker: string;
+    heading: string;
+    intro: string;
+    cta_label: string;
+    cta_url: string;
+    stats: { value: string; label: string; note?: string }[];
+    partners_heading: string;
+    partners: { short: string; name: string; sector?: string }[];
+    pillars: { title: string; text: string }[];
+  };
+}
+/* Content: homepage.json → placement (CMS: Homepage → Placements & partners). */
+const data = Astro.props.data;
+const stats = data?.stats ?? [];
+const recruiters = data?.partners ?? [];
+const pillars = (data?.pillars ?? []).map((p) => ({ title: p.title, desc: p.text }));
 ---
 
 <section class="hp" aria-labelledby="hp-heading">
   <div class="hp-inner">
     <header class="hp-head">
-      <p class="hp-kicker">Career Readiness &amp; Corporate Connect</p>
-      <h2 id="hp-heading">Training, Placements &amp; Industry Linkages</h2>
-      <p class="hp-lede">
-        Our active Placement Cell bridges academia and enterprise — equipping graduates with corporate-ready skills and connecting them to leading multinationals and government initiatives.
-      </p>
+      <p class="hp-kicker">{data?.kicker}</p>
+      <h2 id="hp-heading">{data?.heading}</h2>
+      <p class="hp-lede">{data?.intro}</p>
       <div class="hp-head-actions">
-        <a class="hp-cta-primary" href="/placement-cell/">
-          Visit Placement Cell Portal
+        <a class="hp-cta-primary" href={data?.cta_url}>
+          {data?.cta_label}
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
         </a>
       </div>
@@ -71,7 +51,7 @@ const pillars = [
     {/* Recruitment Partners */}
     <div class="hp-partners-wrap">
       <div class="hp-partners-head">
-        <h3>Prominent Recruitment &amp; Training Partners</h3>
+        <h3>{data?.partners_heading}</h3>
         <span class="hp-partners-line" aria-hidden="true"></span>
       </div>
       <div class="hp-partners-grid">

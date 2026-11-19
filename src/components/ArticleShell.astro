@@ -19,7 +19,7 @@ const { wide = false, variant = "default" } = Astro.props;
 ---
 
 <div class="ajas-page-shell" data-variant={variant} data-wide={wide ? "true" : "false"}>
-  <article class="ajas-page-body migrate-content ajas-prose">
+  <article class="ajas-page-body migrate-content ajas-prose" data-cms-body>
     <slot />
   </article>
 </div>

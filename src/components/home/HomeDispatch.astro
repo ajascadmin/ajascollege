@@ -2,18 +2,28 @@
 /**
  * Homepage notice board. The full list of circulars and mandatory
  * disclosures lives on /notices/. This strip is only the way in.
+ * Text comes from homepage.json → notice_strip (CMS: Homepage → Notice strip).
  */
+interface Props {
+  data?: { kicker: string; title: string; link_label: string; url: string };
+}
+const d = Astro.props.data ?? {
+  kicker: "Documents",
+  title: "Notice board & Circulars",
+  link_label: "Open the notice board",
+  url: "/notices/",
+};
 ---
 
 <section class="hd">
   <div class="hd-inner">
-    <a class="hd-link" href="/notices/">
+    <a class="hd-link" href={d.url}>
       <span class="hd-copy">
-        <span class="hd-kicker">Documents</span>
-        <span class="hd-title">Notice board &amp; Circulars</span>
+        <span class="hd-kicker">{d.kicker}</span>
+        <span class="hd-title">{d.title}</span>
       </span>
       <span class="hd-go">
-        Open the notice board
+        {d.link_label}
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
       </span>
     </a>

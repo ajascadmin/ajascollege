@@ -85,6 +85,7 @@ const facts = [
   pageTitle={entry.data.title}
   image={dept?.image}
   jsonLd={progLd}
+  edit={{ label: "Edit this programme", route: `collections/programmes/entries/${entry.id}` }}
   breadcrumbs={[
     { label: "Home", href: "/" },
     { label: "Programmes", href: "/programmes/" },

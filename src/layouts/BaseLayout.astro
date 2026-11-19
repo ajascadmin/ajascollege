@@ -2,6 +2,8 @@
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import SearchModal from "../components/SearchModal.astro";
+import SitePopup from "../components/SitePopup.astro";
+import EditorBar, { type EditLink } from "../components/EditorBar.astro";
 import { optimizeCmsImage } from "../lib/cmsImage";
 import { getSiteSettings } from "../lib/site";
 
@@ -20,6 +22,9 @@ interface Props {
   noindex?: boolean;
   /** The article below supplies the <h1>; render the band title as a <p>. */
   bandTitleIsLabel?: boolean;
+  /** CMS entry behind this page — powers the staff-only "Edit this page" bar. */
+  edit?: EditLink;
+  editExtra?: EditLink[];
 }
 
 const {
@@ -33,7 +38,40 @@ const {
   publishedTime,
   noindex = false,
   bandTitleIsLabel = false,
+  edit,
+  editExtra,
 } = Astro.props;
+
+/* List pages render from a collection plus a "section intro" — map each one
+   to the CMS screens that change it, so the editor bar is right everywhere
+   without every page having to pass it in. */
+const listingEdit: Record<string, { key: string; collection?: string; noun?: string }> = {
+  "/college-news/": { key: "news", collection: "news", noun: "news post" },
+  "/event/": { key: "events", collection: "events", noun: "event" },
+  "/notices/": { key: "notices", collection: "notices", noun: "notice / PDF" },
+  "/fees/": { key: "fees", collection: "fees", noun: "fee document" },
+  "/programmes/": { key: "programmes", collection: "programmes", noun: "programme" },
+  "/faculties/": { key: "faculties", collection: "faculty", noun: "faculty member" },
+  "/departments/": { key: "departments" },
+  "/labs/": { key: "labs" },
+  "/clubs--cells/": { key: "clubs" },
+};
+const listing = listingEdit[Astro.url.pathname];
+const editPrimary: EditLink | undefined =
+  edit ??
+  (variant === "home"
+    ? { label: "Edit homepage", route: "collections/home/entries/homepage" }
+    : listing
+      ? { label: "Edit this list's intro", route: "collections/listings/entries/listings" }
+      : undefined);
+const editMore: EditLink[] =
+  editExtra ??
+  (listing?.collection
+    ? [
+        { label: `Add a new ${listing.noun}`, route: `collections/${listing.collection}/new` },
+        { label: `See all ${listing.noun}s`, route: `collections/${listing.collection}` },
+      ]
+    : []);
 
 const site = await getSiteSettings();
 
@@ -243,5 +281,7 @@ const responsiveAssetCss = `:root{
 
     <Footer />
     <SearchModal />
+    <SitePopup isHome={variant === "home"} />
+    <EditorBar primary={editPrimary} extra={editMore} />
   </body>
 </html>

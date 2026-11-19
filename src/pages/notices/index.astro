@@ -126,7 +126,7 @@ const L = (await getListings())?.notices ?? {
                           </svg>
                         </a>
                       ) : (
-                        <a class="btn-doc-view" href={n.data.permalink}>
+                        <a class="btn-doc-view" href={n.data.permalink || "/notices/"}>
                           <span>View Notice</span>
                           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
                         </a>

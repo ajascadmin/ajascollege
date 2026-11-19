@@ -82,6 +82,67 @@
       "label": "Total Programs"
     }
   ],
+  "notice_strip": {
+    "kicker": "Documents",
+    "title": "Notice board & Circulars",
+    "link_label": "Open the notice board",
+    "url": "/notices/"
+  },
+  "credentials": {
+    "kicker": "Standing & compliance",
+    "heading": "Recognitions on record",
+    "intro": "Every claim below is backed by a document you can open. The full set of statutory disclosures — affiliation, RTI, NOC, CPA and annual returns — is published on the notices page.",
+    "cta_label": "All statutory disclosures",
+    "cta_url": "/notices/",
+    "items": [
+      {
+        "label": "Established",
+        "value": "2010",
+        "note": "Sixteen years of higher education in Perinthalmanna"
+      },
+      {
+        "label": "Affiliation",
+        "value": "University of Calicut",
+        "note": "All UG (Honours) and PG programmes",
+        "link": "https://uoc.ac.in/"
+      },
+      {
+        "label": "UGC recognition",
+        "value": "2(f)",
+        "note": "Recognised under Section 2(f) of the UGC Act",
+        "document": "/assets/uploads/2025/02/2f.pdf"
+      },
+      {
+        "label": "NAAC",
+        "value": "B++",
+        "note": "Accredited by the National Assessment and Accreditation Council"
+      },
+      {
+        "label": "Approval",
+        "value": "AICTE 2025–26",
+        "note": "All India Council for Technical Education",
+        "document": "/assets/uploads/2025/02/AICTE-2025-26.pdf"
+      },
+      {
+        "label": "Quality system",
+        "value": "ISO 9001:2015",
+        "note": "Certified, with surveillance audit on record",
+        "document": "/assets/uploads/2025/03/ISO-Certificate-2.pdf"
+      },
+      {
+        "label": "Status",
+        "value": "Minority institution",
+        "note": "Certificate issued by the Government of Kerala",
+        "document": "/assets/uploads/2025/02/Minority-Certificate.pdf"
+      },
+      {
+        "label": "Public disclosure",
+        "value": "NIRF 2025 · AISHE",
+        "note": "Annual returns filed and published",
+        "document": "/assets/uploads/2025/02/NIRF-2025.pdf"
+      }
+    ]
+  },
   "chairman_message": {
     "kicker": "Dr. Abdussalam Ahmed",
     "heading": "Chairman’s message",
@@ -396,6 +457,96 @@
     ],
     "events_cta_label": "All events",
     "events_cta_url": "/event/"
+  },
+  "placement": {
+    "kicker": "Career Readiness & Corporate Connect",
+    "heading": "Training, Placements & Industry Linkages",
+    "intro": "Our active Placement Cell bridges academia and enterprise — equipping graduates with corporate-ready skills and connecting them to leading multinationals and government initiatives.",
+    "cta_label": "Visit Placement Cell Portal",
+    "cta_url": "/placement-cell/",
+    "stats": [
+      {
+        "value": "100+",
+        "label": "Students Placed",
+        "note": "Across tech, commerce, science & media"
+      },
+      {
+        "value": "₹4.8 LPA",
+        "label": "Highest Package",
+        "note": "Competitive entry-level packages"
+      },
+      {
+        "value": "25+",
+        "label": "Corporate Partners",
+        "note": "Active campus recruiters & MoUs"
+      },
+      {
+        "value": "100%",
+        "label": "Placement Training",
+        "note": "Structured training from Semester 1"
+      }
+    ],
+    "partners_heading": "Prominent Recruitment & Training Partners",
+    "partners": [
+      {
+        "name": "Tata Consultancy Services",
+        "short": "TCS",
+        "sector": "IT & Digital Services"
+      },
+      {
+        "name": "Infosys Springboard",
+        "short": "Infosys",
+        "sector": "Enterprise Technology"
+      },
+      {
+        "name": "Sutherland Global",
+        "short": "Sutherland",
+        "sector": "Business Operations"
+      },
+      {
+        "name": "Wipro Technologies",
+        "short": "Wipro",
+        "sector": "Consulting & Software"
+      },
+      {
+        "name": "ASAP Kerala",
+        "short": "ASAP",
+        "sector": "Govt. of Kerala Skilling MoU"
+      },
+      {
+        "name": "Keltron",
+        "short": "Keltron",
+        "sector": "Electronics & Embedded Systems"
+      },
+      {
+        "name": "G-Tec Computer Education",
+        "short": "G-Tec",
+        "sector": "Certified Technical Training"
+      },
+      {
+        "name": "Bharat Skill Development",
+        "short": "BSDC",
+        "sector": "Vocational & Professional Skills"
+      }
+    ],
+    "pillars": [
+      {
+        "title": "Aptitude & Technical Coding",
+        "text": "Rigorous logical reasoning, quantitative analysis, and programming rounds conducted throughout the academic year."
+      },
+      {
+        "title": "Corporate Communication & GDs",
+        "text": "Mock group discussions, corporate etiquette, and multi-round personal interview simulations by industry trainers."
+      },
+      {
+        "title": "Public Sector & Competitive Exams",
+        "text": "Orientation and preparatory support for UPSC, Kerala PSC, SSC, Banking (IBPS), and UGC-NET examinations."
+      },
+      {
+        "title": "Higher Education Progression",
+        "text": "Dedicated guidance for CUET-PG and international university admissions across the UK, Europe, and GCC regions."
+      }
+    ]
   },
   "benefits": {
     "heading": "Why choose AJAS?",

@@ -1,0 +1,298 @@
+---
+/**
+ * Arrival popup — the poster modal shown when someone opens the site
+ * (admission posters, programme campaigns). Managed in the CMS under
+ * "Popup announcements" (content/popups/*.md).
+ *
+ * Every enabled popup is rendered into the page as a hidden <dialog>. A small
+ * script then picks which one to show in the visitor's browser, so the
+ * start/end dates take effect on the day itself, not on the next deploy.
+ * If several are live at once they are shown one after another.
+ */
+import { getCollection } from "astro:content";
+import { optimizeCmsImage } from "../lib/cmsImage";
+
+interface Props {
+  /** "home" popups show only on the homepage; "all" popups everywhere. */
+  isHome: boolean;
+}
+const { isHome } = Astro.props;
+
+const all = await getCollection("popups", ({ data }) => data.enabled);
+const now = Date.now();
+const popups = await Promise.all(
+  all
+    .filter((p) => p.data.pages === "all" || isHome)
+    // Already expired at build time — no reason to ship it.
+    .filter((p) => !p.data.end || endOfDay(p.data.end) >= now)
+    .sort((a, b) => a.data.order - b.data.order || a.data.title.localeCompare(b.data.title))
+    .map(async (p) => ({
+      id: p.id,
+      data: p.data,
+      img: await optimizeCmsImage(p.data.image, "poster"),
+    })),
+);
+
+function endOfDay(d: Date) {
+  const e = new Date(d);
+  e.setHours(23, 59, 59, 999);
+  return e.getTime();
+}
+const isExternal = (href?: string) => !!href && (/^https?:\/\//.test(href) || /\.pdf($|\?)/i.test(href));
+---
+
+{
+  popups.length > 0 && (
+    <div class="sp-root" data-sp-root>
+      {popups.map(({ id, data, img }) => (
+        <dialog
+          class="sp"
+          data-sp
+          data-sp-id={id}
+          data-sp-start={data.start ? new Date(data.start).toISOString().slice(0, 10) : ""}
+          data-sp-end={data.end ? new Date(data.end).toISOString().slice(0, 10) : ""}
+          data-sp-frequency={data.frequency}
+          aria-label={data.title}
+        >
+          <button type="button" class="sp-close" data-sp-close aria-label="Close">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
+          </button>
+          {data.link ? (
+            <a
+              class="sp-media"
+              href={data.link}
+              {...(isExternal(data.link) ? { target: "_blank", rel: "noopener" } : {})}
+            >
+              <img
+                src={img?.src || data.image}
+                srcset={img?.srcset}
+                sizes="(max-width: 768px) 92vw, 720px"
+                width={img?.width || undefined}
+                height={img?.height || undefined}
+                alt={data.title}
+                loading="lazy"
+                decoding="async"
+              />
+            </a>
+          ) : (
+            <div class="sp-media">
+              <img
+                src={img?.src || data.image}
+                srcset={img?.srcset}
+                sizes="(max-width: 768px) 92vw, 720px"
+                width={img?.width || undefined}
+                height={img?.height || undefined}
+                alt={data.title}
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          )}
+          {data.link && data.button_label && (
+            <a
+              class="sp-cta"
+              href={data.link}
+              {...(isExternal(data.link) ? { target: "_blank", rel: "noopener" } : {})}
+            >
+              {data.button_label}
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            </a>
+          )}
+        </dialog>
+      ))}
+    </div>
+  )
+}
+
+<script is:inline>
+  (function () {
+    var root = document.querySelector("[data-sp-root]");
+    if (!root) return;
+    var params = new URLSearchParams(location.search);
+    // ?popup=preview shows every popup regardless of dates or "already seen" —
+    // handy for checking a new poster right after publishing it.
+    var force = params.get("popup") === "preview";
+
+    function today() {
+      var d = new Date();
+      return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+    }
+    function store(kind) {
+      try {
+        return kind === "session" ? window.sessionStorage : window.localStorage;
+      } catch (e) {
+        return null;
+      }
+    }
+    function seen(el) {
+      var f = el.getAttribute("data-sp-frequency");
+      if (f === "always") return false;
+      var s = store(f);
+      if (!s) return false;
+      try {
+        var v = s.getItem("ajas-popup:" + el.getAttribute("data-sp-id"));
+        return f === "day" ? v === today() : v === "1";
+      } catch (e) {
+        return false;
+      }
+    }
+    function markSeen(el) {
+      var f = el.getAttribute("data-sp-frequency");
+      if (f === "always") return;
+      var s = store(f);
+      try {
+        s && s.setItem("ajas-popup:" + el.getAttribute("data-sp-id"), f === "day" ? today() : "1");
+      } catch (e) {}
+    }
+
+    var t = today();
+    var queue = Array.prototype.filter.call(root.querySelectorAll("[data-sp]"), function (el) {
+      if (force) return true;
+      var start = el.getAttribute("data-sp-start");
+      var end = el.getAttribute("data-sp-end");
+      if (start && t < start) return false;
+      if (end && t > end) return false;
+      return !seen(el);
+    });
+    if (!queue.length) return;
+
+    function showNext() {
+      var el = queue.shift();
+      if (!el) return;
+      var img = el.querySelector("img");
+      if (img) img.loading = "eager";
+      function close() {
+        markSeen(el);
+        if (el.open) el.close();
+      }
+      el.addEventListener("close", function () {
+        markSeen(el);
+        document.documentElement.classList.remove("sp-lock");
+        setTimeout(showNext, 250);
+      }, { once: true });
+      el.querySelector("[data-sp-close]").addEventListener("click", close);
+      // A click on the dimmed backdrop (outside the poster) closes it.
+      el.addEventListener("click", function (e) {
+        if (e.target === el) close();
+      });
+      Array.prototype.forEach.call(el.querySelectorAll("a"), function (a) {
+        a.addEventListener("click", function () { markSeen(el); });
+      });
+      document.documentElement.classList.add("sp-lock");
+      if (typeof el.showModal === "function") el.showModal();
+      else el.setAttribute("open", "");
+    }
+
+    // Let the page paint first; a poster that lands before the page does
+    // reads as an ad blocker's target, not an announcement.
+    var delay = force ? 0 : 900;
+    if (document.readyState === "complete") setTimeout(showNext, delay);
+    else window.addEventListener("load", function () { setTimeout(showNext, delay); }, { once: true });
+  })();
+</script>
+
+<style is:global>
+  html.sp-lock {
+    overflow: hidden;
+  }
+  .sp {
+    box-sizing: border-box;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    width: fit-content;
+    max-width: min(calc(100vw - 32px), 720px);
+    max-height: calc(100vh - 32px);
+    overflow: visible;
+    margin: auto;
+  }
+  .sp::backdrop {
+    background: rgba(8, 20, 38, 0.72);
+  }
+  .sp[open] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    animation: sp-in 0.22s ease-out;
+  }
+  @keyframes sp-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px) scale(0.98);
+    }
+  }
+  .sp-media {
+    display: block;
+    line-height: 0;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+  }
+  .sp-media {
+    max-width: 100%;
+  }
+  .sp .sp-media img {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: calc(100vh - 110px);
+    object-fit: contain;
+  }
+  /* The theme styles every <button> (yellow, 10px 28px padding) — undo it. */
+  .sp .sp-close {
+    position: absolute;
+    top: -14px;
+    right: -14px;
+    z-index: 2;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    margin: 0;
+    line-height: 1;
+    display: grid;
+    place-items: center;
+    background: #0d2039;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    outline-offset: 3px;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  }
+  .sp .sp-close svg {
+    width: 20px;
+    height: 20px;
+    stroke: #fff;
+    stroke-width: 2.5;
+    fill: none;
+    stroke-linecap: round;
+  }
+  .sp .sp-close:hover,
+  .sp .sp-close:focus-visible {
+    background: #b3242b;
+  }
+  .sp-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 26px;
+    background: #b3242b;
+    color: #fff !important;
+    font-weight: 600;
+    border-radius: 999px;
+    text-decoration: none;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+  .sp-cta svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
+  }
+  @media (max-width: 600px) {
+    .sp .sp-close {
+      top: -12px;
+      right: -8px;
+    }
+  }
+</style>
