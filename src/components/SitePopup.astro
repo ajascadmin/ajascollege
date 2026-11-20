@@ -66,11 +66,12 @@ const isExternal = (href?: string) => !!href && (/^https?:\/\//.test(href) || /\
               <img
                 src={img?.src || data.image}
                 srcset={img?.srcset}
-                sizes="(max-width: 768px) 92vw, 720px"
+                sizes="(max-width: 600px) 90vw, 520px"
                 width={img?.width || undefined}
                 height={img?.height || undefined}
                 alt={data.title}
-                loading="lazy"
+                loading="eager"
+                fetchpriority="high"
                 decoding="async"
               />
             </a>
@@ -79,11 +80,12 @@ const isExternal = (href?: string) => !!href && (/^https?:\/\//.test(href) || /\
               <img
                 src={img?.src || data.image}
                 srcset={img?.srcset}
-                sizes="(max-width: 768px) 92vw, 720px"
+                sizes="(max-width: 600px) 90vw, 520px"
                 width={img?.width || undefined}
                 height={img?.height || undefined}
                 alt={data.title}
-                loading="lazy"
+                loading="eager"
+                fetchpriority="high"
                 decoding="async"
               />
             </div>
@@ -159,8 +161,6 @@ const isExternal = (href?: string) => !!href && (/^https?:\/\//.test(href) || /\
     function showNext() {
       var el = queue.shift();
       if (!el) return;
-      var img = el.querySelector("img");
-      if (img) img.loading = "eager";
       function close() {
         markSeen(el);
         if (el.open) el.close();
@@ -181,13 +181,29 @@ const isExternal = (href?: string) => !!href && (/^https?:\/\//.test(href) || /\
       document.documentElement.classList.add("sp-lock");
       if (typeof el.showModal === "function") el.showModal();
       else el.setAttribute("open", "");
+      if (queue[0]) fetchPoster(queue[0]); // get the next one ready
     }
 
-    // Let the page paint first; a poster that lands before the page does
-    // reads as an ad blocker's target, not an announcement.
-    var delay = force ? 0 : 900;
-    if (document.readyState === "complete") setTimeout(showNext, delay);
-    else window.addEventListener("load", function () { setTimeout(showNext, delay); }, { once: true });
+    /* Start downloading the poster straight away (it was lazy-loaded and only
+       requested after the whole page — every photo and the hero video — had
+       finished, which made the popup arrive seconds late). */
+    function fetchPoster(el) {
+      var img = el.querySelector("img");
+      if (!img) return Promise.resolve();
+      img.loading = "eager";
+      img.setAttribute("fetchpriority", "high");
+      if (img.complete && img.naturalWidth) return Promise.resolve();
+      return new Promise(function (resolve) {
+        img.addEventListener("load", resolve, { once: true });
+        img.addEventListener("error", resolve, { once: true });
+        setTimeout(resolve, 4000); // never wait forever on a slow connection
+      });
+    }
+
+    // Show as soon as the poster is ready, but give the page a brief moment
+    // to appear first so the popup doesn't flash in front of a blank screen.
+    var minDelay = new Promise(function (r) { setTimeout(r, force ? 0 : 300); });
+    Promise.all([fetchPoster(queue[0]), minDelay]).then(showNext);
   })();
 </script>
 
@@ -201,8 +217,8 @@ const isExternal = (href?: string) => !!href && (/^https?:\/\//.test(href) || /\
     border: 0;
     background: transparent;
     width: fit-content;
-    max-width: min(calc(100vw - 32px), 720px);
-    max-height: calc(100vh - 32px);
+    max-width: min(calc(100vw - 40px), 520px);
+    max-height: calc(100vh - 40px);
     overflow: visible;
     margin: auto;
   }
@@ -235,7 +251,7 @@ const isExternal = (href?: string) => !!href && (/^https?:\/\//.test(href) || /\
     width: auto;
     height: auto;
     max-width: 100%;
-    max-height: calc(100vh - 110px);
+    max-height: min(70vh, 560px);
     object-fit: contain;
   }
   /* The theme styles every <button> (yellow, 10px 28px padding) — undo it. */
