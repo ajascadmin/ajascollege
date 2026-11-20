@@ -2,22 +2,28 @@
 
 Open **/admin/** on the website and sign in.
 
-## The fastest way: start from the page you want to change
+## The fastest way: edit right on the website
 
-1. Open `/admin/` once in your browser and sign in. From then on, every page of
-   the website shows a red **✎ Edit this page** button in the bottom-left
-   corner. Visitors never see it.
-2. Go to the page you want to change and click the button. The CMS opens on
-   exactly the right entry.
-3. Make the change and click **Save**. The live site updates in about 2–3 minutes.
+1. Open `/admin/` once in your browser and sign in. From then on, every page
+   of the website shows a red bar in the bottom-left corner. Visitors never
+   see it.
+2. Go to the page you want to change and click **✎ Edit on this page**.
+3. Everything you can change gets a dashed outline:
+   - **Text**: click it and type. Press Enter when done.
+   - **Photos**: click the photo and choose a new one from your computer.
+   - Changed things turn **yellow** until you save.
+4. Click **Save & publish**. Everyone sees the change in about 2–3 minutes.
 
-The **^** arrow next to the button has shortcuts for things that appear on
-every page: the popup, the main menu, the footer, and the phone, email and
-admission button. On list pages (News, Events, Notices…) it also has
-**Add a new …**.
+**Undo all** throws away unsaved changes. **Done** stops editing. If you move
+to another page while editing, editing stays on.
 
-On another computer, or if the button is missing, add `?edit` to the end of
-any page address once, e.g. `https://ajascollege.ac.in/?edit`.
+Some things can't be typed over on the page: adding or removing items,
+changing where a link goes, on/off switches, and paragraphs with bold text,
+links or tables. Clicking those explains why. **More options ↗** opens the
+same page in the full CMS editor, where everything can be changed.
+
+On another computer, or if the bar is missing, add `?edit` to the end of any
+page address once, e.g. `https://ajascollege.ac.in/?edit`.
 
 ## See your change on the real page while you type
 
@@ -67,6 +73,9 @@ into the file box, pick a category → Save.
 **Find an uploaded file again.** Click **Assets** at the top of the CMS.
 Images are in the main library. PDFs, Word or Excel files and videos are under
 **Documents, PDFs & videos** in the left column.
+
+**Fix a typo or swap a photo.** Use **✎ Edit on this page** (above), the
+quickest way.
 
 **Add a news post or event.** Type the headline, set the date, add a photo and
 the story. You don't type a web address: it's made from the headline.

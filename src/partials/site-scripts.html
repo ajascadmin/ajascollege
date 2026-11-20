@@ -105,10 +105,16 @@
     // Smooth institutional counter roll for numbers (metrics, stats, numb-count)
     var statNums = document.querySelectorAll('.ajas-metric-row strong, .sp-stat strong, .numb-count');
     if (statNums.length && !reduce) {
+      // The on-page editor (public/admin/inline-editor.js) calls this before
+      // making the numbers editable: counters jump to their final value and
+      // stop rewriting the text, which would wipe out the editable markup.
+      var countersDone = false;
+      window.__ajasFinishCounters = function () { countersDone = true; };
       var nio = new IntersectionObserver(function(entries){
         entries.forEach(function(entry){
           if (!entry.isIntersecting) return;
           nio.unobserve(entry.target);
+          if (countersDone) return;
           var el = entry.target;
           var original = el.textContent.trim();
           var match = original.match(/^(\D*)(\d+)(\D*)$/);
@@ -121,7 +127,7 @@
           function step(now) {
             if (!startTime) startTime = now;
             var elapsed = now - startTime;
-            var progress = Math.min(elapsed / duration, 1);
+            var progress = countersDone ? 1 : Math.min(elapsed / duration, 1);
             // easeOutCubic curve
             var ease = 1 - Math.pow(1 - progress, 3);
             var current = Math.floor(ease * targetVal);

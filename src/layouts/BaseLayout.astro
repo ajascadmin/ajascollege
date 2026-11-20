@@ -25,6 +25,8 @@ interface Props {
   /** CMS entry behind this page — powers the staff-only "Edit this page" bar. */
   edit?: EditLink;
   editExtra?: EditLink[];
+  /** Content file behind this page (repo path) — lets staff edit it in place. */
+  editSource?: string;
 }
 
 const {
@@ -40,6 +42,7 @@ const {
   bandTitleIsLabel = false,
   edit,
   editExtra,
+  editSource,
 } = Astro.props;
 
 /* List pages render from a collection plus a "section intro" — map each one
@@ -57,6 +60,8 @@ const listingEdit: Record<string, { key: string; collection?: string; noun?: str
   "/clubs--cells/": { key: "clubs" },
 };
 const listing = listingEdit[Astro.url.pathname];
+
+
 const editPrimary: EditLink | undefined =
   edit ??
   (variant === "home"
@@ -72,6 +77,24 @@ const editMore: EditLink[] =
         { label: `See all ${listing.noun}s`, route: `collections/${listing.collection}` },
       ]
     : []);
+
+/* For the on-page editor (public/admin/inline-editor.js): which content files
+   produce this page, and where on the page each one's text appears. Only repo
+   paths — nothing private — and only read once a staff member opts in. */
+const mainSource =
+  editSource ??
+  (variant === "home"
+    ? "content/home/homepage.json"
+    : listing
+      ? "content/settings/listings.json"
+      : undefined);
+const cmsSources = [
+  ...(mainSource
+    ? [{ file: mainSource, scope: "body", label: "This page", route: editPrimary?.route }]
+    : []),
+  { file: "content/settings/footer.json", scope: "#footer", only: true, label: "Footer", route: "collections/footer/entries/footer" },
+  { file: "content/settings/site.json", scope: ".ajn, #footer", only: true, label: "Contact details", route: "collections/settings/entries/site" },
+];
 
 const site = await getSiteSettings();
 
@@ -283,5 +306,6 @@ const responsiveAssetCss = `:root{
     <SearchModal />
     <SitePopup isHome={variant === "home"} />
     <EditorBar primary={editPrimary} extra={editMore} />
+    <script type="application/json" id="ajas-cms-sources" is:inline set:html={JSON.stringify(cmsSources)} />
   </body>
 </html>

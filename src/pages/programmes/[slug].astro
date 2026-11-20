@@ -86,6 +86,7 @@ const facts = [
   image={dept?.image}
   jsonLd={progLd}
   edit={{ label: "Edit this programme", route: `collections/programmes/entries/${entry.id}` }}
+  editSource={entry.filePath}
   breadcrumbs={[
     { label: "Home", href: "/" },
     { label: "Programmes", href: "/programmes/" },

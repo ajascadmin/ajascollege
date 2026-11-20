@@ -355,6 +355,7 @@ if (isNews) {
       : "Edit this page",
     route: `collections/${collection}/entries/${entry.id}`,
   }}
+  editSource={entry.filePath}
   variant="inner"
   pageTitle={isNews ? "News" : isEvent ? "Events" : entry.data.title}
   breadcrumbs={crumbs}
