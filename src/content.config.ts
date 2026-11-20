@@ -1,6 +1,14 @@
 import { defineCollection, z } from "astro:content";
 import { glob } from "astro/loaders";
 
+/* The CMS saves a cleared date field as an empty string (start: ''), which
+   z.coerce.date() turns into an Invalid Date and fails the whole build — so
+   one emptied popup date stopped every deploy. Empty means "no date". */
+const optionalDate = z.preprocess(
+  (v) => (v === "" || v === null ? undefined : v),
+  z.coerce.date().optional(),
+);
+
 const entrySchema = z.object({
   title: z.string(),
   description: z.string().optional(),
@@ -9,7 +17,7 @@ const entrySchema = z.object({
     .enum(["home", "page", "listing", "profile", "article"])
     .default("page"),
   draft: z.boolean().default(false),
-  date: z.coerce.date().optional(),
+  date: optionalDate,
   image: z.string().optional(),
   name: z.string().optional(),
   role: z.string().optional(),
@@ -93,7 +101,7 @@ const notices = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./content/notices" }),
   schema: z.object({
     title: z.string(),
-    date: z.coerce.date().optional(),
+    date: optionalDate,
     category: z
       .enum(["general", "academic", "compliance", "iqac", "mandatory", "admin", "admission"])
       .default("general"),
@@ -109,7 +117,7 @@ const fees = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./content/fees" }),
   schema: z.object({
     title: z.string(),
-    date: z.coerce.date().optional(),
+    date: optionalDate,
     file: z.string(),
     permalink: z.string().optional(),
     draft: z.boolean().default(false),
@@ -466,8 +474,8 @@ const popups = defineCollection({
     image: z.string(),
     link: z.string().optional(),
     button_label: z.string().optional(),
-    start: z.coerce.date().optional(),
-    end: z.coerce.date().optional(),
+    start: optionalDate,
+    end: optionalDate,
     pages: z.enum(["home", "all"]).default("home"),
     frequency: z.enum(["session", "day", "always"]).default("session"),
     order: z.number().default(0),
